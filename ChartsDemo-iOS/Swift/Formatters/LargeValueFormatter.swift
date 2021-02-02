@@ -9,7 +9,7 @@ import Charts
 
 private let MAX_LENGTH = 5
 
-@objc protocol Testing123 { }
+protocol Testing123 { }
 
 public class LargeValueFormatter: NSObject, ValueFormatter, AxisValueFormatter {
     

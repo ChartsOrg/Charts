@@ -12,7 +12,6 @@
 import Foundation
 import CoreGraphics
 
-@objc(PieRadarChartHighlighter)
 open class PieRadarHighlighter: ChartHighlighter
 {    
     open override func getHighlight(x: CGFloat, y: CGFloat) -> Highlight?
@@ -54,7 +53,7 @@ open class PieRadarHighlighter: ChartHighlighter
     ///   - x:
     ///   - y:
     /// - Returns: The closest Highlight object of the given objects based on the touch position inside the chart.
-    @objc open func closestHighlight(index: Int, x: CGFloat, y: CGFloat) -> Highlight?
+    open func closestHighlight(index: Int, x: CGFloat, y: CGFloat) -> Highlight?
     {
         fatalError("closestHighlight(index, x, y) cannot be called on PieRadarChartHighlighter")
     }

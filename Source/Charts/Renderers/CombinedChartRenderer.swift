@@ -12,7 +12,7 @@
 import Foundation
 import CoreGraphics
 
-open class CombinedChartRenderer: NSObject, DataRenderer
+open class CombinedChartRenderer: DataRenderer
 {
     public let viewPortHandler: ViewPortHandler
 
@@ -20,25 +20,23 @@ open class CombinedChartRenderer: NSObject, DataRenderer
 
     public let animator: Animator
 
-    @objc open weak var chart: CombinedChartView?
+    open weak var chart: CombinedChartView?
     
     /// if set to true, all values are drawn above their bars, instead of below their top
-    @objc open var drawValueAboveBarEnabled = true
+    open var drawValueAboveBarEnabled = true
     
     /// if set to true, a grey area is drawn behind each bar that indicates the maximum value
-    @objc open var drawBarShadowEnabled = false
+    open var drawBarShadowEnabled = false
     
     internal var _renderers = [DataRenderer]()
     
     internal var _drawOrder: [CombinedChartView.DrawOrder] = [.bar, .bubble, .line, .candle, .scatter]
     
-    @objc public init(chart: CombinedChartView, animator: Animator, viewPortHandler: ViewPortHandler)
+    public init(chart: CombinedChartView, animator: Animator, viewPortHandler: ViewPortHandler)
     {
         self.chart = chart
         self.viewPortHandler = viewPortHandler
         self.animator = animator
-
-        super.init()
         
         createRenderers()
     }
@@ -151,9 +149,11 @@ open class CombinedChartRenderer: NSObject, DataRenderer
                 data = (renderer as! BubbleChartRenderer).dataProvider?.bubbleData
             }
             
-            let dataIndex = data == nil ? nil : (chart?.data as? CombinedChartData)?.allData.firstIndex(of: data!)
+            let dataIndex = data.map { data in
+                (chart?.data as? CombinedChartData)?.allData.firstIndex { $0 === data }
+            }
             
-            let dataIndices = indices.filter{ $0.dataIndex == dataIndex || $0.dataIndex == -1 }
+            let dataIndices = indices.filter { $0.dataIndex == dataIndex || $0.dataIndex == -1 }
             
             renderer.drawHighlighted(context: context, indices: dataIndices)
         }
@@ -166,7 +166,7 @@ open class CombinedChartRenderer: NSObject, DataRenderer
     }
 
     /// All sub-renderers.
-    @objc open var subRenderers: [DataRenderer]
+    open var subRenderers: [DataRenderer]
     {
         get { return _renderers }
         set { _renderers = newValue }
@@ -175,10 +175,10 @@ open class CombinedChartRenderer: NSObject, DataRenderer
     // MARK: Accessors
     
     /// `true` if drawing values above bars is enabled, `false` ifnot
-    @objc open var isDrawValueAboveBarEnabled: Bool { return drawValueAboveBarEnabled }
+    open var isDrawValueAboveBarEnabled: Bool { return drawValueAboveBarEnabled }
     
     /// `true` if drawing shadows (maxvalue) for each bar is enabled, `false` ifnot
-    @objc open var isDrawBarShadowEnabled: Bool { return drawBarShadowEnabled }
+    open var isDrawBarShadowEnabled: Bool { return drawBarShadowEnabled }
     
     /// the order in which the provided data objects should be drawn.
     /// The earlier you place them in the provided array, the further they will be in the background.

@@ -60,7 +60,7 @@ extension NSUIView {
 
 extension UIView
 {
-    @objc final var nsuiGestureRecognizers: [NSUIGestureRecognizer]?
+    final var nsuiGestureRecognizers: [NSUIGestureRecognizer]?
     {
         return self.gestureRecognizers
     }

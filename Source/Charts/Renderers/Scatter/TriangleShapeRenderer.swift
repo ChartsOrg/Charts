@@ -11,7 +11,7 @@
 import Foundation
 import CoreGraphics
 
-open class TriangleShapeRenderer : NSObject, ShapeRenderer
+open class TriangleShapeRenderer: ShapeRenderer
 {
     open func renderShape(
         context: CGContext,

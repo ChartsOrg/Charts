@@ -21,12 +21,12 @@ public typealias NSUIPanGestureRecognizer = UIPanGestureRecognizer
 
 extension NSUITapGestureRecognizer
 {
-    @objc final func nsuiNumberOfTouches() -> Int
+    final func nsuiNumberOfTouches() -> Int
     {
         return numberOfTouches
     }
 
-    @objc final var nsuiNumberOfTapsRequired: Int
+    final var nsuiNumberOfTapsRequired: Int
         {
         get
         {
@@ -41,12 +41,12 @@ extension NSUITapGestureRecognizer
 
 extension NSUIPanGestureRecognizer
 {
-    @objc final func nsuiNumberOfTouches() -> Int
+    final func nsuiNumberOfTouches() -> Int
     {
         return numberOfTouches
     }
 
-    @objc final func nsuiLocationOfTouch(_ touch: Int, inView: UIView?) -> CGPoint
+    final func nsuiLocationOfTouch(_ touch: Int, inView: UIView?) -> CGPoint
     {
         return super.location(ofTouch: touch, in: inView)
     }
@@ -58,7 +58,7 @@ public typealias NSUIRotationGestureRecognizer = UIRotationGestureRecognizer
 
 extension NSUIRotationGestureRecognizer
 {
-    @objc final var nsuiRotation: CGFloat
+    final var nsuiRotation: CGFloat
         {
         get { return rotation }
         set { rotation = newValue }
@@ -67,7 +67,7 @@ extension NSUIRotationGestureRecognizer
 
 extension NSUIPinchGestureRecognizer
 {
-    @objc final var nsuiScale: CGFloat
+    final var nsuiScale: CGFloat
         {
         get
         {
@@ -79,7 +79,7 @@ extension NSUIPinchGestureRecognizer
         }
     }
 
-    @objc final func nsuiLocationOfTouch(_ touch: Int, inView: UIView?) -> CGPoint
+    final func nsuiLocationOfTouch(_ touch: Int, inView: UIView?) -> CGPoint
     {
         return super.location(ofTouch: touch, in: inView)
     }

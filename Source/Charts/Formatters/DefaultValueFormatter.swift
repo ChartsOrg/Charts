@@ -12,8 +12,7 @@
 import Foundation
 
 /// The default value formatter used for all chart components that needs a default
-@objc(ChartDefaultValueFormatter)
-open class DefaultValueFormatter: NSObject, ValueFormatter
+open class DefaultValueFormatter: ValueFormatter
 {
     public typealias Block = (
         _ value: Double,
@@ -21,11 +20,11 @@ open class DefaultValueFormatter: NSObject, ValueFormatter
         _ dataSetIndex: Int,
         _ viewPortHandler: ViewPortHandler?) -> String
     
-    @objc open var block: Block?
+    open var block: Block?
     
-    @objc open var hasAutoDecimals: Bool
+    open var hasAutoDecimals: Bool
     
-    @objc open var formatter: NumberFormatter?
+    open var formatter: NumberFormatter?
     {
         willSet
         {
@@ -51,48 +50,42 @@ open class DefaultValueFormatter: NSObject, ValueFormatter
         }
     }
     
-    public override init()
+    public init()
     {
         formatter = NumberFormatter()
         formatter?.usesGroupingSeparator = true
         decimals = 1
         hasAutoDecimals = true
 
-        super.init()
         setupDecimals(decimals: decimals)
     }
     
-    @objc public init(formatter: NumberFormatter)
+    public init(formatter: NumberFormatter)
     {
         self.formatter = formatter
         hasAutoDecimals = false
-
-        super.init()
     }
     
-    @objc public init(decimals: Int)
+    public init(decimals: Int)
     {
         formatter = NumberFormatter()
         formatter?.usesGroupingSeparator = true
         self.decimals = decimals
         hasAutoDecimals = true
 
-        super.init()
         setupDecimals(decimals: decimals)
     }
     
-    @objc public init(block: @escaping Block)
+    public init(block: @escaping Block)
     {
         self.block = block
         hasAutoDecimals = false
-
-        super.init()
     }
 
     /// This function is deprecated - Use `init(block:)` instead.
     // DEC 11, 2017
     @available(*, deprecated, message: "Use `init(block:)` instead.")
-    @objc public static func with(block: @escaping Block) -> DefaultValueFormatter
+    public static func with(block: @escaping Block) -> DefaultValueFormatter
     {
         return DefaultValueFormatter(block: block)
     }

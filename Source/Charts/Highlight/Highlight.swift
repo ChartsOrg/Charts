@@ -12,8 +12,7 @@
 import Foundation
 import CoreGraphics
 
-@objc(ChartHighlight)
-open class Highlight: NSObject
+open class Highlight: CustomStringConvertible
 {
     /// the x-value of the highlighted value
     fileprivate var _x = Double.nan
@@ -28,7 +27,7 @@ open class Highlight: NSObject
     private var _yPx = CGFloat.nan
     
     /// the index of the data object - in case it refers to more than one
-    @objc open var dataIndex = Int(-1)
+    open var dataIndex = Int(-1)
     
     /// the index of the dataset the highlighted value is in
     fileprivate var _dataSetIndex = Int(0)
@@ -42,14 +41,13 @@ open class Highlight: NSObject
     private var _axis: YAxis.AxisDependency = YAxis.AxisDependency.left
     
     /// the x-position (pixels) on which this highlight object was last drawn
-    @objc open var drawX: CGFloat = 0.0
+    open var drawX: CGFloat = 0.0
     
     /// the y-position (pixels) on which this highlight object was last drawn
-    @objc open var drawY: CGFloat = 0.0
+    open var drawY: CGFloat = 0.0
     
-    public override init()
+    public init()
     {
-        super.init()
     }
     
     /// - Parameters:
@@ -61,7 +59,7 @@ open class Highlight: NSObject
     ///   - dataSetIndex: the index of the DataSet the highlighted value belongs to
     ///   - stackIndex: references which value of a stacked-bar entry has been selected
     ///   - axis: the axis the highlighted value belongs to
-    @objc public init(
+    public init(
         x: Double, y: Double,
         xPx: CGFloat, yPx: CGFloat,
         dataIndex: Int,
@@ -69,8 +67,6 @@ open class Highlight: NSObject
         stackIndex: Int,
         axis: YAxis.AxisDependency)
     {
-        super.init()
-        
         _x = x
         _y = y
         _xPx = xPx
@@ -89,7 +85,7 @@ open class Highlight: NSObject
     ///   - dataSetIndex: the index of the DataSet the highlighted value belongs to
     ///   - stackIndex: references which value of a stacked-bar entry has been selected
     ///   - axis: the axis the highlighted value belongs to
-    @objc public convenience init(
+    public convenience init(
         x: Double, y: Double,
         xPx: CGFloat, yPx: CGFloat,
         dataSetIndex: Int,
@@ -112,14 +108,12 @@ open class Highlight: NSObject
     ///   - dataSetIndex: the index of the DataSet the highlighted value belongs to
     ///   - stackIndex: references which value of a stacked-bar entry has been selected
     ///   - axis: the axis the highlighted value belongs to
-    @objc public init(
+    public init(
         x: Double, y: Double,
         xPx: CGFloat, yPx: CGFloat,
         dataSetIndex: Int,
         axis: YAxis.AxisDependency)
     {
-        super.init()
-        
         _x = x
         _y = y
         _xPx = xPx
@@ -133,7 +127,7 @@ open class Highlight: NSObject
     ///   - y: the y-value of the highlighted value
     ///   - dataSetIndex: the index of the DataSet the highlighted value belongs to
     ///   - dataIndex: The data index to search in (only used in CombinedChartView currently)
-    @objc public init(x: Double, y: Double, dataSetIndex: Int, dataIndex: Int = -1)
+    public init(x: Double, y: Double, dataSetIndex: Int, dataIndex: Int = -1)
     {
         _x = x
         _y = y
@@ -145,39 +139,39 @@ open class Highlight: NSObject
     ///   - x: the x-value of the highlighted value
     ///   - dataSetIndex: the index of the DataSet the highlighted value belongs to
     ///   - stackIndex: references which value of a stacked-bar entry has been selected
-    @objc public convenience init(x: Double, dataSetIndex: Int, stackIndex: Int)
+    public convenience init(x: Double, dataSetIndex: Int, stackIndex: Int)
     {
         self.init(x: x, y: Double.nan, dataSetIndex: dataSetIndex)
         _stackIndex = stackIndex
     }
     
-    @objc open var x: Double { return _x }
-    @objc open var y: Double { return _y }
-    @objc open var xPx: CGFloat { return _xPx }
-    @objc open var yPx: CGFloat { return _yPx }
-    @objc open var dataSetIndex: Int { return _dataSetIndex }
-    @objc open var stackIndex: Int { return _stackIndex }
-    @objc open var axis: YAxis.AxisDependency { return _axis }
+    open var x: Double { return _x }
+    open var y: Double { return _y }
+    open var xPx: CGFloat { return _xPx }
+    open var yPx: CGFloat { return _yPx }
+    open var dataSetIndex: Int { return _dataSetIndex }
+    open var stackIndex: Int { return _stackIndex }
+    open var axis: YAxis.AxisDependency { return _axis }
     
-    @objc open var isStacked: Bool { return _stackIndex >= 0 }
+    open var isStacked: Bool { return _stackIndex >= 0 }
     
     /// Sets the x- and y-position (pixels) where this highlight was last drawn.
-    @objc open func setDraw(x: CGFloat, y: CGFloat)
+    open func setDraw(x: CGFloat, y: CGFloat)
     {
         self.drawX = x
         self.drawY = y
     }
     
     /// Sets the x- and y-position (pixels) where this highlight was last drawn.
-    @objc open func setDraw(pt: CGPoint)
+    open func setDraw(pt: CGPoint)
     {
         self.drawX = pt.x
         self.drawY = pt.y
     }
 
-    // MARK: NSObject
+    // MARK: CustomStringConvertible
     
-    open override var description: String
+    open var description: String
     {
         return "Highlight, x: \(_x), y: \(_y), dataIndex (combined charts): \(dataIndex), dataSetIndex: \(_dataSetIndex), stackIndex (only stacked barentry): \(_stackIndex)"
     }
@@ -185,19 +179,18 @@ open class Highlight: NSObject
 
 
 // MARK: Equatable
-extension Highlight /*: Equatable*/ {
-    open override func isEqual(_ object: Any?) -> Bool {
-        guard let object = object as? Highlight else { return false }
+extension Highlight: Equatable {
+    public static func == (lhs: Highlight, rhs: Highlight) -> Bool {
 
-        if self === object
+        if lhs === rhs
         {
             return true
         }
 
-        return _x == object._x
-            && _y == object._y
-            && dataIndex == object.dataIndex
-            && _dataSetIndex == object._dataSetIndex
-            && _stackIndex == object._stackIndex
+        return lhs._x == rhs._x
+            && lhs._y == rhs._y
+            && lhs.dataIndex == rhs.dataIndex
+            && lhs._dataSetIndex == rhs._dataSetIndex
+            && lhs._stackIndex == rhs._stackIndex
     }
 }

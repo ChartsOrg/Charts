@@ -12,7 +12,6 @@
 import Foundation
 import CoreGraphics
 
-@objc(MoveChartViewJob)
 open class MoveViewJob: ViewPortJob
 {
     open override func doJob()

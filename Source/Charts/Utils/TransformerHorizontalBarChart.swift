@@ -12,7 +12,6 @@
 import Foundation
 import CoreGraphics
 
-@objc(ChartTransformerHorizontalBarChart)
 open class TransformerHorizontalBarChart: Transformer
 {
     /// Prepares the matrix that contains all offsets.

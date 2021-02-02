@@ -11,7 +11,7 @@
 import Foundation
 import CoreGraphics
 
-open class ChevronDownShapeRenderer : NSObject, ShapeRenderer
+open class ChevronDownShapeRenderer: ShapeRenderer
 {
     open func renderShape(
         context: CGContext,

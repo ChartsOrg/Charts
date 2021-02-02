@@ -296,21 +296,29 @@ class DemoBaseViewController: UIViewController, ChartViewDelegate {
         
         chartView.rightAxis.enabled = false
     }
-    // TODO: Cannot override from extensions
-    //extension DemoBaseViewController: ChartViewDelegate {
+
+    // MARK: - ChartViewDelegate
     func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
         NSLog("chartValueSelected");
     }
-    
+
     func chartValueNothingSelected(_ chartView: ChartViewBase) {
         NSLog("chartValueNothingSelected");
     }
-    
+
     func chartScaled(_ chartView: ChartViewBase, scaleX: CGFloat, scaleY: CGFloat) {
-        
+
     }
-    
+
     func chartTranslated(_ chartView: ChartViewBase, dX: CGFloat, dY: CGFloat) {
+
+    }
+
+    func chartViewDidEndPanning(_ chartView: ChartViewBase) {
+
+    }
+
+    func chartView(_ chartView: ChartViewBase, animatorDidStop animator: Animator) {
         
     }
 }

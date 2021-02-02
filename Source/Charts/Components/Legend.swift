@@ -12,10 +12,8 @@
 import Foundation
 import CoreGraphics
 
-@objc(ChartLegend)
 open class Legend: ComponentBase
 {
-    @objc(ChartLegendForm)
     public enum Form: Int
     {
         /// Avoid drawing a form
@@ -37,7 +35,6 @@ open class Legend: ComponentBase
         case line
     }
     
-    @objc(ChartLegendHorizontalAlignment)
     public enum HorizontalAlignment: Int
     {
         case left
@@ -45,7 +42,6 @@ open class Legend: ComponentBase
         case right
     }
     
-    @objc(ChartLegendVerticalAlignment)
     public enum VerticalAlignment: Int
     {
         case top
@@ -53,14 +49,12 @@ open class Legend: ComponentBase
         case bottom
     }
     
-    @objc(ChartLegendOrientation)
     public enum Orientation: Int
     {
         case horizontal
         case vertical
     }
     
-    @objc(ChartLegendDirection)
     public enum Direction: Int
     {
         case leftToRight
@@ -68,11 +62,11 @@ open class Legend: ComponentBase
     }
     
     /// The legend entries array
-    @objc open var entries = [LegendEntry]()
+    open var entries = [LegendEntry]()
     
     /// Entries that will be appended to the end of the auto calculated entries after calculating the legend.
     /// (if the legend has already been calculated, you will need to call notifyDataSetChanged() to let the changes take effect)
-    @objc open var extraEntries = [LegendEntry]()
+    open var extraEntries = [LegendEntry]()
     
     /// Are the legend labels/colors a custom value or auto calculated? If false, then it's auto, if true, then custom.
     /// 
@@ -80,55 +74,55 @@ open class Legend: ComponentBase
     private var _isLegendCustom = false
 
     /// The horizontal alignment of the legend
-    @objc open var horizontalAlignment: HorizontalAlignment = HorizontalAlignment.left
+    open var horizontalAlignment: HorizontalAlignment = HorizontalAlignment.left
     
     /// The vertical alignment of the legend
-    @objc open var verticalAlignment: VerticalAlignment = VerticalAlignment.bottom
+    open var verticalAlignment: VerticalAlignment = VerticalAlignment.bottom
     
     /// The orientation of the legend
-    @objc open var orientation: Orientation = Orientation.horizontal
+    open var orientation: Orientation = Orientation.horizontal
     
     /// Flag indicating whether the legend will draw inside the chart or outside
-    @objc open var drawInside: Bool = false
+    open var drawInside: Bool = false
     
     /// Flag indicating whether the legend will draw inside the chart or outside
-    @objc open var isDrawInsideEnabled: Bool { return drawInside }
+    open var isDrawInsideEnabled: Bool { return drawInside }
     
     /// The text direction of the legend
-    @objc open var direction: Direction = Direction.leftToRight
+    open var direction: Direction = Direction.leftToRight
 
-    @objc open var font: NSUIFont = NSUIFont.systemFont(ofSize: 10.0)
-    @objc open var textColor = NSUIColor.labelOrBlack
+    open var font: NSUIFont = NSUIFont.systemFont(ofSize: 10.0)
+    open var textColor = NSUIColor.labelOrBlack
 
     /// The form/shape of the legend forms
-    @objc open var form = Form.square
+    open var form = Form.square
     
     /// The size of the legend forms
-    @objc open var formSize = CGFloat(8.0)
+    open var formSize = CGFloat(8.0)
     
     /// The line width for forms that consist of lines
-    @objc open var formLineWidth = CGFloat(3.0)
+    open var formLineWidth = CGFloat(3.0)
     
     /// Line dash configuration for shapes that consist of lines.
     ///
     /// This is how much (in pixels) into the dash pattern are we starting from.
-    @objc open var formLineDashPhase: CGFloat = 0.0
+    open var formLineDashPhase: CGFloat = 0.0
     
     /// Line dash configuration for shapes that consist of lines.
     ///
     /// This is the actual dash pattern.
     /// I.e. [2, 3] will paint [--   --   ]
     /// [1, 3, 4, 2] will paint [-   ----  -   ----  ]
-    @objc open var formLineDashLengths: [CGFloat]?
+    open var formLineDashLengths: [CGFloat]?
     
-    @objc open var xEntrySpace = CGFloat(6.0)
-    @objc open var yEntrySpace = CGFloat(0.0)
-    @objc open var formToTextSpace = CGFloat(5.0)
-    @objc open var stackSpace = CGFloat(3.0)
+    open var xEntrySpace = CGFloat(6.0)
+    open var yEntrySpace = CGFloat(0.0)
+    open var formToTextSpace = CGFloat(5.0)
+    open var stackSpace = CGFloat(3.0)
     
-    @objc open var calculatedLabelSizes = [CGSize]()
-    @objc open var calculatedLabelBreakPoints = [Bool]()
-    @objc open var calculatedLineSizes = [CGSize]()
+    open var calculatedLabelSizes = [CGSize]()
+    open var calculatedLabelBreakPoints = [Bool]()
+    open var calculatedLineSizes = [CGSize]()
     
     public override init()
     {
@@ -138,14 +132,14 @@ open class Legend: ComponentBase
         self.yOffset = 3.0
     }
     
-    @objc public init(entries: [LegendEntry])
+    public init(entries: [LegendEntry])
     {
         super.init()
         
         self.entries = entries
     }
     
-    @objc open func getMaximumEntrySize(withFont font: NSUIFont) -> CGSize
+    open func getMaximumEntrySize(withFont font: NSUIFont) -> CGSize
     {
         var maxW = CGFloat(0.0)
         var maxH = CGFloat(0.0)
@@ -181,29 +175,29 @@ open class Legend: ComponentBase
         )
     }
 
-    @objc open var neededWidth = CGFloat(0.0)
-    @objc open var neededHeight = CGFloat(0.0)
-    @objc open var textWidthMax = CGFloat(0.0)
-    @objc open var textHeightMax = CGFloat(0.0)
+    open var neededWidth = CGFloat(0.0)
+    open var neededHeight = CGFloat(0.0)
+    open var textWidthMax = CGFloat(0.0)
+    open var textHeightMax = CGFloat(0.0)
     
     /// flag that indicates if word wrapping is enabled
     /// this is currently supported only for `orientation == Horizontal`.
     /// you may want to set maxSizePercent when word wrapping, to set the point where the text wraps.
     /// 
     /// **default**: true
-    @objc open var wordWrapEnabled = true
+    open var wordWrapEnabled = true
     
     /// if this is set, then word wrapping the legend is enabled.
-    @objc open var isWordWrapEnabled: Bool { return wordWrapEnabled }
+    open var isWordWrapEnabled: Bool { return wordWrapEnabled }
 
     /// The maximum relative size out of the whole chart view in percent.
     /// If the legend is to the right/left of the chart, then this affects the width of the legend.
     /// If the legend is to the top/bottom of the chart, then this affects the height of the legend.
     /// 
     /// **default**: 0.95 (95%)
-    @objc open var maxSizePercent: CGFloat = 0.95
+    open var maxSizePercent: CGFloat = 0.95
     
-    @objc open func calculateDimensions(labelFont: NSUIFont, viewPortHandler: ViewPortHandler)
+    open func calculateDimensions(labelFont: NSUIFont, viewPortHandler: ViewPortHandler)
     {
         let maxEntrySize = getMaximumEntrySize(withFont: labelFont)
         let defaultFormSize = self.formSize
@@ -397,21 +391,21 @@ open class Legend: ComponentBase
     /// * A nil label will start a group.
     /// This will disable the feature that automatically calculates the legend entries from the datasets.
     /// Call `resetCustom(...)` to re-enable automatic calculation (and then `notifyDataSetChanged()` is needed).
-    @objc open func setCustom(entries: [LegendEntry])
+    open func setCustom(entries: [LegendEntry])
     {
         self.entries = entries
         _isLegendCustom = true
     }
     
     /// Calling this will disable the custom legend entries (set by `setLegend(...)`). Instead, the entries will again be calculated automatically (after `notifyDataSetChanged()` is called).
-    @objc open func resetCustom()
+    open func resetCustom()
     {
         _isLegendCustom = false
     }
     
     /// **default**: false (automatic legend)
     /// `true` if a custom legend entries has been set
-    @objc open var isLegendCustom: Bool
+    open var isLegendCustom: Bool
     {
         return _isLegendCustom
     }

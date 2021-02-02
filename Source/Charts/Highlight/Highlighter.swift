@@ -12,7 +12,6 @@
 import Foundation
 import CoreGraphics
 
-@objc(ChartHighlighter)
 public protocol Highlighter: class
 {
     /// - Parameters:

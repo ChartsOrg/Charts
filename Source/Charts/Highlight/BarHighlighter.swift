@@ -12,7 +12,6 @@
 import Foundation
 import CoreGraphics
 
-@objc(BarChartHighlighter)
 open class BarHighlighter: ChartHighlighter
 {
     open override func getHighlight(x: CGFloat, y: CGFloat) -> Highlight?
@@ -56,7 +55,7 @@ open class BarHighlighter: ChartHighlighter
     ///   - xIndex:
     ///   - yValue:
     /// - Returns:
-    @objc open func getStackedHighlight(high: Highlight,
+    open func getStackedHighlight(high: Highlight,
                                   set: BarChartDataSetProtocol,
                                   xValue: Double,
                                   yValue: Double) -> Highlight?
@@ -95,7 +94,7 @@ open class BarHighlighter: ChartHighlighter
     ///   - entry:
     ///   - value:
     /// - Returns: The index of the closest value inside the values array / ranges (stacked barchart) to the value given as a parameter.
-    @objc open func getClosestStackIndex(ranges: [Range]?, value: Double) -> Int
+    open func getClosestStackIndex(ranges: [Range]?, value: Double) -> Int
     {
         guard let ranges = ranges else { return 0 }
         

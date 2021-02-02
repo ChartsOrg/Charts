@@ -12,7 +12,6 @@
 import Foundation
 import CoreGraphics
 
-@objc(HorizontalBarChartHighlighter)
 open class HorizontalBarHighlighter: BarHighlighter
 {
     open override func getHighlight(x: CGFloat, y: CGFloat) -> Highlight?

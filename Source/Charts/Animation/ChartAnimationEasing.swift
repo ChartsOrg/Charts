@@ -12,7 +12,6 @@
 import Foundation
 import CoreGraphics
 
-@objc
 public enum ChartEasingOption: Int
 {
     case linear

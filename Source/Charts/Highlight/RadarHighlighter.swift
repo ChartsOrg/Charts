@@ -12,7 +12,6 @@
 import Foundation
 import CoreGraphics
 
-@objc(RadarChartHighlighter)
 open class RadarHighlighter: PieRadarHighlighter
 {
     open override func closestHighlight(index: Int, x: CGFloat, y: CGFloat) -> Highlight?
