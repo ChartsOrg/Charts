@@ -660,8 +660,8 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer {
                     } else {
                         let range = e.ranges?[high.stackIndex]
 
-                        y1 = range?.from ?? 0.0
-                        y2 = range?.to ?? 0.0
+                        y1 = range?.lowerBound ?? 0.0
+                        y2 = range?.upperBound ?? 0.0
                     }
                 } else {
                     y1 = e.y

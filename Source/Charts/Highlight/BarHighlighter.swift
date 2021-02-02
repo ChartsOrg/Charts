@@ -73,7 +73,7 @@ open class BarHighlighter: ChartHighlighter {
         let stackIndex = getClosestStackIndex(ranges: ranges, value: yValue)
         let pixel = chart
             .getTransformer(forAxis: set.axisDependency)
-            .pixelForValues(x: high.x, y: ranges[stackIndex].to)
+            .pixelForValues(x: high.x, y: ranges[stackIndex].upperBound)
 
         return Highlight(x: entry.x,
                          y: entry.y,
@@ -88,14 +88,14 @@ open class BarHighlighter: ChartHighlighter {
     ///   - entry:
     ///   - value:
     /// - Returns: The index of the closest value inside the values array / ranges (stacked barchart) to the value given as a parameter.
-    open func getClosestStackIndex(ranges: [Range]?, value: Double) -> Int {
+    open func getClosestStackIndex(ranges: [ClosedRange<Double>]?, value: Double) -> Int {
         guard let ranges = ranges else { return 0 }
 
         if let stackIndex = ranges.firstIndex(where: { $0.contains(value) }) {
             return stackIndex
         } else {
             let length = max(ranges.endIndex - 1, 0)
-            return (value > ranges[length].to) ? length : 0
+            return (value > ranges[length].upperBound) ? length : 0
         }
     }
 }

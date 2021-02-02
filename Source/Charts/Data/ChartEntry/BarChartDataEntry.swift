@@ -15,8 +15,8 @@ open class BarChartDataEntry: ChartDataEntry {
     /// the values the stacked barchart holds
     private var _yVals: [Double]?
 
-    /// the ranges for the individual stack values - automatically calculated
-    private var _ranges: [Range]?
+    /// The ranges of the individual stack-entries. Will return null if this entry is not stacked.
+    open private(set) var ranges: [ClosedRange<Double>]?
 
     /// the sum of all negative values this entry (if stacked) contains
     private var _negativeSum: Double = 0.0
@@ -118,23 +118,23 @@ open class BarChartDataEntry: ChartDataEntry {
     open func calcRanges() {
         guard let values = yValues, !values.isEmpty else { return }
 
-        if _ranges == nil {
-            _ranges = [Range]()
+        if ranges == nil {
+            ranges = []
         } else {
-            _ranges!.removeAll()
+            ranges!.removeAll()
         }
 
-        _ranges!.reserveCapacity(values.count)
+        ranges!.reserveCapacity(values.count)
 
         var negRemain = -negativeSum
         var posRemain: Double = 0.0
 
         for value in values {
             if value < 0 {
-                _ranges!.append(Range(from: negRemain, to: negRemain - value))
+                ranges!.append(negRemain...(negRemain - value))
                 negRemain -= value
             } else {
-                _ranges!.append(Range(from: posRemain, to: posRemain + value))
+                ranges!.append(posRemain...(posRemain + value))
                 posRemain += value
             }
         }
@@ -143,22 +143,17 @@ open class BarChartDataEntry: ChartDataEntry {
     // MARK: Accessors
 
     /// the values the stacked barchart holds
-    open var isStacked: Bool { return _yVals != nil }
+    open var isStacked: Bool { _yVals != nil }
 
     /// the values the stacked barchart holds
     open var yValues: [Double]? {
-        get { return self._yVals }
+        get { self._yVals }
         set {
             self.y = BarChartDataEntry.calcSum(values: newValue ?? [])
             self._yVals = newValue
             calcPosNegSum()
             calcRanges()
         }
-    }
-
-    /// The ranges of the individual stack-entries. Will return null if this entry is not stacked.
-    open var ranges: [Range]? {
-        return _ranges
     }
 
     // MARK: NSCopying

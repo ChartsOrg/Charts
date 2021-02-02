@@ -214,7 +214,7 @@ open class ChartDataSet: ChartBaseDataSet {
             var closestYValue = self[closest].y
             var closestYIndex = closest
 
-            while closest < endIndex {
+            while closest < endIndex - 1 {
                 formIndex(after: &closest)
                 let value = self[closest]
 
@@ -263,6 +263,18 @@ open class ChartDataSet: ChartBaseDataSet {
 
     // MARK: - Data functions and accessors
 
+    open override func entryIndex(entry: ChartDataEntry) -> Int {
+        firstIndex(of: entry) ?? -1
+    }
+
+    open override func entryForIndex(_ index: Int) -> ChartDataEntry? {
+        self[index]
+    }
+
+    open override var entryCount: Int {
+        count
+    }
+    
     // MARK: - NSCopying
 
     override open func copy(with zone: NSZone? = nil) -> Any {
