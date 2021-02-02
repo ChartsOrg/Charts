@@ -74,31 +74,13 @@ Want your tutorial to show here? Create a PR!
 * Search in the issues
 * Try to politely ask in the issues section
 
-## CocoaPods Install
-
-Add `pod 'Charts'` to your Podfile. "Charts" is the name of the library.  
-For [Realm](https://realm.io/) support, please add `pod 'ChartsRealm'` too.
-
-**Note:** ~~`pod 'ios-charts'`~~ is not the correct library, and refers to a different project by someone else.
-
-## Carthage Install
-
-Charts now include Carthage prebuilt binaries.
-
-```carthage
-github "danielgindi/Charts" == 4.0.0
-github "danielgindi/Charts" ~> 4.0.0
-```
-
-In order to build the binaries for a new release, use `carthage build --no-skip-current && carthage archive Charts`.
-
 ## Swift Package Manager Install
 
 Swift Package Manager
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/danielgindi/Charts.git", .upToNextMajor(from: "4.0.0"))
+    .package(url: "https://github.com/danielgindi/Charts.git", .upToNextMajor(from: "0.1.0"))
 ]
 ```
 
