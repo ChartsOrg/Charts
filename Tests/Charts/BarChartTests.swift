@@ -1,66 +1,57 @@
-import XCTest
-import FBSnapshotTestCase
 @testable import Charts
+import FBSnapshotTestCase
+import XCTest
 
-class BarChartTests: FBSnapshotTestCase
-{
-    override func setUp()
-    {
+class BarChartTests: FBSnapshotTestCase {
+    override func setUp() {
         super.setUp()
-        
+
         // Set to `true` to re-capture all snapshots
-        self.recordMode = false
+        recordMode = false
     }
-    
-    override func tearDown()
-    {
+
+    override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
-    
-    //MARK: Prepare
-    func setupCustomValuesDataEntries(values: [Double]) -> [ChartDataEntry]
-    {
+
+    // MARK: Prepare
+
+    func setupCustomValuesDataEntries(values: [Double]) -> [ChartDataEntry] {
         var entries: [ChartDataEntry] = Array()
-        for (i, value) in values.enumerated()
-        {
-            entries.append(BarChartDataEntry(x: Double(i), y: value, icon: UIImage(named: "icon", in: Bundle(for: self.classForCoder), compatibleWith: nil)))
+        for (i, value) in values.enumerated() {
+            entries.append(BarChartDataEntry(x: Double(i), y: value, icon: UIImage(named: "icon", in: Bundle(for: classForCoder), compatibleWith: nil)))
         }
         return entries
     }
 
-    func setupDefaultValuesDataEntries() -> [ChartDataEntry]
-    {
+    func setupDefaultValuesDataEntries() -> [ChartDataEntry] {
         let values: [Double] = [8, 104, -81, 93, 52, -44, 97, 101, -75, 28,
                                 -76, 25, 20, -13, 52, 44, -57, 23, 45, -91,
                                 99, 14, -84, 48, 40, -71, 106, 41, -45, 61]
         return setupCustomValuesDataEntries(values: values)
     }
 
-    func setupPositiveValuesDataEntries() -> [ChartDataEntry]
-    {
+    func setupPositiveValuesDataEntries() -> [ChartDataEntry] {
         let values: [Double] = [8, 104, 81, 93, 52, 44, 97, 101, 75, 28,
                                 76, 25, 20, 13, 52, 44, 57, 23, 45, 91,
                                 99, 14, 84, 48, 40, 71, 106, 41, 45, 61]
         return setupCustomValuesDataEntries(values: values)
     }
 
-    func setupNegativeValuesDataEntries() -> [ChartDataEntry]
-    {
+    func setupNegativeValuesDataEntries() -> [ChartDataEntry] {
         let values: [Double] = [-8, -104, -81, -93, -52, -44, -97, -101, -75, -28,
                                 -76, -25, -20, -13, -52, -44, -57, -23, -45, -91,
                                 -99, -14, -84, -48, -40, -71, -106, -41, -45, -61]
         return setupCustomValuesDataEntries(values: values)
     }
 
-    func setupZeroValuesDataEntries() -> [ChartDataEntry]
-    {
+    func setupZeroValuesDataEntries() -> [ChartDataEntry] {
         let values = [Double](repeating: 0.0, count: 30)
         return setupCustomValuesDataEntries(values: values)
     }
 
-    func setupStackedValuesDataEntries() -> [ChartDataEntry]
-    {
+    func setupStackedValuesDataEntries() -> [ChartDataEntry] {
         var entries: [ChartDataEntry] = Array()
         entries.append(BarChartDataEntry(x: 0, yValues: [28, 50, 60, 30, 42], icon: UIImage(named: "icon")))
         entries.append(BarChartDataEntry(x: 1, yValues: [-20, -36, -52, -40, -15], icon: UIImage(named: "icon")))
@@ -70,50 +61,44 @@ class BarChartTests: FBSnapshotTestCase
         return entries
     }
 
-    func setupDefaultStackedDataSet(chartDataEntries: [ChartDataEntry]) -> BarChartDataSet
-    {
+    func setupDefaultStackedDataSet(chartDataEntries: [ChartDataEntry]) -> BarChartDataSet {
         let dataSet = BarChartDataSet(entries: chartDataEntries, label: "Stacked bar chart unit test data")
         dataSet.drawIconsEnabled = false
         dataSet.iconsOffset = CGPoint(x: 0, y: -10.0)
-        dataSet.colors = Array(arrayLiteral:NSUIColor(red: 46/255.0, green: 204/255.0, blue: 113/255.0, alpha: 1.0),
-                               NSUIColor(red: 241/255.0, green: 196/255.0, blue: 15/255.0, alpha: 1.0),
-                               NSUIColor(red: 231/255.0, green: 76/255.0, blue: 60/255.0, alpha: 1.0),
-                               NSUIColor(red: 52/255.0, green: 152/255.0, blue: 219/255.0, alpha: 1.0)
-        )
+        dataSet.colors = Array(arrayLiteral: NSUIColor(red: 46 / 255.0, green: 204 / 255.0, blue: 113 / 255.0, alpha: 1.0),
+                               NSUIColor(red: 241 / 255.0, green: 196 / 255.0, blue: 15 / 255.0, alpha: 1.0),
+                               NSUIColor(red: 231 / 255.0, green: 76 / 255.0, blue: 60 / 255.0, alpha: 1.0),
+                               NSUIColor(red: 52 / 255.0, green: 152 / 255.0, blue: 219 / 255.0, alpha: 1.0))
         return dataSet
     }
 
-    func setupDefaultDataSet(chartDataEntries: [ChartDataEntry]) -> BarChartDataSet
-    {
+    func setupDefaultDataSet(chartDataEntries: [ChartDataEntry]) -> BarChartDataSet {
         let dataSet = BarChartDataSet(entries: chartDataEntries, label: "Bar chart unit test data")
         dataSet.drawIconsEnabled = false
         dataSet.iconsOffset = CGPoint(x: 0, y: -10.0)
         return dataSet
     }
 
-    func setupDefaultChart(dataSets: [BarChartDataSet]) -> BarChartView
-    {
+    func setupDefaultChart(dataSets: [BarChartDataSet]) -> BarChartView {
         let data = BarChartData(dataSets: dataSets)
         data.barWidth = 0.85
-        
+
         let chart = BarChartView(frame: CGRect(x: 0, y: 0, width: 480, height: 350))
         chart.backgroundColor = NSUIColor.clear
         chart.data = data
         return chart
     }
-    
-    //MARK: Start Test
-    func testDefaultValues()
-    {
+
+    // MARK: Start Test
+
+    func testDefaultValues() {
         let dataEntries = setupDefaultValuesDataEntries()
         let dataSet = setupDefaultDataSet(chartDataEntries: dataEntries)
         let chart = setupDefaultChart(dataSets: [dataSet])
         ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
-
     }
 
-    func testDefaultBarDataSetLabels()
-    {
+    func testDefaultBarDataSetLabels() {
         let dataEntries = setupDefaultValuesDataEntries()
         let dataSet = BarChartDataSet(entries: dataEntries)
         dataSet.drawIconsEnabled = false
@@ -121,24 +106,21 @@ class BarChartTests: FBSnapshotTestCase
         ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
 
-    func testZeroValues()
-    {
+    func testZeroValues() {
         let dataEntries = setupZeroValuesDataEntries()
         let dataSet = setupDefaultDataSet(chartDataEntries: dataEntries)
         let chart = setupDefaultChart(dataSets: [dataSet])
         ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
 
-    func testPositiveValues()
-    {
+    func testPositiveValues() {
         let dataEntries = setupPositiveValuesDataEntries()
         let dataSet = setupDefaultDataSet(chartDataEntries: dataEntries)
         let chart = setupDefaultChart(dataSets: [dataSet])
         ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
 
-    func testPositiveValuesWithCustomAxisMaximum()
-    {
+    func testPositiveValuesWithCustomAxisMaximum() {
         let dataEntries = setupPositiveValuesDataEntries()
         let dataSet = setupDefaultDataSet(chartDataEntries: dataEntries)
         let chart = setupDefaultChart(dataSets: [dataSet])
@@ -148,8 +130,7 @@ class BarChartTests: FBSnapshotTestCase
         ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
 
-    func testPositiveValuesWithCustomAxisMaximum2()
-    {
+    func testPositiveValuesWithCustomAxisMaximum2() {
         let dataEntries = setupPositiveValuesDataEntries()
         let dataSet = setupDefaultDataSet(chartDataEntries: dataEntries)
         let chart = setupDefaultChart(dataSets: [dataSet])
@@ -158,8 +139,7 @@ class BarChartTests: FBSnapshotTestCase
         ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
 
-    func testPositiveValuesWithCustomAxisMinimum()
-    {
+    func testPositiveValuesWithCustomAxisMinimum() {
         let dataEntries = setupPositiveValuesDataEntries()
         let dataSet = setupDefaultDataSet(chartDataEntries: dataEntries)
         let chart = setupDefaultChart(dataSets: [dataSet])
@@ -168,8 +148,7 @@ class BarChartTests: FBSnapshotTestCase
         ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
 
-    func testPositiveValuesWithCustomAxisMinimum2()
-    {
+    func testPositiveValuesWithCustomAxisMinimum2() {
         let dataEntries = setupPositiveValuesDataEntries()
         let dataSet = setupDefaultDataSet(chartDataEntries: dataEntries)
         let chart = setupDefaultChart(dataSets: [dataSet])
@@ -178,28 +157,25 @@ class BarChartTests: FBSnapshotTestCase
         ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
 
-    func testPositiveValuesWithCustomAxisMaximumAndCustomAxisMaximum()
-    {
+    func testPositiveValuesWithCustomAxisMaximumAndCustomAxisMaximum() {
         let dataEntries = setupPositiveValuesDataEntries()
         let dataSet = setupDefaultDataSet(chartDataEntries: dataEntries)
         let chart = setupDefaultChart(dataSets: [dataSet])
-        //If min is greater than max, then min and max will be exchanged.
+        // If min is greater than max, then min and max will be exchanged.
         chart.leftAxis.axisMaximum = 200
         chart.leftAxis.axisMinimum = -10
         chart.notifyDataSetChanged()
         ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
 
-    func testNegativeValues()
-    {
+    func testNegativeValues() {
         let dataEntries = setupNegativeValuesDataEntries()
         let dataSet = setupDefaultDataSet(chartDataEntries: dataEntries)
         let chart = setupDefaultChart(dataSets: [dataSet])
         ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
 
-    func testNegativeValuesWithCustomAxisMaximum()
-    {
+    func testNegativeValuesWithCustomAxisMaximum() {
         let dataEntries = setupNegativeValuesDataEntries()
         let dataSet = setupDefaultDataSet(chartDataEntries: dataEntries)
         let chart = setupDefaultChart(dataSets: [dataSet])
@@ -208,8 +184,7 @@ class BarChartTests: FBSnapshotTestCase
         ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
 
-    func testNegativeValuesWithCustomAxisMaximum2()
-    {
+    func testNegativeValuesWithCustomAxisMaximum2() {
         let dataEntries = setupNegativeValuesDataEntries()
         let dataSet = setupDefaultDataSet(chartDataEntries: dataEntries)
         let chart = setupDefaultChart(dataSets: [dataSet])
@@ -218,9 +193,7 @@ class BarChartTests: FBSnapshotTestCase
         ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
 
-
-    func testNegativeValuesWithCustomAxisMinimum()
-    {
+    func testNegativeValuesWithCustomAxisMinimum() {
         let dataEntries = setupNegativeValuesDataEntries()
         let dataSet = setupDefaultDataSet(chartDataEntries: dataEntries)
         let chart = setupDefaultChart(dataSets: [dataSet])
@@ -229,8 +202,7 @@ class BarChartTests: FBSnapshotTestCase
         ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
 
-    func testNegativeValuesWithCustomAxisMinimum2()
-    {
+    func testNegativeValuesWithCustomAxisMinimum2() {
         let dataEntries = setupNegativeValuesDataEntries()
         let dataSet = setupDefaultDataSet(chartDataEntries: dataEntries)
         let chart = setupDefaultChart(dataSets: [dataSet])
@@ -239,20 +211,18 @@ class BarChartTests: FBSnapshotTestCase
         ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
 
-    func testNegativeValuesWithCustomAxisMaximumAndCustomAxisMaximum()
-    {
+    func testNegativeValuesWithCustomAxisMaximumAndCustomAxisMaximum() {
         let dataEntries = setupNegativeValuesDataEntries()
         let dataSet = setupDefaultDataSet(chartDataEntries: dataEntries)
         let chart = setupDefaultChart(dataSets: [dataSet])
-        //If min is greater than max, then min and max will be exchanged.
+        // If min is greater than max, then min and max will be exchanged.
         chart.leftAxis.axisMaximum = 10
         chart.leftAxis.axisMinimum = -200
         chart.notifyDataSetChanged()
         ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
 
-    func testHidesValues()
-    {
+    func testHidesValues() {
         let dataEntries = setupDefaultValuesDataEntries()
         let dataSet = setupDefaultDataSet(chartDataEntries: dataEntries)
         let chart = setupDefaultChart(dataSets: [dataSet])
@@ -261,8 +231,7 @@ class BarChartTests: FBSnapshotTestCase
         ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
 
-    func testNotDrawValueAboveBars()
-    {
+    func testNotDrawValueAboveBars() {
         let dataEntries = setupDefaultValuesDataEntries()
         let dataSet = setupDefaultDataSet(chartDataEntries: dataEntries)
         let chart = setupDefaultChart(dataSets: [dataSet])
@@ -271,8 +240,7 @@ class BarChartTests: FBSnapshotTestCase
         ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
 
-    func testStackedDrawValues()
-    {
+    func testStackedDrawValues() {
         let dataEntries = setupStackedValuesDataEntries()
         let dataSet = setupDefaultStackedDataSet(chartDataEntries: dataEntries)
         let chart = setupDefaultChart(dataSets: [dataSet])
@@ -280,8 +248,7 @@ class BarChartTests: FBSnapshotTestCase
         ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
 
-    func testStackedNotDrawValues()
-    {
+    func testStackedNotDrawValues() {
         let dataEntries = setupStackedValuesDataEntries()
         let dataSet = setupDefaultStackedDataSet(chartDataEntries: dataEntries)
         dataSet.drawValuesEnabled = false
@@ -290,8 +257,7 @@ class BarChartTests: FBSnapshotTestCase
         ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
 
-    func testStackedNotDrawValuesAboveBars()
-    {
+    func testStackedNotDrawValuesAboveBars() {
         let dataEntries = setupStackedValuesDataEntries()
         let dataSet = setupDefaultStackedDataSet(chartDataEntries: dataEntries)
         let chart = setupDefaultChart(dataSets: [dataSet])
@@ -299,9 +265,8 @@ class BarChartTests: FBSnapshotTestCase
         chart.notifyDataSetChanged()
         ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
-    
-    func testHideLeftAxis()
-    {
+
+    func testHideLeftAxis() {
         let dataEntries = setupDefaultValuesDataEntries()
         let dataSet = setupDefaultDataSet(chartDataEntries: dataEntries)
         let chart = setupDefaultChart(dataSets: [dataSet])
@@ -309,9 +274,8 @@ class BarChartTests: FBSnapshotTestCase
         chart.notifyDataSetChanged()
         ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
-    
-    func testHideRightAxis()
-    {
+
+    func testHideRightAxis() {
         let dataEntries = setupDefaultValuesDataEntries()
         let dataSet = setupDefaultDataSet(chartDataEntries: dataEntries)
         let chart = setupDefaultChart(dataSets: [dataSet])
@@ -320,8 +284,7 @@ class BarChartTests: FBSnapshotTestCase
         ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
 
-    func testInvertedLeftAxis()
-    {
+    func testInvertedLeftAxis() {
         let dataEntries = setupDefaultValuesDataEntries()
         let dataSet = setupDefaultDataSet(chartDataEntries: dataEntries)
         let chart = setupDefaultChart(dataSets: [dataSet])
@@ -330,8 +293,7 @@ class BarChartTests: FBSnapshotTestCase
         ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
 
-    func testInvertedLeftAxisWithNegativeValues()
-    {
+    func testInvertedLeftAxisWithNegativeValues() {
         let dataEntries = setupNegativeValuesDataEntries()
         let dataSet = setupDefaultDataSet(chartDataEntries: dataEntries)
         let chart = setupDefaultChart(dataSets: [dataSet])
@@ -340,8 +302,7 @@ class BarChartTests: FBSnapshotTestCase
         ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
 
-    func testInvertedLeftAxisWithPositiveValues()
-    {
+    func testInvertedLeftAxisWithPositiveValues() {
         let dataEntries = setupPositiveValuesDataEntries()
         let dataSet = setupDefaultDataSet(chartDataEntries: dataEntries)
         let chart = setupDefaultChart(dataSets: [dataSet])
@@ -350,8 +311,7 @@ class BarChartTests: FBSnapshotTestCase
         ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
 
-    func testInvertedRightAxis()
-    {
+    func testInvertedRightAxis() {
         let dataEntries = setupDefaultValuesDataEntries()
         let dataSet = setupDefaultDataSet(chartDataEntries: dataEntries)
         dataSet.axisDependency = .right
@@ -361,8 +321,7 @@ class BarChartTests: FBSnapshotTestCase
         ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
 
-    func testInvertedRightAxisWithNegativeValues()
-    {
+    func testInvertedRightAxisWithNegativeValues() {
         let dataEntries = setupNegativeValuesDataEntries()
         let dataSet = setupDefaultDataSet(chartDataEntries: dataEntries)
         dataSet.axisDependency = .right
@@ -372,8 +331,7 @@ class BarChartTests: FBSnapshotTestCase
         ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
 
-    func testInvertedRightAxisWithPositiveValues()
-    {
+    func testInvertedRightAxisWithPositiveValues() {
         let dataEntries = setupPositiveValuesDataEntries()
         let dataSet = setupDefaultDataSet(chartDataEntries: dataEntries)
         dataSet.axisDependency = .right
@@ -382,9 +340,8 @@ class BarChartTests: FBSnapshotTestCase
         chart.notifyDataSetChanged()
         ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
-    
-    func testHideHorizontalGridlines()
-    {
+
+    func testHideHorizontalGridlines() {
         let dataEntries = setupDefaultValuesDataEntries()
         let dataSet = setupDefaultDataSet(chartDataEntries: dataEntries)
         let chart = setupDefaultChart(dataSets: [dataSet])
@@ -393,9 +350,8 @@ class BarChartTests: FBSnapshotTestCase
         chart.notifyDataSetChanged()
         ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
-    
-    func testHideVerticalGridlines()
-    {
+
+    func testHideVerticalGridlines() {
         let dataEntries = setupDefaultValuesDataEntries()
         let dataSet = setupDefaultDataSet(chartDataEntries: dataEntries)
         let chart = setupDefaultChart(dataSets: [dataSet])
@@ -403,9 +359,8 @@ class BarChartTests: FBSnapshotTestCase
         chart.notifyDataSetChanged()
         ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
-    
-    func testDrawIcons()
-    {
+
+    func testDrawIcons() {
         let dataEntries = setupDefaultValuesDataEntries()
         let dataSet = setupDefaultDataSet(chartDataEntries: dataEntries)
         let chart = setupDefaultChart(dataSets: [dataSet])

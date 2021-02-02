@@ -9,19 +9,16 @@
 //  https://github.com/danielgindi/Charts
 //
 
-import Foundation
 import CoreGraphics
+import Foundation
 
-open class LegendEntry
-{
-    public init() {
-    }
-    
+open class LegendEntry {
+    public init() {}
+
     /// - Parameters:
     ///   - label:                  The legend entry text.
     ///                                     A `nil` label will start a group.
-    public init(label: String?)
-    {
+    public init(label: String?) {
         self.label = label
     }
 
@@ -38,24 +35,24 @@ open class LegendEntry
     /// `Empty` will avoid drawing a form, but keep its space.
     /// `Default` will use the Legend's default.
     open var form: Legend.Form = .default
-    
+
     /// Form size will be considered except for when .None is used
     ///
     /// Set as NaN to use the legend's default
-    open var formSize: CGFloat = CGFloat.nan
-    
+    open var formSize = CGFloat.nan
+
     /// Line width used for shapes that consist of lines.
     ///
     /// Set to NaN to use the legend's default.
-    open var formLineWidth: CGFloat = CGFloat.nan
-    
+    open var formLineWidth = CGFloat.nan
+
     /// Line dash configuration for shapes that consist of lines.
     ///
     /// This is how much (in pixels) into the dash pattern are we starting from.
     ///
     /// Set to NaN to use the legend's default.
     open var formLineDashPhase: CGFloat = 0.0
-    
+
     /// Line dash configuration for shapes that consist of lines.
     ///
     /// This is the actual dash pattern.
@@ -64,7 +61,7 @@ open class LegendEntry
     ///
     /// Set to nil to use the legend's default.
     open var formLineDashLengths: [CGFloat]?
-    
+
     /// The color for drawing the form
     open var formColor: NSUIColor?
 }

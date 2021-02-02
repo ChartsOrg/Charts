@@ -12,13 +12,12 @@
 import Charts
 
 private class CubicLineSampleFillFormatter: FillFormatter {
-    func getFillLinePosition(dataSet: LineChartDataSetProtocol, dataProvider: LineChartDataProvider) -> CGFloat {
+    func getFillLinePosition(dataSet _: LineChartDataSetProtocol, dataProvider _: LineChartDataProvider) -> CGFloat {
         return -10
     }
 }
 
 class CubicLineChartViewController: DemoBaseViewController {
-
     @IBOutlet var chartView: LineChartView!
     @IBOutlet var sliderX: UISlider!
     @IBOutlet var sliderY: UISlider!
@@ -29,63 +28,63 @@ class CubicLineChartViewController: DemoBaseViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        self.title = "Cubic Line Chart"
-        
-        self.options = [.toggleValues,
-                        .toggleFilled,
-                        .toggleCircles,
-                        .toggleCubic,
-                        .toggleHorizontalCubic,
-                        .toggleStepped,
-                        .toggleHighlight,
-                        .animateX,
-                        .animateY,
-                        .animateXY,
-                        .saveToGallery,
-                        .togglePinchZoom,
-                        .toggleAutoScaleMinMax,
-                        .toggleData]
+        title = "Cubic Line Chart"
+
+        options = [.toggleValues,
+                   .toggleFilled,
+                   .toggleCircles,
+                   .toggleCubic,
+                   .toggleHorizontalCubic,
+                   .toggleStepped,
+                   .toggleHighlight,
+                   .animateX,
+                   .animateY,
+                   .animateXY,
+                   .saveToGallery,
+                   .togglePinchZoom,
+                   .toggleAutoScaleMinMax,
+                   .toggleData]
 
         chartView.delegate = self
 
         chartView.setViewPortOffsets(left: 0, top: 20, right: 0, bottom: 0)
-        chartView.backgroundColor = UIColor(red: 104/255, green: 241/255, blue: 175/255, alpha: 1)
-        
+        chartView.backgroundColor = UIColor(red: 104 / 255, green: 241 / 255, blue: 175 / 255, alpha: 1)
+
         chartView.dragEnabled = true
         chartView.setScaleEnabled(true)
         chartView.pinchZoomEnabled = false
         chartView.maxHighlightDistance = 300
-        
+
         chartView.xAxis.enabled = false
-        
+
         let yAxis = chartView.leftAxis
-        yAxis.labelFont = UIFont(name: "HelveticaNeue-Light", size:12)!
+        yAxis.labelFont = UIFont(name: "HelveticaNeue-Light", size: 12)!
         yAxis.setLabelCount(6, force: false)
         yAxis.labelTextColor = .white
         yAxis.labelPosition = .insideChart
         yAxis.axisLineColor = .white
-        
+
         chartView.rightAxis.enabled = false
         chartView.legend.enabled = false
-        
+
         sliderX.value = 45
         sliderY.value = 100
-        self.slidersValueChanged(nil)
-        
+        slidersValueChanged(nil)
+
         chartView.animate(xAxisDuration: 2, yAxisDuration: 2)
     }
 
     override func updateChartData() {
-        if self.shouldHideData {
+        if shouldHideData {
             chartView.data = nil
             return
         }
-        
-        self.setDataCount(Int(sliderX.value + 1), range: UInt32(sliderY.value))
+
+        setDataCount(Int(sliderX.value + 1), range: UInt32(sliderY.value))
     }
-    
+
     func setDataCount(_ count: Int, range: UInt32) {
-        let yVals1 = (0..<count).map { (i) -> ChartDataEntry in
+        let yVals1 = (0 ..< count).map { (i) -> ChartDataEntry in
             let mult = range + 1
             let val = Double(arc4random_uniform(mult) + 20)
             return ChartDataEntry(x: Double(i), y: val)
@@ -97,19 +96,19 @@ class CubicLineChartViewController: DemoBaseViewController {
         set1.lineWidth = 1.8
         set1.circleRadius = 4
         set1.setCircleColor(.white)
-        set1.highlightColor = UIColor(red: 244/255, green: 117/255, blue: 117/255, alpha: 1)
+        set1.highlightColor = UIColor(red: 244 / 255, green: 117 / 255, blue: 117 / 255, alpha: 1)
         set1.fillColor = .white
         set1.fillAlpha = 1
         set1.drawHorizontalHighlightIndicatorEnabled = false
         set1.fillFormatter = CubicLineSampleFillFormatter()
-        
+
         let data = LineChartData(dataSet: set1)
         data.setValueFont(UIFont(name: "HelveticaNeue-Light", size: 9)!)
         data.setDrawValues(false)
-        
+
         chartView.data = data
     }
-    
+
     override func optionTapped(_ option: Option) {
         guard let data = chartView.data else { return }
 
@@ -119,7 +118,7 @@ class CubicLineChartViewController: DemoBaseViewController {
                 set.drawFilledEnabled = !set.drawFilledEnabled
             }
             chartView.setNeedsDisplay()
-            
+
         case .toggleCircles:
             for case let set as LineChartDataSet in data {
                 set.drawCirclesEnabled = !set.drawCirclesEnabled
@@ -131,7 +130,7 @@ class CubicLineChartViewController: DemoBaseViewController {
                 set.mode = (set.mode == .cubicBezier) ? .linear : .cubicBezier
             }
             chartView.setNeedsDisplay()
-            
+
         case .toggleStepped:
             for case let set as LineChartDataSet in data {
                 set.mode = (set.mode == .stepped) ? .linear : .stepped
@@ -143,17 +142,18 @@ class CubicLineChartViewController: DemoBaseViewController {
                 set.mode = (set.mode == .cubicBezier) ? .horizontalBezier : .cubicBezier
             }
             chartView.setNeedsDisplay()
-            
+
         default:
             super.handleOption(option, forChartView: chartView)
         }
     }
-    
+
     // MARK: - Actions
-    @IBAction func slidersValueChanged(_ sender: Any?) {
+
+    @IBAction func slidersValueChanged(_: Any?) {
         sliderTextX.text = "\(Int(sliderX.value))"
         sliderTextY.text = "\(Int(sliderY.value))"
-        
-        self.updateChartData()
+
+        updateChartData()
     }
 }

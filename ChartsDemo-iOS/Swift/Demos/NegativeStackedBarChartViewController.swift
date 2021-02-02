@@ -12,9 +12,8 @@
 import Charts
 
 class NegativeStackedBarChartViewController: DemoBaseViewController {
-
     @IBOutlet var chartView: HorizontalBarChartView!
-    
+
     lazy var customFormatter: NumberFormatter = {
         let formatter = NumberFormatter()
         formatter.negativePrefix = ""
@@ -27,29 +26,28 @@ class NegativeStackedBarChartViewController: DemoBaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         // Do any additional setup after loading the view.
-        self.title = "Stacked Bar Chart Negative"
-        self.options = [.toggleValues,
-                        .toggleIcons,
-                        .toggleHighlight,
-                        .animateX,
-                        .animateY,
-                        .animateXY,
-                        .saveToGallery,
-                        .togglePinchZoom,
-                        .toggleAutoScaleMinMax,
-                        .toggleData,
-                        .toggleBarBorders]
-        
+        title = "Stacked Bar Chart Negative"
+        options = [.toggleValues,
+                   .toggleIcons,
+                   .toggleHighlight,
+                   .animateX,
+                   .animateY,
+                   .animateXY,
+                   .saveToGallery,
+                   .togglePinchZoom,
+                   .toggleAutoScaleMinMax,
+                   .toggleData,
+                   .toggleBarBorders]
 
         chartView.delegate = self
-        
+
         chartView.chartDescription.enabled = false
-        
+
         chartView.drawBarShadowEnabled = false
         chartView.drawValueAboveBarEnabled = true
-        
+
         chartView.leftAxis.enabled = false
         let rightAxis = chartView.rightAxis
         rightAxis.axisMaximum = 25
@@ -58,7 +56,7 @@ class NegativeStackedBarChartViewController: DemoBaseViewController {
         rightAxis.labelCount = 7
         rightAxis.valueFormatter = DefaultAxisValueFormatter(formatter: customFormatter)
         rightAxis.labelFont = .systemFont(ofSize: 9)
-        
+
         let xAxis = chartView.xAxis
         xAxis.labelPosition = .bothSided
         xAxis.drawAxisLineEnabled = false
@@ -69,7 +67,7 @@ class NegativeStackedBarChartViewController: DemoBaseViewController {
         xAxis.granularity = 10
         xAxis.valueFormatter = self
         xAxis.labelFont = .systemFont(ofSize: 9)
-        
+
         let l = chartView.legend
         l.horizontalAlignment = .right
         l.verticalAlignment = .bottom
@@ -79,18 +77,18 @@ class NegativeStackedBarChartViewController: DemoBaseViewController {
         l.xEntrySpace = 6
 //        chartView.legend = l
 
-        self.updateChartData()
+        updateChartData()
     }
-    
+
     override func updateChartData() {
-        if self.shouldHideData {
+        if shouldHideData {
             chartView.data = nil
             return
         }
-        
-        self.setChartData()
+
+        setChartData()
     }
-    
+
     func setChartData() {
         let yVals = [BarChartDataEntry(x: 5, yValues: [-10, 10]),
                      BarChartDataEntry(x: 15, yValues: [-12, 13]),
@@ -102,33 +100,31 @@ class NegativeStackedBarChartViewController: DemoBaseViewController {
                      BarChartDataEntry(x: 75, yValues: [-13, 14]),
                      BarChartDataEntry(x: 85, yValues: [-10, 11]),
                      BarChartDataEntry(x: 95, yValues: [-5, 6]),
-                     BarChartDataEntry(x: 105, yValues: [-1, 2])
-        ]
-        
+                     BarChartDataEntry(x: 105, yValues: [-1, 2])]
+
         let set = BarChartDataSet(entries: yVals, label: "Age Distribution")
         set.drawIconsEnabled = false
         set.valueFormatter = DefaultValueFormatter(formatter: customFormatter)
         set.valueFont = .systemFont(ofSize: 7)
         set.axisDependency = .right
-        set.colors = [UIColor(red: 67/255, green: 67/255, blue: 72/255, alpha: 1),
-                      UIColor(red: 124/255, green: 181/255, blue: 236/255, alpha: 1)
-        ]
+        set.colors = [UIColor(red: 67 / 255, green: 67 / 255, blue: 72 / 255, alpha: 1),
+                      UIColor(red: 124 / 255, green: 181 / 255, blue: 236 / 255, alpha: 1)]
         set.stackLabels = ["Men", "Women"]
-        
+
         let data = BarChartData(dataSet: set)
         data.barWidth = 8.5
-        
+
         chartView.data = data
         chartView.setNeedsDisplay()
     }
-    
+
     override func optionTapped(_ option: Option) {
         super.handleOption(option, forChartView: chartView)
     }
 }
 
 extension NegativeStackedBarChartViewController: AxisValueFormatter {
-    func stringForValue(_ value: Double, axis: AxisBase?) -> String {
+    func stringForValue(_ value: Double, axis _: AxisBase?) -> String {
         return String(format: "%03.0f-%03.0f", value, value + 10)
     }
 }

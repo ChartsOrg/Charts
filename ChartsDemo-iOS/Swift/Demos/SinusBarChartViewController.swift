@@ -12,45 +12,44 @@
 import Charts
 
 class SinusBarChartViewController: DemoBaseViewController {
-    
     @IBOutlet var chartView: BarChartView!
     @IBOutlet var sliderX: UISlider!
     @IBOutlet var sliderTextX: UITextField!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         // Do any additional setup after loading the view.
-        self.title = "Sinus Bar Chart"
-        self.options = [.toggleValues,
-                        .toggleHighlight,
-                        .animateX,
-                        .animateY,
-                        .animateXY,
-                        .saveToGallery,
-                        .togglePinchZoom,
-                        .toggleAutoScaleMinMax,
-                        .toggleData]
-        
+        title = "Sinus Bar Chart"
+        options = [.toggleValues,
+                   .toggleHighlight,
+                   .animateX,
+                   .animateY,
+                   .animateXY,
+                   .saveToGallery,
+                   .togglePinchZoom,
+                   .toggleAutoScaleMinMax,
+                   .toggleData]
+
         chartView.delegate = self
-        
+
         chartView.chartDescription.enabled = false
-        
+
         chartView.drawBarShadowEnabled = false
         chartView.drawValueAboveBarEnabled = false
         chartView.maxVisibleCount = 60
-        
+
         let xAxis = chartView.xAxis
         xAxis.labelPosition = .bottom
         xAxis.enabled = false
-        
+
         let leftAxis = chartView.leftAxis
         leftAxis.labelCount = 6
         leftAxis.axisMinimum = -2.5
         leftAxis.axisMaximum = 2.5
         leftAxis.granularityEnabled = true
         leftAxis.granularity = 0.1
-        
+
         let rightAxis = chartView.rightAxis
         rightAxis.labelCount = 6
         rightAxis.axisMinimum = -2.5
@@ -70,41 +69,41 @@ class SinusBarChartViewController: DemoBaseViewController {
 
         sliderX.value = 150
         slidersValueChanged(nil)
-        
+
         chartView.animate(xAxisDuration: 2, yAxisDuration: 2)
     }
-    
+
     override func updateChartData() {
-        if self.shouldHideData {
+        if shouldHideData {
             chartView.data = nil
             return
         }
-        
-        self.setDataCount(Int(sliderX.value))
+
+        setDataCount(Int(sliderX.value))
     }
-    
+
     func setDataCount(_ count: Int) {
-        let entries = (0..<count).map {
-            BarChartDataEntry(x: Double($0), y: sin(.pi * Double($0%128) / 64))
+        let entries = (0 ..< count).map {
+            BarChartDataEntry(x: Double($0), y: sin(.pi * Double($0 % 128) / 64))
         }
-        
+
         let set = BarChartDataSet(entries: entries, label: "Sinus Function")
-        set.setColor(UIColor(red: 240/255, green: 120/255, blue: 123/255, alpha: 1))
-        
+        set.setColor(UIColor(red: 240 / 255, green: 120 / 255, blue: 123 / 255, alpha: 1))
+
         let data = BarChartData(dataSet: set)
         data.setValueFont(.systemFont(ofSize: 10, weight: .light))
         data.setDrawValues(false)
         data.barWidth = 0.8
-        
+
         chartView.data = data
     }
-    
+
     override func optionTapped(_ option: Option) {
         super.handleOption(option, forChartView: chartView)
     }
-    
-    @IBAction func slidersValueChanged(_ sender: Any?) {
+
+    @IBAction func slidersValueChanged(_: Any?) {
         sliderTextX.text = "\(Int(sliderX.value))"
-        self.updateChartData()
+        updateChartData()
     }
 }

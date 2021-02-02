@@ -12,46 +12,39 @@
 import Foundation
 
 /// The default value formatter used for all chart components that needs a default
-open class DefaultValueFormatter: ValueFormatter
-{
+open class DefaultValueFormatter: ValueFormatter {
     public typealias Block = (
         _ value: Double,
         _ entry: ChartDataEntry,
         _ dataSetIndex: Int,
-        _ viewPortHandler: ViewPortHandler?) -> String
-    
+        _ viewPortHandler: ViewPortHandler?
+    ) -> String
+
     open var block: Block?
-    
+
     open var hasAutoDecimals: Bool
-    
-    open var formatter: NumberFormatter?
-    {
-        willSet
-        {
+
+    open var formatter: NumberFormatter? {
+        willSet {
             hasAutoDecimals = false
         }
     }
-    
-    open var decimals: Int?
-    {
-        didSet
-        {
+
+    open var decimals: Int? {
+        didSet {
             setupDecimals(decimals: decimals)
         }
     }
 
-    private func setupDecimals(decimals: Int?)
-    {
-        if let digits = decimals
-        {
+    private func setupDecimals(decimals: Int?) {
+        if let digits = decimals {
             formatter?.minimumFractionDigits = digits
             formatter?.maximumFractionDigits = digits
             formatter?.usesGroupingSeparator = true
         }
     }
-    
-    public init()
-    {
+
+    public init() {
         formatter = NumberFormatter()
         formatter?.usesGroupingSeparator = true
         decimals = 1
@@ -59,15 +52,13 @@ open class DefaultValueFormatter: ValueFormatter
 
         setupDecimals(decimals: decimals)
     }
-    
-    public init(formatter: NumberFormatter)
-    {
+
+    public init(formatter: NumberFormatter) {
         self.formatter = formatter
         hasAutoDecimals = false
     }
-    
-    public init(decimals: Int)
-    {
+
+    public init(decimals: Int) {
         formatter = NumberFormatter()
         formatter?.usesGroupingSeparator = true
         self.decimals = decimals
@@ -75,9 +66,8 @@ open class DefaultValueFormatter: ValueFormatter
 
         setupDecimals(decimals: decimals)
     }
-    
-    public init(block: @escaping Block)
-    {
+
+    public init(block: @escaping Block) {
         self.block = block
         hasAutoDecimals = false
     }
@@ -85,11 +75,10 @@ open class DefaultValueFormatter: ValueFormatter
     /// This function is deprecated - Use `init(block:)` instead.
     // DEC 11, 2017
     @available(*, deprecated, message: "Use `init(block:)` instead.")
-    public static func with(block: @escaping Block) -> DefaultValueFormatter
-    {
+    public static func with(block: @escaping Block) -> DefaultValueFormatter {
         return DefaultValueFormatter(block: block)
     }
-    
+
     open func stringForValue(_ value: Double,
                              entry: ChartDataEntry,
                              dataSetIndex: Int,

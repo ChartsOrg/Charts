@@ -9,19 +9,17 @@
 //  https://github.com/danielgindi/Charts
 //
 
-import Foundation
 import CoreGraphics
+import Foundation
 
-open class BubbleChartView: BarLineChartViewBase, BubbleChartDataProvider
-{
-    open override func initialize()
-    {
+open class BubbleChartView: BarLineChartViewBase, BubbleChartDataProvider {
+    override open func initialize() {
         super.initialize()
-        
+
         renderer = BubbleChartRenderer(dataProvider: self, animator: chartAnimator, viewPortHandler: viewPortHandler)
     }
-    
+
     // MARK: - BubbleChartDataProvider
-    
+
     open var bubbleData: BubbleChartData? { return data as? BubbleChartData }
 }

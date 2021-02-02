@@ -9,18 +9,16 @@
 //  https://github.com/danielgindi/Charts
 //
 
-import Foundation
 import CoreGraphics
+import Foundation
 
-open class AnimatedMoveViewJob: AnimatedViewPortJob
-{
-    internal override func animationUpdate()
-    {
+open class AnimatedMoveViewJob: AnimatedViewPortJob {
+    override internal func animationUpdate() {
         var pt = CGPoint(
             x: xOrigin + (CGFloat(xValue) - xOrigin) * phase,
             y: yOrigin + (CGFloat(yValue) - yOrigin) * phase
         )
-        
+
         transformer.pointValueToPixel(&pt)
         viewPortHandler.centerViewPort(pt: pt, chart: view)
     }

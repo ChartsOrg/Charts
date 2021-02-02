@@ -8,24 +8,23 @@
 //
 //  https://github.com/danielgindi/Charts
 //
-import Foundation
 import CoreGraphics
+import Foundation
 
-open class CrossShapeRenderer: ShapeRenderer
-{
+open class CrossShapeRenderer: ShapeRenderer {
     open func renderShape(
         context: CGContext,
         dataSet: ScatterChartDataSetProtocol,
-        viewPortHandler: ViewPortHandler,
+        viewPortHandler _: ViewPortHandler,
         point: CGPoint,
-        color: NSUIColor)
-    {
+        color: NSUIColor
+    ) {
         let shapeSize = dataSet.scatterShapeSize
         let shapeHalf = shapeSize / 2.0
-        
+
         context.setLineWidth(1.0)
         context.setStrokeColor(color.cgColor)
-        
+
         context.beginPath()
         context.move(to: CGPoint(x: point.x - shapeHalf, y: point.y))
         context.addLine(to: CGPoint(x: point.x + shapeHalf, y: point.y))

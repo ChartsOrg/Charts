@@ -9,12 +9,11 @@
 //  https://github.com/danielgindi/Charts
 //
 
-import Foundation
 import CoreGraphics
+import Foundation
 
 // This defines a viewport modification job, used for delaying or animating viewport changes
-open class ViewPortJob
-{
+open class ViewPortJob {
     internal var point: CGPoint = .zero
     internal unowned var viewPortHandler: ViewPortHandler
     internal var xValue = 0.0
@@ -27,17 +26,16 @@ open class ViewPortJob
         xValue: Double,
         yValue: Double,
         transformer: Transformer,
-        view: ChartViewBase)
-    {
+        view: ChartViewBase
+    ) {
         self.viewPortHandler = viewPortHandler
         self.xValue = xValue
         self.yValue = yValue
         self.transformer = transformer
         self.view = view
     }
-    
-    open func doJob()
-    {
+
+    open func doJob() {
         fatalError("`doJob()` must be overridden by subclasses")
     }
 }

@@ -10,23 +10,21 @@
 /*:
  ****
  [Menu](Menu)
- 
+
  [Previous](@previous) | [Next](@next)
  ****
  */
 
+import Charts
 //: # Line Chart
 import Cocoa
-import Charts
 import PlaygroundSupport
-
-
 
 let r = CGRect(x: 0, y: 0, width: 600, height: 600)
 var chartView = LineChartView(frame: r)
 //: ### General
 chartView.dragEnabled = true
-chartView.setScaleEnabled ( true)
+chartView.setScaleEnabled(true)
 chartView.drawGridBackgroundEnabled = false
 chartView.pinchZoomEnabled = true
 chartView.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
@@ -75,19 +73,19 @@ var yVals3 = [ChartDataEntry]()
 
 let range = 30.0
 
-for i in 0..<20 {
+for i in 0 ..< 20 {
     let mult: Double = range / 2.0
     let val = Double(arc4random_uniform(UInt32(mult))) + 50
     yVals1.append(ChartDataEntry(x: Double(i), y: val))
 }
 
-for i in 0..<20 - 1 {
+for i in 0 ..< 20 - 1 {
     let mult: Double = range
     let val = Double(arc4random_uniform(UInt32(mult))) + 450
     yVals2.append(ChartDataEntry(x: Double(i), y: val))
 }
 
-for i in 0..<20 {
+for i in 0 ..< 20 {
     let mult: Double = range
     let val = Double(arc4random_uniform(UInt32(mult))) + 500
     yVals3.append(ChartDataEntry(x: Double(i), y: val))
@@ -108,7 +106,6 @@ set1.fillColor = #colorLiteral(red: 0.215686274509804, green: 0.709803921568627,
 set1.highlightColor = NSUIColor.blue
 set1.highlightEnabled = true
 set1.drawCircleHoleEnabled = false
-
 
 set2 = LineChartDataSet(values: yVals2, label: "DataSet 2")
 set2.axisDependency = .right
@@ -149,7 +146,6 @@ chartView.notifyDataSetChanged()
 /*:---*/
 //: ### Setup for the live view
 PlaygroundPage.current.liveView = chartView
-
 
 /*:
  ****

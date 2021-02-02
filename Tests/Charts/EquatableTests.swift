@@ -5,8 +5,8 @@
 //  Created by Jacob Christie on 2017-11-13.
 //
 
-import XCTest
 @testable import Charts
+import XCTest
 
 class EquatableTests: XCTestCase {
     func testChartDataEntryEquality() {
@@ -42,4 +42,3 @@ class EquatableTests: XCTestCase {
         XCTAssertFalse(high1 == high2)
     }
 }
-

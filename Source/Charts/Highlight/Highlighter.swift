@@ -9,11 +9,10 @@
 //  https://github.com/danielgindi/Charts
 //
 
-import Foundation
 import CoreGraphics
+import Foundation
 
-public protocol Highlighter: class
-{
+public protocol Highlighter: class {
     /// - Parameters:
     ///   - x:
     ///   - y:

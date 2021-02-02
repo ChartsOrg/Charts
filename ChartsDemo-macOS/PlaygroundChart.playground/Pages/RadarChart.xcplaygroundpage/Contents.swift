@@ -10,14 +10,14 @@
 /*:
  ****
  [Menu](Menu)
- 
+
  [Previous](@previous) | [Next](@next)
  ****
  */
 
+import Charts
 //: # Radar Chart
 import Cocoa
-import Charts
 import PlaygroundSupport
 
 let r = CGRect(x: 0, y: 0, width: 600, height: 600)
@@ -64,13 +64,13 @@ let cnt = 5
 var entries1 = [RadarChartDataEntry]()
 var entries2 = [RadarChartDataEntry]()
 /*:
-- Note: The order of the entries when being added to the entries array determines their position around the center of the chart.
-*/
-for _ in 0..<cnt
-{
-    entries1.append(RadarChartDataEntry(value: (Double(arc4random_uniform(UInt32(mult))) + min)))
-    entries2.append(RadarChartDataEntry(value: (Double(arc4random_uniform(UInt32(mult))) + min)))
+ - Note: The order of the entries when being added to the entries array determines their position around the center of the chart.
+ */
+for _ in 0 ..< cnt {
+    entries1.append(RadarChartDataEntry(value: Double(arc4random_uniform(UInt32(mult))) + min))
+    entries2.append(RadarChartDataEntry(value: Double(arc4random_uniform(UInt32(mult))) + min))
 }
+
 //: ### RadarChartDataSet
 let set1 = RadarChartDataSet(values: entries1, label: "Last Week")
 set1.colors = [NSUIColor(red: CGFloat(103 / 255.0), green: CGFloat(110 / 255.0), blue: CGFloat(129 / 255.0), alpha: 1.0)]
@@ -91,9 +91,9 @@ set2.drawHighlightCircleEnabled = true
 set2.setDrawHighlightIndicators(false)
 //: ### RadarChartData
 let data = RadarChartData(dataSets: [set1, set2])
-data.setValueFont ( NSUIFont(name: "HelveticaNeue-Light", size: CGFloat(8.0)))
-data.setDrawValues ( false )
-data.setValueTextColor(  NSUIColor.white)
+data.setValueFont(NSUIFont(name: "HelveticaNeue-Light", size: CGFloat(8.0)))
+data.setDrawValues(false)
+data.setValueTextColor(NSUIColor.white)
 chartView.data = data
 
 chartView.animate(xAxisDuration: 2.0, yAxisDuration: 2.0, easingOption: .easeInBounce)
@@ -102,10 +102,7 @@ chartView.animate(xAxisDuration: 2.0, yAxisDuration: 2.0, easingOption: .easeInB
 //: ### Setup for the live view
 PlaygroundPage.current.liveView = chartView
 
-
 /*:
  ****
  [Previous](@previous) | [Next](@next)
  */
-
-

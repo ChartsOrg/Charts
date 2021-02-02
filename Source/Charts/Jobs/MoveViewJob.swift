@@ -9,18 +9,16 @@
 //  https://github.com/danielgindi/Charts
 //
 
-import Foundation
 import CoreGraphics
+import Foundation
 
-open class MoveViewJob: ViewPortJob
-{
-    open override func doJob()
-    {
+open class MoveViewJob: ViewPortJob {
+    override open func doJob() {
         var pt = CGPoint(
             x: xValue,
             y: yValue
         )
-        
+
         transformer.pointValueToPixel(&pt)
         viewPortHandler.centerViewPort(pt: pt, chart: view)
     }

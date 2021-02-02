@@ -9,55 +9,46 @@
 //  https://github.com/danielgindi/Charts
 //
 
-import Foundation
 import CoreGraphics
+import Foundation
 
-open class LegendRenderer: Renderer
-{
+open class LegendRenderer: Renderer {
     public let viewPortHandler: ViewPortHandler
 
     /// the legend object this renderer renders
     open var legend: Legend?
 
-    public init(viewPortHandler: ViewPortHandler, legend: Legend?)
-    {
+    public init(viewPortHandler: ViewPortHandler, legend: Legend?) {
         self.viewPortHandler = viewPortHandler
         self.legend = legend
     }
 
     /// Prepares the legend and calculates all needed forms, labels and colors.
-    open func computeLegend(data: ChartData)
-    {
+    open func computeLegend(data: ChartData) {
         guard let legend = legend else { return }
-        
-        if !legend.isLegendCustom
-        {
+
+        if !legend.isLegendCustom {
             var entries: [LegendEntry] = []
-            
+
             // loop for building up the colors and labels used in the legend
-            for dataSet in data
-            {                
+            for dataSet in data {
                 let clrs: [NSUIColor] = dataSet.colors
                 let entryCount = dataSet.entryCount
-                
+
                 // if we have a barchart with stacked bars
-                if dataSet is BarChartDataSetProtocol &&
-                    (dataSet as! BarChartDataSetProtocol).isStacked
+                if dataSet is BarChartDataSetProtocol,
+                   (dataSet as! BarChartDataSetProtocol).isStacked
                 {
                     let bds = dataSet as! BarChartDataSetProtocol
                     let sLabels = bds.stackLabels
                     let minEntries = min(clrs.count, bds.stackSize)
 
-                    for j in 0..<minEntries
-                    {
+                    for j in 0 ..< minEntries {
                         let label: String?
-                        if !sLabels.isEmpty && minEntries > 0
-                        {
+                        if !sLabels.isEmpty, minEntries > 0 {
                             let labelIndex = j % minEntries
                             label = sLabels.indices.contains(labelIndex) ? sLabels[labelIndex] : nil
-                        }
-                        else
-                        {
+                        } else {
                             label = nil
                         }
 
@@ -71,22 +62,18 @@ open class LegendRenderer: Renderer
 
                         entries.append(entry)
                     }
-                    
-                    if dataSet.label != nil
-                    {
+
+                    if dataSet.label != nil {
                         // add the legend description label
                         let entry = LegendEntry(label: dataSet.label)
                         entry.form = .none
 
                         entries.append(entry)
                     }
-                }
-                else if dataSet is PieChartDataSetProtocol
-                {
+                } else if dataSet is PieChartDataSetProtocol {
                     let pds = dataSet as! PieChartDataSetProtocol
-                    
-                    for j in 0..<min(clrs.count, entryCount)
-                    {
+
+                    for j in 0 ..< min(clrs.count, entryCount) {
                         let entry = LegendEntry(label: (pds.entryForIndex(j) as? PieChartDataEntry)?.label)
                         entry.form = dataSet.form
                         entry.formSize = dataSet.formSize
@@ -97,18 +84,16 @@ open class LegendRenderer: Renderer
 
                         entries.append(entry)
                     }
-                    
-                    if dataSet.label != nil
-                    {
+
+                    if dataSet.label != nil {
                         // add the legend description label
                         let entry = LegendEntry(label: dataSet.label)
                         entry.form = .none
 
                         entries.append(entry)
                     }
-                }
-                else if dataSet is CandleChartDataSetProtocol &&
-                    (dataSet as! CandleChartDataSetProtocol).decreasingColor != nil
+                } else if dataSet is CandleChartDataSetProtocol,
+                          (dataSet as! CandleChartDataSetProtocol).decreasingColor != nil
                 {
                     let candleDataSet = dataSet as! CandleChartDataSetProtocol
 
@@ -131,21 +116,14 @@ open class LegendRenderer: Renderer
                     increasingEntry.formColor = candleDataSet.increasingColor
 
                     entries.append(increasingEntry)
-                }
-                else
-                { // all others
-                    
-                    for j in 0..<min(clrs.count, entryCount)
-                    {
+                } else { // all others
+                    for j in 0 ..< min(clrs.count, entryCount) {
                         let label: String?
-                        
+
                         // if multiple colors are set for a DataSet, group them
-                        if j < clrs.count - 1 && j < entryCount - 1
-                        {
+                        if j < clrs.count - 1, j < entryCount - 1 {
                             label = nil
-                        }
-                        else
-                        { // add label to the last entry
+                        } else { // add label to the last entry
                             label = dataSet.label
                         }
 
@@ -161,35 +139,33 @@ open class LegendRenderer: Renderer
                     }
                 }
             }
-            
+
             legend.entries = entries + legend.extraEntries
         }
-        
+
         // calculate all dimensions of the legend
         legend.calculateDimensions(labelFont: legend.font, viewPortHandler: viewPortHandler)
     }
-    
-    open func renderLegend(context: CGContext)
-    {
+
+    open func renderLegend(context: CGContext) {
         guard let legend = legend else { return }
-        
-        if !legend.enabled
-        {
+
+        if !legend.enabled {
             return
         }
-        
+
         let labelFont = legend.font
         let labelTextColor = legend.textColor
         let labelLineHeight = labelFont.lineHeight
         let formYOffset = labelLineHeight / 2.0
 
         let entries = legend.entries
-        
+
         let defaultFormSize = legend.formSize
         let formToTextSpace = legend.formToTextSpace
         let xEntrySpace = legend.xEntrySpace
         let yEntrySpace = legend.yEntrySpace
-        
+
         let orientation = legend.orientation
         let horizontalAlignment = legend.horizontalAlignment
         let verticalAlignment = legend.verticalAlignment
@@ -201,266 +177,224 @@ open class LegendRenderer: Renderer
         let yoffset = legend.yOffset
         let xoffset = legend.xOffset
         var originPosX: CGFloat = 0.0
-        
-        switch horizontalAlignment
-        {
+
+        switch horizontalAlignment {
         case .left:
-            
-            if orientation == .vertical
-            {
+
+            if orientation == .vertical {
                 originPosX = xoffset
-            }
-            else
-            {
+            } else {
                 originPosX = viewPortHandler.contentLeft + xoffset
             }
-            
-            if direction == .rightToLeft
-            {
+
+            if direction == .rightToLeft {
                 originPosX += legend.neededWidth
             }
-            
+
         case .right:
-            
-            if orientation == .vertical
-            {
+
+            if orientation == .vertical {
                 originPosX = viewPortHandler.chartWidth - xoffset
-            }
-            else
-            {
+            } else {
                 originPosX = viewPortHandler.contentRight - xoffset
             }
-            
-            if direction == .leftToRight
-            {
+
+            if direction == .leftToRight {
                 originPosX -= legend.neededWidth
             }
-            
+
         case .center:
-            
-            if orientation == .vertical
-            {
+
+            if orientation == .vertical {
                 originPosX = viewPortHandler.chartWidth / 2.0
-            }
-            else
-            {
+            } else {
                 originPosX = viewPortHandler.contentLeft
                     + viewPortHandler.contentWidth / 2.0
             }
-            
+
             originPosX += (direction == .leftToRight
-                    ? +xoffset
-                    : -xoffset)
-            
+                ? +xoffset
+                : -xoffset)
+
             // Horizontally layed out legends do the center offset on a line basis,
             // So here we offset the vertical ones only.
-            if orientation == .vertical
-            {
-                if direction == .leftToRight
-                {
+            if orientation == .vertical {
+                if direction == .leftToRight {
                     originPosX -= legend.neededWidth / 2.0 - xoffset
-                }
-                else
-                {
+                } else {
                     originPosX += legend.neededWidth / 2.0 - xoffset
                 }
             }
         }
-        
-        switch orientation
-        {
+
+        switch orientation {
         case .horizontal:
-            
+
             let calculatedLineSizes = legend.calculatedLineSizes
             let calculatedLabelSizes = legend.calculatedLabelSizes
             let calculatedLabelBreakPoints = legend.calculatedLabelBreakPoints
-            
+
             var posX: CGFloat = originPosX
             var posY: CGFloat
-            
-            switch verticalAlignment
-            {
+
+            switch verticalAlignment {
             case .top:
                 posY = yoffset
-                
+
             case .bottom:
                 posY = viewPortHandler.chartHeight - yoffset - legend.neededHeight
-                
+
             case .center:
                 posY = (viewPortHandler.chartHeight - legend.neededHeight) / 2.0 + yoffset
             }
-            
+
             var lineIndex: Int = 0
-            
-            for i in entries.indices
-            {
+
+            for i in entries.indices {
                 let e = entries[i]
                 let drawingForm = e.form != .none
                 let formSize = e.formSize.isNaN ? defaultFormSize : e.formSize
-                
-                if i < calculatedLabelBreakPoints.endIndex &&
-                    calculatedLabelBreakPoints[i]
+
+                if i < calculatedLabelBreakPoints.endIndex,
+                   calculatedLabelBreakPoints[i]
                 {
                     posX = originPosX
                     posY += labelLineHeight + yEntrySpace
                 }
-                
-                if posX == originPosX &&
-                    horizontalAlignment == .center &&
-                    lineIndex < calculatedLineSizes.endIndex
+
+                if posX == originPosX,
+                   horizontalAlignment == .center,
+                   lineIndex < calculatedLineSizes.endIndex
                 {
                     posX += (direction == .rightToLeft
                         ? calculatedLineSizes[lineIndex].width
                         : -calculatedLineSizes[lineIndex].width) / 2.0
                     lineIndex += 1
                 }
-                
+
                 let isStacked = e.label == nil // grouped forms have null labels
-                
-                if drawingForm
-                {
-                    if direction == .rightToLeft
-                    {
+
+                if drawingForm {
+                    if direction == .rightToLeft {
                         posX -= formSize
                     }
-                    
+
                     drawForm(
                         context: context,
                         x: posX,
                         y: posY + formYOffset,
                         entry: e,
-                        legend: legend)
-                    
-                    if direction == .leftToRight
-                    {
+                        legend: legend
+                    )
+
+                    if direction == .leftToRight {
                         posX += formSize
                     }
                 }
-                
-                if !isStacked
-                {
-                    if drawingForm
-                    {
+
+                if !isStacked {
+                    if drawingForm {
                         posX += direction == .rightToLeft ? -formToTextSpace : formToTextSpace
                     }
-                    
-                    if direction == .rightToLeft
-                    {
+
+                    if direction == .rightToLeft {
                         posX -= calculatedLabelSizes[i].width
                     }
-                    
+
                     drawLabel(
                         context: context,
                         x: posX,
                         y: posY,
                         label: e.label!,
                         font: labelFont,
-                        textColor: e.labelColor ?? labelTextColor)
-                    
-                    if direction == .leftToRight
-                    {
+                        textColor: e.labelColor ?? labelTextColor
+                    )
+
+                    if direction == .leftToRight {
                         posX += calculatedLabelSizes[i].width
                     }
-                    
+
                     posX += direction == .rightToLeft ? -xEntrySpace : xEntrySpace
-                }
-                else
-                {
+                } else {
                     posX += direction == .rightToLeft ? -stackSpace : stackSpace
                 }
             }
-            
+
         case .vertical:
-            
+
             // contains the stacked legend size in pixels
             var stack = CGFloat(0.0)
             var wasStacked = false
-            
+
             var posY: CGFloat = 0.0
-            
-            switch verticalAlignment
-            {
+
+            switch verticalAlignment {
             case .top:
                 posY = (horizontalAlignment == .center
                     ? 0.0
                     : viewPortHandler.contentTop)
                 posY += yoffset
-                
+
             case .bottom:
                 posY = (horizontalAlignment == .center
                     ? viewPortHandler.chartHeight
                     : viewPortHandler.contentBottom)
                 posY -= legend.neededHeight + yoffset
-                
+
             case .center:
-                
+
                 posY = viewPortHandler.chartHeight / 2.0 - legend.neededHeight / 2.0 + legend.yOffset
             }
-            
-            for i in entries.indices
-            {
+
+            for i in entries.indices {
                 let e = entries[i]
                 let drawingForm = e.form != .none
                 let formSize = e.formSize.isNaN ? defaultFormSize : e.formSize
-                
+
                 var posX = originPosX
-                
-                if drawingForm
-                {
-                    if direction == .leftToRight
-                    {
+
+                if drawingForm {
+                    if direction == .leftToRight {
                         posX += stack
-                    }
-                    else
-                    {
+                    } else {
                         posX -= formSize - stack
                     }
-                    
+
                     drawForm(
                         context: context,
                         x: posX,
                         y: posY + formYOffset,
                         entry: e,
-                        legend: legend)
-                    
-                    if direction == .leftToRight
-                    {
+                        legend: legend
+                    )
+
+                    if direction == .leftToRight {
                         posX += formSize
                     }
                 }
-                
-                if e.label != nil
-                {
-                    if drawingForm && !wasStacked
-                    {
+
+                if e.label != nil {
+                    if drawingForm, !wasStacked {
                         posX += direction == .leftToRight ? formToTextSpace : -formToTextSpace
-                    }
-                    else if wasStacked
-                    {
+                    } else if wasStacked {
                         posX = originPosX
                     }
-                    
-                    if direction == .rightToLeft
-                    {
+
+                    if direction == .rightToLeft {
                         posX -= (e.label! as NSString).size(withAttributes: [.font: labelFont]).width
                     }
-                    
-                    if !wasStacked
-                    {
+
+                    if !wasStacked {
                         drawLabel(context: context, x: posX, y: posY, label: e.label!, font: labelFont, textColor: e.labelColor ?? labelTextColor)
-                    }
-                    else
-                    {
+                    } else {
                         posY += labelLineHeight + yEntrySpace
                         drawLabel(context: context, x: posX, y: posY, label: e.label!, font: labelFont, textColor: e.labelColor ?? labelTextColor)
                     }
-                    
+
                     // make a step down
                     posY += labelLineHeight + yEntrySpace
                     stack = 0.0
-                }
-                else
-                {
+                } else {
                     stack += formSize + stackSpace
                     wasStacked = true
                 }
@@ -469,71 +403,66 @@ open class LegendRenderer: Renderer
     }
 
     private var _formLineSegmentsBuffer = [CGPoint](repeating: CGPoint(), count: 2)
-    
+
     /// Draws the Legend-form at the given position with the color at the given index.
     open func drawForm(
         context: CGContext,
         x: CGFloat,
         y: CGFloat,
         entry: LegendEntry,
-        legend: Legend)
-    {
+        legend: Legend
+    ) {
         guard
             let formColor = entry.formColor,
             formColor != NSUIColor.clear
-            else { return }
-        
+        else { return }
+
         var form = entry.form
-        if form == .default
-        {
+        if form == .default {
             form = legend.form
         }
-        
+
         let formSize = entry.formSize.isNaN ? legend.formSize : entry.formSize
-        
+
         context.saveGState()
         defer { context.restoreGState() }
-        
-        switch form
-        {
+
+        switch form {
         case .none:
             // Do nothing
             break
-            
+
         case .empty:
             // Do not draw, but keep space for the form
             break
-            
+
         case .default: fallthrough
         case .circle:
-            
+
             context.setFillColor(formColor.cgColor)
             context.fillEllipse(in: CGRect(x: x, y: y - formSize / 2.0, width: formSize, height: formSize))
-            
+
         case .square:
-            
+
             context.setFillColor(formColor.cgColor)
             context.fill(CGRect(x: x, y: y - formSize / 2.0, width: formSize, height: formSize))
-            
+
         case .line:
-            
+
             let formLineWidth = entry.formLineWidth.isNaN ? legend.formLineWidth : entry.formLineWidth
             let formLineDashPhase = entry.formLineDashPhase.isNaN ? legend.formLineDashPhase : entry.formLineDashPhase
             let formLineDashLengths = entry.formLineDashLengths == nil ? legend.formLineDashLengths : entry.formLineDashLengths
-            
+
             context.setLineWidth(formLineWidth)
-            
-            if formLineDashLengths != nil && !formLineDashLengths!.isEmpty
-            {
+
+            if formLineDashLengths != nil, !formLineDashLengths!.isEmpty {
                 context.setLineDash(phase: formLineDashPhase, lengths: formLineDashLengths!)
-            }
-            else
-            {
+            } else {
                 context.setLineDash(phase: 0.0, lengths: [])
             }
-            
+
             context.setStrokeColor(formColor.cgColor)
-            
+
             _formLineSegmentsBuffer[0].x = x
             _formLineSegmentsBuffer[0].y = y
             _formLineSegmentsBuffer[1].x = x + formSize

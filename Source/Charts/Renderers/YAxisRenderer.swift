@@ -9,128 +9,108 @@
 //  https://github.com/danielgindi/Charts
 //
 
-import Foundation
 import CoreGraphics
+import Foundation
 
-open class YAxisRenderer: AxisRenderer
-{
+open class YAxisRenderer: AxisRenderer {
     public let viewPortHandler: ViewPortHandler
     public let axis: YAxis
     public let transformer: Transformer?
 
-    public init(viewPortHandler: ViewPortHandler, axis: YAxis, transformer: Transformer?)
-    {
+    public init(viewPortHandler: ViewPortHandler, axis: YAxis, transformer: Transformer?) {
         self.viewPortHandler = viewPortHandler
         self.axis = axis
         self.transformer = transformer
     }
-    
+
     /// draws the y-axis labels to the screen
-    open func renderAxisLabels(context: CGContext)
-    {
+    open func renderAxisLabels(context: CGContext) {
         guard
             axis.isEnabled,
             axis.isDrawLabelsEnabled
-            else { return }
+        else { return }
 
         let xoffset = axis.xOffset
         let yoffset = axis.labelFont.lineHeight / 2.5 + axis.yOffset
-        
+
         let dependency = axis.axisDependency
         let labelPosition = axis.labelPosition
-        
+
         let xPos: CGFloat
         let textAlign: TextAlignment
-        
-        if dependency == .left
-        {
-            if labelPosition == .outsideChart
-            {
+
+        if dependency == .left {
+            if labelPosition == .outsideChart {
                 textAlign = .right
                 xPos = viewPortHandler.offsetLeft - xoffset
-            }
-            else
-            {
+            } else {
                 textAlign = .left
                 xPos = viewPortHandler.offsetLeft + xoffset
             }
-        }
-        else
-        {
-            if labelPosition == .outsideChart
-            {
+        } else {
+            if labelPosition == .outsideChart {
                 textAlign = .left
                 xPos = viewPortHandler.contentRight + xoffset
-            }
-            else
-            {
+            } else {
                 textAlign = .right
                 xPos = viewPortHandler.contentRight - xoffset
             }
         }
-        
+
         drawYLabels(context: context,
                     fixedPosition: xPos,
                     positions: transformedPositions(),
                     offset: yoffset - axis.labelFont.lineHeight,
                     textAlign: textAlign)
     }
-    
-    open func renderAxisLine(context: CGContext)
-    {
+
+    open func renderAxisLine(context: CGContext) {
         guard
             axis.isEnabled,
             axis.drawAxisLineEnabled
-            else { return }
+        else { return }
 
         context.saveGState()
         defer { context.restoreGState() }
 
         context.setStrokeColor(axis.axisLineColor.cgColor)
         context.setLineWidth(axis.axisLineWidth)
-        if axis.axisLineDashLengths != nil
-        {
+        if axis.axisLineDashLengths != nil {
             context.setLineDash(phase: axis.axisLineDashPhase, lengths: axis.axisLineDashLengths)
-        }
-        else
-        {
+        } else {
             context.setLineDash(phase: 0.0, lengths: [])
         }
-        
-        if axis.axisDependency == .left
-        {
+
+        if axis.axisDependency == .left {
             context.beginPath()
             context.move(to: CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentTop))
             context.addLine(to: CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentBottom))
             context.strokePath()
-        }
-        else
-        {
+        } else {
             context.beginPath()
             context.move(to: CGPoint(x: viewPortHandler.contentRight, y: viewPortHandler.contentTop))
             context.addLine(to: CGPoint(x: viewPortHandler.contentRight, y: viewPortHandler.contentBottom))
             context.strokePath()
         }
     }
-    
+
     /// draws the y-labels on the specified x-position
     open func drawYLabels(
         context: CGContext,
         fixedPosition: CGFloat,
         positions: [CGPoint],
         offset: CGFloat,
-        textAlign: TextAlignment)
-    {
+        textAlign: TextAlignment
+    ) {
         let labelFont = axis.labelFont
         let labelTextColor = axis.labelTextColor
-        
+
         let from = axis.isDrawBottomYLabelEntryEnabled ? 0 : 1
         let to = axis.isDrawTopYLabelEntryEnabled ? axis.entryCount : (axis.entryCount - 1)
-        
+
         let xOffset = axis.labelXOffset
-        
-        for i in from..<to
-        {
+
+        for i in from ..< to {
             let text = axis.getFormattedLabel(i)
             context.drawText(text,
                              at: CGPoint(x: fixedPosition + xOffset, y: positions[i].y + offset),
@@ -138,84 +118,75 @@ open class YAxisRenderer: AxisRenderer
                              attributes: [.font: labelFont, .foregroundColor: labelTextColor])
         }
     }
-    
-    open func renderGridLines(context: CGContext)
-    {
+
+    open func renderGridLines(context: CGContext) {
         guard axis.isEnabled else { return }
 
-        if axis.drawGridLinesEnabled
-        {
+        if axis.drawGridLinesEnabled {
             let positions = transformedPositions()
-            
+
             context.saveGState()
             defer { context.restoreGState() }
-            context.clip(to: self.gridClippingRect)
-            
+            context.clip(to: gridClippingRect)
+
             context.setShouldAntialias(axis.gridAntialiasEnabled)
             context.setStrokeColor(axis.gridColor.cgColor)
             context.setLineWidth(axis.gridLineWidth)
             context.setLineCap(axis.gridLineCap)
-            
-            if axis.gridLineDashLengths != nil
-            {
+
+            if axis.gridLineDashLengths != nil {
                 context.setLineDash(phase: axis.gridLineDashPhase, lengths: axis.gridLineDashLengths)
-            }
-            else
-            {
+            } else {
                 context.setLineDash(phase: 0.0, lengths: [])
             }
-            
+
             // draw the grid
             positions.forEach { drawGridLine(context: context, position: $0) }
         }
 
-        if axis.drawZeroLineEnabled
-        {
+        if axis.drawZeroLineEnabled {
             // draw zero line
             drawZeroLine(context: context)
         }
     }
-    
-    open var gridClippingRect: CGRect
-    {
+
+    open var gridClippingRect: CGRect {
         var contentRect = viewPortHandler.contentRect
         let dy = self.axis.gridLineWidth
         contentRect.origin.y -= dy / 2.0
         contentRect.size.height += dy
         return contentRect
     }
-    
+
     open func drawGridLine(
         context: CGContext,
-        position: CGPoint)
-    {
+        position: CGPoint
+    ) {
         context.beginPath()
         context.move(to: CGPoint(x: viewPortHandler.contentLeft, y: position.y))
         context.addLine(to: CGPoint(x: viewPortHandler.contentRight, y: position.y))
         context.strokePath()
     }
-    
-    open func transformedPositions() -> [CGPoint]
-    {
+
+    open func transformedPositions() -> [CGPoint] {
         guard let transformer = self.transformer else { return [] }
-        
+
         var positions = axis.entries.map { CGPoint(x: 0.0, y: $0) }
         transformer.pointValuesToPixel(&positions)
-        
+
         return positions
     }
 
     /// Draws the zero line at the specified position.
-    open func drawZeroLine(context: CGContext)
-    {
+    open func drawZeroLine(context: CGContext) {
         guard
             let transformer = self.transformer,
             let zeroLineColor = axis.zeroLineColor
-            else { return }
-        
+        else { return }
+
         context.saveGState()
         defer { context.restoreGState() }
-        
+
         var clippingRect = viewPortHandler.contentRect
         clippingRect.origin.y -= axis.zeroLineWidth / 2.0
         clippingRect.size.height += axis.zeroLineWidth
@@ -223,71 +194,63 @@ open class YAxisRenderer: AxisRenderer
 
         context.setStrokeColor(zeroLineColor.cgColor)
         context.setLineWidth(axis.zeroLineWidth)
-        
+
         let pos = transformer.pixelForValues(x: 0.0, y: 0.0)
 
-        if axis.zeroLineDashLengths != nil
-        {
+        if axis.zeroLineDashLengths != nil {
             context.setLineDash(phase: axis.zeroLineDashPhase, lengths: axis.zeroLineDashLengths!)
-        }
-        else
-        {
+        } else {
             context.setLineDash(phase: 0.0, lengths: [])
         }
-        
+
         context.move(to: CGPoint(x: viewPortHandler.contentLeft, y: pos.y))
         context.addLine(to: CGPoint(x: viewPortHandler.contentRight, y: pos.y))
         context.drawPath(using: CGPathDrawingMode.stroke)
     }
-    
-    open func renderLimitLines(context: CGContext)
-    {
+
+    open func renderLimitLines(context: CGContext) {
         guard let transformer = self.transformer else { return }
-        
+
         let limitLines = axis.limitLines
-        
+
         guard !limitLines.isEmpty else { return }
 
         context.saveGState()
         defer { context.restoreGState() }
 
         let trans = transformer.valueToPixelMatrix
-        
+
         var position = CGPoint(x: 0.0, y: 0.0)
-        
-        for l in limitLines where l.isEnabled
-        {
+
+        for l in limitLines where l.isEnabled {
             context.saveGState()
             defer { context.restoreGState() }
-            
+
             var clippingRect = viewPortHandler.contentRect
             clippingRect.origin.y -= l.lineWidth / 2.0
             clippingRect.size.height += l.lineWidth
             context.clip(to: clippingRect)
-            
+
             position.x = 0.0
             position.y = CGFloat(l.limit)
             position = position.applying(trans)
-            
+
             context.beginPath()
             context.move(to: CGPoint(x: viewPortHandler.contentLeft, y: position.y))
             context.addLine(to: CGPoint(x: viewPortHandler.contentRight, y: position.y))
-            
+
             context.setStrokeColor(l.lineColor.cgColor)
             context.setLineWidth(l.lineWidth)
-            if l.lineDashLengths != nil
-            {
+            if l.lineDashLengths != nil {
                 context.setLineDash(phase: l.lineDashPhase, lengths: l.lineDashLengths!)
-            }
-            else
-            {
+            } else {
                 context.setLineDash(phase: 0.0, lengths: [])
             }
-            
+
             context.strokePath()
-            
+
             let label = l.label
-            
+
             // if drawing the limit-value label is enabled
             guard l.drawLabelEnabled, !label.isEmpty else { continue }
 
@@ -299,8 +262,7 @@ open class YAxisRenderer: AxisRenderer
             let align: TextAlignment
             let point: CGPoint
 
-            switch l.labelPosition
-            {
+            switch l.labelPosition {
             case .rightTop:
                 align = .right
                 point = CGPoint(x: viewPortHandler.contentRight - xOffset,
@@ -329,13 +291,12 @@ open class YAxisRenderer: AxisRenderer
         }
     }
 
-    open func computeAxis(min: Double, max: Double, inverted: Bool)
-    {
+    open func computeAxis(min: Double, max: Double, inverted: Bool) {
         var min = min, max = max
 
         if let transformer = self.transformer,
-            viewPortHandler.contentWidth > 10.0,
-            !viewPortHandler.isFullyZoomedOutY
+           viewPortHandler.contentWidth > 10.0,
+           !viewPortHandler.isFullyZoomedOutY
         {
             // calculate the starting and entry point of the y-labels (depending on zoom / contentrect bounds)
             let p1 = transformer.valueForTouchPoint(CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentTop))
@@ -348,8 +309,7 @@ open class YAxisRenderer: AxisRenderer
         computeAxisValues(min: min, max: max)
     }
 
-    open func computeAxisValues(min: Double, max: Double)
-    {
+    open func computeAxisValues(min: Double, max: Double) {
         let yMin = min
         let yMax = max
 
@@ -360,8 +320,7 @@ open class YAxisRenderer: AxisRenderer
             labelCount != 0,
             range > 0,
             range.isFinite
-            else
-        {
+        else {
             axis.entries = []
             axis.centeredEntries = []
             return
@@ -373,16 +332,14 @@ open class YAxisRenderer: AxisRenderer
 
         // If granularity is enabled, then do not allow the interval to go below specified granularity.
         // This is used to avoid repeated values when rounding values for display.
-        if axis.granularityEnabled
-        {
+        if axis.granularityEnabled {
             interval = Swift.max(interval, axis.granularity)
         }
 
         // Normalize interval
         let intervalMagnitude = pow(10.0, Double(Int(log10(interval)))).roundedToNextSignificant()
         let intervalSigDigit = Int(interval / intervalMagnitude)
-        if intervalSigDigit > 5
-        {
+        if intervalSigDigit > 5 {
             // Use one order of magnitude higher, to avoid intervals like 0.9 or 90
             interval = floor(10.0 * Double(intervalMagnitude))
         }
@@ -390,8 +347,7 @@ open class YAxisRenderer: AxisRenderer
         var n = axis.centerAxisLabelsEnabled ? 1 : 0
 
         // force label count
-        if axis.isForceLabelsEnabled
-        {
+        if axis.isForceLabelsEnabled {
             interval = Double(range) / Double(labelCount - 1)
 
             // Ensure stops contains at least n elements.
@@ -402,22 +358,18 @@ open class YAxisRenderer: AxisRenderer
             axis.entries.append(contentsOf: values)
 
             n = labelCount
-        }
-        else
-        {
+        } else {
             // no forced count
 
             var first = interval == 0.0 ? 0.0 : ceil(yMin / interval) * interval
 
-            if axis.centerAxisLabelsEnabled
-            {
+            if axis.centerAxisLabelsEnabled {
                 first -= interval
             }
 
             let last = interval == 0.0 ? 0.0 : (floor(yMax / interval) * interval).nextUp
 
-            if interval != 0.0, last != first
-            {
+            if interval != 0.0, last != first {
                 stride(from: first, through: last, by: interval).forEach { _ in n += 1 }
             }
 
@@ -431,17 +383,13 @@ open class YAxisRenderer: AxisRenderer
         }
 
         // set decimals
-        if interval < 1
-        {
+        if interval < 1 {
             axis.decimals = Int(ceil(-log10(interval)))
-        }
-        else
-        {
+        } else {
             axis.decimals = 0
         }
 
-        if axis.centerAxisLabelsEnabled
-        {
+        if axis.centerAxisLabelsEnabled {
             axis.centeredEntries.reserveCapacity(n)
             axis.centeredEntries.removeAll()
 

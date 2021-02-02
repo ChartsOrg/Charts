@@ -12,40 +12,39 @@
 import Charts
 
 class MultipleLinesChartViewController: DemoBaseViewController {
-
     @IBOutlet var chartView: LineChartView!
     @IBOutlet var sliderX: UISlider!
     @IBOutlet var sliderY: UISlider!
     @IBOutlet var sliderTextX: UITextField!
     @IBOutlet var sliderTextY: UITextField!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         // Do any additional setup after loading the view.
-        self.title = "Multiple Lines Chart"
-        self.options = [.toggleValues,
-                        .toggleFilled,
-                        .toggleCircles,
-                        .toggleCubic,
-                        .toggleStepped,
-                        .toggleHighlight,
-                        .animateX,
-                        .animateY,
-                        .animateXY,
-                        .saveToGallery,
-                        .togglePinchZoom,
-                        .toggleAutoScaleMinMax,
-                        .toggleData]
+        title = "Multiple Lines Chart"
+        options = [.toggleValues,
+                   .toggleFilled,
+                   .toggleCircles,
+                   .toggleCubic,
+                   .toggleStepped,
+                   .toggleHighlight,
+                   .animateX,
+                   .animateY,
+                   .animateXY,
+                   .saveToGallery,
+                   .togglePinchZoom,
+                   .toggleAutoScaleMinMax,
+                   .toggleData]
 
         chartView.delegate = self
-        
+
         chartView.chartDescription.enabled = false
 
         chartView.leftAxis.enabled = false
         chartView.rightAxis.drawAxisLineEnabled = false
         chartView.xAxis.drawAxisLineEnabled = false
-        
+
         chartView.drawBordersEnabled = false
         chartView.setScaleEnabled(true)
 
@@ -60,26 +59,26 @@ class MultipleLinesChartViewController: DemoBaseViewController {
         sliderY.value = 100
         slidersValueChanged(nil)
     }
-    
+
     override func updateChartData() {
-        if self.shouldHideData {
+        if shouldHideData {
             chartView.data = nil
             return
         }
-        
-        self.setDataCount(Int(sliderX.value), range: UInt32(sliderY.value))
+
+        setDataCount(Int(sliderX.value), range: UInt32(sliderY.value))
     }
-    
+
     // TODO: Refine data creation
     func setDataCount(_ count: Int, range: UInt32) {
-        let colors = ChartColorTemplates.vordiplom[0...2]
-        
+        let colors = ChartColorTemplates.vordiplom[0 ... 2]
+
         let block: (Int) -> ChartDataEntry = { (i) -> ChartDataEntry in
             let val = Double(arc4random_uniform(range) + 3)
             return ChartDataEntry(x: Double(i), y: val)
         }
-        let dataSets = (0..<3).map { i -> LineChartDataSet in
-            let yVals = (0..<count).map(block)
+        let dataSets = (0 ..< 3).map { i -> LineChartDataSet in
+            let yVals = (0 ..< count).map(block)
             let set = LineChartDataSet(entries: yVals, label: "DataSet \(i)")
             set.lineWidth = 2.5
             set.circleRadius = 4
@@ -87,19 +86,19 @@ class MultipleLinesChartViewController: DemoBaseViewController {
             let color = colors[i % colors.count]
             set.setColor(color)
             set.setCircleColor(color)
-            
+
             return set
         }
-        
+
         dataSets[0].lineDashLengths = [5, 5]
         dataSets[0].colors = ChartColorTemplates.vordiplom
         dataSets[0].circleColors = ChartColorTemplates.vordiplom
-        
+
         let data = LineChartData(dataSets: dataSets)
         data.setValueFont(.systemFont(ofSize: 7, weight: .light))
         chartView.data = data
     }
-    
+
     override func optionTapped(_ option: Option) {
         guard let data = chartView.data else { return }
 
@@ -109,34 +108,34 @@ class MultipleLinesChartViewController: DemoBaseViewController {
                 set.drawFilledEnabled = !set.drawFilledEnabled
             }
             chartView.setNeedsDisplay()
-            
+
         case .toggleCircles:
             for case let set as LineChartDataSet in data {
                 set.drawCirclesEnabled = !set.drawCirclesEnabled
             }
             chartView.setNeedsDisplay()
-            
+
         case .toggleCubic:
             for case let set as LineChartDataSet in data {
                 set.mode = (set.mode == .cubicBezier) ? .linear : .cubicBezier
             }
             chartView.setNeedsDisplay()
-            
+
         case .toggleStepped:
             for case let set as LineChartDataSet in data {
                 set.mode = (set.mode == .stepped) ? .linear : .stepped
             }
             chartView.setNeedsDisplay()
-            
+
         default:
             super.handleOption(option, forChartView: chartView)
         }
     }
 
-    @IBAction func slidersValueChanged(_ sender: Any?) {
+    @IBAction func slidersValueChanged(_: Any?) {
         sliderTextX.text = "\(Int(sliderX.value))"
         sliderTextY.text = "\(Int(sliderY.value))"
-        
-        self.updateChartData()
+
+        updateChartData()
     }
 }

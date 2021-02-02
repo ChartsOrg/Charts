@@ -9,11 +9,10 @@
 //  https://github.com/danielgindi/Charts
 //
 
-import Foundation
 import CoreGraphics
+import Foundation
 
-open class RadarChartRenderer: LineRadarRenderer
-{
+open class RadarChartRenderer: LineRadarRenderer {
     private lazy var accessibilityXLabels: [String] = {
         guard let chart = chart else { return [] }
         guard let formatter = chart.xAxis.valueFormatter else { return [] }
@@ -26,38 +25,35 @@ open class RadarChartRenderer: LineRadarRenderer
 
     open weak var chart: RadarChartView?
 
-    public init(chart: RadarChartView, animator: Animator, viewPortHandler: ViewPortHandler)
-    {
+    public init(chart: RadarChartView, animator: Animator, viewPortHandler: ViewPortHandler) {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
-        
+
         self.chart = chart
     }
-    
-    open override func drawData(context: CGContext)
-    {
+
+    override open func drawData(context: CGContext) {
         guard let chart = chart,
-              let radarData = chart.data as? RadarChartData else
-        {
+              let radarData = chart.data as? RadarChartData
+        else {
             return
         }
-        
+
         let mostEntries = radarData.maxEntryCountSet?.entryCount ?? 0
 
         // If we redraw the data, remove and repopulate accessible elements to update label values and frames
-        self.accessibleChartElements.removeAll()
+        accessibleChartElements.removeAll()
 
         // Make the chart header the first element in the accessible elements array
         let element = createAccessibleHeader(usingChart: chart,
                                              andData: radarData,
                                              withDefaultDescription: "Radar Chart")
-        self.accessibleChartElements.append(element)
+        accessibleChartElements.append(element)
 
-        for case let set as RadarChartDataSetProtocol in radarData where set.isVisible
-        {
+        for case let set as RadarChartDataSetProtocol in radarData where set.isVisible {
             drawDataSet(context: context, dataSet: set, mostEntries: mostEntries)
         }
     }
-    
+
     /// Draws the RadarDataSet
     ///
     /// - Parameters:
@@ -67,17 +63,17 @@ open class RadarChartRenderer: LineRadarRenderer
     internal func drawDataSet(context: CGContext, dataSet: RadarChartDataSetProtocol, mostEntries: Int)
     {
         guard let chart = chart else { return }
-        
+
         context.saveGState()
-        
+
         let phaseX = animator.phaseX
         let phaseY = animator.phaseY
-        
+
         let sliceangle = chart.sliceAngle
-        
+
         // calculate the factor that is needed for transforming the value to pixels
         let factor = chart.factor
-        
+
         let center = chart.centerOffsets
         let entryCount = dataSet.entryCount
         let path = CGMutablePath()
@@ -89,32 +85,27 @@ open class RadarChartRenderer: LineRadarRenderer
         // Make a tuple of (xLabels, value, originalIndex) then sort it
         // This is done, so that the labels are narrated in decreasing order of their corresponding value
         // Otherwise, there is no non-visual logic to the data presented
-        let accessibilityEntryValues =  Array(0 ..< entryCount).map { (dataSet.entryForIndex($0)?.y ?? 0, $0) }
+        let accessibilityEntryValues = Array(0 ..< entryCount).map { (dataSet.entryForIndex($0)?.y ?? 0, $0) }
         let accessibilityAxisLabelValueTuples = zip(accessibilityXLabels, accessibilityEntryValues).map { ($0, $1.0, $1.1) }.sorted { $0.1 > $1.1 }
         let accessibilityDataSetDescription: String = description + ". \(entryCount) \(prefix + (entryCount == 1 ? "" : "s")). "
         let accessibilityFrameWidth: CGFloat = 22.0 // To allow a tap target of 44x44
 
         var accessibilityEntryElements: [NSUIAccessibilityElement] = []
 
-        for j in 0 ..< entryCount
-        {
+        for j in 0 ..< entryCount {
             guard let e = dataSet.entryForIndex(j) else { continue }
-            
+
             let p = center.moving(distance: CGFloat((e.y - chart.chartYMin) * Double(factor) * phaseY),
                                   atAngle: sliceangle * CGFloat(j) * CGFloat(phaseX) + chart.rotationAngle)
-            
-            if p.x.isNaN
-            {
+
+            if p.x.isNaN {
                 continue
             }
-            
-            if !hasMovedToPoint
-            {
+
+            if !hasMovedToPoint {
                 path.move(to: p)
                 hasMovedToPoint = true
-            }
-            else
-            {
+            } else {
                 path.addLine(to: p)
             }
 
@@ -128,8 +119,7 @@ open class RadarChartRenderer: LineRadarRenderer
             let axDescription = description + " - " + accessibilityLabel + ": \(accessibilityValue) \(chart.data?.accessibilityEntryLabelSuffix ?? "")"
             let axElement = createAccessibleElement(withDescription: axDescription,
                                                     container: chart,
-                                                    dataSet: dataSet)
-            { (element) in
+                                                    dataSet: dataSet) { element in
                 element.accessibilityFrame = CGRect(x: axp.x - accessibilityFrameWidth,
                                                     y: axp.y - accessibilityFrameWidth,
                                                     width: 2 * accessibilityFrameWidth,
@@ -138,32 +128,26 @@ open class RadarChartRenderer: LineRadarRenderer
 
             accessibilityEntryElements.append(axElement)
         }
-        
+
         // if this is the largest set, close it
-        if dataSet.entryCount < mostEntries
-        {
+        if dataSet.entryCount < mostEntries {
             // if this is not the largest set, draw a line to the center before closing
             path.addLine(to: center)
         }
-        
+
         path.closeSubpath()
-        
+
         // draw filled
-        if dataSet.isDrawFilledEnabled
-        {
-            if dataSet.fill != nil
-            {
+        if dataSet.isDrawFilledEnabled {
+            if dataSet.fill != nil {
                 drawFilledPath(context: context, path: path, fill: dataSet.fill!, fillAlpha: dataSet.fillAlpha)
-            }
-            else
-            {
+            } else {
                 drawFilledPath(context: context, path: path, fillColor: dataSet.fillColor, fillAlpha: dataSet.fillAlpha)
             }
         }
-        
+
         // draw the line (only if filled is disabled or alpha is below 255)
-        if !dataSet.isDrawFilledEnabled || dataSet.fillAlpha < 1.0
-        {
+        if !dataSet.isDrawFilledEnabled || dataSet.fillAlpha < 1.0 {
             context.setStrokeColor(dataSet.color(atIndex: 0).cgColor)
             context.setLineWidth(dataSet.lineWidth)
             context.setAlpha(1.0)
@@ -174,8 +158,7 @@ open class RadarChartRenderer: LineRadarRenderer
 
             let axElement = createAccessibleElement(withDescription: accessibilityDataSetDescription,
                                                     container: chart,
-                                                    dataSet: dataSet)
-            { (element) in
+                                                    dataSet: dataSet) { element in
                 element.isHeader = true
                 element.accessibilityFrame = path.boundingBoxOfPath
             }
@@ -183,57 +166,53 @@ open class RadarChartRenderer: LineRadarRenderer
             accessibleChartElements.append(axElement)
             accessibleChartElements.append(contentsOf: accessibilityEntryElements)
         }
-        
+
         accessibilityPostLayoutChangedNotification()
 
         context.restoreGState()
     }
-    
-    open override func drawValues(context: CGContext)
-    {
+
+    override open func drawValues(context: CGContext) {
         guard
             let chart = chart,
             let data = chart.data
-            else { return }
-        
+        else { return }
+
         let phaseX = animator.phaseX
         let phaseY = animator.phaseY
-        
+
         let sliceangle = chart.sliceAngle
-        
+
         // calculate the factor that is needed for transforming the value to pixels
         let factor = chart.factor
-        
+
         let center = chart.centerOffsets
-        
+
         let yoffset = CGFloat(5.0)
-        
-        for i in data.indices
-        {
+
+        for i in data.indices {
             guard let
                 dataSet = data[i] as? RadarChartDataSetProtocol,
                 shouldDrawValues(forDataSet: dataSet)
-                else { continue }
-            
+            else { continue }
+
             let angleRadians = dataSet.valueLabelAngle.DEG2RAD
-            
+
             let entryCount = dataSet.entryCount
-            
+
             let iconsOffset = dataSet.iconsOffset
-            
-            for j in 0 ..< entryCount
-            {
+
+            for j in 0 ..< entryCount {
                 guard let e = dataSet.entryForIndex(j) else { continue }
-                
+
                 let p = center.moving(distance: CGFloat(e.y - chart.chartYMin) * factor * CGFloat(phaseY),
                                       atAngle: sliceangle * CGFloat(j) * CGFloat(phaseX) + chart.rotationAngle)
-                
+
                 let valueFont = dataSet.valueFont
-                
+
                 let formatter = dataSet.valueFormatter
-                
-                if dataSet.isDrawValuesEnabled
-                {
+
+                if dataSet.isDrawValuesEnabled {
                     context.drawText(formatter.stringForValue(e.y,
                                                               entry: e,
                                                               dataSetIndex: i,
@@ -244,13 +223,12 @@ open class RadarChartRenderer: LineRadarRenderer
                                      attributes: [.font: valueFont,
                                                   .foregroundColor: dataSet.valueTextColorAt(j)])
                 }
-                
-                if let icon = e.icon, dataSet.isDrawIconsEnabled
-                {
+
+                if let icon = e.icon, dataSet.isDrawIconsEnabled {
                     var pIcon = center.moving(distance: CGFloat(e.y) * factor * CGFloat(phaseY) + iconsOffset.y,
                                               atAngle: sliceangle * CGFloat(j) * CGFloat(phaseX) + chart.rotationAngle)
                     pIcon.y += iconsOffset.x
-                    
+
                     context.drawImage(icon,
                                       atCenter: CGPoint(x: pIcon.x, y: pIcon.y),
                                       size: icon.size)
@@ -258,150 +236,135 @@ open class RadarChartRenderer: LineRadarRenderer
             }
         }
     }
-    
-    open override func drawExtras(context: CGContext)
-    {
+
+    override open func drawExtras(context: CGContext) {
         drawWeb(context: context)
     }
-    
+
     private var _webLineSegmentsBuffer = [CGPoint](repeating: CGPoint(), count: 2)
-    
-    open func drawWeb(context: CGContext)
-    {
+
+    open func drawWeb(context: CGContext) {
         guard
             let chart = chart,
             let data = chart.data
-            else { return }
-        
+        else { return }
+
         let sliceangle = chart.sliceAngle
-        
+
         context.saveGState()
-        
+
         // calculate the factor that is needed for transforming the value to
         // pixels
         let factor = chart.factor
         let rotationangle = chart.rotationAngle
-        
+
         let center = chart.centerOffsets
-        
+
         // draw the web lines that come from the center
         context.setLineWidth(chart.webLineWidth)
         context.setStrokeColor(chart.webColor.cgColor)
         context.setAlpha(chart.webAlpha)
-        
+
         let xIncrements = 1 + chart.skipWebLineCount
         let maxEntryCount = chart.data?.maxEntryCountSet?.entryCount ?? 0
 
-        for i in stride(from: 0, to: maxEntryCount, by: xIncrements)
-        {
+        for i in stride(from: 0, to: maxEntryCount, by: xIncrements) {
             let p = center.moving(distance: CGFloat(chart.yRange) * factor,
                                   atAngle: sliceangle * CGFloat(i) + rotationangle)
-            
+
             _webLineSegmentsBuffer[0].x = center.x
             _webLineSegmentsBuffer[0].y = center.y
             _webLineSegmentsBuffer[1].x = p.x
             _webLineSegmentsBuffer[1].y = p.y
-            
+
             context.strokeLineSegments(between: _webLineSegmentsBuffer)
         }
-        
+
         // draw the inner-web
         context.setLineWidth(chart.innerWebLineWidth)
         context.setStrokeColor(chart.innerWebColor.cgColor)
         context.setAlpha(chart.webAlpha)
-        
+
         let labelCount = chart.yAxis.entryCount
-        
-        for j in 0 ..< labelCount
-        {
-            for i in 0 ..< data.entryCount
-            {
+
+        for j in 0 ..< labelCount {
+            for i in 0 ..< data.entryCount {
                 let r = CGFloat(chart.yAxis.entries[j] - chart.chartYMin) * factor
 
                 let p1 = center.moving(distance: r, atAngle: sliceangle * CGFloat(i) + rotationangle)
                 let p2 = center.moving(distance: r, atAngle: sliceangle * CGFloat(i + 1) + rotationangle)
-                
+
                 _webLineSegmentsBuffer[0].x = p1.x
                 _webLineSegmentsBuffer[0].y = p1.y
                 _webLineSegmentsBuffer[1].x = p2.x
                 _webLineSegmentsBuffer[1].y = p2.y
-                
+
                 context.strokeLineSegments(between: _webLineSegmentsBuffer)
             }
         }
-        
+
         context.restoreGState()
     }
-    
+
     private var _highlightPointBuffer = CGPoint()
 
-    open override func drawHighlighted(context: CGContext, indices: [Highlight])
-    {
+    override open func drawHighlighted(context: CGContext, indices: [Highlight]) {
         guard
             let chart = chart,
             let radarData = chart.data as? RadarChartData
-            else { return }
-        
+        else { return }
+
         context.saveGState()
-        
+
         let sliceangle = chart.sliceAngle
-        
+
         // calculate the factor that is needed for transforming the value pixels
         let factor = chart.factor
-        
+
         let center = chart.centerOffsets
-        
-        for high in indices
-        {
+
+        for high in indices {
             guard
                 let set = chart.data?[high.dataSetIndex] as? RadarChartDataSetProtocol,
                 set.isHighlightEnabled
-                else { continue }
-            
+            else { continue }
+
             guard let e = set.entryForIndex(Int(high.x)) as? RadarChartDataEntry
-                else { continue }
-            
-            if !isInBoundsX(entry: e, dataSet: set)
-            {
+            else { continue }
+
+            if !isInBoundsX(entry: e, dataSet: set) {
                 continue
             }
-            
+
             context.setLineWidth(radarData.highlightLineWidth)
-            if radarData.highlightLineDashLengths != nil
-            {
+            if radarData.highlightLineDashLengths != nil {
                 context.setLineDash(phase: radarData.highlightLineDashPhase, lengths: radarData.highlightLineDashLengths!)
-            }
-            else
-            {
+            } else {
                 context.setLineDash(phase: 0.0, lengths: [])
             }
-            
+
             context.setStrokeColor(set.highlightColor.cgColor)
-            
+
             let y = e.y - chart.chartYMin
-            
+
             _highlightPointBuffer = center.moving(distance: CGFloat(y) * factor * CGFloat(animator.phaseY),
                                                   atAngle: sliceangle * CGFloat(high.x) * CGFloat(animator.phaseX) + chart.rotationAngle)
-            
+
             high.setDraw(pt: _highlightPointBuffer)
-            
+
             // draw the lines
             drawHighlightLines(context: context, point: _highlightPointBuffer, set: set)
-            
-            if set.isDrawHighlightCircleEnabled
-            {
-                if !_highlightPointBuffer.x.isNaN && !_highlightPointBuffer.y.isNaN
-                {
+
+            if set.isDrawHighlightCircleEnabled {
+                if !_highlightPointBuffer.x.isNaN, !_highlightPointBuffer.y.isNaN {
                     var strokeColor = set.highlightCircleStrokeColor
-                    if strokeColor == nil
-                    {
+                    if strokeColor == nil {
                         strokeColor = set.color(atIndex: 0)
                     }
-                    if set.highlightCircleStrokeAlpha < 1.0
-                    {
+                    if set.highlightCircleStrokeAlpha < 1.0 {
                         strokeColor = strokeColor?.withAlphaComponent(set.highlightCircleStrokeAlpha)
                     }
-                    
+
                     drawHighlightCircle(
                         context: context,
                         atPoint: _highlightPointBuffer,
@@ -409,14 +372,15 @@ open class RadarChartRenderer: LineRadarRenderer
                         outerRadius: set.highlightCircleOuterRadius,
                         fillColor: set.highlightCircleFillColor,
                         strokeColor: strokeColor,
-                        strokeWidth: set.highlightCircleStrokeWidth)
+                        strokeWidth: set.highlightCircleStrokeWidth
+                    )
                 }
             }
         }
-        
+
         context.restoreGState()
     }
-    
+
     internal func drawHighlightCircle(
         context: CGContext,
         atPoint point: CGPoint,
@@ -424,40 +388,37 @@ open class RadarChartRenderer: LineRadarRenderer
         outerRadius: CGFloat,
         fillColor: NSUIColor?,
         strokeColor: NSUIColor?,
-        strokeWidth: CGFloat)
-    {
+        strokeWidth: CGFloat
+    ) {
         context.saveGState()
-        
-        if let fillColor = fillColor
-        {
+
+        if let fillColor = fillColor {
             context.beginPath()
             context.addEllipse(in: CGRect(x: point.x - outerRadius, y: point.y - outerRadius, width: outerRadius * 2.0, height: outerRadius * 2.0))
-            if innerRadius > 0.0
-            {
+            if innerRadius > 0.0 {
                 context.addEllipse(in: CGRect(x: point.x - innerRadius, y: point.y - innerRadius, width: innerRadius * 2.0, height: innerRadius * 2.0))
             }
-            
+
             context.setFillColor(fillColor.cgColor)
             context.fillPath(using: .evenOdd)
         }
-            
-        if let strokeColor = strokeColor
-        {
+
+        if let strokeColor = strokeColor {
             context.beginPath()
             context.addEllipse(in: CGRect(x: point.x - outerRadius, y: point.y - outerRadius, width: outerRadius * 2.0, height: outerRadius * 2.0))
             context.setStrokeColor(strokeColor.cgColor)
             context.setLineWidth(strokeWidth)
             context.strokePath()
         }
-        
+
         context.restoreGState()
     }
 
     private func createAccessibleElement(withDescription description: String,
                                          container: RadarChartView,
-                                         dataSet: RadarChartDataSetProtocol,
-                                         modifier: (NSUIAccessibilityElement) -> ()) -> NSUIAccessibilityElement {
-
+                                         dataSet _: RadarChartDataSetProtocol,
+                                         modifier: (NSUIAccessibilityElement) -> Void) -> NSUIAccessibilityElement
+    {
         let element = NSUIAccessibilityElement(accessibilityContainer: container)
         element.accessibilityLabel = description
 

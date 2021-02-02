@@ -6,11 +6,10 @@
 //  Copyright © 2017 jc. All rights reserved.
 //
 
-import UIKit
 import Charts
+import UIKit
 
 class LineChart1ViewController: DemoBaseViewController {
-
     @IBOutlet var chartView: LineChartView!
     @IBOutlet var sliderX: UISlider!
     @IBOutlet var sliderY: UISlider!
@@ -21,23 +20,23 @@ class LineChart1ViewController: DemoBaseViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        self.title = "Line Chart 1"
-        self.options = [.toggleValues,
-                        .toggleFilled,
-                        .toggleCircles,
-                        .toggleCubic,
-                        .toggleHorizontalCubic,
-                        .toggleIcons,
-                        .toggleStepped,
-                        .toggleHighlight,
-                        .toggleGradientLine,
-                        .animateX,
-                        .animateY,
-                        .animateXY,
-                        .saveToGallery,
-                        .togglePinchZoom,
-                        .toggleAutoScaleMinMax,
-                        .toggleData]
+        title = "Line Chart 1"
+        options = [.toggleValues,
+                   .toggleFilled,
+                   .toggleCircles,
+                   .toggleCubic,
+                   .toggleHorizontalCubic,
+                   .toggleIcons,
+                   .toggleStepped,
+                   .toggleHighlight,
+                   .toggleGradientLine,
+                   .animateX,
+                   .animateY,
+                   .animateXY,
+                   .saveToGallery,
+                   .togglePinchZoom,
+                   .toggleAutoScaleMinMax,
+                   .toggleData]
 
         chartView.delegate = self
 
@@ -64,7 +63,7 @@ class LineChart1ViewController: DemoBaseViewController {
 
         let ll2 = ChartLimitLine(limit: -30, label: "Lower Limit")
         ll2.lineWidth = 4
-        ll2.lineDashLengths = [5,5]
+        ll2.lineDashLengths = [5, 5]
         ll2.labelPosition = .rightBottom
         ll2.valueFont = .systemFont(ofSize: 10)
 
@@ -79,10 +78,10 @@ class LineChart1ViewController: DemoBaseViewController {
 
         chartView.rightAxis.enabled = false
 
-        //[_chartView.viewPortHandler setMaximumScaleY: 2.f];
-        //[_chartView.viewPortHandler setMaximumScaleX: 2.f];
+        // [_chartView.viewPortHandler setMaximumScaleY: 2.f];
+        // [_chartView.viewPortHandler setMaximumScaleX: 2.f];
 
-        let marker = BalloonMarker(color: UIColor(white: 180/255, alpha: 1),
+        let marker = BalloonMarker(color: UIColor(white: 180 / 255, alpha: 1),
                                    font: .systemFont(ofSize: 12),
                                    textColor: .white,
                                    insets: UIEdgeInsets(top: 8, left: 8, bottom: 20, right: 8))
@@ -100,16 +99,16 @@ class LineChart1ViewController: DemoBaseViewController {
     }
 
     override func updateChartData() {
-        if self.shouldHideData {
+        if shouldHideData {
             chartView.data = nil
             return
         }
 
-        self.setDataCount(Int(sliderX.value), range: UInt32(sliderY.value))
+        setDataCount(Int(sliderX.value), range: UInt32(sliderY.value))
     }
 
     func setDataCount(_ count: Int, range: UInt32) {
-        let values = (0..<count).map { (i) -> ChartDataEntry in
+        let values = (0 ..< count).map { (i) -> ChartDataEntry in
             let val = Double(arc4random_uniform(range) + 3)
             return ChartDataEntry(x: Double(i), y: val, icon: #imageLiteral(resourceName: "icon"))
         }
@@ -121,9 +120,9 @@ class LineChart1ViewController: DemoBaseViewController {
         let value = ChartDataEntry(x: Double(3), y: 3)
         set1.addEntryOrdered(value)
         let gradientColors = [
-             UIColor(red: 1, green: 0, blue: 0, alpha: 0),
-             UIColor(red: 1, green: 0, blue: 0, alpha: 1)
-         ]
+            UIColor(red: 1, green: 0, blue: 0, alpha: 0),
+            UIColor(red: 1, green: 0, blue: 0, alpha: 1),
+        ]
         let gradient = CGGradient(colorsSpace: nil, colors: gradientColors as CFArray, locations: nil)!
 
         set1.fillAlpha = 1
@@ -209,10 +208,10 @@ class LineChart1ViewController: DemoBaseViewController {
         }
     }
 
-    @IBAction func slidersValueChanged(_ sender: Any?) {
+    @IBAction func slidersValueChanged(_: Any?) {
         sliderTextX.text = "\(Int(sliderX.value))"
         sliderTextY.text = "\(Int(sliderY.value))"
 
-        self.updateChartData()
+        updateChartData()
     }
 }

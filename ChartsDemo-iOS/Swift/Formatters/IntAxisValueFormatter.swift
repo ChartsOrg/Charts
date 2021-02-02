@@ -6,11 +6,11 @@
 //  Copyright © 2017 jc. All rights reserved.
 //
 
-import Foundation
 import Charts
+import Foundation
 
 public class IntAxisValueFormatter: NSObject, AxisValueFormatter {
-    public func stringForValue(_ value: Double, axis: AxisBase?) -> String {
+    public func stringForValue(_ value: Double, axis _: AxisBase?) -> String {
         return "\(Int(value))"
     }
 }

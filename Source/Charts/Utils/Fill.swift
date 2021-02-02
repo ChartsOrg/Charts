@@ -9,37 +9,30 @@
 //  https://github.com/danielgindi/Charts
 //
 
-import Foundation
 import CoreGraphics
+import Foundation
 
-public protocol Fill
-{
+public protocol Fill {
     /// Draws the provided path in filled mode with the provided area
     func fillPath(context: CGContext, rect: CGRect)
 }
 
-public struct EmptyFill: Fill
-{
-    public func fillPath(context: CGContext, rect: CGRect) { }
+public struct EmptyFill: Fill {
+    public func fillPath(context _: CGContext, rect _: CGRect) {}
 }
 
-public struct ColorFill: Fill
-{
-
+public struct ColorFill: Fill {
     public let color: CGColor
 
-    public init(cgColor: CGColor)
-    {
-        self.color = cgColor
+    public init(cgColor: CGColor) {
+        color = cgColor
     }
 
-    public init(color: NSUIColor)
-    {
+    public init(color: NSUIColor) {
         self.init(cgColor: color.cgColor)
     }
 
-    public func fillPath(context: CGContext, rect: CGRect)
-    {
+    public func fillPath(context: CGContext, rect _: CGRect) {
         context.saveGState()
         defer { context.restoreGState() }
 
@@ -48,24 +41,20 @@ public struct ColorFill: Fill
     }
 }
 
-public struct ImageFill: Fill
-{
+public struct ImageFill: Fill {
     public let image: CGImage
     public let isTiled: Bool
 
-    public init(cgImage: CGImage, isTiled: Bool = false)
-    {
+    public init(cgImage: CGImage, isTiled: Bool = false) {
         image = cgImage
         self.isTiled = isTiled
     }
 
-    public init(image: NSUIImage, isTiled: Bool = false)
-    {
+    public init(image: NSUIImage, isTiled: Bool = false) {
         self.init(cgImage: image.cgImage!, isTiled: isTiled)
     }
 
-    public func fillPath(context: CGContext, rect: CGRect)
-    {
+    public func fillPath(context: CGContext, rect: CGRect) {
         context.saveGState()
         defer { context.restoreGState() }
 
@@ -74,17 +63,14 @@ public struct ImageFill: Fill
     }
 }
 
-public struct LayerFill: Fill
-{
+public struct LayerFill: Fill {
     public let layer: CGLayer
 
-    public init(layer: CGLayer)
-    {
+    public init(layer: CGLayer) {
         self.layer = layer
     }
 
-    public func fillPath(context: CGContext, rect: CGRect)
-    {
+    public func fillPath(context: CGContext, rect: CGRect) {
         context.saveGState()
         defer { context.restoreGState() }
 
@@ -93,20 +79,16 @@ public struct LayerFill: Fill
     }
 }
 
-public struct LinearGradientFill: Fill
-{
-
+public struct LinearGradientFill: Fill {
     public let gradient: CGGradient
     public let angle: CGFloat
 
-    public init(gradient: CGGradient, angle: CGFloat = 0)
-    {
+    public init(gradient: CGGradient, angle: CGFloat = 0) {
         self.gradient = gradient
         self.angle = angle
     }
 
-    public func fillPath(context: CGContext, rect: CGRect)
-    {
+    public func fillPath(context: CGContext, rect: CGRect) {
         context.saveGState()
         defer { context.restoreGState() }
 
@@ -133,9 +115,7 @@ public struct LinearGradientFill: Fill
     }
 }
 
-public struct RadialGradientFill: Fill
-{
-
+public struct RadialGradientFill: Fill {
     public let gradient: CGGradient
     public let startOffsetPercent: CGPoint
     public let endOffsetPercent: CGPoint
@@ -147,8 +127,8 @@ public struct RadialGradientFill: Fill
         startOffsetPercent: CGPoint,
         endOffsetPercent: CGPoint,
         startRadiusPercent: CGFloat,
-        endRadiusPercent: CGFloat)
-    {
+        endRadiusPercent: CGFloat
+    ) {
         self.gradient = gradient
         self.startOffsetPercent = startOffsetPercent
         self.endOffsetPercent = endOffsetPercent
@@ -156,8 +136,7 @@ public struct RadialGradientFill: Fill
         self.endRadiusPercent = endRadiusPercent
     }
 
-    public init(gradient: CGGradient)
-    {
+    public init(gradient: CGGradient) {
         self.init(
             gradient: gradient,
             startOffsetPercent: .zero,
@@ -167,8 +146,7 @@ public struct RadialGradientFill: Fill
         )
     }
 
-    public func fillPath(context: CGContext, rect: CGRect)
-    {
+    public func fillPath(context: CGContext, rect: CGRect) {
         context.saveGState()
         defer { context.restoreGState() }
 

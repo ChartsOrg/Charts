@@ -10,16 +10,15 @@
 /*:
  ****
  [Menu](Menu)
- 
+
  [Previous](@previous) | [Next](@next)
   ****
  */
 
+import Charts
 //: # Horizontal Bar Chart
 import Cocoa
-import Charts
 import PlaygroundSupport
-
 
 let r = CGRect(x: 0, y: 0, width: 600, height: 600)
 var chartView = HorizontalBarChartView(frame: r)
@@ -47,13 +46,13 @@ leftAxis.drawGridLinesEnabled = true
 leftAxis.axisMinimum = 0.0
 leftAxis.enabled = true
 //: ### RightAxis
-let rightAxis                  = chartView.rightAxis
-rightAxis.labelFont            = NSUIFont.systemFont(ofSize: CGFloat(12.0))
-rightAxis.labelTextColor        = #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)
-rightAxis.drawAxisLineEnabled  = true
+let rightAxis = chartView.rightAxis
+rightAxis.labelFont = NSUIFont.systemFont(ofSize: CGFloat(12.0))
+rightAxis.labelTextColor = #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)
+rightAxis.drawAxisLineEnabled = true
 rightAxis.drawGridLinesEnabled = false
-rightAxis.axisMinimum          = 0.0
-rightAxis.enabled              = true
+rightAxis.axisMinimum = 0.0
+rightAxis.enabled = true
 //: ### Legend
 let legend = chartView.legend
 legend.horizontalAlignment = .left
@@ -74,21 +73,21 @@ let barWidth = 9.0
 let spaceForBar = 10.0
 
 var yVals = [BarChartDataEntry]()
-for i in 0..<count
-{
+for i in 0 ..< count {
     let mult = range + 1.0
     let val = Double(arc4random_uniform(UInt32(mult)))
     yVals.append(BarChartDataEntry(x: Double(i) * spaceForBar, y: val))
 }
+
 //: ### BarChartDataSet
 var set1 = BarChartDataSet()
 set1 = BarChartDataSet(values: yVals, label: "DataSet")
 set1.colors = ChartColorTemplates.vordiplom()
 
 //: ### BarChartData
-let data            = BarChartData(dataSets: [set1])
+let data = BarChartData(dataSets: [set1])
 data.setValueFont(NSUIFont(name: "HelveticaNeue-Light", size: CGFloat(10.0)))
-data.barWidth       = barWidth
+data.barWidth = barWidth
 chartView.data = data
 
 chartView.animate(xAxisDuration: 1.0, yAxisDuration: 1.0)

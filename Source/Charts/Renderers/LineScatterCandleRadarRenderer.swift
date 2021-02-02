@@ -9,16 +9,14 @@
 //  https://github.com/danielgindi/Charts
 //
 
-import Foundation
 import CoreGraphics
+import Foundation
 
-open class LineScatterCandleRadarRenderer: BarLineScatterCandleBubbleRenderer
-{
-    public override init(animator: Animator, viewPortHandler: ViewPortHandler)
-    {
+open class LineScatterCandleRadarRenderer: BarLineScatterCandleBubbleRenderer {
+    override public init(animator: Animator, viewPortHandler: ViewPortHandler) {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
     }
-    
+
     /// Draws vertical & horizontal highlight-lines if enabled.
     /// :param: context
     /// :param: points
@@ -26,19 +24,16 @@ open class LineScatterCandleRadarRenderer: BarLineScatterCandleBubbleRenderer
     /// :param: vertical
     open func drawHighlightLines(context: CGContext, point: CGPoint, set: LineScatterCandleRadarChartDataSetProtocol)
     {
-        
         // draw vertical highlight lines
-        if set.isVerticalHighlightIndicatorEnabled
-        {
+        if set.isVerticalHighlightIndicatorEnabled {
             context.beginPath()
             context.move(to: CGPoint(x: point.x, y: viewPortHandler.contentTop))
             context.addLine(to: CGPoint(x: point.x, y: viewPortHandler.contentBottom))
             context.strokePath()
         }
-        
+
         // draw horizontal highlight lines
-        if set.isHorizontalHighlightIndicatorEnabled
-        {
+        if set.isHorizontalHighlightIndicatorEnabled {
             context.beginPath()
             context.move(to: CGPoint(x: viewPortHandler.contentLeft, y: point.y))
             context.addLine(to: CGPoint(x: viewPortHandler.contentRight, y: point.y))

@@ -9,43 +9,38 @@
 //  https://github.com/danielgindi/Charts
 //
 
-import Foundation
 import CoreGraphics
+import Foundation
 
 /// Default formatter that calculates the position of the filled line.
-open class DefaultFillFormatter: FillFormatter
-{
+open class DefaultFillFormatter: FillFormatter {
     public typealias Block = (
         _ dataSet: LineChartDataSetProtocol,
-        _ dataProvider: LineChartDataProvider) -> CGFloat
-    
+        _ dataProvider: LineChartDataProvider
+    ) -> CGFloat
+
     open var block: Block?
-    
-    public init() { }
-    
-    public init(block: @escaping Block)
-    {
+
+    public init() {}
+
+    public init(block: @escaping Block) {
         self.block = block
     }
-    
-    public static func with(block: @escaping Block) -> DefaultFillFormatter?
-    {
+
+    public static func with(block: @escaping Block) -> DefaultFillFormatter? {
         return DefaultFillFormatter(block: block)
     }
-    
+
     open func getFillLinePosition(
         dataSet: LineChartDataSetProtocol,
-        dataProvider: LineChartDataProvider) -> CGFloat
-    {
+        dataProvider: LineChartDataProvider
+    ) -> CGFloat {
         guard block == nil else { return block!(dataSet, dataProvider) }
         var fillMin: CGFloat = 0.0
 
-        if dataSet.yMax > 0.0 && dataSet.yMin < 0.0
-        {
+        if dataSet.yMax > 0.0, dataSet.yMin < 0.0 {
             fillMin = 0.0
-        }
-        else if let data = dataProvider.data
-        {
+        } else if let data = dataProvider.data {
             let max = data.yMax > 0.0 ? 0.0 : dataProvider.chartYMax
             let min = data.yMin < 0.0 ? 0.0 : dataProvider.chartYMin
 

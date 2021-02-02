@@ -12,13 +12,11 @@
 import Foundation
 
 // TODO: Remove
-open class Range
-{
+open class Range {
     open var from: Double
     open var to: Double
-    
-    public init(from: Double, to: Double)
-    {
+
+    public init(from: Double, to: Double) {
         self.from = from
         self.to = to
     }
@@ -26,14 +24,10 @@ open class Range
     /// - Parameters:
     ///   - value:
     /// - Returns: `true` if this range contains (if the value is in between) the given value, `false` ifnot.
-    open func contains(_ value: Double) -> Bool
-    {
-        if value > from && value <= to
-        {
+    open func contains(_ value: Double) -> Bool {
+        if value > from, value <= to {
             return true
-        }
-        else
-        {
+        } else {
             return false
         }
     }

@@ -9,20 +9,18 @@
 //  https://github.com/danielgindi/Charts
 //
 
-import Foundation
 import CoreGraphics
+import Foundation
 
-open class HorizontalBarHighlighter: BarHighlighter
-{
-    open override func getHighlight(x: CGFloat, y: CGFloat) -> Highlight?
-    {
-        guard let barData = self.chart?.data as? BarChartData else { return nil }
+open class HorizontalBarHighlighter: BarHighlighter {
+    override open func getHighlight(x: CGFloat, y: CGFloat) -> Highlight? {
+        guard let barData = chart?.data as? BarChartData else { return nil }
 
         let pos = getValsForTouch(x: y, y: x)
         guard let high = getHighlight(xValue: Double(pos.y), x: y, y: x) else { return nil }
 
         if let set = barData[high.dataSetIndex] as? BarChartDataSetProtocol,
-            set.isStacked
+           set.isStacked
         {
             return getStackedHighlight(high: high,
                                        set: set,
@@ -32,15 +30,15 @@ open class HorizontalBarHighlighter: BarHighlighter
 
         return high
     }
-    
-    internal override func buildHighlights(
+
+    override internal func buildHighlights(
         dataSet set: ChartDataSetProtocol,
         dataSetIndex: Int,
         xValue: Double,
-        rounding: ChartDataSetRounding) -> [Highlight]
-    {
+        rounding: ChartDataSetRounding
+    ) -> [Highlight] {
         guard let chart = self.chart as? BarLineScatterCandleBubbleChartDataProvider else { return [] }
-        
+
         var entries = set.entriesForXValue(xValue)
         if entries.isEmpty, let closest = set.entryForXValue(xValue, closestToY: .nan, rounding: rounding)
         {
@@ -54,8 +52,8 @@ open class HorizontalBarHighlighter: BarHighlighter
             return Highlight(x: e.x, y: e.y, xPx: px.x, yPx: px.y, dataSetIndex: dataSetIndex, axis: set.axisDependency)
         }
     }
-    
-    internal override func getDistance(x1: CGFloat, y1: CGFloat, x2: CGFloat, y2: CGFloat) -> CGFloat
+
+    override internal func getDistance(x1 _: CGFloat, y1: CGFloat, x2 _: CGFloat, y2: CGFloat) -> CGFloat
     {
         return abs(y1 - y2)
     }

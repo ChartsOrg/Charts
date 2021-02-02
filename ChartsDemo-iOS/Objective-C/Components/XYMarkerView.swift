@@ -4,17 +4,16 @@
 //  Copyright © 2016 dcg. All rights reserved.
 //
 
-import Foundation
 import Charts
+import Foundation
 #if canImport(UIKit)
     import UIKit
 #endif
 
-open class XYMarkerView: BalloonMarker
-{
+open class XYMarkerView: BalloonMarker {
     open var xAxisValueFormatter: AxisValueFormatter?
     fileprivate var yFormatter = NumberFormatter()
-    
+
     public init(color: UIColor, font: UIFont, textColor: UIColor, insets: UIEdgeInsets,
                 xAxisValueFormatter: AxisValueFormatter)
     {
@@ -23,10 +22,8 @@ open class XYMarkerView: BalloonMarker
         yFormatter.minimumFractionDigits = 1
         yFormatter.maximumFractionDigits = 1
     }
-    
-    open override func refreshContent(entry: ChartDataEntry, highlight: Highlight)
-    {
+
+    override open func refreshContent(entry: ChartDataEntry, highlight _: Highlight) {
         setLabel("x: " + xAxisValueFormatter!.stringForValue(entry.x, axis: nil) + ", y: " + yFormatter.string(from: NSNumber(floatLiteral: entry.y))!)
     }
-    
 }

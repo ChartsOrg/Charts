@@ -9,25 +9,22 @@
 //  https://github.com/danielgindi/Charts
 //
 
-import Foundation
 import Charts
+import Foundation
 #if canImport(UIKit)
     import UIKit
 #endif
 
-open class RadarMarkerView: MarkerView
-{
+open class RadarMarkerView: MarkerView {
     @IBOutlet var label: UILabel?
-    
-    open override func awakeFromNib()
-    {
-        self.offset.x = -self.frame.size.width / 2.0
-        self.offset.y = -self.frame.size.height - 7.0
+
+    override open func awakeFromNib() {
+        offset.x = -frame.size.width / 2.0
+        offset.y = -frame.size.height - 7.0
     }
-    
-    open override func refreshContent(entry: ChartDataEntry, highlight: Highlight)
-    {
-        label?.text = String.init(format: "%d %%", Int(round(entry.y)))
+
+    override open func refreshContent(entry: ChartDataEntry, highlight _: Highlight) {
+        label?.text = String(format: "%d %%", Int(round(entry.y)))
         layoutIfNeeded()
     }
 }

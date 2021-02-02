@@ -9,32 +9,31 @@
 //  https://github.com/danielgindi/Charts
 //
 
-import Foundation
 import CoreGraphics
+import Foundation
 
 public enum DataApproximator {
     /// uses the douglas peuker algorithm to reduce the given arraylist of entries
     public static func reduceWithDouglasPeuker(_ points: [CGPoint], tolerance: CGFloat) -> [CGPoint]
     {
         // if a shape has 2 or less points it cannot be reduced
-        if tolerance <= 0 || points.count < 3
-        {
+        if tolerance <= 0 || points.count < 3 {
             return points
         }
-        
+
         var keep = [Bool](repeating: false, count: points.count)
-        
+
         // first and last always stay
         keep[points.startIndex] = true
         keep[points.endIndex - 1] = true
-        
+
         // first and last entry are entry point to recursion
         reduceWithDouglasPeuker(points: points,
                                 tolerance: tolerance,
                                 start: points.startIndex,
                                 end: points.endIndex - 1,
                                 keep: &keep)
-        
+
         // create a new array with series, only take the kept ones
         return zip(keep, points).compactMap { $0 ? nil : $1 }
     }
@@ -51,61 +50,55 @@ public enum DataApproximator {
         tolerance: CGFloat,
         start: Int,
         end: Int,
-        keep: inout [Bool])
-    {
-        if end <= start + 1
-        {
+        keep: inout [Bool]
+    ) {
+        if end <= start + 1 {
             // recursion finished
             return
         }
-        
+
         var greatestIndex = Int(0)
         var greatestDistance = CGFloat(0.0)
-        
+
         let line = Line(pt1: points[start], pt2: points[end])
-        
-        for i in start + 1 ..< end
-        {
+
+        for i in start + 1 ..< end {
             let distance = line.distance(toPoint: points[i])
-            
-            if distance > greatestDistance
-            {
+
+            if distance > greatestDistance {
                 greatestDistance = distance
                 greatestIndex = i
             }
         }
-        
-        if greatestDistance > tolerance
-        {
+
+        if greatestDistance > tolerance {
             // keep max dist point
             keep[greatestIndex] = true
-            
+
             // recursive call
             reduceWithDouglasPeuker(points: points, tolerance: tolerance, start: start, end: greatestIndex, keep: &keep)
             reduceWithDouglasPeuker(points: points, tolerance: tolerance, start: greatestIndex, end: end, keep: &keep)
         } // else don't keep the point...
     }
-    
+
     private struct Line {
         var sxey: CGFloat
         var exsy: CGFloat
-        
+
         var dx: CGFloat
         var dy: CGFloat
-        
+
         var length: CGFloat
-        
-        init(pt1: CGPoint, pt2: CGPoint)
-        {
+
+        init(pt1: CGPoint, pt2: CGPoint) {
             dx = pt1.x - pt2.x
             dy = pt1.y - pt2.y
             sxey = pt1.x * pt2.y
             exsy = pt2.x * pt1.y
             length = sqrt(dx * dx + dy * dy)
         }
-        
-        func distance(toPoint pt: CGPoint) -> CGFloat
-        {
+
+        func distance(toPoint pt: CGPoint) -> CGFloat {
             return abs(dy * pt.x - dx * pt.y + sxey - exsy) / length
         }
     }
