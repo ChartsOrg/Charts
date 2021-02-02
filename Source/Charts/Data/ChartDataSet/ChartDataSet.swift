@@ -237,9 +237,7 @@ open class ChartDataSet: ChartBaseDataSet {
     ///
     /// - Parameters:
     ///   - e: the entry to add
-    /// - Returns: True
-    // TODO: This should return `Void` to follow Swift convention
-    override open func addEntryOrdered(_ e: ChartDataEntry) -> Bool {
+    override open func addEntryOrdered(_ e: ChartDataEntry) {
         if let last = last, last.x > e.x {
             let startIndex = entryIndex(x: e.x, closestToY: e.y, rounding: .up)
             let closestIndex = self[startIndex...].lastIndex { $0.x < e.x }
@@ -249,8 +247,6 @@ open class ChartDataSet: ChartBaseDataSet {
         } else {
             append(e)
         }
-
-        return true
     }
 
     /// Removes an Entry from the DataSet dynamically.

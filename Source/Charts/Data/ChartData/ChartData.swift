@@ -283,9 +283,8 @@ open class ChartData: ExpressibleByArrayLiteral {
     }
 
     /// - Returns: The index of the provided DataSet in the DataSet array of this data object, or -1 if it does not exist.
-    open func index(of dataSet: Element) -> Index {
-        // TODO: Return nil instead of -1
-        return firstIndex(where: { $0 === dataSet }) ?? -1
+    open func index(of dataSet: Element) -> Index? {
+        firstIndex { $0 === dataSet }
     }
 
     /// - Returns: The first DataSet from the datasets-array that has it's dependency on the left axis. Returns null if no DataSet with left dependency could be found.
@@ -300,8 +299,7 @@ open class ChartData: ExpressibleByArrayLiteral {
 
     /// - Returns: All colors used across all DataSet objects this object represents.
     open var colors: [NSUIColor] {
-        // TODO: Don't return nil
-        return reduce(into: []) { $0 += $1.colors }
+        reduce(into: []) { $0 += $1.colors }
     }
 
     /// Sets a custom ValueFormatter for all DataSets this data object contains.
@@ -387,24 +385,23 @@ extension ChartData: RandomAccessCollection {
     }
 }
 
-// TODO: Conform when dropping Objective-C support
 
 // MARK: RangeReplaceableCollection
 
-public extension ChartData //: RangeReplaceableCollection
+extension ChartData: RangeReplaceableCollection
 {
-    func append(_ newElement: Element) {
+    public func append(_ newElement: Element) {
         _dataSets.append(newElement)
         calcMinMax(dataSet: newElement)
     }
 
-    func remove(at position: Index) -> Element {
+    public func remove(at position: Index) -> Element {
         let element = _dataSets.remove(at: position)
         calcMinMax()
         return element
     }
 
-    func removeFirst() -> Element {
+    public func removeFirst() -> Element {
         assert(!(self is CombinedChartData), "\(#function) not supported for CombinedData")
 
         let element = _dataSets.removeFirst()
@@ -412,14 +409,14 @@ public extension ChartData //: RangeReplaceableCollection
         return element
     }
 
-    func removeFirst(_ n: Int) {
+    public func removeFirst(_ n: Int) {
         assert(!(self is CombinedChartData), "\(#function) not supported for CombinedData")
 
         _dataSets.removeFirst(n)
         notifyDataChanged()
     }
 
-    func removeLast() -> Element {
+    public func removeLast() -> Element {
         assert(!(self is CombinedChartData), "\(#function) not supported for CombinedData")
 
         let element = _dataSets.removeLast()
@@ -427,28 +424,28 @@ public extension ChartData //: RangeReplaceableCollection
         return element
     }
 
-    func removeLast(_ n: Int) {
+    public func removeLast(_ n: Int) {
         assert(!(self is CombinedChartData), "\(#function) not supported for CombinedData")
 
         _dataSets.removeLast(n)
         notifyDataChanged()
     }
 
-    func removeSubrange<R>(_ bounds: R) where R: RangeExpression, Index == R.Bound {
+    public func removeSubrange<R>(_ bounds: R) where R: RangeExpression, Index == R.Bound {
         assert(!(self is CombinedChartData), "\(#function) not supported for CombinedData")
 
         _dataSets.removeSubrange(bounds)
         notifyDataChanged()
     }
 
-    func removeAll(keepingCapacity keepCapacity: Bool) {
+    public func removeAll(keepingCapacity keepCapacity: Bool) {
         assert(!(self is CombinedChartData), "\(#function) not supported for CombinedData")
 
         _dataSets.removeAll(keepingCapacity: keepCapacity)
         notifyDataChanged()
     }
 
-    func replaceSubrange<C>(_ subrange: Swift.Range<Index>, with newElements: C) where C: Collection, Element == C.Element
+    public func replaceSubrange<C>(_ subrange: Swift.Range<Index>, with newElements: C) where C: Collection, Element == C.Element
     {
         assert(!(self is CombinedChartData), "\(#function) not supported for CombinedData")
 

@@ -284,7 +284,7 @@ open class PieRadarChartViewBase: ChartViewBase {
 
     /// - Returns: The xIndex for the given angle around the center of the chart.
     /// -1 if not found / outofbounds.
-    open func indexForAngle(_: CGFloat) -> Int {
+    open func indexForAngle(_: CGFloat) -> Int? {
         fatalError("indexForAngle() cannot be called on PieRadarChartViewBase")
     }
 

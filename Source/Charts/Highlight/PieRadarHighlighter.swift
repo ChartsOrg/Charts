@@ -30,14 +30,15 @@ open class PieRadarHighlighter: ChartHighlighter {
             angle /= CGFloat(chart.chartAnimator.phaseY)
         }
 
-        let index = chart.indexForAngle(angle)
-
         // check if the index could be found
-        if index < 0 || index >= chart.data?.maxEntryCountSet?.entryCount ?? 0 {
+        guard let index = chart.indexForAngle(angle),
+              index >= 0,
+              index < chart.data?.maxEntryCountSet?.entryCount ?? 0
+        else {
             return nil
-        } else {
-            return closestHighlight(index: index, x: x, y: y)
         }
+
+        return closestHighlight(index: index, x: x, y: y)
     }
 
     /// - Parameters:

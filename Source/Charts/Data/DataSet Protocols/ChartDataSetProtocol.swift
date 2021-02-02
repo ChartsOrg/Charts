@@ -111,8 +111,7 @@ public protocol ChartDataSetProtocol: AnyObject {
     ///
     /// - Parameters:
     ///   - e: the entry to add
-    /// - Returns: `true` if the entry was added successfully, `false` ifthis feature is not supported
-    func addEntryOrdered(_ e: ChartDataEntry) -> Bool
+    func addEntryOrdered(_ e: ChartDataEntry)
 
     /// Removes an Entry from the DataSet dynamically.
     ///

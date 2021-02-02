@@ -145,14 +145,14 @@ open class RadarChartView: PieRadarChartViewBase {
         return 360.0 / CGFloat(data?.maxEntryCountSet?.entryCount ?? 0)
     }
 
-    override open func indexForAngle(_ angle: CGFloat) -> Int {
+    override open func indexForAngle(_ angle: CGFloat) -> Int? {
         // take the current angle of the chart into consideration
         let a = (angle - rotationAngle).normalizedAngle
 
         let sliceAngle = self.sliceAngle
 
         let max = data?.maxEntryCountSet?.entryCount ?? 0
-        return (0 ..< max).firstIndex {
+        return (0..<max).firstIndex {
             sliceAngle * CGFloat($0 + 1) - sliceAngle / 2.0 > a
         } ?? 0
     }

@@ -277,19 +277,10 @@ open class PieChartView: PieRadarChartViewBase {
         set { fatalError("PieChart has no XAxis") }
     }
 
-    override open func indexForAngle(_ angle: CGFloat) -> Int {
-        // TODO: Return nil instead of -1
+    override open func indexForAngle(_ angle: CGFloat) -> Int? {
         // take the current angle of the chart into consideration
         let a = (angle - rotationAngle).normalizedAngle
-        return _absoluteAngles.firstIndex { $0 > a } ?? -1
-    }
-
-    /// - Returns: The index of the DataSet this x-index belongs to.
-    open func dataSetIndexForIndex(_ xValue: Double) -> Int {
-        // TODO: Return nil instead of -1
-        return data?.firstIndex {
-            $0.entryForXValue(xValue, closestToY: .nan) != nil
-        } ?? -1
+        return _absoluteAngles.firstIndex { $0 > a }
     }
 
     /// - Returns: An integer array of all the different angles the chart slices

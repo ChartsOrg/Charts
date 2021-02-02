@@ -102,7 +102,7 @@ open class ChartBaseDataSet: ChartDataSetProtocol, NSCopying, CustomStringConver
         fatalError("addEntry is not implemented in ChartBaseDataSet")
     }
 
-    open func addEntryOrdered(_: ChartDataEntry) -> Bool {
+    open func addEntryOrdered(_: ChartDataEntry) {
         fatalError("addEntryOrdered is not implemented in ChartBaseDataSet")
     }
 
