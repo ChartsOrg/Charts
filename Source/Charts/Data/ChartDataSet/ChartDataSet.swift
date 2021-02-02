@@ -129,21 +129,6 @@ open class ChartDataSet: ChartBaseDataSet {
     /// The maximum x-value this DataSet holds
     override open var xMax: Double { return _xMax }
 
-    /// The number of y-values this DataSet represents
-    @available(*, deprecated, message: "Use `count` instead")
-    override open var entryCount: Int { return count }
-
-    /// - Throws: out of bounds
-    /// if `i` is out of bounds, it may throw an out-of-bounds exception
-    /// - Returns: The entry object found at the given index (not x-value!)
-    @available(*, deprecated, message: "Use `subscript(index:)` instead.")
-    override open func entryForIndex(_ i: Int) -> ChartDataEntry? {
-        guard indices.contains(i) else {
-            return nil
-        }
-        return self[i]
-    }
-
     /// - Parameters:
     ///   - xValue: the x-value
     ///   - closestToY: If there are multiple y-values for the specified x-value,
@@ -246,29 +231,6 @@ open class ChartDataSet: ChartBaseDataSet {
         return closest
     }
 
-    /// - Parameters:
-    ///   - e: the entry to search for
-    /// - Returns: The array-index of the specified entry
-    // TODO: Should be returning `nil` to follow Swift convention
-    @available(*, deprecated, message: "Use `firstIndex(of:)` or `lastIndex(of:)`")
-    override open func entryIndex(entry e: ChartDataEntry) -> Int {
-        return firstIndex(of: e) ?? -1
-    }
-
-    /// Adds an Entry to the DataSet dynamically.
-    /// Entries are added to the end of the list.
-    /// This will also recalculate the current minimum and maximum values of the DataSet and the value-sum.
-    ///
-    /// - Parameters:
-    ///   - e: the entry to add
-    /// - Returns: True
-    // TODO: This should return `Void` to follow Swift convention
-    @available(*, deprecated, message: "Use `append(_:)` instead", renamed: "append(_:)")
-    override open func addEntry(_ e: ChartDataEntry) -> Bool {
-        append(e)
-        return true
-    }
-
     /// Adds an Entry to the DataSet dynamically.
     /// Entries are added to their appropriate index respective to it's x-index.
     /// This will also recalculate the current minimum and maximum values of the DataSet and the value-sum.
@@ -291,11 +253,6 @@ open class ChartDataSet: ChartBaseDataSet {
         return true
     }
 
-    @available(*, renamed: "remove(_:)")
-    override open func removeEntry(_ entry: ChartDataEntry) -> Bool {
-        remove(entry)
-    }
-
     /// Removes an Entry from the DataSet dynamically.
     /// This will also recalculate the current minimum and maximum values of the DataSet and the value-sum.
     ///
@@ -306,32 +263,6 @@ open class ChartDataSet: ChartBaseDataSet {
         guard let index = firstIndex(of: entry) else { return false }
         _ = remove(at: index)
         return true
-    }
-
-    /// Removes the first Entry (at index 0) of this DataSet from the entries array.
-    ///
-    /// - Returns: `true` if successful, `false` if not.
-    // TODO: This should return the removed entry to follow Swift convention.
-    @available(*, deprecated, message: "Use `func removeFirst() -> ChartDataEntry` instead.")
-    override open func removeFirst() -> Bool {
-        let entry: ChartDataEntry? = isEmpty ? nil : removeFirst()
-        return entry != nil
-    }
-
-    /// Removes the last Entry (at index size-1) of this DataSet from the entries array.
-    ///
-    /// - Returns: `true` if successful, `false` if not.
-    // TODO: This should return the removed entry to follow Swift convention.
-    @available(*, deprecated, message: "Use `func removeLast() -> ChartDataEntry` instead.")
-    override open func removeLast() -> Bool {
-        let entry: ChartDataEntry? = isEmpty ? nil : removeLast()
-        return entry != nil
-    }
-
-    /// Removes all values from this DataSet and recalculates min and max value.
-    @available(*, deprecated, message: "Use `removeAll(keepingCapacity:)` instead.")
-    override open func clear() {
-        removeAll(keepingCapacity: true)
     }
 
     // MARK: - Data functions and accessors

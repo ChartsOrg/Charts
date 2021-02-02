@@ -72,13 +72,6 @@ open class DefaultValueFormatter: ValueFormatter {
         hasAutoDecimals = false
     }
 
-    /// This function is deprecated - Use `init(block:)` instead.
-    // DEC 11, 2017
-    @available(*, deprecated, message: "Use `init(block:)` instead.")
-    public static func with(block: @escaping Block) -> DefaultValueFormatter {
-        return DefaultValueFormatter(block: block)
-    }
-
     open func stringForValue(_ value: Double,
                              entry: ChartDataEntry,
                              dataSetIndex: Int,
