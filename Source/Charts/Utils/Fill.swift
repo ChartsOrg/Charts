@@ -18,12 +18,12 @@ public protocol Fill
     func fillPath(context: CGContext, rect: CGRect)
 }
 
-public class EmptyFill: Fill
+public struct EmptyFill: Fill
 {
     public func fillPath(context: CGContext, rect: CGRect) { }
 }
 
-public class ColorFill: Fill
+public struct ColorFill: Fill
 {
 
     public let color: CGColor
@@ -33,7 +33,7 @@ public class ColorFill: Fill
         self.color = cgColor
     }
 
-    public convenience init(color: NSUIColor)
+    public init(color: NSUIColor)
     {
         self.init(cgColor: color.cgColor)
     }
@@ -48,7 +48,7 @@ public class ColorFill: Fill
     }
 }
 
-public class ImageFill: Fill
+public struct ImageFill: Fill
 {
     public let image: CGImage
     public let isTiled: Bool
@@ -59,7 +59,7 @@ public class ImageFill: Fill
         self.isTiled = isTiled
     }
 
-    public convenience init(image: NSUIImage, isTiled: Bool = false)
+    public init(image: NSUIImage, isTiled: Bool = false)
     {
         self.init(cgImage: image.cgImage!, isTiled: isTiled)
     }
@@ -74,7 +74,7 @@ public class ImageFill: Fill
     }
 }
 
-public class LayerFill: Fill
+public struct LayerFill: Fill
 {
     public let layer: CGLayer
 
@@ -93,7 +93,7 @@ public class LayerFill: Fill
     }
 }
 
-public class LinearGradientFill: Fill
+public struct LinearGradientFill: Fill
 {
 
     public let gradient: CGGradient
@@ -133,7 +133,7 @@ public class LinearGradientFill: Fill
     }
 }
 
-public class RadialGradientFill: Fill
+public struct RadialGradientFill: Fill
 {
 
     public let gradient: CGGradient
@@ -156,7 +156,7 @@ public class RadialGradientFill: Fill
         self.endRadiusPercent = endRadiusPercent
     }
 
-    public convenience init(gradient: CGGradient)
+    public init(gradient: CGGradient)
     {
         self.init(
             gradient: gradient,
