@@ -12,7 +12,7 @@
 import Foundation
 import CoreGraphics
 
-open class YAxisRenderer: NSObject, AxisRenderer
+open class YAxisRenderer: AxisRenderer
 {
     public let viewPortHandler: ViewPortHandler
     public let axis: YAxis
@@ -23,8 +23,6 @@ open class YAxisRenderer: NSObject, AxisRenderer
         self.viewPortHandler = viewPortHandler
         self.axis = axis
         self.transformer = transformer
-        
-        super.init()
     }
     
     /// draws the y-axis labels to the screen

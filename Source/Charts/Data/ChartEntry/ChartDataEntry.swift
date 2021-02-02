@@ -73,7 +73,7 @@ open class ChartDataEntry: ChartDataEntryBase, NSCopying
         self.data = data
     }
         
-    // MARK: NSObject
+    // MARK: CustomStringConvertible
     
     open override var description: String
     {
@@ -94,17 +94,15 @@ open class ChartDataEntry: ChartDataEntryBase, NSCopying
     }
 }
 
-// MARK: Equatable
-extension ChartDataEntry/*: Equatable*/ {
-    open override func isEqual(_ object: Any?) -> Bool {
-        guard let object = object as? ChartDataEntry else { return false }
+// MARK: - Equatable
 
-        if self === object
-        {
+extension ChartDataEntry/*: Equatable*/ {
+    public static func == (lhs: ChartDataEntry, rhs: ChartDataEntry) -> Bool {
+        if lhs === rhs {
             return true
         }
 
-        return y == object.y
-            && x == object.x
+        return lhs.y == rhs.y
+            && lhs.x == rhs.x
     }
 }

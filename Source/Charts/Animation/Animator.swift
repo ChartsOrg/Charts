@@ -22,7 +22,7 @@ public protocol AnimatorDelegate: AnyObject
     func animatorStopped(_ animator: Animator)
 }
 
-open class Animator: NSObject
+open class Animator
 {
     open weak var delegate: AnimatorDelegate?
     open var updateBlock: (() -> Void)?
@@ -51,9 +51,7 @@ open class Animator: NSObject
     private var _easingX: ChartEasingFunctionBlock?
     private var _easingY: ChartEasingFunctionBlock?
 
-    public override init()
-    {
-        super.init()
+    public init() {
     }
     
     deinit

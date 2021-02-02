@@ -13,7 +13,7 @@ import Foundation
 import CoreGraphics
 
 /// Class that contains information about the charts current viewport settings, including offsets, scale & translation levels, ...
-open class ViewPortHandler: NSObject
+open class ViewPortHandler
 {
     /// matrix used for touch events
     open private(set) var touchMatrix = CGAffineTransform.identity
@@ -56,9 +56,7 @@ open class ViewPortHandler: NSObject
 
     /// Constructor - don't forget calling setChartDimens(...)
     public init(width: CGFloat, height: CGFloat)
-    {
-        super.init()
-        
+    {        
         setChartDimens(width: width, height: height)
     }
     

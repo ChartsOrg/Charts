@@ -18,12 +18,12 @@ public protocol Fill
     func fillPath(context: CGContext, rect: CGRect)
 }
 
-public class EmptyFill: NSObject, Fill
+public class EmptyFill: Fill
 {
     public func fillPath(context: CGContext, rect: CGRect) { }
 }
 
-public class ColorFill: NSObject, Fill
+public class ColorFill: Fill
 {
 
     public let color: CGColor
@@ -31,7 +31,6 @@ public class ColorFill: NSObject, Fill
     public init(cgColor: CGColor)
     {
         self.color = cgColor
-        super.init()
     }
 
     public convenience init(color: NSUIColor)
@@ -49,9 +48,8 @@ public class ColorFill: NSObject, Fill
     }
 }
 
-public class ImageFill: NSObject, Fill
+public class ImageFill: Fill
 {
-
     public let image: CGImage
     public let isTiled: Bool
 
@@ -59,7 +57,6 @@ public class ImageFill: NSObject, Fill
     {
         image = cgImage
         self.isTiled = isTiled
-        super.init()
     }
 
     public convenience init(image: NSUIImage, isTiled: Bool = false)
@@ -77,15 +74,13 @@ public class ImageFill: NSObject, Fill
     }
 }
 
-public class LayerFill: NSObject, Fill
+public class LayerFill: Fill
 {
-
     public let layer: CGLayer
 
     public init(layer: CGLayer)
     {
         self.layer = layer
-        super.init()
     }
 
     public func fillPath(context: CGContext, rect: CGRect)
@@ -98,7 +93,7 @@ public class LayerFill: NSObject, Fill
     }
 }
 
-public class LinearGradientFill: NSObject, Fill
+public class LinearGradientFill: Fill
 {
 
     public let gradient: CGGradient
@@ -108,7 +103,6 @@ public class LinearGradientFill: NSObject, Fill
     {
         self.gradient = gradient
         self.angle = angle
-        super.init()
     }
 
     public func fillPath(context: CGContext, rect: CGRect)
@@ -139,7 +133,7 @@ public class LinearGradientFill: NSObject, Fill
     }
 }
 
-public class RadialGradientFill: NSObject, Fill
+public class RadialGradientFill: Fill
 {
 
     public let gradient: CGGradient
@@ -160,7 +154,6 @@ public class RadialGradientFill: NSObject, Fill
         self.endOffsetPercent = endOffsetPercent
         self.startRadiusPercent = startRadiusPercent
         self.endRadiusPercent = endRadiusPercent
-        super.init()
     }
 
     public convenience init(gradient: CGGradient)

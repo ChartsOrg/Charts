@@ -11,7 +11,7 @@
 
 import Foundation
 
-open class ChartData: NSObject, ExpressibleByArrayLiteral
+open class ChartData: ExpressibleByArrayLiteral
 {
 
     public internal(set) var xMax = -Double.greatestFiniteMagnitude
@@ -41,20 +41,17 @@ open class ChartData: NSObject, ExpressibleByArrayLiteral
     
     var _dataSets = [Element]()
     
-    public override required init()
+    public required init()
     {
-        super.init()
     }
 
     public required init(arrayLiteral elements: Element...)
     {
-        super.init()
         self.dataSets = elements
     }
 
     public init(dataSets: [Element])
     {
-        super.init()
         self.dataSets = dataSets
     }
     

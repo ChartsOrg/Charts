@@ -12,7 +12,7 @@
 import Foundation
 import CoreGraphics
 
-open class LegendRenderer: NSObject, Renderer
+open class LegendRenderer: Renderer
 {
     public let viewPortHandler: ViewPortHandler
 
@@ -23,8 +23,6 @@ open class LegendRenderer: NSObject, Renderer
     {
         self.viewPortHandler = viewPortHandler
         self.legend = legend
-
-        super.init()
     }
 
     /// Prepares the legend and calculates all needed forms, labels and colors.

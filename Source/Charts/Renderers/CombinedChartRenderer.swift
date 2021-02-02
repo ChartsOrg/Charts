@@ -12,7 +12,7 @@
 import Foundation
 import CoreGraphics
 
-open class CombinedChartRenderer: NSObject, DataRenderer
+open class CombinedChartRenderer: DataRenderer
 {
     public let viewPortHandler: ViewPortHandler
 
@@ -37,8 +37,6 @@ open class CombinedChartRenderer: NSObject, DataRenderer
         self.chart = chart
         self.viewPortHandler = viewPortHandler
         self.animator = animator
-
-        super.init()
         
         createRenderers()
     }
@@ -151,9 +149,11 @@ open class CombinedChartRenderer: NSObject, DataRenderer
                 data = (renderer as! BubbleChartRenderer).dataProvider?.bubbleData
             }
             
-            let dataIndex = data == nil ? nil : (chart?.data as? CombinedChartData)?.allData.firstIndex(of: data!)
+            let dataIndex = data.map { data in
+                (chart?.data as? CombinedChartData)?.allData.firstIndex { $0 === data }
+            }
             
-            let dataIndices = indices.filter{ $0.dataIndex == dataIndex || $0.dataIndex == -1 }
+            let dataIndices = indices.filter { $0.dataIndex == dataIndex || $0.dataIndex == -1 }
             
             renderer.drawHighlighted(context: context, indices: dataIndices)
         }

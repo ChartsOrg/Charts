@@ -13,7 +13,7 @@ import Foundation
 import CoreGraphics
 
 /// Default formatter that calculates the position of the filled line.
-open class DefaultFillFormatter: NSObject, FillFormatter
+open class DefaultFillFormatter: FillFormatter
 {
     public typealias Block = (
         _ dataSet: LineChartDataSetProtocol,
@@ -21,7 +21,7 @@ open class DefaultFillFormatter: NSObject, FillFormatter
     
     open var block: Block?
     
-    public override init() { }
+    public init() { }
     
     public init(block: @escaping Block)
     {

@@ -11,7 +11,7 @@
 
 import Foundation
 
-open class ChartDataEntryBase: NSObject
+open class ChartDataEntryBase: CustomStringConvertible
 {
     /// the y value
     open var y = 0.0
@@ -22,9 +22,8 @@ open class ChartDataEntryBase: NSObject
     /// optional icon image
     open var icon: NSUIImage?
     
-    public override required init()
+    public required init()
     {
-        super.init()
     }
     
     /// An Entry represents one single entry in the chart.
@@ -32,9 +31,7 @@ open class ChartDataEntryBase: NSObject
     /// - Parameters:
     ///   - y: the y value (the actual value of the entry)
     public init(y: Double)
-    {
-        super.init()
-        
+    {        
         self.y = y
     }
     
@@ -73,24 +70,21 @@ open class ChartDataEntryBase: NSObject
         self.data = data
     }
 
-    // MARK: NSObject
-    
-    open override var description: String
+    // MARK: - CustomStringConvertible
+
+    open var description: String
     {
         return "ChartDataEntryBase, y \(y)"
     }
 }
 
 // MARK: Equatable
-extension ChartDataEntryBase/*: Equatable*/ {
-    open override func isEqual(_ object: Any?) -> Bool {
-        guard let object = object as? ChartDataEntryBase else { return false }
-
-        if self === object
-        {
+extension ChartDataEntryBase: Equatable {
+    public static func == (lhs: ChartDataEntryBase, rhs: ChartDataEntryBase) -> Bool {
+        if lhs === rhs {
             return true
         }
 
-        return y == object.y
+        return lhs.y == rhs.y
     }
 }

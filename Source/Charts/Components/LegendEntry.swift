@@ -12,11 +12,9 @@
 import Foundation
 import CoreGraphics
 
-open class LegendEntry: NSObject
+open class LegendEntry
 {
-    public override init()
-    {
-        super.init()
+    public init() {
     }
     
     /// - Parameters:

@@ -12,13 +12,10 @@
 import Foundation
 import CoreGraphics
 
-
-open class ChartBaseDataSet: NSObject, ChartDataSetProtocol, NSCopying
+open class ChartBaseDataSet: ChartDataSetProtocol, NSCopying, CustomStringConvertible, CustomDebugStringConvertible
 {
-    public required override init()
+    public required init()
     {
-        super.init()
-        
         // default color
         colors.append(NSUIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0))
         valueColors.append(.labelOrBlack)
@@ -26,8 +23,6 @@ open class ChartBaseDataSet: NSObject, ChartDataSetProtocol, NSCopying
     
     public init(label: String)
     {
-        super.init()
-        
         // default color
         colors.append(NSUIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0))
         valueColors.append(.labelOrBlack)
@@ -371,14 +366,16 @@ open class ChartBaseDataSet: NSObject, ChartDataSetProtocol, NSCopying
         return visible
     }
     
-    // MARK: - NSObject
+    // MARK: - CustomStringConvertible
     
-    open override var description: String
+    open var description: String
     {
         return String(format: "%@, label: %@, %i entries", arguments: [NSStringFromClass(type(of: self)), self.label ?? "", self.entryCount])
     }
-    
-    open override var debugDescription: String
+
+    // MARK: - CustomDebugStringConvertible
+
+    open var debugDescription: String
     {
         return (0..<entryCount).reduce(description + ":") {
             "\($0)\n\(self.entryForIndex($1)?.description ?? "")"

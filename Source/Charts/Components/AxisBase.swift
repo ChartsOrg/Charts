@@ -259,7 +259,7 @@ open class AxisBase: ComponentBase
     /// Removes the specified ChartLimitLine from the axis.
     open func removeLimitLine(_ line: ChartLimitLine)
     {
-        guard let i = _limitLines.firstIndex(of: line) else { return }
+        guard let i = _limitLines.firstIndex(where: { $0 === line }) else { return }
         _limitLines.remove(at: i)
     }
     

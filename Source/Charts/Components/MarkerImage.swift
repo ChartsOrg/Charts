@@ -12,7 +12,7 @@
 import Foundation
 import CoreGraphics
 
-open class MarkerImage: NSObject, Marker
+open class MarkerImage: Marker
 {
     /// The marker image to render
     open var image: NSUIImage?
@@ -24,9 +24,8 @@ open class MarkerImage: NSObject, Marker
     /// As long as size is 0.0/0.0 - it will default to the image's size
     open var size: CGSize = CGSize()
     
-    public override init()
+    public init()
     {
-        super.init()
     }
     
     open func offsetForDrawing(atPoint point: CGPoint) -> CGPoint

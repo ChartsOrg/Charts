@@ -11,7 +11,7 @@
 import Foundation
 import CoreGraphics
 
-open class CircleShapeRenderer : NSObject, ShapeRenderer
+open class CircleShapeRenderer: ShapeRenderer
 {
     open func renderShape(
         context: CGContext,

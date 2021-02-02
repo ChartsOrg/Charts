@@ -12,7 +12,7 @@
 import Foundation
 import CoreGraphics
 
-open class XAxisRenderer: NSObject, AxisRenderer
+open class XAxisRenderer: AxisRenderer
 {
     public let viewPortHandler: ViewPortHandler
     public let axis: XAxis
@@ -23,8 +23,6 @@ open class XAxisRenderer: NSObject, AxisRenderer
         self.viewPortHandler = viewPortHandler
         self.axis = axis
         self.transformer = transformer
-
-        super.init()
     }
     
     open func computeAxis(min: Double, max: Double, inverted: Bool)

@@ -13,7 +13,7 @@ import Algorithms
 import Foundation
 import CoreGraphics
 
-open class ChartHighlighter : NSObject, Highlighter
+open class ChartHighlighter: Highlighter
 {
     /// instance of the data-provider
     open weak var chart: ChartDataProvider?

@@ -11,7 +11,7 @@
 import Foundation
 import CoreGraphics
 
-open class SquareShapeRenderer : NSObject, ShapeRenderer
+open class SquareShapeRenderer: ShapeRenderer
 {
     open func renderShape(
         context: CGContext,

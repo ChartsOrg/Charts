@@ -12,7 +12,7 @@
 import Foundation
 import CoreGraphics
 
-open class Highlight: NSObject
+open class Highlight: CustomStringConvertible
 {
     /// the x-value of the highlighted value
     fileprivate var _x = Double.nan
@@ -46,9 +46,8 @@ open class Highlight: NSObject
     /// the y-position (pixels) on which this highlight object was last drawn
     open var drawY: CGFloat = 0.0
     
-    public override init()
+    public init()
     {
-        super.init()
     }
     
     /// - Parameters:
@@ -68,8 +67,6 @@ open class Highlight: NSObject
         stackIndex: Int,
         axis: YAxis.AxisDependency)
     {
-        super.init()
-        
         _x = x
         _y = y
         _xPx = xPx
@@ -117,8 +114,6 @@ open class Highlight: NSObject
         dataSetIndex: Int,
         axis: YAxis.AxisDependency)
     {
-        super.init()
-        
         _x = x
         _y = y
         _xPx = xPx
@@ -174,9 +169,9 @@ open class Highlight: NSObject
         self.drawY = pt.y
     }
 
-    // MARK: NSObject
+    // MARK: CustomStringConvertible
     
-    open override var description: String
+    open var description: String
     {
         return "Highlight, x: \(_x), y: \(_y), dataIndex (combined charts): \(dataIndex), dataSetIndex: \(_dataSetIndex), stackIndex (only stacked barentry): \(_stackIndex)"
     }
@@ -184,19 +179,18 @@ open class Highlight: NSObject
 
 
 // MARK: Equatable
-extension Highlight /*: Equatable*/ {
-    open override func isEqual(_ object: Any?) -> Bool {
-        guard let object = object as? Highlight else { return false }
+extension Highlight: Equatable {
+    public static func == (lhs: Highlight, rhs: Highlight) -> Bool {
 
-        if self === object
+        if lhs === rhs
         {
             return true
         }
 
-        return _x == object._x
-            && _y == object._y
-            && dataIndex == object.dataIndex
-            && _dataSetIndex == object._dataSetIndex
-            && _stackIndex == object._stackIndex
+        return lhs._x == rhs._x
+            && lhs._y == rhs._y
+            && lhs.dataIndex == rhs.dataIndex
+            && lhs._dataSetIndex == rhs._dataSetIndex
+            && lhs._stackIndex == rhs._stackIndex
     }
 }

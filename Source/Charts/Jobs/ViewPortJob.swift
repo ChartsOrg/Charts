@@ -13,7 +13,7 @@ import Foundation
 import CoreGraphics
 
 // This defines a viewport modification job, used for delaying or animating viewport changes
-open class ViewPortJob: NSObject
+open class ViewPortJob
 {
     internal var point: CGPoint = .zero
     internal unowned var viewPortHandler: ViewPortHandler
@@ -34,8 +34,6 @@ open class ViewPortJob: NSObject
         self.yValue = yValue
         self.transformer = transformer
         self.view = view
-
-        super.init()
     }
     
     open func doJob()

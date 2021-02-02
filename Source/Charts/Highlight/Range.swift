@@ -11,7 +11,8 @@
 
 import Foundation
 
-open class Range: NSObject
+// TODO: Remove
+open class Range
 {
     open var from: Double
     open var to: Double
@@ -20,8 +21,6 @@ open class Range: NSObject
     {
         self.from = from
         self.to = to
-        
-        super.init()
     }
 
     /// - Parameters:
@@ -37,15 +36,5 @@ open class Range: NSObject
         {
             return false
         }
-    }
-    
-    open func isLarger(_ value: Double) -> Bool
-    {
-        return value > to
-    }
-    
-    open func isSmaller(_ value: Double) -> Bool
-    {
-        return value < from
     }
 }

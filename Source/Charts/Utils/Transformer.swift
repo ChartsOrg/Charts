@@ -13,7 +13,7 @@ import Foundation
 import CoreGraphics
 
 /// Transformer class that contains all matrices and is responsible for transforming values into pixels on the screen and backwards.
-open class Transformer: NSObject
+open class Transformer
 {
     /// matrix to map the values to the screen pixels
     internal var matrixValueToPx = CGAffineTransform.identity

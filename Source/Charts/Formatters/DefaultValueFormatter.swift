@@ -12,7 +12,7 @@
 import Foundation
 
 /// The default value formatter used for all chart components that needs a default
-open class DefaultValueFormatter: NSObject, ValueFormatter
+open class DefaultValueFormatter: ValueFormatter
 {
     public typealias Block = (
         _ value: Double,
@@ -50,14 +50,13 @@ open class DefaultValueFormatter: NSObject, ValueFormatter
         }
     }
     
-    public override init()
+    public init()
     {
         formatter = NumberFormatter()
         formatter?.usesGroupingSeparator = true
         decimals = 1
         hasAutoDecimals = true
 
-        super.init()
         setupDecimals(decimals: decimals)
     }
     
@@ -65,8 +64,6 @@ open class DefaultValueFormatter: NSObject, ValueFormatter
     {
         self.formatter = formatter
         hasAutoDecimals = false
-
-        super.init()
     }
     
     public init(decimals: Int)
@@ -76,7 +73,6 @@ open class DefaultValueFormatter: NSObject, ValueFormatter
         self.decimals = decimals
         hasAutoDecimals = true
 
-        super.init()
         setupDecimals(decimals: decimals)
     }
     
@@ -84,8 +80,6 @@ open class DefaultValueFormatter: NSObject, ValueFormatter
     {
         self.block = block
         hasAutoDecimals = false
-
-        super.init()
     }
 
     /// This function is deprecated - Use `init(block:)` instead.

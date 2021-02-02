@@ -17,7 +17,7 @@ import CoreGraphics
 #endif
 
 
-open class PieChartRenderer: NSObject, DataRenderer
+open class PieChartRenderer: DataRenderer
 {
     public let viewPortHandler: ViewPortHandler
     
@@ -32,8 +32,6 @@ open class PieChartRenderer: NSObject, DataRenderer
         self.viewPortHandler = viewPortHandler
         self.animator = animator
         self.chart = chart
-
-        super.init()
     }
     
     open func drawData(context: CGContext)

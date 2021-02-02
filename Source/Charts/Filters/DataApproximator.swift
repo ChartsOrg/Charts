@@ -12,10 +12,9 @@
 import Foundation
 import CoreGraphics
 
-open class DataApproximator: NSObject
-{
+public enum DataApproximator {
     /// uses the douglas peuker algorithm to reduce the given arraylist of entries
-    open class func reduceWithDouglasPeuker(_ points: [CGPoint], tolerance: CGFloat) -> [CGPoint]
+    public static func reduceWithDouglasPeuker(_ points: [CGPoint], tolerance: CGFloat) -> [CGPoint]
     {
         // if a shape has 2 or less points it cannot be reduced
         if tolerance <= 0 || points.count < 3
@@ -47,7 +46,7 @@ open class DataApproximator: NSObject
     ///   - tolerance:
     ///   - start:
     ///   - end:
-    open class func reduceWithDouglasPeuker(
+    public static func reduceWithDouglasPeuker(
         points: [CGPoint],
         tolerance: CGFloat,
         start: Int,
@@ -87,8 +86,7 @@ open class DataApproximator: NSObject
         } // else don't keep the point...
     }
     
-    private class Line
-    {
+    private struct Line {
         var sxey: CGFloat
         var exsy: CGFloat
         
