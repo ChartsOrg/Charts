@@ -13,5 +13,5 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Build
-      run: swift build -v
+    - name: iOS
+      run: xcodebuild test -scheme ChartsTests -workspace Charts.xcworkspace -destination 'platform=iOS Simulator,name=iPhone 12 Pro,OS=14.4' | xcpretty && exit ${PIPESTATUS[0]}`
