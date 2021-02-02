@@ -12,7 +12,6 @@
 import Foundation
 
 /// The default value formatter used for all chart components that needs a default
-@objc(ChartDefaultValueFormatter)
 open class DefaultValueFormatter: NSObject, ValueFormatter
 {
     public typealias Block = (
@@ -21,11 +20,11 @@ open class DefaultValueFormatter: NSObject, ValueFormatter
         _ dataSetIndex: Int,
         _ viewPortHandler: ViewPortHandler?) -> String
     
-    @objc open var block: Block?
+    open var block: Block?
     
-    @objc open var hasAutoDecimals: Bool
+    open var hasAutoDecimals: Bool
     
-    @objc open var formatter: NumberFormatter?
+    open var formatter: NumberFormatter?
     {
         willSet
         {
@@ -62,7 +61,7 @@ open class DefaultValueFormatter: NSObject, ValueFormatter
         setupDecimals(decimals: decimals)
     }
     
-    @objc public init(formatter: NumberFormatter)
+    public init(formatter: NumberFormatter)
     {
         self.formatter = formatter
         hasAutoDecimals = false
@@ -70,7 +69,7 @@ open class DefaultValueFormatter: NSObject, ValueFormatter
         super.init()
     }
     
-    @objc public init(decimals: Int)
+    public init(decimals: Int)
     {
         formatter = NumberFormatter()
         formatter?.usesGroupingSeparator = true
@@ -81,7 +80,7 @@ open class DefaultValueFormatter: NSObject, ValueFormatter
         setupDecimals(decimals: decimals)
     }
     
-    @objc public init(block: @escaping Block)
+    public init(block: @escaping Block)
     {
         self.block = block
         hasAutoDecimals = false
@@ -92,7 +91,7 @@ open class DefaultValueFormatter: NSObject, ValueFormatter
     /// This function is deprecated - Use `init(block:)` instead.
     // DEC 11, 2017
     @available(*, deprecated, message: "Use `init(block:)` instead.")
-    @objc public static func with(block: @escaping Block) -> DefaultValueFormatter
+    public static func with(block: @escaping Block) -> DefaultValueFormatter
     {
         return DefaultValueFormatter(block: block)
     }

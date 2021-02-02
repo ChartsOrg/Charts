@@ -12,7 +12,6 @@
 import Foundation
 import CoreGraphics
 
-@objc
 public protocol BarLineScatterCandleBubbleChartDataProvider: ChartDataProvider
 {
     func getTransformer(forAxis: YAxis.AxisDependency) -> Transformer

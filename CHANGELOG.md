@@ -1314,7 +1314,7 @@
 - Removed redundant ivars in BarLineChartViewBase [\#3043](https://github.com/danielgindi/Charts/pull/3043) ([jjatie](https://github.com/jjatie))
 - fileprivate -\> private [\#3042](https://github.com/danielgindi/Charts/pull/3042) ([jjatie](https://github.com/jjatie))
 - Viewportjob minor cleanup [\#3041](https://github.com/danielgindi/Charts/pull/3041) ([jjatie](https://github.com/jjatie))
-- Removed @objc from internal properties [\#3038](https://github.com/danielgindi/Charts/pull/3038) ([jjatie](https://github.com/jjatie))
+- Removed from internal properties [\#3038](https://github.com/danielgindi/Charts/pull/3038) ([jjatie](https://github.com/jjatie))
 - Minor changes to BubbleChartRenderer logic [\#3010](https://github.com/danielgindi/Charts/pull/3010) ([jjatie](https://github.com/jjatie))
 - Minor changes to Animator [\#3005](https://github.com/danielgindi/Charts/pull/3005) ([jjatie](https://github.com/jjatie))
 - Minor cleanup to Highlighter types [\#3003](https://github.com/danielgindi/Charts/pull/3003) ([jjatie](https://github.com/jjatie))

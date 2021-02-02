@@ -16,9 +16,9 @@ import CoreGraphics
 open class ChartHighlighter : NSObject, Highlighter
 {
     /// instance of the data-provider
-    @objc open weak var chart: ChartDataProvider?
+    open weak var chart: ChartDataProvider?
     
-    @objc public init(chart: ChartDataProvider)
+    public init(chart: ChartDataProvider)
     {
         self.chart = chart
     }
@@ -32,7 +32,7 @@ open class ChartHighlighter : NSObject, Highlighter
     /// - Parameters:
     ///   - x:
     /// - Returns: The corresponding x-pos for a given touch-position in pixels.
-    @objc open func getValsForTouch(x: CGFloat, y: CGFloat) -> CGPoint
+    open func getValsForTouch(x: CGFloat, y: CGFloat) -> CGPoint
     {
         guard let chart = self.chart as? BarLineScatterCandleBubbleChartDataProvider else { return .zero }
         
@@ -45,7 +45,7 @@ open class ChartHighlighter : NSObject, Highlighter
     ///   - x:
     ///   - y:
     /// - Returns: The corresponding ChartHighlight for a given x-value and xy-touch position in pixels.
-    @objc open func getHighlight(xValue xVal: Double, x: CGFloat, y: CGFloat) -> Highlight?
+    open func getHighlight(xValue xVal: Double, x: CGFloat, y: CGFloat) -> Highlight?
     {
         guard let chart = chart else { return nil }
         
@@ -68,7 +68,7 @@ open class ChartHighlighter : NSObject, Highlighter
     ///   - y: touch position
     /// - Returns: A list of Highlight objects representing the entries closest to the given xVal.
     /// The returned list contains two objects per DataSet (closest rounding up, closest rounding down).
-    @objc open func getHighlights(xValue: Double, x: CGFloat, y: CGFloat) -> [Highlight]
+    open func getHighlights(xValue: Double, x: CGFloat, y: CGFloat) -> [Highlight]
     {
         var vals = [Highlight]()
         

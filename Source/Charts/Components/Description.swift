@@ -20,7 +20,6 @@ import CoreGraphics
 import Cocoa
 #endif
 
-@objc(ChartDescription)
 open class Description: ComponentBase
 {
     public override init()
@@ -38,17 +37,17 @@ open class Description: ComponentBase
     }
     
     /// The text to be shown as the description.
-    @objc open var text: String?
+    open var text: String?
     
     /// Custom position for the description text in pixels on the screen.
     open var position: CGPoint? = nil
     
     /// The text alignment of the description text. Default RIGHT.
-    @objc open var textAlign: TextAlignment = TextAlignment.right
+    open var textAlign: TextAlignment = TextAlignment.right
     
     /// Font object used for drawing the description text.
-    @objc open var font: NSUIFont
+    open var font: NSUIFont
     
     /// Text color used for drawing the description text
-    @objc open var textColor = NSUIColor.labelOrBlack
+    open var textColor = NSUIColor.labelOrBlack
 }

@@ -17,9 +17,9 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
     /// A nested array of elements ordered logically (i.e not in visual/drawing order) for use with VoiceOver.
     private lazy var accessibilityOrderedElements: [[NSUIAccessibilityElement]] = accessibilityCreateEmptyOrderedElements()
 
-    @objc open weak var dataProvider: BubbleChartDataProvider?
+    open weak var dataProvider: BubbleChartDataProvider?
     
-    @objc public init(dataProvider: BubbleChartDataProvider, animator: Animator, viewPortHandler: ViewPortHandler)
+    public init(dataProvider: BubbleChartDataProvider, animator: Animator, viewPortHandler: ViewPortHandler)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         
@@ -72,7 +72,7 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
     private var _pointBuffer = CGPoint()
     private var _sizeBuffer = [CGPoint](repeating: CGPoint(), count: 2)
     
-    @objc open func drawDataSet(context: CGContext, dataSet: BubbleChartDataSetProtocol, dataSetIndex: Int)
+    open func drawDataSet(context: CGContext, dataSet: BubbleChartDataSetProtocol, dataSetIndex: Int)
     {
         guard let dataProvider = dataProvider else { return }
         

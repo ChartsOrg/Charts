@@ -12,8 +12,7 @@
 import Foundation
 import CoreGraphics
 
-@objc
-public protocol ChartDataProvider
+public protocol ChartDataProvider: AnyObject
 {
     /// The minimum x-value of the chart, regardless of zoom or translation.
     var chartXMin: Double { get }

@@ -14,9 +14,9 @@ import CoreGraphics
 
 open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
 {
-    @objc open weak var dataProvider: CandleChartDataProvider?
+    open weak var dataProvider: CandleChartDataProvider?
     
-    @objc public init(dataProvider: CandleChartDataProvider, animator: Animator, viewPortHandler: ViewPortHandler)
+    public init(dataProvider: CandleChartDataProvider, animator: Animator, viewPortHandler: ViewPortHandler)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         
@@ -51,7 +51,7 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
     private var _bodyRect = CGRect()
     private var _lineSegments = [CGPoint](repeating: CGPoint(), count: 2)
     
-    @objc open func drawDataSet(context: CGContext, dataSet: CandleChartDataSetProtocol)
+    open func drawDataSet(context: CGContext, dataSet: CandleChartDataSetProtocol)
     {
         guard
             let dataProvider = dataProvider

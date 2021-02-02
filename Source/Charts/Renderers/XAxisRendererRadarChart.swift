@@ -14,9 +14,9 @@ import CoreGraphics
 
 open class XAxisRendererRadarChart: XAxisRenderer
 {
-    @objc open weak var chart: RadarChartView?
+    open weak var chart: RadarChartView?
     
-    @objc public init(viewPortHandler: ViewPortHandler, axis: XAxis, chart: RadarChartView)
+    public init(viewPortHandler: ViewPortHandler, axis: XAxis, chart: RadarChartView)
     {
         super.init(viewPortHandler: viewPortHandler, axis: axis, transformer: nil)
         
@@ -59,7 +59,7 @@ open class XAxisRendererRadarChart: XAxisRenderer
         }
     }
     
-    @objc open func drawLabel(
+    open func drawLabel(
         context: CGContext,
         formattedLabel: String,
         x: CGFloat,

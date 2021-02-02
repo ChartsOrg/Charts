@@ -34,7 +34,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 
     open class NSUIView: UIView
     {
-        @objc var nsuiLayer: CALayer?
+        var nsuiLayer: CALayer?
         {
             return self.layer
         }
@@ -42,7 +42,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 
     extension UIScrollView
     {
-        @objc var nsuiIsScrollEnabled: Bool
+        var nsuiIsScrollEnabled: Bool
         {
             get { return isScrollEnabled }
             set { isScrollEnabled = newValue }
@@ -51,7 +51,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
     
     extension UIScreen
     {
-        @objc final var nsuiScale: CGFloat
+        final var nsuiScale: CGFloat
         {
             return self.scale
         }

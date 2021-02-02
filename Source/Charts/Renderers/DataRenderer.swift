@@ -12,7 +12,6 @@
 import Foundation
 import CoreGraphics
 
-@objc(ChartDataRenderer)
 public protocol DataRenderer: Renderer
 {
      /// An array of accessibility elements that are presented to the ChartViewBase accessibility methods.

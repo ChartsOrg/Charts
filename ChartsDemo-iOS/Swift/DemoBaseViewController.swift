@@ -95,7 +95,7 @@ enum Option {
     }
 }
 
-class DemoBaseViewController: UIViewController, ChartViewDelegate {
+class DemoBaseViewController: UIViewController {
     private var optionsTableView: UITableView? = nil
     let parties = ["Party A", "Party B", "Party C", "Party D", "Party E", "Party F",
                    "Party G", "Party H", "Party I", "Party J", "Party K", "Party L",
@@ -296,21 +296,31 @@ class DemoBaseViewController: UIViewController, ChartViewDelegate {
         
         chartView.rightAxis.enabled = false
     }
-    // TODO: Cannot override from extensions
-    //extension DemoBaseViewController: ChartViewDelegate {
+}
+
+extension DemoBaseViewController: ChartViewDelegate {
+    @objc
     func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
         NSLog("chartValueSelected");
     }
-    
+
     func chartValueNothingSelected(_ chartView: ChartViewBase) {
         NSLog("chartValueNothingSelected");
     }
-    
+
     func chartScaled(_ chartView: ChartViewBase, scaleX: CGFloat, scaleY: CGFloat) {
-        
+
     }
-    
+
     func chartTranslated(_ chartView: ChartViewBase, dX: CGFloat, dY: CGFloat) {
+
+    }
+
+    func chartViewDidEndPanning(_ chartView: ChartViewBase) {
+
+    }
+
+    func chartView(_ chartView: ChartViewBase, animatorDidStop animator: Animator) {
         
     }
 }

@@ -12,7 +12,6 @@
 import Foundation
 import CoreGraphics
 
-@objc(BarLineScatterCandleBubbleChartRenderer)
 open class BarLineScatterCandleBubbleRenderer: NSObject, DataRenderer
 {
     public let viewPortHandler: ViewPortHandler

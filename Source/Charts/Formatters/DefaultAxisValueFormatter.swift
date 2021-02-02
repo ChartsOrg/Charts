@@ -11,19 +11,18 @@
 
 import Foundation
 
-@objc(ChartDefaultAxisValueFormatter)
 open class DefaultAxisValueFormatter: NSObject, AxisValueFormatter
 {
     public typealias Block = (
         _ value: Double,
         _ axis: AxisBase?) -> String
     
-    @objc open var block: Block?
+    open var block: Block?
     
-    @objc open var hasAutoDecimals: Bool = false
+    open var hasAutoDecimals: Bool = false
     
     private var _formatter: NumberFormatter?
-    @objc open var formatter: NumberFormatter?
+    open var formatter: NumberFormatter?
     {
         get { return _formatter }
         set
@@ -59,14 +58,14 @@ open class DefaultAxisValueFormatter: NSObject, AxisValueFormatter
         hasAutoDecimals = true
     }
     
-    @objc public init(formatter: NumberFormatter)
+    public init(formatter: NumberFormatter)
     {
         super.init()
         
         self.formatter = formatter
     }
     
-    @objc public init(decimals: Int)
+    public init(decimals: Int)
     {
         super.init()
         
@@ -76,14 +75,14 @@ open class DefaultAxisValueFormatter: NSObject, AxisValueFormatter
         hasAutoDecimals = true
     }
     
-    @objc public init(block: @escaping Block)
+    public init(block: @escaping Block)
     {
         super.init()
         
         self.block = block
     }
     
-    @objc public static func with(block: @escaping Block) -> DefaultAxisValueFormatter?
+    public static func with(block: @escaping Block) -> DefaultAxisValueFormatter?
     {
         return DefaultAxisValueFormatter(block: block)
     }

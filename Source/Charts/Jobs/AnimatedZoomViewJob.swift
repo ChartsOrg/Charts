@@ -23,7 +23,7 @@ open class AnimatedZoomViewJob: AnimatedViewPortJob
     internal var zoomCenterX: CGFloat = 0.0
     internal var zoomCenterY: CGFloat = 0.0
 
-    @objc public init(
+    public init(
         viewPortHandler: ViewPortHandler,
         transformer: Transformer,
         view: ChartViewBase,
