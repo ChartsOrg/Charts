@@ -459,8 +459,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer {
                                 value: formatter.stringForValue(
                                     val,
                                     entry: e,
-                                    dataSetIndex: dataSetIndex,
-                                    viewPortHandler: viewPortHandler
+                                    dataSetIndex: dataSetIndex
                                 ),
                                 xPos: x,
                                 yPos: val >= 0.0
@@ -545,8 +544,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer {
                                         value: formatter.stringForValue(
                                             value,
                                             entry: e,
-                                            dataSetIndex: dataSetIndex,
-                                            viewPortHandler: viewPortHandler
+                                            dataSetIndex: dataSetIndex
                                         ),
                                         xPos: x,
                                         yPos: y,
@@ -576,8 +574,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer {
                                     value: formatter.stringForValue(
                                         e.y,
                                         entry: e,
-                                        dataSetIndex: dataSetIndex,
-                                        viewPortHandler: viewPortHandler
+                                        dataSetIndex: dataSetIndex
                                     ),
                                     xPos: x,
                                     yPos: rect.origin.y +
@@ -718,8 +715,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer {
         var elementValueText = dataSet.valueFormatter.stringForValue(
             e.y,
             entry: e,
-            dataSetIndex: dataSetIndex,
-            viewPortHandler: viewPortHandler
+            dataSetIndex: dataSetIndex
         )
 
         if dataSet.isStacked, let vals = e.yValues {
@@ -739,8 +735,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer {
             elementValueText = dataSet.valueFormatter.stringForValue(
                 yValue,
                 entry: e,
-                dataSetIndex: dataSetIndex,
-                viewPortHandler: viewPortHandler
+                dataSetIndex: dataSetIndex
             )
 
             if let stackLabel = stackLabel {

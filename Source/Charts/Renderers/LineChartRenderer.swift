@@ -527,16 +527,18 @@ open class LineChartRenderer: LineRadarRenderer {
                     }
 
                     if dataSet.isDrawValuesEnabled {
-                        context.drawText(formatter.stringForValue(e.y,
-                                                                  entry: e,
-                                                                  dataSetIndex: i,
-                                                                  viewPortHandler: viewPortHandler),
-                                         at: CGPoint(x: pt.x,
-                                                     y: pt.y - CGFloat(valOffset) - valueFont.lineHeight),
-                                         align: .center,
-                                         angleRadians: angleRadians,
-                                         attributes: [.font: valueFont,
-                                                      .foregroundColor: dataSet.valueTextColorAt(j)])
+                        context.drawText(
+                            formatter.stringForValue(
+                                e.y,
+                                entry: e,
+                                dataSetIndex: i
+                            ),
+                            at: CGPoint(x: pt.x,
+                                        y: pt.y - CGFloat(valOffset) - valueFont.lineHeight),
+                            align: .center,
+                            angleRadians: angleRadians,
+                            attributes: [.font: valueFont,
+                                         .foregroundColor: dataSet.valueTextColorAt(j)])
                     }
 
                     if let icon = e.icon, dataSet.isDrawIconsEnabled {
@@ -822,14 +824,15 @@ open class LineChartRenderer: LineRadarRenderer {
         // there is the possibility of some labels being rounded up. A floor() might fix this, but seems to be a brute force solution.
         let label = xAxis.valueFormatter?.stringForValue(e.x, axis: xAxis) ?? "\(e.x)"
 
-        let elementValueText = dataSet.valueFormatter.stringForValue(e.y,
-                                                                     entry: e,
-                                                                     dataSetIndex: dataSetIndex,
-                                                                     viewPortHandler: viewPortHandler)
-
+        let elementValueText = dataSet.valueFormatter.stringForValue(
+            e.y,
+            entry: e,
+            dataSetIndex: dataSetIndex
+        )
+        
         let dataSetCount = dataProvider.lineData?.dataSetCount ?? -1
         let doesContainMultipleDataSets = dataSetCount > 1
-
+        
         element.accessibilityLabel = "\(doesContainMultipleDataSets ? (dataSet.label ?? "") + ", " : "") \(label): \(elementValueText)"
 
         modifier(element)

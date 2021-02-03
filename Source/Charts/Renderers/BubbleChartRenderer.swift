@@ -193,8 +193,7 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer {
                 let text = formatter.stringForValue(
                     Double(e.size),
                     entry: e,
-                    dataSetIndex: i,
-                    viewPortHandler: viewPortHandler
+                    dataSetIndex: i
                 )
 
                 // Larger font for larger bubbles?
@@ -327,10 +326,8 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer {
         // there is the possibility of some labels being rounded up. A floor() might fix this, but seems to be a brute force solution.
         let label = xAxis.valueFormatter?.stringForValue(e.x, axis: xAxis) ?? "\(e.x)"
 
-        let elementValueText = dataSet.valueFormatter.stringForValue(e.y,
-                                                                     entry: e,
-                                                                     dataSetIndex: dataSetIndex,
-                                                                     viewPortHandler: viewPortHandler)
+        let elementValueText = dataSet.valueFormatter
+            .stringForValue(e.y, entry: e, dataSetIndex: dataSetIndex)
 
         let dataSetCount = dataProvider.bubbleData?.dataSetCount ?? -1
         let doesContainMultipleDataSets = dataSetCount > 1

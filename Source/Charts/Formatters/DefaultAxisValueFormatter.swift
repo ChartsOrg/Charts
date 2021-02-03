@@ -11,33 +11,13 @@
 
 import Foundation
 
-open class DefaultAxisValueFormatter: AxisValueFormatter {
-    public typealias Block = (
-        _ value: Double,
-        _ axis: AxisBase?
-    ) -> String
-
-    open var block: Block?
-
-    open var hasAutoDecimals: Bool = false
-
-    private var _formatter: NumberFormatter?
-    open var formatter: NumberFormatter? {
-        get { return _formatter }
-        set {
-            hasAutoDecimals = false
-            _formatter = newValue
-        }
-    }
+public struct DefaultAxisValueFormatter: AxisValueFormatter {
+    public var formatter: NumberFormatter?
 
     // TODO: Documentation. Especially the nil case
-    private var _decimals: Int?
-    open var decimals: Int? {
-        get { return _decimals }
-        set {
-            _decimals = newValue
-
-            if let digits = newValue {
+    public var decimals: Int? {
+        didSet {
+            if let digits = decimals {
                 formatter?.minimumFractionDigits = digits
                 formatter?.maximumFractionDigits = digits
                 formatter?.usesGroupingSeparator = true
@@ -47,7 +27,6 @@ open class DefaultAxisValueFormatter: AxisValueFormatter {
 
     public init() {
         formatter = NumberFormatter()
-        hasAutoDecimals = true
     }
 
     public init(formatter: NumberFormatter) {
@@ -57,25 +36,9 @@ open class DefaultAxisValueFormatter: AxisValueFormatter {
     public init(decimals: Int) {
         formatter = NumberFormatter()
         formatter?.usesGroupingSeparator = true
-        self.decimals = decimals
-        hasAutoDecimals = true
-    }
+        self.decimals = decimals    }
 
-    public init(block: @escaping Block) {
-        self.block = block
-    }
-
-    public static func with(block: @escaping Block) -> DefaultAxisValueFormatter? {
-        return DefaultAxisValueFormatter(block: block)
-    }
-
-    open func stringForValue(_ value: Double,
-                             axis: AxisBase?) -> String
-    {
-        if let block = block {
-            return block(value, axis)
-        } else {
-            return formatter?.string(from: NSNumber(floatLiteral: value)) ?? ""
-        }
+    public func stringForValue(_ value: Double, axis: AxisBase?) -> String {
+        formatter?.string(from: NSNumber(floatLiteral: value)) ?? ""
     }
 }

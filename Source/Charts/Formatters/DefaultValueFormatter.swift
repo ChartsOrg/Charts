@@ -12,75 +12,37 @@
 import Foundation
 
 /// The default value formatter used for all chart components that needs a default
-open class DefaultValueFormatter: ValueFormatter {
-    public typealias Block = (
-        _ value: Double,
-        _ entry: ChartDataEntry,
-        _ dataSetIndex: Int,
-        _ viewPortHandler: ViewPortHandler?
-    ) -> String
+public struct DefaultValueFormatter: ValueFormatter {
+    public let formatter: NumberFormatter
 
-    open var block: Block?
-
-    open var hasAutoDecimals: Bool
-
-    open var formatter: NumberFormatter? {
-        willSet {
-            hasAutoDecimals = false
-        }
-    }
-
-    open var decimals: Int? {
+    public var decimals: Int = 1 {
         didSet {
-            setupDecimals(decimals: decimals)
+            setupDecimals(decimals)
         }
     }
 
-    private func setupDecimals(decimals: Int?) {
-        if let digits = decimals {
-            formatter?.minimumFractionDigits = digits
-            formatter?.maximumFractionDigits = digits
-            formatter?.usesGroupingSeparator = true
-        }
+    private func setupDecimals(_ decimals: Int) {
+        formatter.minimumFractionDigits = decimals
+        formatter.maximumFractionDigits = decimals
+        formatter.usesGroupingSeparator = true
     }
 
-    public init() {
-        formatter = NumberFormatter()
-        formatter?.usesGroupingSeparator = true
-        decimals = 1
-        hasAutoDecimals = true
+    public init(decimals: Int = 1) {
+        self.formatter = NumberFormatter()
+        self.formatter.usesGroupingSeparator = true
 
-        setupDecimals(decimals: decimals)
+        self.decimals = decimals
     }
 
     public init(formatter: NumberFormatter) {
-        self.formatter = formatter
-        hasAutoDecimals = false
+        self.formatter = NumberFormatter()
     }
 
-    public init(decimals: Int) {
-        formatter = NumberFormatter()
-        formatter?.usesGroupingSeparator = true
-        self.decimals = decimals
-        hasAutoDecimals = true
-
-        setupDecimals(decimals: decimals)
-    }
-
-    public init(block: @escaping Block) {
-        self.block = block
-        hasAutoDecimals = false
-    }
-
-    open func stringForValue(_ value: Double,
-                             entry: ChartDataEntry,
-                             dataSetIndex: Int,
-                             viewPortHandler: ViewPortHandler?) -> String
-    {
-        if let block = block {
-            return block(value, entry, dataSetIndex, viewPortHandler)
-        } else {
-            return formatter?.string(from: NSNumber(floatLiteral: value)) ?? ""
-        }
+    public func stringForValue(
+        _ value: Double,
+        entry: ChartDataEntry,
+        dataSetIndex: Int
+    ) -> String {
+        formatter.string(from: value as NSNumber) ?? ""
     }
 }
