@@ -7,7 +7,7 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  iOS:
 
     runs-on: macos-latest
 
@@ -16,7 +16,7 @@ jobs:
     - name: iOS
       run: xcodebuild test -scheme ChartsTests -workspace Charts.xcworkspace -destination 'platform=iOS Simulator,name=iPhone 12 Pro' | xcpretty && exit ${PIPESTATUS[0]}
 
-  build:
+  tvOS:
 
     runs-on: macos-latest
 
@@ -25,7 +25,7 @@ jobs:
     - name: tvOS
       run: xcodebuild test -scheme ChartsTests -workspace Charts.xcworkspace -destination 'platform=tvOS Simulator,name=Apple TV 4K' | xcpretty && exit ${PIPESTATUS[0]}
 
-  build:
+  macOS:
 
     runs-on: macos-latest
 
