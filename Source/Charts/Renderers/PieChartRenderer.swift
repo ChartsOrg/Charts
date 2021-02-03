@@ -359,8 +359,7 @@ open class PieChartRenderer: DataRenderer {
                 let valueText = formatter.stringForValue(
                     value,
                     entry: e,
-                    dataSetIndex: i,
-                    viewPortHandler: viewPortHandler
+                    dataSetIndex: i
                 )
 
                 let sliceXBase = cos(transformedAngle.DEG2RAD)
@@ -829,8 +828,7 @@ open class PieChartRenderer: DataRenderer {
         var elementValueText = formatter.stringForValue(
             e.y,
             entry: e,
-            dataSetIndex: idx,
-            viewPortHandler: viewPortHandler
+            dataSetIndex: idx
         )
 
         if container.usePercentValuesEnabled {
@@ -838,8 +836,7 @@ open class PieChartRenderer: DataRenderer {
             let valueText = formatter.stringForValue(
                 value,
                 entry: e,
-                dataSetIndex: idx,
-                viewPortHandler: viewPortHandler
+                dataSetIndex: idx
             )
 
             elementValueText = valueText

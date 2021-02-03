@@ -147,8 +147,7 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer {
                     let text = formatter.stringForValue(
                         e.y,
                         entry: e,
-                        dataSetIndex: i,
-                        viewPortHandler: viewPortHandler
+                        dataSetIndex: i
                     )
 
                     if dataSet.isDrawValuesEnabled {

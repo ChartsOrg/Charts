@@ -277,16 +277,17 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer {
                     }
 
                     if dataSet.isDrawValuesEnabled {
-                        context.drawText(formatter.stringForValue(e.high,
-                                                                  entry: e,
-                                                                  dataSetIndex: i,
-                                                                  viewPortHandler: viewPortHandler),
-                                         at: CGPoint(x: pt.x,
-                                                     y: pt.y - yOffset),
-                                         align: .center,
-                                         angleRadians: angleRadians,
-                                         attributes: [.font: valueFont,
-                                                      .foregroundColor: dataSet.valueTextColorAt(j)])
+                        context.drawText(formatter.stringForValue(
+                            e.high,
+                            entry: e,
+                            dataSetIndex: i
+                        ),
+                        at: CGPoint(x: pt.x,
+                                    y: pt.y - yOffset),
+                        align: .center,
+                        angleRadians: angleRadians,
+                        attributes: [.font: valueFont,
+                                     .foregroundColor: dataSet.valueTextColorAt(j)])
                     }
 
                     if let icon = e.icon, dataSet.isDrawIconsEnabled {

@@ -44,8 +44,8 @@ public protocol ChartViewDelegate: AnyObject {
 open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate {
     // MARK: - Properties
 
-    /// The default IValueFormatter that has been determined by the chart considering the provided minimum and maximum values.
-    internal lazy var defaultValueFormatter: ValueFormatter = DefaultValueFormatter(decimals: 0)
+    /// The default ValueFormatter that has been determined by the chart considering the provided minimum and maximum values.
+    lazy var defaultValueFormatter: ValueFormatter = DefaultValueFormatter(decimals: 0)
 
     /// object that holds all data that was originally set for the chart, before it was modified or any filtering algorithms had been applied
     open var data: ChartData? {
@@ -192,29 +192,24 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate {
         setNeedsDisplay()
     }
 
-    /// - Returns: `true` if the chart is empty (meaning it's data object is either null or contains no entries).
-    open func isEmpty() -> Bool {
-        return data?.isEmpty ?? true
-    }
-
     /// Lets the chart know its underlying data has changed and should perform all necessary recalculations.
     /// It is crucial that this method is called everytime data is changed dynamically. Not calling this method can lead to crashes or unexpected behaviour.
-    open func notifyDataSetChanged() {
+    public func notifyDataSetChanged() {
         fatalError("notifyDataSetChanged() cannot be called on ChartViewBase")
     }
 
     /// Calculates the offsets of the chart to the border depending on the position of an eventual legend or depending on the length of the y-axis and x-axis labels and their position
-    internal func calculateOffsets() {
+    func calculateOffsets() {
         fatalError("calculateOffsets() cannot be called on ChartViewBase")
     }
 
     /// calcualtes the y-min and y-max value and the y-delta and x-delta value
-    internal func calcMinMax() {
+    func calcMinMax() {
         fatalError("calcMinMax() cannot be called on ChartViewBase")
     }
 
     /// calculates the required number of digits for the values that might be drawn in the chart (if enabled), and creates the default value formatter
-    internal func setupDefaultFormatter(min: Double, max: Double) {
+    func setupDefaultFormatter(min: Double, max: Double) {
         // check if a custom formatter is set or not
         var reference = 0.0
 
@@ -224,10 +219,11 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate {
             reference = Swift.max(abs(min), abs(max))
         }
 
-        if let formatter = defaultValueFormatter as? DefaultValueFormatter {
+        if var formatter = defaultValueFormatter as? DefaultValueFormatter {
             // setup the formatter with a new number of digits
             let digits = reference.decimalPlaces
             formatter.decimals = digits
+            self.defaultValueFormatter = formatter
         }
     }
 

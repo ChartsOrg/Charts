@@ -16,7 +16,7 @@ import Foundation
 /// Simply create your own formatting class and let it implement ValueFormatter. Then override the stringForValue()
 /// method and return whatever you want.
 
-public protocol ValueFormatter: class {
+public protocol ValueFormatter {
     /// Called when a value (from labels inside the chart) is formatted before being drawn.
     ///
     /// For performance reasons, avoid excessive calculations and memory allocations inside this method.
@@ -26,8 +26,9 @@ public protocol ValueFormatter: class {
     ///   - dataSetIndex:    The index of the DataSet the entry in focus belongs to
     ///   - viewPortHandler: provides information about the current chart state (scale, translation, ...)
     /// - Returns:                   The formatted label ready to be drawn
-    func stringForValue(_ value: Double,
-                        entry: ChartDataEntry,
-                        dataSetIndex: Int,
-                        viewPortHandler: ViewPortHandler?) -> String
+    func stringForValue(
+        _ value: Double,
+        entry: ChartDataEntry,
+        dataSetIndex: Int
+    ) -> String
 }

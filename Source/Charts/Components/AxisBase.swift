@@ -137,19 +137,8 @@ open class AxisBase: ComponentBase {
     /// If no formatter is set, the chart will automatically determine a reasonable formatting (concerning decimals) for all the values that are drawn inside the chart.
     /// Use `nil` to use the formatter calculated by the chart.
     open var valueFormatter: AxisValueFormatter? {
-        get {
-            if _axisValueFormatter is DefaultAxisValueFormatter,
-               (_axisValueFormatter as! DefaultAxisValueFormatter).hasAutoDecimals,
-               (_axisValueFormatter as! DefaultAxisValueFormatter).decimals != decimals
-            {
-                (self._axisValueFormatter as! DefaultAxisValueFormatter).decimals = self.decimals
-            }
-
-            return _axisValueFormatter
-        }
-        set {
-            _axisValueFormatter = newValue ?? DefaultAxisValueFormatter(decimals: decimals)
-        }
+        get { _axisValueFormatter }
+        set { _axisValueFormatter = newValue ?? DefaultAxisValueFormatter(decimals: decimals) }
     }
 
     open var isDrawGridLinesEnabled: Bool { return drawGridLinesEnabled }

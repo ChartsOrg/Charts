@@ -342,8 +342,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer {
                         let valueText = formatter.stringForValue(
                             val,
                             entry: e,
-                            dataSetIndex: dataSetIndex,
-                            viewPortHandler: viewPortHandler
+                            dataSetIndex: dataSetIndex
                         )
 
                         // calculate the correct offset depending on the draw position of the value
@@ -414,8 +413,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer {
                             let valueText = formatter.stringForValue(
                                 val,
                                 entry: e,
-                                dataSetIndex: dataSetIndex,
-                                viewPortHandler: viewPortHandler
+                                dataSetIndex: dataSetIndex
                             )
 
                             // calculate the correct offset depending on the draw position of the value
@@ -487,8 +485,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer {
                                 let valueText = formatter.stringForValue(
                                     val,
                                     entry: e,
-                                    dataSetIndex: dataSetIndex,
-                                    viewPortHandler: viewPortHandler
+                                    dataSetIndex: dataSetIndex
                                 )
 
                                 // calculate the correct offset depending on the draw position of the value
