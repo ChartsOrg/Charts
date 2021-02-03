@@ -3,7 +3,7 @@ import SnapshotTesting
 import UIKit
 
 private enum Snapshot {
-    static let tolerance: CGFloat = 0.001
+    static let tolerance: Float = 0.001
 
     static func identifier(_ size: CGSize) -> String {
         #if os(tvOS)
@@ -30,7 +30,7 @@ func assertChartSnapshot<Value: ChartViewBase>(
 ) {
     assertSnapshot(
         matching: try value(),
-        as: .image,
+        as: .image(precision: Snapshot.tolerance),
         record: recording,
         timeout: timeout,
         file: file,
