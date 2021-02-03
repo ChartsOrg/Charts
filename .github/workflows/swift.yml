@@ -14,4 +14,22 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: iOS
-      run: xcodebuild test -scheme ChartsTests -workspace Charts.xcworkspace -destination 'platform=iOS Simulator,name=iPhone 12 Pro,OS=14.4' | xcpretty && exit ${PIPESTATUS[0]}
+      run: xcodebuild test -scheme ChartsTests -workspace Charts.xcworkspace -destination 'platform=iOS Simulator,name=iPhone 12 Pro' | xcpretty && exit ${PIPESTATUS[0]}
+
+  build:
+
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: tvOS
+      run: xcodebuild test -scheme ChartsTests -workspace Charts.xcworkspace -destination 'platform=tvOS Simulator,name=Apple TV 4K' | xcpretty && exit ${PIPESTATUS[0]}
+
+  build:
+
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: macOS
+      run: xcodebuild -scheme ChartsDemo-macOS -workspace Charts.xcworkspace -destination 'platform=macOS,arch=x86_64' | xcpretty && exit ${PIPESTATUS[0]}

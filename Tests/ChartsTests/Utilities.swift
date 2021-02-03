@@ -20,7 +20,6 @@ private enum Snapshot {
     }
 }
 
-
 func assertChartSnapshot<Value: ChartViewBase>(
     matching value: @autoclosure () throws -> Value,
     record recording: Bool = false,
