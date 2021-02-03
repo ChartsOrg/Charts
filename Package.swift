@@ -1,12 +1,12 @@
-// swift-tools-version:5.1
+// swift-tools-version:5.3
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 import PackageDescription
 
 let package = Package(
     name: "Charts",
     platforms: [
-        .iOS(.v9),
-        .tvOS(.v9),
+        .iOS(.v11),
+        .tvOS(.v11),
         .macOS(.v10_11),
     ],
     products: [
@@ -22,12 +22,18 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-algorithms", from: "0.0.1"),
+        .package(name: "SnapshotTesting", url: "https://github.com/pointfreeco/swift-snapshot-testing.git", from: "1.8.1"),
     ],
     targets: [
         .target(
             name: "Charts",
             dependencies: [.product(name: "Algorithms", package: "swift-algorithms")]
         ),
+        .testTarget(
+            name: "ChartsTests",
+            dependencies: ["Charts", "SnapshotTesting"],
+            exclude: ["__Snapshots__"]
+        )
     ],
     swiftLanguageVersions: [.v5]
 )
