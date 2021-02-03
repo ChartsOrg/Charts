@@ -12,7 +12,7 @@
 import CoreGraphics
 import Foundation
 
-public protocol ChartDataSetProtocol: AnyObject {
+public protocol ChartDataSetProtocol: AnyObject, RandomAccessCollection, MutableCollection {
     // MARK: - Data functions and accessors
 
     /// Use this method to tell the data set that the underlying data has changed
@@ -38,12 +38,7 @@ public protocol ChartDataSetProtocol: AnyObject {
     var xMax: Double { get }
 
     /// The number of y-values this DataSet represents
-    var entryCount: Int { get }
-
-    /// - Throws: out of bounds
-    /// if `i` is out of bounds, it may throw an out-of-bounds exception
-    /// - Returns: The entry object found at the given index (not x-value!)
-    func entryForIndex(_ i: Int) -> ChartDataEntry?
+    var count: Int { get }
 
     /// - Parameters:
     ///   - xValue: the x-value
@@ -85,22 +80,6 @@ public protocol ChartDataSetProtocol: AnyObject {
         rounding: ChartDataSetRounding
     ) -> Int
 
-    /// - Parameters:
-    ///   - e: the entry to search for
-    /// - Returns: The array-index of the specified entry
-    func entryIndex(entry e: ChartDataEntry) -> Int
-
-    /// Adds an Entry to the DataSet dynamically.
-    ///
-    /// *optional feature, can return `false` ifnot implemented*
-    ///
-    /// Entries are added to the end of the list.
-    ///
-    /// - Parameters:
-    ///   - e: the entry to add
-    /// - Returns: `true` if the entry was added successfully, `false` ifthis feature is not supported
-    func addEntry(_ e: ChartDataEntry) -> Bool
-
     /// Adds an Entry to the DataSet dynamically.
     /// Entries are added to their appropriate index in the values array respective to their x-position.
     /// This will also recalculate the current minimum and maximum values of the DataSet and the value-sum.
@@ -120,16 +99,7 @@ public protocol ChartDataSetProtocol: AnyObject {
     /// - Parameters:
     ///   - entry: the entry to remove
     /// - Returns: `true` if the entry was removed successfully, `false` ifthe entry does not exist or if this feature is not supported
-    func removeEntry(_ entry: ChartDataEntry) -> Bool
-
-    /// Removes the Entry object at the given index in the values array from the DataSet.
-    ///
-    /// *optional feature, can return `false` ifnot implemented*
-    ///
-    /// - Parameters:
-    ///   - index: the index of the entry to remove
-    /// - Returns: `true` if the entry was removed successfully, `false` ifthe entry does not exist or if this feature is not supported
-    func removeEntry(index: Int) -> Bool
+    func remove(_ entry: ChartDataEntry) -> Bool
 
     /// Removes the Entry object closest to the given x-value from the DataSet.
     ///
@@ -140,29 +110,10 @@ public protocol ChartDataSetProtocol: AnyObject {
     /// - Returns: `true` if the entry was removed successfully, `false` ifthe entry does not exist or if this feature is not supported
     func removeEntry(x: Double) -> Bool
 
-    /// Removes the first Entry (at index 0) of this DataSet from the entries array.
-    ///
-    /// *optional feature, can return `false` ifnot implemented*
-    ///
-    /// - Returns: `true` if the entry was removed successfully, `false` ifthe entry does not exist or if this feature is not supported
-    func removeFirst() -> Bool
-
-    /// Removes the last Entry (at index 0) of this DataSet from the entries array.
-    ///
-    /// *optional feature, can return `false` ifnot implemented*
-    ///
-    /// - Returns: `true` if the entry was removed successfully, `false` ifthe entry does not exist or if this feature is not supported
-    func removeLast() -> Bool
-
     /// Checks if this DataSet contains the specified Entry.
     ///
     /// - Returns: `true` if contains the entry, `false` ifnot.
     func contains(_ e: ChartDataEntry) -> Bool
-
-    /// Removes all values from this DataSet and does all necessary recalculations.
-    ///
-    /// *optional feature, could throw if not implemented*
-    func clear()
 
     // MARK: - Styling functions and accessors
 
@@ -190,10 +141,7 @@ public protocol ChartDataSetProtocol: AnyObject {
     func setColor(_ color: NSUIColor)
 
     /// if true, value highlighting is enabled
-    var highlightEnabled: Bool { get set }
-
-    /// `true` if value highlighting is enabled for this dataset
-    var isHighlightEnabled: Bool { get }
+    var isHighlightEnabled: Bool { get set }
 
     /// Custom formatter that is used instead of the auto-formatter if set
     var valueFormatter: ValueFormatter { get set }
@@ -242,18 +190,12 @@ public protocol ChartDataSetProtocol: AnyObject {
     /// Set this to true to draw y-values on the chart.
     ///
     /// - Note: For bar and line charts: if `maxVisibleCount` is reached, no values will be drawn even if this is enabled.
-    var drawValuesEnabled: Bool { get set }
-
-    /// `true` if y-value drawing is enabled, `false` ifnot
-    var isDrawValuesEnabled: Bool { get }
+    var isDrawValuesEnabled: Bool { get set }
 
     /// Set this to true to draw y-icons on the chart
     ///
     /// - Note: For bar and line charts: if `maxVisibleCount` is reached, no icons will be drawn even if this is enabled.
-    var drawIconsEnabled: Bool { get set }
-
-    /// Returns true if y-icon drawing is enabled, false if not
-    var isDrawIconsEnabled: Bool { get }
+    var isDrawIconsEnabled: Bool { get set }
 
     /// Offset of icons drawn on the chart.
     ///
@@ -262,9 +204,6 @@ public protocol ChartDataSetProtocol: AnyObject {
     /// For Pie and Radar chart it will be (y offset, distance from center offset); so if you want icon to be rendered under value, you should increase X component of CGPoint, and if you want icon to be rendered closet to center, you should decrease height component of CGPoint.
     var iconsOffset: CGPoint { get set }
 
-    /// Set the visibility of this DataSet. If not visible, the DataSet will not be drawn to the chart upon refreshing it.
-    var visible: Bool { get set }
-
     /// `true` if this DataSet is visible inside the chart, or `false` ifit is currently hidden.
-    var isVisible: Bool { get }
+    var isVisible: Bool { get set }
 }

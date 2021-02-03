@@ -79,7 +79,7 @@ open class ChartHighlighter: Highlighter {
 
     /// - Returns: An array of `Highlight` objects corresponding to the selected xValue and dataSetIndex.
     internal func buildHighlights(
-        dataSet set: ChartDataSetProtocol,
+        dataSet set: ChartDataSet,
         dataSetIndex: Int,
         xValue: Double,
         rounding: ChartDataSetRounding

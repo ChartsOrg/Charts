@@ -39,8 +39,8 @@ open class BubbleChartDataSet: BarLineScatterCandleBubbleChartDataSet, BubbleCha
 
     override open func copy(with zone: NSZone? = nil) -> Any {
         let copy = super.copy(with: zone) as! BubbleChartDataSet
-        copy._xMin = _xMin
-        copy._xMax = _xMax
+        copy.xMin = xMin
+        copy.xMax = xMax
         copy._maxSize = _maxSize
         copy.normalizeSizeEnabled = normalizeSizeEnabled
         copy.highlightCircleWidth = highlightCircleWidth

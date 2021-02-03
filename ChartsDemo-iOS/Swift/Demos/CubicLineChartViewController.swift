@@ -12,7 +12,7 @@
 import Charts
 
 private class CubicLineSampleFillFormatter: FillFormatter {
-    func getFillLinePosition(dataSet _: LineChartDataSetProtocol, dataProvider _: LineChartDataProvider) -> CGFloat {
+    func getFillLinePosition(dataSet _: LineChartDataSet, dataProvider _: LineChartDataProvider) -> CGFloat {
         return -10
     }
 }

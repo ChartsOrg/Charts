@@ -45,8 +45,8 @@ open class RadarHighlighter: PieRadarHighlighter {
         let sliceangle = chart.sliceAngle
         let factor = chart.factor
 
-        for (i, dataSet) in chartData.indexed() {
-            guard let entry = dataSet.entryForIndex(index) else { continue }
+        for (i, dataSet) in chartData.indexed() where dataSet.indices.contains(index) {
+            let entry = dataSet[index]
 
             let y = (entry.y - chart.chartYMin)
 

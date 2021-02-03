@@ -246,7 +246,7 @@ open class ChartData: ExpressibleByArrayLiteral {
         }
 
         let set = self[dataSetIndex]
-        if !set.addEntry(e) { return }
+        set.append(e)
         calcMinMax(entry: e, axis: set.axisDependency)
     }
 
@@ -255,7 +255,7 @@ open class ChartData: ExpressibleByArrayLiteral {
         guard dataSets.indices.contains(dataSetIndex) else { return false }
 
         // remove the entry from the dataset
-        let removed = self[dataSetIndex].removeEntry(entry)
+        let removed = self[dataSetIndex].remove(entry)
 
         if removed {
             calcMinMax()
@@ -319,14 +319,14 @@ open class ChartData: ExpressibleByArrayLiteral {
 
     /// Enables / disables drawing values (value-text) for all DataSets this data object contains.
     open func setDrawValues(_ enabled: Bool) {
-        forEach { $0.drawValuesEnabled = enabled }
+        forEach { $0.isDrawValuesEnabled = enabled }
     }
 
     /// Enables / disables highlighting values for all DataSets this data object contains.
     /// If set to true, this means that values can be highlighted programmatically or by touch gesture.
     open var isHighlightEnabled: Bool {
         get { return allSatisfy { $0.isHighlightEnabled } }
-        set { forEach { $0.highlightEnabled = newValue } }
+        set { forEach { $0.isHighlightEnabled = newValue } }
     }
 
     /// Clears this data object from all DataSets and removes all Entries.
@@ -344,12 +344,12 @@ open class ChartData: ExpressibleByArrayLiteral {
 
     /// The total entry count across all DataSet objects this data object contains.
     open var entryCount: Int {
-        return reduce(0) { return $0 + $1.entryCount }
+        return reduce(0) { return $0 + $1.count }
     }
 
     /// The DataSet object with the maximum number of entries or null if there are no DataSets.
     open var maxEntryCountSet: Element? {
-        return self.max { $0.entryCount > $1.entryCount }
+        return self.max { $0.count > $1.count }
     }
 }
 
@@ -357,7 +357,7 @@ open class ChartData: ExpressibleByArrayLiteral {
 
 extension ChartData: MutableCollection {
     public typealias Index = Int
-    public typealias Element = ChartDataSetProtocol
+    public typealias Element = ChartDataSet
 
     public var startIndex: Index {
         return dataSets.startIndex

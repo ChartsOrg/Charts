@@ -15,7 +15,7 @@ import Foundation
 /// Default formatter that calculates the position of the filled line.
 public struct DefaultFillFormatter: FillFormatter {
     public func getFillLinePosition(
-        dataSet: LineChartDataSetProtocol,
+        dataSet: LineChartDataSet,
         dataProvider: LineChartDataProvider
     ) -> CGFloat {
         var fillMin: CGFloat = 0.0

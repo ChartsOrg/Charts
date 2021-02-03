@@ -16,11 +16,11 @@ open class BarLineScatterCandleBubbleChartData: ChartData {
         super.init()
     }
 
-    override public init(dataSets: [ChartDataSetProtocol]) {
+    override public init(dataSets: [ChartDataSet]) {
         super.init(dataSets: dataSets)
     }
 
-    public required init(arrayLiteral elements: ChartDataSetProtocol...) {
+    public required init(arrayLiteral elements: ChartDataSet...) {
         super.init(dataSets: elements)
     }
 }

@@ -9,6 +9,7 @@
 //  https://github.com/danielgindi/Charts
 //
 
+import Algorithms
 import CoreGraphics
 import Foundation
 
@@ -17,7 +18,7 @@ open class RadarChartRenderer: LineRadarRenderer {
         guard let chart = chart else { return [] }
         guard let formatter = chart.xAxis.valueFormatter else { return [] }
 
-        let maxEntryCount = chart.data?.maxEntryCountSet?.entryCount ?? 0
+        let maxEntryCount = chart.data?.maxEntryCountSet?.count ?? 0
         return stride(from: 0, to: maxEntryCount, by: 1).map {
             formatter.stringForValue(Double($0), axis: chart.xAxis)
         }
@@ -38,7 +39,7 @@ open class RadarChartRenderer: LineRadarRenderer {
             return
         }
 
-        let mostEntries = radarData.maxEntryCountSet?.entryCount ?? 0
+        let mostEntries = radarData.maxEntryCountSet?.count ?? 0
 
         // If we redraw the data, remove and repopulate accessible elements to update label values and frames
         accessibleChartElements.removeAll()
@@ -49,7 +50,7 @@ open class RadarChartRenderer: LineRadarRenderer {
                                              withDefaultDescription: "Radar Chart")
         accessibleChartElements.append(element)
 
-        for case let set as RadarChartDataSetProtocol in radarData where set.isVisible {
+        for case let set as RadarChartDataSet in radarData where set.isVisible {
             drawDataSet(context: context, dataSet: set, mostEntries: mostEntries)
         }
     }
@@ -60,7 +61,7 @@ open class RadarChartRenderer: LineRadarRenderer {
     ///   - context:
     ///   - dataSet:
     ///   - mostEntries: the entry count of the dataset with the most entries
-    internal func drawDataSet(context: CGContext, dataSet: RadarChartDataSetProtocol, mostEntries: Int)
+    internal func drawDataSet(context: CGContext, dataSet: RadarChartDataSet, mostEntries: Int)
     {
         guard let chart = chart else { return }
 
@@ -75,7 +76,7 @@ open class RadarChartRenderer: LineRadarRenderer {
         let factor = chart.factor
 
         let center = chart.centerOffsets
-        let entryCount = dataSet.entryCount
+        let entryCount = dataSet.count
         let path = CGMutablePath()
         var hasMovedToPoint = false
 
@@ -85,16 +86,14 @@ open class RadarChartRenderer: LineRadarRenderer {
         // Make a tuple of (xLabels, value, originalIndex) then sort it
         // This is done, so that the labels are narrated in decreasing order of their corresponding value
         // Otherwise, there is no non-visual logic to the data presented
-        let accessibilityEntryValues = Array(0 ..< entryCount).map { (dataSet.entryForIndex($0)?.y ?? 0, $0) }
+        let accessibilityEntryValues = dataSet.indexed().map { ($1.y, $0) }
         let accessibilityAxisLabelValueTuples = zip(accessibilityXLabels, accessibilityEntryValues).map { ($0, $1.0, $1.1) }.sorted { $0.1 > $1.1 }
         let accessibilityDataSetDescription: String = description + ". \(entryCount) \(prefix + (entryCount == 1 ? "" : "s")). "
         let accessibilityFrameWidth: CGFloat = 22.0 // To allow a tap target of 44x44
 
         var accessibilityEntryElements: [NSUIAccessibilityElement] = []
 
-        for j in 0 ..< entryCount {
-            guard let e = dataSet.entryForIndex(j) else { continue }
-
+        for (j, e) in dataSet.indexed() {
             let p = center.moving(distance: CGFloat((e.y - chart.chartYMin) * Double(factor) * phaseY),
                                   atAngle: sliceangle * CGFloat(j) * CGFloat(phaseX) + chart.rotationAngle)
 
@@ -130,7 +129,7 @@ open class RadarChartRenderer: LineRadarRenderer {
         }
 
         // if this is the largest set, close it
-        if dataSet.entryCount < mostEntries {
+        if dataSet.count < mostEntries {
             // if this is not the largest set, draw a line to the center before closing
             path.addLine(to: center)
         }
@@ -192,19 +191,15 @@ open class RadarChartRenderer: LineRadarRenderer {
 
         for i in data.indices {
             guard let
-                dataSet = data[i] as? RadarChartDataSetProtocol,
+                dataSet = data[i] as? RadarChartDataSet,
                 shouldDrawValues(forDataSet: dataSet)
             else { continue }
 
             let angleRadians = dataSet.valueLabelAngle.DEG2RAD
 
-            let entryCount = dataSet.entryCount
-
             let iconsOffset = dataSet.iconsOffset
 
-            for j in 0 ..< entryCount {
-                guard let e = dataSet.entryForIndex(j) else { continue }
-
+            for (j, e) in dataSet.indexed() {
                 let p = center.moving(distance: CGFloat(e.y - chart.chartYMin) * factor * CGFloat(phaseY),
                                       atAngle: sliceangle * CGFloat(j) * CGFloat(phaseX) + chart.rotationAngle)
 
@@ -269,7 +264,7 @@ open class RadarChartRenderer: LineRadarRenderer {
         context.setAlpha(chart.webAlpha)
 
         let xIncrements = 1 + chart.skipWebLineCount
-        let maxEntryCount = chart.data?.maxEntryCountSet?.entryCount ?? 0
+        let maxEntryCount = chart.data?.maxEntryCountSet?.count ?? 0
 
         for i in stride(from: 0, to: maxEntryCount, by: xIncrements) {
             let p = center.moving(distance: CGFloat(chart.yRange) * factor,
@@ -328,11 +323,11 @@ open class RadarChartRenderer: LineRadarRenderer {
 
         for high in indices {
             guard
-                let set = chart.data?[high.dataSetIndex] as? RadarChartDataSetProtocol,
+                let set = chart.data?[high.dataSetIndex] as? RadarChartDataSet,
                 set.isHighlightEnabled
             else { continue }
 
-            guard let e = set.entryForIndex(Int(high.x)) as? RadarChartDataEntry
+            guard let e = set[Int(high.x)] as? RadarChartDataEntry
             else { continue }
 
             if !isInBoundsX(entry: e, dataSet: set) {
@@ -419,7 +414,7 @@ open class RadarChartRenderer: LineRadarRenderer {
 
     private func createAccessibleElement(withDescription description: String,
                                          container: RadarChartView,
-                                         dataSet _: RadarChartDataSetProtocol,
+                                         dataSet _: RadarChartDataSet,
                                          modifier: (NSUIAccessibilityElement) -> Void) -> NSUIAccessibilityElement
     {
         let element = NSUIAccessibilityElement(accessibilityContainer: container)

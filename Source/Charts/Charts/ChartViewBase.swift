@@ -450,8 +450,9 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate {
                 let e = data?.entry(for: highlight)
             else { continue }
 
-            let entryIndex = set.entryIndex(entry: e)
-            guard entryIndex <= Int(Double(set.entryCount) * chartAnimator.phaseX) else { continue }
+            guard let entryIndex = set.firstIndex(of: e),
+                  entryIndex <= Int(Double(set.count) * chartAnimator.phaseX)
+            else { continue }
 
             let pos = getMarkerPosition(highlight: highlight)
 

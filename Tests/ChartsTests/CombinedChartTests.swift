@@ -43,7 +43,7 @@ class CombinedChartTests: XCTestCase {
         }
 
         barDataSet = BarChartDataSet(entries: entries, label: "Bar chart unit test data")
-        barDataSet.drawIconsEnabled = false
+        barDataSet.isDrawIconsEnabled = false
 
         let data = BarChartData(dataSet: barDataSet)
         data.barWidth = 0.85
@@ -62,7 +62,7 @@ class CombinedChartTests: XCTestCase {
         }
 
         lineDataSet = LineChartDataSet(entries: entries, label: "Line chart unit test data")
-        lineDataSet.drawIconsEnabled = false
+        lineDataSet.isDrawIconsEnabled = false
         return LineChartData(dataSet: lineDataSet)
     }
 

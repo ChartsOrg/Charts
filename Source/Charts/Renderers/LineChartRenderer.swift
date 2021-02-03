@@ -9,6 +9,7 @@
 //  https://github.com/danielgindi/Charts
 //
 
+import Algorithms
 import CoreGraphics
 import Foundation
 
@@ -40,8 +41,8 @@ open class LineChartRenderer: LineRadarRenderer {
             .forEach(drawDataSet)
     }
 
-    open func drawDataSet(context: CGContext, dataSet: LineChartDataSetProtocol) {
-        if dataSet.entryCount < 1 {
+    open func drawDataSet(context: CGContext, dataSet: LineChartDataSet) {
+        if dataSet.count < 1 {
             return
         }
 
@@ -83,7 +84,7 @@ open class LineChartRenderer: LineRadarRenderer {
         context.strokePath()
     }
 
-    open func drawCubicBezier(context: CGContext, dataSet: LineChartDataSetProtocol) {
+    open func drawCubicBezier(context: CGContext, dataSet: LineChartDataSet) {
         guard let dataProvider = dataProvider else { return }
 
         let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
@@ -115,8 +116,8 @@ open class LineChartRenderer: LineRadarRenderer {
             let firstIndex = _xBounds.min + 1
 
             var prevPrev: ChartDataEntry!
-            var prev: ChartDataEntry! = dataSet.entryForIndex(max(firstIndex - 2, 0))
-            var cur: ChartDataEntry! = dataSet.entryForIndex(max(firstIndex - 1, 0))
+            var prev: ChartDataEntry! = dataSet[max(firstIndex - 2, 0)]
+            var cur: ChartDataEntry! = dataSet[max(firstIndex - 1, 0)]
             var next: ChartDataEntry! = cur
             var nextIndex: Int = -1
 
@@ -129,10 +130,10 @@ open class LineChartRenderer: LineRadarRenderer {
             {
                 prevPrev = prev
                 prev = cur
-                cur = nextIndex == j ? next : dataSet.entryForIndex(j)
+                cur = nextIndex == j ? next : dataSet[j]
 
-                nextIndex = j + 1 < dataSet.entryCount ? j + 1 : j
-                next = dataSet.entryForIndex(nextIndex)
+                nextIndex = j + 1 < dataSet.count ? j + 1 : j
+                next = dataSet[nextIndex]
 
                 if next == nil { break }
 
@@ -176,7 +177,7 @@ open class LineChartRenderer: LineRadarRenderer {
         }
     }
 
-    open func drawHorizontalBezier(context: CGContext, dataSet: LineChartDataSetProtocol) {
+    open func drawHorizontalBezier(context: CGContext, dataSet: LineChartDataSet) {
         guard let dataProvider = dataProvider else { return }
 
         let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
@@ -194,7 +195,7 @@ open class LineChartRenderer: LineRadarRenderer {
         let valueToPixelMatrix = trans.valueToPixelMatrix
 
         if _xBounds.range >= 1 {
-            var prev: ChartDataEntry! = dataSet.entryForIndex(_xBounds.min)
+            var prev: ChartDataEntry! = dataSet[_xBounds.min]
             var cur: ChartDataEntry! = prev
 
             if cur == nil { return }
@@ -204,7 +205,7 @@ open class LineChartRenderer: LineRadarRenderer {
 
             for j in _xBounds.dropFirst() {
                 prev = cur
-                cur = dataSet.entryForIndex(j)
+                cur = dataSet[j]
 
                 let cpx = CGFloat(prev.x + (cur.x - prev.x) / 2.0)
 
@@ -245,7 +246,7 @@ open class LineChartRenderer: LineRadarRenderer {
 
     open func drawCubicFill(
         context: CGContext,
-        dataSet: LineChartDataSetProtocol,
+        dataSet: LineChartDataSet,
         spline: CGMutablePath,
         matrix: CGAffineTransform,
         bounds: XBounds
@@ -260,8 +261,8 @@ open class LineChartRenderer: LineRadarRenderer {
 
         let fillMin = dataSet.fillFormatter?.getFillLinePosition(dataSet: dataSet, dataProvider: dataProvider) ?? 0.0
 
-        var pt1 = CGPoint(x: CGFloat(dataSet.entryForIndex(bounds.min + bounds.range)?.x ?? 0.0), y: fillMin)
-        var pt2 = CGPoint(x: CGFloat(dataSet.entryForIndex(bounds.min)?.x ?? 0.0), y: fillMin)
+        var pt1 = CGPoint(x: CGFloat(dataSet[bounds.min + bounds.range].x), y: fillMin)
+        var pt2 = CGPoint(x: CGFloat(dataSet[bounds.min].x), y: fillMin)
         pt1 = pt1.applying(matrix)
         pt2 = pt2.applying(matrix)
 
@@ -278,14 +279,14 @@ open class LineChartRenderer: LineRadarRenderer {
 
     private var _lineSegments = [CGPoint](repeating: CGPoint(), count: 2)
 
-    open func drawLinear(context: CGContext, dataSet: LineChartDataSetProtocol) {
+    open func drawLinear(context: CGContext, dataSet: LineChartDataSet) {
         guard let dataProvider = dataProvider else { return }
 
         let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
 
         let valueToPixelMatrix = trans.valueToPixelMatrix
 
-        let entryCount = dataSet.entryCount
+        let entryCount = dataSet.count
         let isDrawSteppedEnabled = dataSet.mode == .stepped
         let pointsPerEntryPair = isDrawSteppedEnabled ? 4 : 2
 
@@ -309,7 +310,7 @@ open class LineChartRenderer: LineRadarRenderer {
             }
 
             for j in _xBounds.dropLast() {
-                var e: ChartDataEntry! = dataSet.entryForIndex(j)
+                var e: ChartDataEntry! = dataSet[j]
 
                 if e == nil { continue }
 
@@ -320,7 +321,7 @@ open class LineChartRenderer: LineRadarRenderer {
                     // TODO: remove the check.
                     // With the new XBounds iterator, j is always smaller than _xBounds.max
                     // Keeping this check for a while, if xBounds have no further breaking changes, it should be safe to remove the check
-                    e = dataSet.entryForIndex(j + 1)
+                    e = dataSet[j + 1]
 
                     if e == nil { break }
 
@@ -360,16 +361,17 @@ open class LineChartRenderer: LineRadarRenderer {
                 context.strokeLineSegments(between: _lineSegments)
             }
         } else { // only one color per dataset
-            guard dataSet.entryForIndex(_xBounds.min) != nil else {
+            guard dataSet.indices.contains(_xBounds.min) else {
                 return
             }
 
             var firstPoint = true
 
             let path = CGMutablePath()
-            for x in stride(from: _xBounds.min, through: _xBounds.range + _xBounds.min, by: 1) {
-                guard let e1 = dataSet.entryForIndex(x == 0 ? 0 : (x - 1)) else { continue }
-                guard let e2 = dataSet.entryForIndex(x) else { continue }
+            let stride = _xBounds.min...(_xBounds.range + _xBounds.min)
+            for pair in dataSet[stride].slidingWindows(ofCount: 2) {
+                let e1 = pair.first!
+                let e2 = pair.last!
 
                 let startPoint =
                     CGPoint(
@@ -417,7 +419,7 @@ open class LineChartRenderer: LineRadarRenderer {
         }
     }
 
-    open func drawLinearFill(context: CGContext, dataSet: LineChartDataSetProtocol, trans: Transformer, bounds: XBounds)
+    open func drawLinearFill(context: CGContext, dataSet: LineChartDataSet, trans: Transformer, bounds: XBounds)
     {
         guard let dataProvider = dataProvider else { return }
 
@@ -436,7 +438,7 @@ open class LineChartRenderer: LineRadarRenderer {
     }
 
     /// Generates the path that is used for filled drawing.
-    private func generateFilledPath(dataSet: LineChartDataSetProtocol, fillMin: CGFloat, bounds: XBounds, matrix: CGAffineTransform) -> CGPath
+    private func generateFilledPath(dataSet: LineChartDataSet, fillMin: CGFloat, bounds: XBounds, matrix: CGAffineTransform) -> CGPath
     {
         let phaseY = animator.phaseY
         let isDrawSteppedEnabled = dataSet.mode == .stepped
@@ -446,7 +448,7 @@ open class LineChartRenderer: LineRadarRenderer {
 
         let filled = CGMutablePath()
 
-        e = dataSet.entryForIndex(bounds.min)
+        e = dataSet[bounds.min]
         if e != nil {
             filled.move(to: CGPoint(x: CGFloat(e.x), y: fillMin), transform: matrix)
             filled.addLine(to: CGPoint(x: CGFloat(e.x), y: CGFloat(e.y * phaseY)), transform: matrix)
@@ -454,10 +456,10 @@ open class LineChartRenderer: LineRadarRenderer {
 
         // create a new path
         for x in stride(from: bounds.min + 1, through: bounds.range + bounds.min, by: 1) {
-            guard let e = dataSet.entryForIndex(x) else { continue }
+            let e = dataSet[x]
 
             if isDrawSteppedEnabled {
-                guard let ePrev = dataSet.entryForIndex(x - 1) else { continue }
+                let ePrev = dataSet[x - 1]
                 filled.addLine(to: CGPoint(x: CGFloat(e.x), y: CGFloat(ePrev.y * phaseY)), transform: matrix)
             }
 
@@ -465,7 +467,7 @@ open class LineChartRenderer: LineRadarRenderer {
         }
 
         // close up
-        e = dataSet.entryForIndex(bounds.range + bounds.min)
+        e = dataSet[bounds.range + bounds.min]
         if e != nil {
             filled.addLine(to: CGPoint(x: CGFloat(e.x), y: fillMin), transform: matrix)
         }
@@ -487,7 +489,7 @@ open class LineChartRenderer: LineRadarRenderer {
 
             for i in lineData.indices {
                 guard let
-                    dataSet = lineData[i] as? LineChartDataSetProtocol,
+                    dataSet = lineData[i] as? LineChartDataSet,
                     shouldDrawValues(forDataSet: dataSet)
                 else { continue }
 
@@ -512,7 +514,7 @@ open class LineChartRenderer: LineRadarRenderer {
                 _xBounds.set(chart: dataProvider, dataSet: dataSet, animator: animator)
 
                 for j in _xBounds {
-                    guard let e = dataSet.entryForIndex(j) else { break }
+                    let e = dataSet[j]
 
                     pt.x = CGFloat(e.x)
                     pt.y = CGFloat(e.y * phaseY)
@@ -582,11 +584,11 @@ open class LineChartRenderer: LineRadarRenderer {
         context.saveGState()
 
         for i in lineData.indices {
-            guard let dataSet = lineData[i] as? LineChartDataSetProtocol else { continue }
+            guard let dataSet = lineData[i] as? LineChartDataSet else { continue }
 
             // Skip Circles and Accessibility if not enabled,
             // reduces CPU significantly if not needed
-            if !dataSet.isVisible || !dataSet.isDrawCirclesEnabled || dataSet.entryCount == 0 {
+            if !dataSet.isVisible || !dataSet.isDrawCirclesEnabled || dataSet.count == 0 {
                 continue
             }
 
@@ -608,7 +610,7 @@ open class LineChartRenderer: LineRadarRenderer {
                     dataSet.circleHoleColor == NSUIColor.clear)
 
             for j in _xBounds {
-                guard let e = dataSet.entryForIndex(j) else { break }
+                let e = dataSet[j]
 
                 pt.x = CGFloat(e.x)
                 pt.y = CGFloat(e.y * phaseY)
@@ -698,7 +700,7 @@ open class LineChartRenderer: LineRadarRenderer {
         context.saveGState()
 
         for high in indices {
-            guard let set = lineData[high.dataSetIndex] as? LineChartDataSetProtocol,
+            guard let set = lineData[high.dataSetIndex] as? LineChartDataSet,
                   set.isHighlightEnabled
             else { continue }
 
@@ -736,7 +738,7 @@ open class LineChartRenderer: LineRadarRenderer {
         context.restoreGState()
     }
 
-    func drawGradientLine(context: CGContext, dataSet: LineChartDataSetProtocol, spline: CGPath, matrix: CGAffineTransform)
+    func drawGradientLine(context: CGContext, dataSet: LineChartDataSet, spline: CGPath, matrix: CGAffineTransform)
     {
         guard let gradientPositions = dataSet.gradientPositions else {
             assertionFailure("Must set `gradientPositions if `dataSet.isDrawLineWithGradientEnabled` is true")
@@ -809,14 +811,14 @@ open class LineChartRenderer: LineRadarRenderer {
     /// Note that it is marked internal to support subclass modification in the HorizontalBarChart.
     private func createAccessibleElement(withIndex idx: Int,
                                          container: LineChartView,
-                                         dataSet: LineChartDataSetProtocol,
+                                         dataSet: LineChartDataSet,
                                          dataSetIndex: Int,
                                          modifier: (NSUIAccessibilityElement) -> Void) -> NSUIAccessibilityElement
     {
         let element = NSUIAccessibilityElement(accessibilityContainer: container)
         let xAxis = container.xAxis
 
-        guard let e = dataSet.entryForIndex(idx) else { return element }
+        let e = dataSet[idx]
         guard let dataProvider = dataProvider else { return element }
 
         // NOTE: The formatter can cause issues when the x-axis labels are consecutive ints.

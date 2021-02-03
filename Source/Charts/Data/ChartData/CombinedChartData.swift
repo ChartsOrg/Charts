@@ -22,11 +22,11 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData {
         super.init()
     }
 
-    override public init(dataSets: [ChartDataSetProtocol]) {
+    override public init(dataSets: [ChartDataSet]) {
         super.init(dataSets: dataSets)
     }
 
-    public required init(arrayLiteral elements: ChartDataSetProtocol...) {
+    public required init(arrayLiteral elements: ChartDataSet...) {
         super.init(dataSets: elements)
     }
 
@@ -167,7 +167,7 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData {
         return allData.firstIndex { $0 === data }
     }
 
-    override open func removeDataSet(_ dataSet: ChartDataSetProtocol) -> Element? {
+    override open func removeDataSet(_ dataSet: ChartDataSet) -> Element? {
         for data in allData {
             if let e = data.removeDataSet(dataSet) {
                 return e
@@ -214,7 +214,7 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData {
     /// - Parameters:
     ///   - highlight: current highlight
     /// - Returns: dataset related to highlight
-    open func getDataSetByHighlight(_ highlight: Highlight) -> ChartDataSetProtocol! {
+    open func getDataSetByHighlight(_ highlight: Highlight) -> ChartDataSet! {
         guard allData.indices.contains(highlight.dataIndex) else {
             return nil
         }
@@ -236,7 +236,7 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData {
 //        fatalError("append(_:) not supported for CombinedData")
 //    }
 //
-//    public override func remove(at i: Int) -> ChartDataSetProtocol {
+//    public override func remove(at i: Int) -> ChartDataSet {
 //        fatalError("remove(at:) not supported for CombinedData")
 //    }
 }

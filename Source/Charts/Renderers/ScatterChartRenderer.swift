@@ -9,6 +9,7 @@
 //  https://github.com/danielgindi/Charts
 //
 
+import Algorithms
 import CoreGraphics
 import Foundation
 
@@ -50,14 +51,14 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer {
 
     private var _lineSegments = [CGPoint](repeating: CGPoint(), count: 2)
 
-    open func drawDataSet(context: CGContext, dataSet: ScatterChartDataSetProtocol) {
+    open func drawDataSet(context: CGContext, dataSet: ScatterChartDataSet) {
         guard let dataProvider = dataProvider else { return }
 
         let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
 
         let phaseY = animator.phaseY
 
-        let entryCount = dataSet.entryCount
+        let entryCount = dataSet.count
 
         var point = CGPoint()
 
@@ -68,7 +69,7 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer {
 
             for j in 0 ..< Int(min(ceil(Double(entryCount) * animator.phaseX), Double(entryCount)))
             {
-                guard let e = dataSet.entryForIndex(j) else { continue }
+                let e = dataSet[j]
 
                 point.x = CGFloat(e.x)
                 point.y = CGFloat(e.y * phaseY)
@@ -106,7 +107,7 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer {
             var pt = CGPoint()
 
             for i in scatterData.indices {
-                guard let dataSet = scatterData[i] as? ScatterChartDataSetProtocol,
+                guard let dataSet = scatterData[i] as? ScatterChartDataSet,
                       shouldDrawValues(forDataSet: dataSet)
                 else { continue }
 
@@ -126,9 +127,7 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer {
 
                 _xBounds.set(chart: dataProvider, dataSet: dataSet, animator: animator)
 
-                for j in _xBounds {
-                    guard let e = dataSet.entryForIndex(j) else { break }
-
+                for (j, e) in dataSet[_xBounds].indexed() {
                     pt.x = CGFloat(e.x)
                     pt.y = CGFloat(e.y * phaseY)
                     pt = pt.applying(valueToPixelMatrix)
@@ -183,7 +182,7 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer {
 
         for high in indices {
             guard
-                let set = scatterData[high.dataSetIndex] as? ScatterChartDataSetProtocol,
+                let set = scatterData[high.dataSetIndex] as? ScatterChartDataSet,
                 set.isHighlightEnabled
             else { continue }
 

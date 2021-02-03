@@ -22,7 +22,7 @@ class PieChartTests: XCTestCase {
         }
 
         dataSet = PieChartDataSet(entries: entries, label: "First unit test data")
-        dataSet.drawIconsEnabled = false
+        dataSet.isDrawIconsEnabled = false
         dataSet.iconsOffset = CGPoint(x: 0, y: 20.0)
 
         let colors = ChartColorTemplates.vordiplom
@@ -49,12 +49,12 @@ class PieChartTests: XCTestCase {
     }
 
     func testHidesValues() {
-        dataSet.drawValuesEnabled = false
+        dataSet.isDrawValuesEnabled = false
         assertChartSnapshot(matching: chart)
     }
 
     func testDrawIcons() {
-        dataSet.drawIconsEnabled = true
+        dataSet.isDrawIconsEnabled = true
         assertChartSnapshot(matching: chart)
     }
 
@@ -64,7 +64,7 @@ class PieChartTests: XCTestCase {
     }
 
     func testHighlightDisabled() {
-        chart.data?.dataSets[0].highlightEnabled = false
+        chart.data?.dataSets[0].isHighlightEnabled = false
         chart.highlightValue(x: 1.0, dataSetIndex: 0, callDelegate: false)
         assertChartSnapshot(matching: chart)
     }

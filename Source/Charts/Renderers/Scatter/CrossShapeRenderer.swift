@@ -14,7 +14,7 @@ import Foundation
 open class CrossShapeRenderer: ShapeRenderer {
     open func renderShape(
         context: CGContext,
-        dataSet: ScatterChartDataSetProtocol,
+        dataSet: ScatterChartDataSet,
         viewPortHandler _: ViewPortHandler,
         point: CGPoint,
         color: NSUIColor

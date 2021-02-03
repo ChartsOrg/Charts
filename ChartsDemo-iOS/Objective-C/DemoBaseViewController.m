@@ -75,7 +75,7 @@
 {
     if ([key isEqualToString:@"toggleValues"])
     {
-        for (id<ChartDataSetProtocol> set in chartView.data.dataSets)
+        for (id<ChartDataSet> set in chartView.data.dataSets)
         {
             set.drawValuesEnabled = !set.isDrawValuesEnabled;
         }
@@ -85,7 +85,7 @@
     
     if ([key isEqualToString:@"toggleIcons"])
     {
-        for (id<ChartDataSetProtocol> set in chartView.data.dataSets)
+        for (id<ChartDataSet> set in chartView.data.dataSets)
         {
             set.drawIconsEnabled = !set.isDrawIconsEnabled;
         }
@@ -143,9 +143,9 @@
     
     if ([key isEqualToString:@"toggleBarBorders"])
     {
-        for (id<BarChartDataSetProtocol, NSObject> set in chartView.data.dataSets)
+        for (id<BarChartDataSet, NSObject> set in chartView.data.dataSets)
         {
-            if ([set conformsToProtocol:@protocol(BarChartDataSetProtocol)])
+            if ([set conformsToProtocol:@protocol(BarChartDataSet)])
             {
                 set.barBorderWidth = set.barBorderWidth == 1.0 ? 0.0 : 1.0;
             }

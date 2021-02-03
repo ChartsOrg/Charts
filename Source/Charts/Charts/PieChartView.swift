@@ -240,9 +240,7 @@ open class PieChartView: PieRadarChartViewBase {
         var cnt = 0
 
         for set in data {
-            for j in 0 ..< set.entryCount {
-                guard let e = set.entryForIndex(j) else { continue }
-
+            for e in set {
                 _drawAngles.append(calcAngle(value: abs(e.y), yValueSum: yValueSum))
 
                 if cnt == 0 {

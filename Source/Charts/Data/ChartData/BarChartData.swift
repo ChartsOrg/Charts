@@ -17,11 +17,11 @@ open class BarChartData: BarLineScatterCandleBubbleChartData {
         super.init()
     }
 
-    override public init(dataSets: [ChartDataSetProtocol]) {
+    override public init(dataSets: [ChartDataSet]) {
         super.init(dataSets: dataSets)
     }
 
-    public required init(arrayLiteral elements: ChartDataSetProtocol...) {
+    public required init(arrayLiteral elements: ChartDataSet...) {
         super.init(dataSets: elements)
     }
 
@@ -39,13 +39,10 @@ open class BarChartData: BarLineScatterCandleBubbleChartData {
     ///   - groupSpace: The space between groups of bars in values (not pixels) e.g. 0.8f for bar width 1f
     ///   - barSpace: The space between individual bars in values (not pixels) e.g. 0.1f for bar width 1f
     open func groupBars(fromX: Double, groupSpace: Double, barSpace: Double) {
-        guard !isEmpty else {
+        guard !isEmpty, let max = maxEntryCountSet else {
             print("BarData needs to hold at least 2 BarDataSets to allow grouping.", terminator: "\n")
             return
         }
-
-        let max = maxEntryCountSet
-        let maxEntryCount = max?.entryCount ?? 0
 
         let groupSpaceWidthHalf = groupSpace / 2.0
         let barSpaceHalf = barSpace / 2.0
@@ -55,18 +52,16 @@ open class BarChartData: BarLineScatterCandleBubbleChartData {
 
         let interval = groupWidth(groupSpace: groupSpace, barSpace: barSpace)
 
-        for i in 0 ..< maxEntryCount {
+        for i in max.indices {
             let start = fromX
             fromX += groupSpaceWidthHalf
 
-            (_dataSets as! [BarChartDataSetProtocol]).forEach { set in
+            (_dataSets as! [BarChartDataSet]).forEach { set in
                 fromX += barSpaceHalf
                 fromX += barWidthHalf
 
-                if i < set.entryCount {
-                    if let entry = set.entryForIndex(i) {
-                        entry.x = fromX
-                    }
+                if set.indices.contains(i) {
+                    set[i].x = fromX
                 }
 
                 fromX += barWidthHalf

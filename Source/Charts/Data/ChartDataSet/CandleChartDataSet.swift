@@ -27,8 +27,8 @@ open class CandleChartDataSet: LineScatterCandleRadarChartDataSet, CandleChartDa
         guard let e = e as? CandleChartDataEntry
         else { return }
 
-        _yMin = Swift.min(e.low, _yMin)
-        _yMax = Swift.max(e.high, _yMax)
+        yMin = Swift.min(e.low, yMin)
+        yMax = Swift.max(e.high, yMax)
 
         calcMinMaxX(entry: e)
     }
@@ -37,11 +37,11 @@ open class CandleChartDataSet: LineScatterCandleRadarChartDataSet, CandleChartDa
         guard let e = e as? CandleChartDataEntry
         else { return }
 
-        _yMin = Swift.min(e.low, _yMin)
-        _yMax = Swift.max(e.high, _yMin)
+        yMin = Swift.min(e.low, yMin)
+        yMax = Swift.max(e.high, yMin)
 
-        _yMin = Swift.min(e.low, _yMax)
-        _yMax = Swift.max(e.high, _yMax)
+        yMin = Swift.min(e.low, yMax)
+        yMax = Swift.max(e.high, yMax)
     }
 
     // MARK: - Styling functions and accessors

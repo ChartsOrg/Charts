@@ -179,8 +179,9 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider {
                 let e = data?.entry(for: highlight)
             else { continue }
 
-            let entryIndex = set.entryIndex(entry: e)
-            if entryIndex > Int(Double(set.entryCount) * chartAnimator.phaseX) {
+            if let entryIndex = set.firstIndex(of: e),
+               entryIndex > Int(Double(set.count) * chartAnimator.phaseX)
+            {
                 continue
             }
 

@@ -14,11 +14,9 @@ import Foundation
 
 open class PieHighlighter: PieRadarHighlighter {
     override open func closestHighlight(index: Int, x: CGFloat, y: CGFloat) -> Highlight? {
-        guard
-            let set = chart?.data?[0],
-            let entry = set.entryForIndex(index)
-        else { return nil }
-
+        guard let set = chart?.data?[0] else { return nil }
+        let entry = set[index]
+        
         return Highlight(x: Double(index), y: entry.y, xPx: x, yPx: y, dataSetIndex: 0, axis: set.axisDependency)
     }
 }

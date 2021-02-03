@@ -144,7 +144,7 @@ open class HorizontalBarChartView: BarChartView {
     override open func getBarBounds(entry e: BarChartDataEntry) -> CGRect {
         guard
             let data = data as? BarChartData,
-            let set = data.getDataSetForEntry(e) as? BarChartDataSetProtocol
+            let set = data.getDataSetForEntry(e) as? BarChartDataSet
         else { return .null }
 
         let y = e.y

@@ -21,7 +21,7 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(url: "https://github.com/apple/swift-algorithms", from: "0.0.1"),
+        .package(url: "https://github.com/apple/swift-algorithms", .branch("main")),
         .package(name: "SnapshotTesting", url: "https://github.com/pointfreeco/swift-snapshot-testing.git", from: "1.8.1"),
     ],
     targets: [

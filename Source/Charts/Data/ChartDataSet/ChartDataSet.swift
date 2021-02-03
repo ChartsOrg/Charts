@@ -11,6 +11,7 @@
 
 import Algorithms
 import Foundation
+import CoreGraphics
 
 /// Determines how to round DataSet index values for `ChartDataSet.entryIndex(x, rounding)` when an exact x-value is not found.
 public enum ChartDataSetRounding: Int {
@@ -21,27 +22,15 @@ public enum ChartDataSetRounding: Int {
 
 /// The DataSet class represents one group or type of entries (Entry) in the Chart that belong together.
 /// It is designed to logically separate different groups of values inside the Chart (e.g. the values for a specific line in the LineChart, or the values of a specific group of bars in the BarChart).
-open class ChartDataSet: ChartBaseDataSet {
+open class ChartDataSet: ChartBaseDataSet, NSCopying {
     public required init() {
-        entries = []
-
-        super.init()
+        self.entries = []
     }
 
-    override public convenience init(label: String) {
-        self.init(entries: [], label: label)
-    }
-
-    public init(entries: [ChartDataEntry], label: String) {
+    public init(entries: [ChartDataEntry] = [], label: String = "DataSet") {
         self.entries = entries
-
-        super.init(label: label)
-
+        self.label = label
         calcMinMax()
-    }
-
-    public convenience init(entries: [ChartDataEntry]) {
-        self.init(entries: entries, label: "DataSet")
     }
 
     // MARK: - Data functions and accessors
@@ -61,32 +50,20 @@ open class ChartDataSet: ChartBaseDataSet {
         notifyDataSetChanged()
     }
 
-    /// maximum y-value in the value array
-    internal var _yMax: Double = -Double.greatestFiniteMagnitude
-
-    /// minimum y-value in the value array
-    internal var _yMin = Double.greatestFiniteMagnitude
-
-    /// maximum x-value in the value array
-    internal var _xMax: Double = -Double.greatestFiniteMagnitude
-
-    /// minimum x-value in the value array
-    internal var _xMin = Double.greatestFiniteMagnitude
-
-    override open func calcMinMax() {
-        _yMax = -Double.greatestFiniteMagnitude
-        _yMin = Double.greatestFiniteMagnitude
-        _xMax = -Double.greatestFiniteMagnitude
-        _xMin = Double.greatestFiniteMagnitude
+    open func calcMinMax() {
+        yMax = -Double.greatestFiniteMagnitude
+        yMin = Double.greatestFiniteMagnitude
+        xMax = -Double.greatestFiniteMagnitude
+        xMin = Double.greatestFiniteMagnitude
 
         guard !isEmpty else { return }
 
         forEach(calcMinMax)
     }
 
-    override open func calcMinMaxY(fromX: Double, toX: Double) {
-        _yMax = -Double.greatestFiniteMagnitude
-        _yMin = Double.greatestFiniteMagnitude
+    open func calcMinMaxY(fromX: Double, toX: Double) {
+        yMax = -Double.greatestFiniteMagnitude
+        yMin = Double.greatestFiniteMagnitude
 
         guard !isEmpty else { return }
 
@@ -99,13 +76,13 @@ open class ChartDataSet: ChartBaseDataSet {
     }
 
     open func calcMinMaxX(entry e: ChartDataEntry) {
-        _xMin = Swift.min(e.x, _xMin)
-        _xMax = Swift.max(e.x, _xMax)
+        xMin = Swift.min(e.x, xMin)
+        xMax = Swift.max(e.x, xMax)
     }
 
     open func calcMinMaxY(entry e: ChartDataEntry) {
-        _yMin = Swift.min(e.y, _yMin)
-        _yMax = Swift.max(e.y, _yMax)
+        yMin = Swift.min(e.y, yMin)
+        yMax = Swift.max(e.y, yMax)
     }
 
     /// Updates the min and max x and y value of this DataSet based on the given Entry.
@@ -118,16 +95,16 @@ open class ChartDataSet: ChartBaseDataSet {
     }
 
     /// The minimum y-value this DataSet holds
-    override open var yMin: Double { return _yMin }
+    public internal(set) var yMin: Double = Double.greatestFiniteMagnitude
 
     /// The maximum y-value this DataSet holds
-    override open var yMax: Double { return _yMax }
+    public internal(set) var yMax: Double = -Double.greatestFiniteMagnitude
 
     /// The minimum x-value this DataSet holds
-    override open var xMin: Double { return _xMin }
+    public internal(set) var xMin: Double = Double.greatestFiniteMagnitude
 
     /// The maximum x-value this DataSet holds
-    override open var xMax: Double { return _xMax }
+    public internal(set) var xMax: Double = -Double.greatestFiniteMagnitude
 
     /// - Parameters:
     ///   - xValue: the x-value
@@ -136,7 +113,7 @@ open class ChartDataSet: ChartBaseDataSet {
     /// - Returns: The first Entry object found at the given x-value with binary search.
     /// If the no Entry at the specified x-value is found, this method returns the Entry at the closest x-value according to the rounding.
     /// nil if no Entry object at that x-value.
-    override open func entryForXValue(
+    public func entryForXValue(
         _ xValue: Double,
         closestToY yValue: Double,
         rounding: ChartDataSetRounding
@@ -154,16 +131,16 @@ open class ChartDataSet: ChartBaseDataSet {
     /// - Returns: The first Entry object found at the given x-value with binary search.
     /// If the no Entry at the specified x-value is found, this method returns the Entry at the closest x-value.
     /// nil if no Entry object at that x-value.
-    override open func entryForXValue(
+    public func entryForXValue(
         _ xValue: Double,
         closestToY yValue: Double
     ) -> ChartDataEntry? {
-        return entryForXValue(xValue, closestToY: yValue, rounding: .closest)
+        entryForXValue(xValue, closestToY: yValue, rounding: .closest)
     }
 
     /// - Returns: All Entry objects found at the given xIndex with binary search.
     /// An empty array if no Entry object at that index.
-    override open func entriesForXValue(_ xValue: Double) -> [ChartDataEntry] {
+    public func entriesForXValue(_ xValue: Double) -> [ChartDataEntry] {
         let match: (ChartDataEntry) -> Bool = { $0.x == xValue }
         let i = partitioningIndex(where: match)
         guard i < endIndex else { return [] }
@@ -176,7 +153,7 @@ open class ChartDataSet: ChartBaseDataSet {
     ///   - rounding: Rounding method if exact value was not found
     /// - Returns: The array-index of the specified entry.
     /// If the no Entry at the specified x-value is found, this method returns the index of the Entry at the closest x-value according to the rounding.
-    override open func entryIndex(
+    public func entryIndex(
         x xValue: Double,
         closestToY yValue: Double,
         rounding: ChartDataSetRounding
@@ -237,7 +214,7 @@ open class ChartDataSet: ChartBaseDataSet {
     ///
     /// - Parameters:
     ///   - e: the entry to add
-    override open func addEntryOrdered(_ e: ChartDataEntry) {
+    public func addEntryOrdered(_ e: ChartDataEntry) {
         if let last = last, last.x > e.x {
             let startIndex = entryIndex(x: e.x, closestToY: e.y, rounding: .up)
             let closestIndex = self[startIndex...].lastIndex { $0.x < e.x }
@@ -261,36 +238,188 @@ open class ChartDataSet: ChartBaseDataSet {
         return true
     }
 
-    // MARK: - Data functions and accessors
-
-    open override func entryIndex(entry: ChartDataEntry) -> Int {
-        firstIndex(of: entry) ?? -1
-    }
-
-    open override func entryForIndex(_ index: Int) -> ChartDataEntry? {
-        self[index]
-    }
-
-    open override var entryCount: Int {
-        count
-    }
-    
     // MARK: - NSCopying
 
-    override open func copy(with zone: NSZone? = nil) -> Any {
-        let copy = super.copy(with: zone) as! ChartDataSet
+    open func copy(with zone: NSZone? = nil) -> Any {
+        let copy = type(of: self).init()
+
+        copy.colors = colors
+        copy.valueColors = valueColors
+        copy.label = label
+        copy.axisDependency = axisDependency
+        copy.isHighlightEnabled = isHighlightEnabled
+        copy.valueFormatter = valueFormatter
+        copy.valueFont = valueFont
+        copy.form = form
+        copy.formSize = formSize
+        copy.formLineWidth = formLineWidth
+        copy.formLineDashPhase = formLineDashPhase
+        copy.formLineDashLengths = formLineDashLengths
+        copy.isDrawValuesEnabled = isDrawValuesEnabled
+        copy.isDrawIconsEnabled = isDrawIconsEnabled
+        copy.iconsOffset = iconsOffset
+        copy.isVisible = isVisible
 
         copy.entries = entries
-        copy._yMax = _yMax
-        copy._yMin = _yMin
-        copy._xMax = _xMax
-        copy._xMin = _xMin
+        copy.yMax = yMax
+        copy.yMin = yMin
+        copy.xMax = xMax
+        copy.xMin = xMin
 
         return copy
     }
+
+    // MARK: - Styling functions and accessors
+
+    /// All the colors that are used for this DataSet.
+    /// Colors are reused as soon as the number of Entries the DataSet represents is higher than the size of the colors array.
+    open var colors: [NSUIColor] = [
+        NSUIColor(red: 140.0 / 255.0, green: 234.0 / 255.0, blue: 255.0 / 255.0, alpha: 1.0)
+    ]
+
+    /// List representing all colors that are used for drawing the actual values for this DataSet
+    open var valueColors: [NSUIColor] = [.labelOrBlack]
+
+    /// The label string that describes the DataSet.
+    open var label: String? = "DataSet"
+
+    /// The axis this DataSet should be plotted against.
+    open var axisDependency = YAxis.AxisDependency.left
+
+    /// - Returns: The color at the given index of the DataSet's color array.
+    /// This prevents out-of-bounds by performing a modulus on the color index, so colours will repeat themselves.
+    open func color(atIndex index: Int) -> NSUIColor {
+        var index = index
+        if index < 0 {
+            index = 0
+        }
+        return colors[index % colors.count]
+    }
+
+    /// Resets all colors of this DataSet and recreates the colors array.
+    open func resetColors() {
+        colors.removeAll(keepingCapacity: false)
+    }
+
+    /// Adds a new color to the colors array of the DataSet.
+    ///
+    /// - Parameters:
+    ///   - color: the color to add
+    open func addColor(_ color: NSUIColor) {
+        colors.append(color)
+    }
+
+    /// Sets the one and **only** color that should be used for this DataSet.
+    /// Internally, this recreates the colors array and adds the specified color.
+    ///
+    /// - Parameters:
+    ///   - color: the color to set
+    open func setColor(_ color: NSUIColor) {
+        colors.removeAll(keepingCapacity: false)
+        colors.append(color)
+    }
+
+    /// Sets colors to a single color a specific alpha value.
+    ///
+    /// - Parameters:
+    ///   - color: the color to set
+    ///   - alpha: alpha to apply to the set `color`
+    open func setColor(_ color: NSUIColor, alpha: CGFloat) {
+        setColor(color.withAlphaComponent(alpha))
+    }
+
+    /// Sets colors with a specific alpha value.
+    ///
+    /// - Parameters:
+    ///   - colors: the colors to set
+    ///   - alpha: alpha to apply to the set `colors`
+    open func setColors(_ colors: [NSUIColor], alpha: CGFloat) {
+        self.colors = colors.map { $0.withAlphaComponent(alpha) }
+    }
+
+    /// Sets colors with a specific alpha value.
+    ///
+    /// - Parameters:
+    ///   - colors: the colors to set
+    ///   - alpha: alpha to apply to the set `colors`
+    open func setColors(_ colors: NSUIColor...) {
+        self.colors = colors
+    }
+
+    /// `true` if value highlighting is enabled for this dataset
+    open var isHighlightEnabled: Bool = true
+
+    /// Custom formatter that is used instead of the auto-formatter if set
+    open lazy var valueFormatter: ValueFormatter = DefaultValueFormatter()
+
+    /// Sets/get a single color for value text.
+    /// Setting the color clears the colors array and adds a single color.
+    /// Getting will return the first color in the array.
+    open var valueTextColor: NSUIColor {
+        get {
+            return valueColors[0]
+        }
+        set {
+            valueColors.removeAll(keepingCapacity: false)
+            valueColors.append(newValue)
+        }
+    }
+
+    /// - Returns: The color at the specified index that is used for drawing the values inside the chart. Uses modulus internally.
+    open func valueTextColorAt(_ index: Int) -> NSUIColor {
+        var index = index
+        if index < 0 {
+            index = 0
+        }
+        return valueColors[index % valueColors.count]
+    }
+
+    /// the font for the value-text labels
+    open var valueFont = NSUIFont.systemFont(ofSize: 7.0)
+
+    /// The rotation angle (in degrees) for value-text labels
+    open var valueLabelAngle = CGFloat(0.0)
+
+    /// The form to draw for this dataset in the legend.
+    open var form = Legend.Form.default
+
+    /// The form size to draw for this dataset in the legend.
+    ///
+    /// Return `NaN` to use the default legend form size.
+    open var formSize = CGFloat.nan
+
+    /// The line width for drawing the form of this dataset in the legend
+    ///
+    /// Return `NaN` to use the default legend form line width.
+    open var formLineWidth = CGFloat.nan
+
+    /// Line dash configuration for legend shapes that consist of lines.
+    ///
+    /// This is how much (in pixels) into the dash pattern are we starting from.
+    open var formLineDashPhase: CGFloat = 0.0
+
+    /// Line dash configuration for legend shapes that consist of lines.
+    ///
+    /// This is the actual dash pattern.
+    /// I.e. [2, 3] will paint [--   --   ]
+    /// [1, 3, 4, 2] will paint [-   ----  -   ----  ]
+    open var formLineDashLengths: [CGFloat]?
+
+    open var isDrawValuesEnabled: Bool = true
+
+    open var isDrawIconsEnabled: Bool = true
+
+    /// Offset of icons drawn on the chart.
+    ///
+    /// For all charts except Pie and Radar it will be ordinary (x offset, y offset).
+    ///
+    /// For Pie and Radar chart it will be (y offset, distance from center offset); so if you want icon to be rendered under value, you should increase X component of CGPoint, and if you want icon to be rendered closet to center, you should decrease height component of CGPoint.
+    open var iconsOffset = CGPoint(x: 0, y: 0)
+
+    open var isVisible: Bool = true
 }
 
-// MARK: MutableCollection
+// MARK: - MutableCollection
 
 extension ChartDataSet: MutableCollection {
     public typealias Index = Int
@@ -306,6 +435,10 @@ extension ChartDataSet: MutableCollection {
 
     public func index(after: Index) -> Index {
         return entries.index(after: after)
+    }
+
+    open var count: Int {
+        entries.count
     }
 
     public subscript(position: Index) -> Element {
@@ -373,5 +506,21 @@ extension ChartDataSet: RangeReplaceableCollection {
     public func removeAll(keepingCapacity keepCapacity: Bool) {
         entries.removeAll(keepingCapacity: keepCapacity)
         notifyDataSetChanged()
+    }
+}
+
+// MARK: - CustomStringConvertible
+extension ChartDataSet: CustomStringConvertible {
+    open var description: String {
+        String(format: "%@, label: %@, %i entries", arguments: [NSStringFromClass(type(of: self)), self.label ?? "", self.count])
+    }
+}
+
+// MARK: - CustomDebugStringConvertible
+extension ChartDataSet: CustomDebugStringConvertible {
+    open var debugDescription: String {
+        reduce(into: description + ":") {
+            $0 += "\n\($1.description)"
+        }
     }
 }

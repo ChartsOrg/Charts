@@ -33,13 +33,13 @@ open class LegendRenderer: Renderer {
             // loop for building up the colors and labels used in the legend
             for dataSet in data {
                 let clrs: [NSUIColor] = dataSet.colors
-                let entryCount = dataSet.entryCount
+                let entryCount = dataSet.count
 
                 // if we have a barchart with stacked bars
-                if dataSet is BarChartDataSetProtocol,
-                   (dataSet as! BarChartDataSetProtocol).isStacked
+                if dataSet is BarChartDataSet,
+                   (dataSet as! BarChartDataSet).isStacked
                 {
-                    let bds = dataSet as! BarChartDataSetProtocol
+                    let bds = dataSet as! BarChartDataSet
                     let sLabels = bds.stackLabels
                     let minEntries = min(clrs.count, bds.stackSize)
 
@@ -70,11 +70,11 @@ open class LegendRenderer: Renderer {
 
                         entries.append(entry)
                     }
-                } else if dataSet is PieChartDataSetProtocol {
-                    let pds = dataSet as! PieChartDataSetProtocol
+                } else if dataSet is PieChartDataSet {
+                    let pds = dataSet as! PieChartDataSet
 
                     for j in 0 ..< min(clrs.count, entryCount) {
-                        let entry = LegendEntry(label: (pds.entryForIndex(j) as? PieChartDataEntry)?.label)
+                        let entry = LegendEntry(label: (pds[j] as? PieChartDataEntry)?.label)
                         entry.form = dataSet.form
                         entry.formSize = dataSet.formSize
                         entry.formLineWidth = dataSet.formLineWidth
@@ -92,10 +92,10 @@ open class LegendRenderer: Renderer {
 
                         entries.append(entry)
                     }
-                } else if dataSet is CandleChartDataSetProtocol,
-                          (dataSet as! CandleChartDataSetProtocol).decreasingColor != nil
+                } else if dataSet is CandleChartDataSet,
+                          (dataSet as! CandleChartDataSet).decreasingColor != nil
                 {
-                    let candleDataSet = dataSet as! CandleChartDataSetProtocol
+                    let candleDataSet = dataSet as! CandleChartDataSet
 
                     let decreasingEntry = LegendEntry(label: nil)
                     decreasingEntry.form = dataSet.form

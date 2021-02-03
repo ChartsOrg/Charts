@@ -181,7 +181,7 @@ open class YAxisRendererRadarChart: YAxisRenderer {
 
             context.beginPath()
 
-            for i in 0 ..< (data.maxEntryCountSet?.entryCount ?? 0) {
+            for i in 0 ..< (data.maxEntryCountSet?.count ?? 0) {
                 let p = center.moving(
                     distance: r,
                     atAngle: sliceangle * CGFloat(i) + chart.rotationAngle

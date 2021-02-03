@@ -30,15 +30,15 @@ open class RadarChartData: ChartData {
         super.init()
     }
 
-    override public init(dataSets: [ChartDataSetProtocol]) {
+    override public init(dataSets: [ChartDataSet]) {
         super.init(dataSets: dataSets)
     }
 
-    public required init(arrayLiteral elements: ChartDataSetProtocol...) {
+    public required init(arrayLiteral elements: ChartDataSet...) {
         super.init(dataSets: elements)
     }
 
     override open func entry(for highlight: Highlight) -> ChartDataEntry? {
-        return self[highlight.dataSetIndex].entryForIndex(Int(highlight.x))
+        self[highlight.dataSetIndex][Int(highlight.x)]
     }
 }

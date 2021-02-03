@@ -23,7 +23,7 @@ public protocol ShapeRenderer: AnyObject {
     ///   - color:           Color to draw the shape
     func renderShape(
         context: CGContext,
-        dataSet: ScatterChartDataSetProtocol,
+        dataSet: ScatterChartDataSet,
         viewPortHandler: ViewPortHandler,
         point: CGPoint,
         color: NSUIColor

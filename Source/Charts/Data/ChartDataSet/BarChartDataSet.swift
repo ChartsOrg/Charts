@@ -25,7 +25,7 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, BarChartData
         initialize()
     }
 
-    override public init(entries: [ChartDataEntry], label: String) {
+    override public init(entries: [ChartDataEntry], label: String = "DataSet") {
         super.init(entries: entries, label: label)
         initialize()
     }
@@ -60,11 +60,11 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, BarChartData
         else { return }
 
         if e.yValues == nil {
-            _yMin = Swift.min(e.y, _yMin)
-            _yMax = Swift.max(e.y, _yMax)
+            yMin = Swift.min(e.y, yMin)
+            yMax = Swift.max(e.y, yMax)
         } else {
-            _yMin = Swift.min(-e.negativeSum, _yMin)
-            _yMax = Swift.max(e.positiveSum, _yMax)
+            yMin = Swift.min(-e.negativeSum, yMin)
+            yMax = Swift.max(e.positiveSum, yMax)
         }
 
         calcMinMaxX(entry: e)

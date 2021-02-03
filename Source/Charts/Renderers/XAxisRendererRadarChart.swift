@@ -40,7 +40,7 @@ open class XAxisRendererRadarChart: XAxisRenderer {
 
         let center = chart.centerOffsets
 
-        for i in 0 ..< (chart.data?.maxEntryCountSet?.entryCount ?? 0) {
+        for i in 0 ..< (chart.data?.maxEntryCountSet?.count ?? 0) {
             let label = axis.valueFormatter?.stringForValue(Double(i), axis: axis) ?? ""
             let angle = (sliceangle * CGFloat(i) + chart.rotationAngle).truncatingRemainder(dividingBy: 360.0)
             let p = center.moving(distance: CGFloat(chart.yRange) * factor + axis.labelRotatedWidth / 2.0, atAngle: angle)

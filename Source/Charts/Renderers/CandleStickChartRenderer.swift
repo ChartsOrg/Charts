@@ -36,7 +36,7 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer {
             accessibleChartElements.append(element)
         }
 
-        for case let set as CandleChartDataSetProtocol in candleData where set.isVisible {
+        for case let set as CandleChartDataSet in candleData where set.isVisible {
             drawDataSet(context: context, dataSet: set)
         }
     }
@@ -48,7 +48,7 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer {
     private var _bodyRect = CGRect()
     private var _lineSegments = [CGPoint](repeating: CGPoint(), count: 2)
 
-    open func drawDataSet(context: CGContext, dataSet: CandleChartDataSetProtocol) {
+    open func drawDataSet(context: CGContext, dataSet: CandleChartDataSet) {
         guard
             let dataProvider = dataProvider
         else { return }
@@ -67,7 +67,7 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer {
 
         for j in _xBounds {
             // get the entry
-            guard let e = dataSet.entryForIndex(j) as? CandleChartDataEntry else { continue }
+            guard let e = dataSet[j] as? CandleChartDataEntry else { continue }
 
             let xPos = e.x
 
@@ -241,7 +241,7 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer {
 
             for i in candleData.indices {
                 guard let
-                    dataSet = candleData[i] as? BarLineScatterCandleBubbleChartDataSetProtocol,
+                    dataSet = candleData[i] as? BarLineScatterCandleBubbleChartDataSet,
                     shouldDrawValues(forDataSet: dataSet)
                 else { continue }
 
@@ -262,7 +262,7 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer {
                 let yOffset: CGFloat = lineHeight + 5.0
 
                 for j in _xBounds {
-                    guard let e = dataSet.entryForIndex(j) as? CandleChartDataEntry else { break }
+                    guard let e = dataSet[j] as? CandleChartDataEntry else { break }
 
                     pt.x = CGFloat(e.x)
                     pt.y = CGFloat(e.high * phaseY)
@@ -313,7 +313,7 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer {
 
         for high in indices {
             guard
-                let set = candleData[high.dataSetIndex] as? CandleChartDataSetProtocol,
+                let set = candleData[high.dataSetIndex] as? CandleChartDataSet,
                 set.isHighlightEnabled
             else { continue }
 
@@ -351,7 +351,7 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer {
 
     private func createAccessibleElement(withIndex _: Int,
                                          container: CandleChartDataProvider,
-                                         dataSet _: CandleChartDataSetProtocol,
+                                         dataSet _: CandleChartDataSet,
                                          modifier: (NSUIAccessibilityElement) -> Void) -> NSUIAccessibilityElement
     {
         let element = NSUIAccessibilityElement(accessibilityContainer: container)

@@ -35,23 +35,23 @@ open class BarLineScatterCandleBubbleRenderer: DataRenderer {
     open func drawHighlighted(context _: CGContext, indices _: [Highlight]) {}
 
     /// Checks if the provided entry object is in bounds for drawing considering the current animation phase.
-    internal func isInBoundsX(entry e: ChartDataEntry, dataSet: BarLineScatterCandleBubbleChartDataSetProtocol) -> Bool
+    internal func isInBoundsX(entry e: ChartDataEntry, dataSet: BarLineScatterCandleBubbleChartDataSet) -> Bool
     {
-        let entryIndex = dataSet.entryIndex(entry: e)
-        return Double(entryIndex) < Double(dataSet.entryCount) * animator.phaseX
+        let entryIndex = dataSet.firstIndex(of: e)!
+        return Double(entryIndex) < Double(dataSet.count) * animator.phaseX
     }
 
     /// Calculates and returns the x-bounds for the given DataSet in terms of index in their values array.
     /// This includes minimum and maximum visible x, as well as range.
     internal func xBounds(chart: BarLineScatterCandleBubbleChartDataProvider,
-                          dataSet: BarLineScatterCandleBubbleChartDataSetProtocol,
+                          dataSet: BarLineScatterCandleBubbleChartDataSet,
                           animator: Animator?) -> XBounds
     {
         return XBounds(chart: chart, dataSet: dataSet, animator: animator)
     }
 
     /// - Returns: `true` if the DataSet values should be drawn, `false` if not.
-    internal func shouldDrawValues(forDataSet set: ChartDataSetProtocol) -> Bool {
+    internal func shouldDrawValues(forDataSet set: ChartDataSet) -> Bool {
         return set.isVisible && (set.isDrawValuesEnabled || set.isDrawIconsEnabled)
     }
 
@@ -63,30 +63,32 @@ open class BarLineScatterCandleBubbleRenderer: DataRenderer {
     }
 
     /// Class representing the bounds of the current viewport in terms of indices in the values array of a DataSet.
-    open class XBounds {
+    public class XBounds {
         /// minimum visible entry index
-        open var min: Int = 0
+        public var min: Int = 0
 
         /// maximum visible entry index
-        open var max: Int = 0
+        public var max: Int = 0
 
         /// range of visible entry indices
-        open var range: Int = 0
+        public var range: Int = 0
 
         public init() {}
 
-        public init(chart: BarLineScatterCandleBubbleChartDataProvider,
-                    dataSet: BarLineScatterCandleBubbleChartDataSetProtocol,
-                    animator: Animator?)
-        {
+        public init(
+            chart: BarLineScatterCandleBubbleChartDataProvider,
+            dataSet: BarLineScatterCandleBubbleChartDataSet,
+            animator: Animator?
+        ) {
             set(chart: chart, dataSet: dataSet, animator: animator)
         }
 
         /// Calculates the minimum and maximum x values as well as the range between them.
-        open func set(chart: BarLineScatterCandleBubbleChartDataProvider,
-                      dataSet: BarLineScatterCandleBubbleChartDataSetProtocol,
-                      animator: Animator?)
-        {
+        public func set(
+            chart: BarLineScatterCandleBubbleChartDataProvider,
+            dataSet: BarLineScatterCandleBubbleChartDataSet,
+            animator: Animator?
+        ) {
             let phaseX = Swift.max(0.0, Swift.min(1.0, animator?.phaseX ?? 1.0))
 
             let low = chart.lowestVisibleX
@@ -95,8 +97,8 @@ open class BarLineScatterCandleBubbleRenderer: DataRenderer {
             let entryFrom = dataSet.entryForXValue(low, closestToY: .nan, rounding: .down)
             let entryTo = dataSet.entryForXValue(high, closestToY: .nan, rounding: .up)
 
-            min = entryFrom == nil ? 0 : dataSet.entryIndex(entry: entryFrom!)
-            max = entryTo == nil ? 0 : dataSet.entryIndex(entry: entryTo!)
+            min = entryFrom.flatMap(dataSet.firstIndex(of:)) ?? 0
+            max = entryTo.flatMap(dataSet.firstIndex(of:)) ?? 0
             range = Int(Double(max - min) * phaseX)
         }
     }
@@ -107,10 +109,11 @@ open class BarLineScatterCandleBubbleRenderer: DataRenderer {
 }
 
 extension BarLineScatterCandleBubbleRenderer.XBounds: RangeExpression {
-    public func relative<C>(to _: C) -> Swift.Range<Int>
-        where C: Collection, Bound == C.Index
+    public typealias Bound = Int
+    public func relative<C>(to collection: C) -> Range<Bound> where
+        C : Collection, Bound == C.Index
     {
-        return Swift.Range<Int>(min ... min + range)
+        return Swift.Range<Bound>(min ... min + range)
     }
 
     public func contains(_ element: Int) -> Bool {

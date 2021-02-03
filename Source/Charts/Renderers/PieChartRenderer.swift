@@ -9,6 +9,7 @@
 //  https://github.com/danielgindi/Charts
 //
 
+import Algorithms
 import CoreGraphics
 import Foundation
 
@@ -37,8 +38,8 @@ open class PieChartRenderer: DataRenderer {
         // If we redraw the data, remove and repopulate accessible elements to update label values and frames
         accessibleChartElements.removeAll()
 
-        for case let set as PieChartDataSetProtocol in pieData where
-            set.isVisible && set.entryCount > 0
+        for case let set as PieChartDataSet in pieData where
+            set.isVisible && set.count > 0
         {
             drawDataSet(context: context, dataSet: set)
         }
@@ -86,7 +87,7 @@ open class PieChartRenderer: DataRenderer {
     }
 
     /// Calculates the sliceSpace to use based on visible values and their size compared to the set sliceSpace.
-    open func getSliceSpace(dataSet: PieChartDataSetProtocol) -> CGFloat {
+    open func getSliceSpace(dataSet: PieChartDataSet) -> CGFloat {
         guard
             dataSet.automaticallyDisableSliceSpacing,
             let data = chart?.data as? PieChartData
@@ -102,7 +103,7 @@ open class PieChartRenderer: DataRenderer {
         return sliceSpace
     }
 
-    open func drawDataSet(context: CGContext, dataSet: PieChartDataSetProtocol) {
+    open func drawDataSet(context: CGContext, dataSet: PieChartDataSet) {
         guard let chart = chart else { return }
 
         var angle: CGFloat = 0.0
@@ -111,7 +112,7 @@ open class PieChartRenderer: DataRenderer {
         let phaseX = animator.phaseX
         let phaseY = animator.phaseY
 
-        let entryCount = dataSet.entryCount
+        let entryCount = dataSet.count
         let drawAngles = chart.drawAngles
         let center = chart.centerCircleBox
         let radius = chart.radius
@@ -119,11 +120,8 @@ open class PieChartRenderer: DataRenderer {
         let userInnerRadius = drawInnerArc ? radius * chart.holeRadiusPercent : 0.0
 
         var visibleAngleCount = 0
-        for j in 0 ..< entryCount {
-            guard let e = dataSet.entryForIndex(j) else { continue }
-            if abs(e.y) > Double.ulpOfOne {
-                visibleAngleCount += 1
-            }
+        for e in dataSet where abs(e.y) > Double.ulpOfOne {
+            visibleAngleCount += 1
         }
 
         let sliceSpace = visibleAngleCount <= 1 ? 0.0 : getSliceSpace(dataSet: dataSet)
@@ -151,7 +149,7 @@ open class PieChartRenderer: DataRenderer {
             let sliceAngle = drawAngles[j]
             var innerRadius = userInnerRadius
 
-            guard let e = dataSet.entryForIndex(j) else { continue }
+            let e = dataSet[j]
 
             defer {
                 // From here on, even when skipping (i.e for highlight),
@@ -313,7 +311,7 @@ open class PieChartRenderer: DataRenderer {
         defer { context.restoreGState() }
 
         for i in data.indices {
-            guard let dataSet = data[i] as? PieChartDataSetProtocol else { continue }
+            guard let dataSet = data[i] as? PieChartDataSet else { continue }
 
             let drawValues = dataSet.isDrawValuesEnabled
 
@@ -334,8 +332,7 @@ open class PieChartRenderer: DataRenderer {
 
             let formatter = dataSet.valueFormatter
 
-            for j in 0 ..< dataSet.entryCount {
-                guard let e = dataSet.entryForIndex(j) else { continue }
+            for (j, e) in dataSet.indexed() {
                 let pe = e as? PieChartDataEntry
 
                 if xIndex == 0 {
@@ -665,19 +662,15 @@ open class PieChartRenderer: DataRenderer {
             // get the index to highlight
             let index = Int(hightlight.x)
             guard index < drawAngles.count,
-                  let set = data[hightlight.dataSetIndex] as? PieChartDataSetProtocol,
+                  let set = data[hightlight.dataSetIndex] as? PieChartDataSet,
                   set.isHighlightEnabled
             else {
                 continue
             }
 
-            let entryCount = set.entryCount
             var visibleAngleCount = 0
-            for j in 0 ..< entryCount {
-                guard let e = set.entryForIndex(j) else { continue }
-                if abs(e.y) > Double.ulpOfOne {
-                    visibleAngleCount += 1
-                }
+            for e in set where abs(e.y) > Double.ulpOfOne {
+                visibleAngleCount += 1
             }
 
             if index == 0 {
@@ -815,12 +808,12 @@ open class PieChartRenderer: DataRenderer {
     /// The element only has it's container and label set based on the chart and dataSet. Use the modifier to alter traits and frame.
     private func createAccessibleElement(withIndex idx: Int,
                                          container: PieChartView,
-                                         dataSet: PieChartDataSetProtocol,
+                                         dataSet: PieChartDataSet,
                                          modifier: (NSUIAccessibilityElement) -> Void) -> NSUIAccessibilityElement
     {
         let element = NSUIAccessibilityElement(accessibilityContainer: container)
 
-        guard let e = dataSet.entryForIndex(idx) else { return element }
+        let e = dataSet[idx]
         guard let data = container.data as? PieChartData else { return element }
 
         let formatter = dataSet.valueFormatter
@@ -842,7 +835,7 @@ open class PieChartRenderer: DataRenderer {
             elementValueText = valueText
         }
 
-        let pieChartDataEntry = (dataSet.entryForIndex(idx) as? PieChartDataEntry)
+        let pieChartDataEntry = dataSet[idx] as? PieChartDataEntry
         let isCount = data.accessibilityEntryLabelSuffixIsCount
         let prefix = data.accessibilityEntryLabelPrefix?.appending("\(idx + 1)") ?? pieChartDataEntry?.label ?? ""
         let suffix = data.accessibilityEntryLabelSuffix ?? ""

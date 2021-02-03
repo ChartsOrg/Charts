@@ -69,7 +69,7 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer {
     private var _pointBuffer = CGPoint()
     private var _sizeBuffer = [CGPoint](repeating: CGPoint(), count: 2)
 
-    open func drawDataSet(context: CGContext, dataSet: BubbleChartDataSetProtocol, dataSetIndex: Int)
+    open func drawDataSet(context: CGContext, dataSet: BubbleChartDataSet, dataSetIndex: Int)
     {
         guard let dataProvider = dataProvider else { return }
 
@@ -99,7 +99,7 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer {
         let referenceSize: CGFloat = min(maxBubbleHeight, maxBubbleWidth)
 
         for j in _xBounds {
-            guard let entry = dataSet.entryForIndex(j) as? BubbleChartDataEntry else { continue }
+            guard let entry = dataSet[j] as? BubbleChartDataEntry else { continue }
 
             _pointBuffer.x = CGFloat(entry.x)
             _pointBuffer.y = CGFloat(entry.y * phaseY)
@@ -156,7 +156,7 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer {
         var pt = CGPoint()
 
         for i in bubbleData.indices {
-            guard let dataSet = bubbleData[i] as? BubbleChartDataSetProtocol,
+            guard let dataSet = bubbleData[i] as? BubbleChartDataSet,
                   shouldDrawValues(forDataSet: dataSet)
             else {
                 continue
@@ -175,7 +175,7 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer {
             let angleRadians = dataSet.valueLabelAngle.DEG2RAD
 
             for j in _xBounds {
-                guard let e = dataSet.entryForIndex(j) as? BubbleChartDataEntry else { break }
+                guard let e = dataSet[j] as? BubbleChartDataEntry else { break }
 
                 let valueTextColor = dataSet.valueTextColorAt(j).withAlphaComponent(CGFloat(alpha))
 
@@ -235,7 +235,7 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer {
 
         for high in indices {
             guard
-                let dataSet = bubbleData[high.dataSetIndex] as? BubbleChartDataSetProtocol,
+                let dataSet = bubbleData[high.dataSetIndex] as? BubbleChartDataSet,
                 dataSet.isHighlightEnabled,
                 let entry = dataSet.entryForXValue(high.x, closestToY: high.y) as? BubbleChartDataEntry,
                 isInBoundsX(entry: entry, dataSet: dataSet)
@@ -310,7 +310,7 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer {
     /// Creates an NSUIAccessibleElement representing individual bubbles location and relative size.
     private func createAccessibleElement(withIndex idx: Int,
                                          container: BubbleChartView,
-                                         dataSet: BubbleChartDataSetProtocol,
+                                         dataSet: BubbleChartDataSet,
                                          dataSetIndex: Int,
                                          shapeSize: CGFloat,
                                          modifier: (NSUIAccessibilityElement) -> Void) -> NSUIAccessibilityElement
@@ -318,7 +318,7 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer {
         let element = NSUIAccessibilityElement(accessibilityContainer: container)
         let xAxis = container.xAxis
 
-        guard let e = dataSet.entryForIndex(idx) else { return element }
+        let e = dataSet[idx]
         guard let dataProvider = dataProvider else { return element }
 
         // NOTE: The formatter can cause issues when the x-axis labels are consecutive ints.

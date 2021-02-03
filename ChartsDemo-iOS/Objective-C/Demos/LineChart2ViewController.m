@@ -204,7 +204,7 @@
 {
     if ([key isEqualToString:@"toggleFilled"])
     {
-        for (id<LineChartDataSetProtocol> set in _chartView.data.dataSets)
+        for (id<LineChartDataSet> set in _chartView.data.dataSets)
         {
             set.drawFilledEnabled = !set.isDrawFilledEnabled;
         }
@@ -215,7 +215,7 @@
     
     if ([key isEqualToString:@"toggleCircles"])
     {
-        for (id<LineChartDataSetProtocol> set in _chartView.data.dataSets)
+        for (id<LineChartDataSet> set in _chartView.data.dataSets)
         {
             set.drawCirclesEnabled = !set.isDrawCirclesEnabled;
         }
@@ -226,7 +226,7 @@
     
     if ([key isEqualToString:@"toggleCubic"])
     {
-        for (id<LineChartDataSetProtocol> set in _chartView.data.dataSets)
+        for (id<LineChartDataSet> set in _chartView.data.dataSets)
         {
             set.mode = set.mode == LineChartModeCubicBezier ? LineChartModeLinear : LineChartModeCubicBezier;
         }
@@ -237,7 +237,7 @@
 
     if ([key isEqualToString:@"toggleStepped"])
     {
-        for (id<LineChartDataSetProtocol> set in _chartView.data.dataSets)
+        for (id<LineChartDataSet> set in _chartView.data.dataSets)
         {
             switch (set.mode) {
                 case LineChartModeLinear:
@@ -254,7 +254,7 @@
     
     if ([key isEqualToString:@"toggleHorizontalCubic"])
     {
-        for (id<LineChartDataSetProtocol> set in _chartView.data.dataSets)
+        for (id<LineChartDataSet> set in _chartView.data.dataSets)
         {
             set.mode = set.mode == LineChartModeCubicBezier ? LineChartModeHorizontalBezier : LineChartModeCubicBezier;
         }
