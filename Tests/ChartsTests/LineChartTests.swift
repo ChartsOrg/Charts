@@ -3,6 +3,8 @@ import SnapshotTesting
 import XCTest
 
 class LineChartTests: XCTestCase {
+    private lazy var icon = UIImage(named: "icon", in: Bundle(for: classForCoder), compatibleWith: nil)!
+
     var chart: LineChartView!
     var dataSet: LineChartDataSet!
 
@@ -20,7 +22,7 @@ class LineChartTests: XCTestCase {
         var entries: [ChartDataEntry] = Array()
 
         for (i, value) in values.enumerated() {
-            entries.append(ChartDataEntry(x: Double(i), y: value, icon: UIImage(named: "icon", in: Bundle(for: classForCoder), compatibleWith: nil)))
+            entries.append(ChartDataEntry(x: Double(i), y: value, icon: icon))
         }
 
         dataSet = LineChartDataSet(entries: entries, label: "First unit test data")

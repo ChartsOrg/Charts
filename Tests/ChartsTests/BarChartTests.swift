@@ -3,6 +3,8 @@ import SnapshotTesting
 import XCTest
 
 class BarChartTests: XCTestCase {
+    private lazy var icon = UIImage(named: "icon", in: Bundle(for: classForCoder), compatibleWith: nil)!
+
     override func setUp() {
         super.setUp()
     }
@@ -17,7 +19,7 @@ class BarChartTests: XCTestCase {
     func setupCustomValuesDataEntries(values: [Double]) -> [ChartDataEntry] {
         var entries: [ChartDataEntry] = Array()
         for (i, value) in values.enumerated() {
-            entries.append(BarChartDataEntry(x: Double(i), y: value, icon: UIImage(named: "icon", in: Bundle(for: classForCoder), compatibleWith: nil)))
+            entries.append(BarChartDataEntry(x: Double(i), y: value, icon: icon))
         }
         return entries
     }
@@ -50,11 +52,11 @@ class BarChartTests: XCTestCase {
 
     func setupStackedValuesDataEntries() -> [ChartDataEntry] {
         var entries: [ChartDataEntry] = Array()
-        entries.append(BarChartDataEntry(x: 0, yValues: [28, 50, 60, 30, 42], icon: UIImage(named: "icon")))
-        entries.append(BarChartDataEntry(x: 1, yValues: [-20, -36, -52, -40, -15], icon: UIImage(named: "icon")))
-        entries.append(BarChartDataEntry(x: 2, yValues: [10, 30, 40, 90, 72], icon: UIImage(named: "icon")))
-        entries.append(BarChartDataEntry(x: 3, yValues: [-40, -50, -30, -60, -20], icon: UIImage(named: "icon")))
-        entries.append(BarChartDataEntry(x: 4, yValues: [10, 40, 60, 45, 62], icon: UIImage(named: "icon")))
+        entries.append(BarChartDataEntry(x: 0, yValues: [28, 50, 60, 30, 42], icon: icon))
+        entries.append(BarChartDataEntry(x: 1, yValues: [-20, -36, -52, -40, -15], icon: icon))
+        entries.append(BarChartDataEntry(x: 2, yValues: [10, 30, 40, 90, 72], icon: icon))
+        entries.append(BarChartDataEntry(x: 3, yValues: [-40, -50, -30, -60, -20], icon: icon))
+        entries.append(BarChartDataEntry(x: 4, yValues: [10, 40, 60, 45, 62], icon: icon))
         return entries
     }
 
