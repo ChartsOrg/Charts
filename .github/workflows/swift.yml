@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: iOS - ${{ matrix.destination }}
-        run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace "Charts.xcworkspace" -scheme "Charts" -destination "${{ matrix.destination }}" test | xcpretty
+        run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace "Charts.xcworkspace" -scheme "Charts" -destination "${{ matrix.destination }}" clean test | xcpretty
 
   tvOS:
     runs-on: macos-latest
@@ -31,7 +31,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: tvOS - ${{ matrix.destination }}
-        run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace "Charts.xcworkspace" -scheme "Charts" -destination "${{ matrix.destination }}" test | xcpretty
+        run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace "Charts.xcworkspace" -scheme "Charts" -destination "${{ matrix.destination }}" clean test | xcpretty
 
   macOS_demo:
     runs-on: macOS-latest
