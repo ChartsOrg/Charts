@@ -28,7 +28,7 @@
 		219192CA6B4895319AB49DCA /* BarLineScatterCandleBubbleRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1C588E9DF6FFD56D7ADF8E /* BarLineScatterCandleBubbleRenderer.swift */; };
 		221CA2922588FCBC00C2DD1E /* Sequence+KeyPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221CA2912588FCBC00C2DD1E /* Sequence+KeyPath.swift */; };
 		2243BBFD1FF156EC00B49D0B /* EquatableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2243BBFB1FF156D000B49D0B /* EquatableTests.swift */; };
-		22762C7125CC541000EB98CA /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 22762C7025CC541000EB98CA /* Media.xcassets */; };
+		22786E8525CD96620051335B /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 22786E8325CD96620051335B /* Media.xcassets */; };
 		228D56232554F27A00BEE75E /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 228D56222554F27A00BEE75E /* Algorithms */; };
 		22BBDA0825CC4C2F00435670 /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 22BBDA0725CC4C2F00435670 /* SnapshotTesting */; };
 		23649EFC635A76022F07FFA6 /* PieChartDataEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD02157CF8CEE1189BF681DA /* PieChartDataEntry.swift */; };
@@ -200,7 +200,8 @@
 		219BC9CEA037F897E92E45D1 /* ScatterChartDataSetProtocol.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ScatterChartDataSetProtocol.swift; path = Source/Charts/Data/Interfaces/ScatterChartDataSetProtocol.swift; sourceTree = "<group>"; };
 		221CA2912588FCBC00C2DD1E /* Sequence+KeyPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Sequence+KeyPath.swift"; path = "Source/Charts/Utils/Sequence+KeyPath.swift"; sourceTree = "<group>"; };
 		2243BBFB1FF156D000B49D0B /* EquatableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EquatableTests.swift; sourceTree = "<group>"; };
-		22762C7025CC541000EB98CA /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
+		22786E8325CD96620051335B /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
+		22786E8425CD96620051335B /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		23D35CF6F9177D77B6B97AE1 /* XShapeRenderer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = XShapeRenderer.swift; path = Source/Charts/Renderers/Scatter/XShapeRenderer.swift; sourceTree = "<group>"; };
 		2440DB759AB93B4A928A3F6F /* RadarChartView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RadarChartView.swift; path = Source/Charts/Charts/RadarChartView.swift; sourceTree = "<group>"; };
 		2465CB73738EBAFB46C57288 /* CombinedHighlighter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CombinedHighlighter.swift; path = Source/Charts/Highlight/CombinedHighlighter.swift; sourceTree = "<group>"; };
@@ -429,13 +430,13 @@
 			name = ChartRenderers;
 			sourceTree = "<group>";
 		};
-		22762C6F25CC541000EB98CA /* Resources */ = {
+		22786E8225CD96620051335B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				22762C7025CC541000EB98CA /* Media.xcassets */,
+				22786E8325CD96620051335B /* Media.xcassets */,
+				22786E8425CD96620051335B /* Info.plist */,
 			);
-			name = Resources;
-			path = "../../../charts-fork/Tests/ChartsTests/Resources";
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		22C014222006FFE800D5B025 /* ChartData */ = {
@@ -587,7 +588,7 @@
 		9613A7C800C7F065A823D587 /* Charts */ = {
 			isa = PBXGroup;
 			children = (
-				22762C6F25CC541000EB98CA /* Resources */,
+				22786E8225CD96620051335B /* Resources */,
 				5C3F5E1A69EC06E86505F7B1 /* BarChartTests.swift */,
 				B66817452241E3CC00017CF1 /* HorizontalBarChartTests.swift */,
 				7AB9062A28AAB9469752A954 /* ChartUtilsTests.swift */,
@@ -825,7 +826,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				22762C7125CC541000EB98CA /* Media.xcassets in Resources */,
+				22786E8525CD96620051335B /* Media.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
