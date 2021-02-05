@@ -37,7 +37,7 @@ func assertChartSnapshot<Value: ChartViewBase>(
         .path
     #else
     let snapshotDirectory = fileUrl.deletingLastPathComponent()
-        .appendingPathComponent("`__Snapshots__x86__`")
+        .appendingPathComponent("__Snapshots__x86__")
         .appendingPathComponent(fileName)
         .path
     #endif
