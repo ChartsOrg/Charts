@@ -47,12 +47,18 @@ In order to correctly compile:
    - You'll need to add `ChartsRealm` as a dependency too.
 
 ## 3rd party tutorials
+#### Video tutorials
 
+* [Chart in Swift - Setting Up a Basic Line Chart Using iOS Charts(Alex Nagy)](https://www.youtube.com/watch?v=mWhwe_tLNE8&list=PL_csAAO9PQ8bjzg-wxEff1Fr0Y5W1hrum&index=5)
+
+#### Blog posts
 * [Using Realm and Charts with Swift 3 in iOS 10 (Sami Korpela)](https://medium.com/@skoli/using-realm-and-charts-with-swift-3-in-ios-10-40c42e3838c0#.2gyymwfh8)
 * [Creating a Line Chart in Swift 3 and iOS 10 (Osian Smith)](https://medium.com/@OsianSmith/creating-a-line-chart-in-swift-3-and-ios-10-2f647c95392e)
 * [Beginning Set-up and Example Using Charts with Swift 3](https://github.com/annalizhaz/ChartsForSwiftBasic)
 * [Creating a Radar Chart in Swift (David Piper)](https://medium.com/@HeyDaveTheDev/creating-a-radar-chart-in-swift-5791afcf92f0)
-* Want your tutorial to show here? Create a PR!
+* [Plotting in IOS using Charts framework with SwiftUI (Evgeny Basisty)](https://medium.com/@zzzzbh/plotting-in-ios-using-charts-framework-with-swiftui-222034a2bea6)
+
+Want your tutorial to show here? Create a PR!
 
 ## Troubleshooting
 
