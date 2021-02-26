@@ -48,7 +48,7 @@ class StackedBarChartViewController: DemoBaseViewController {
         
         chartView.delegate = self
         
-        chartView.chartDescription?.enabled = false
+        chartView.chartDescription.enabled = false
         
         chartView.maxVisibleCount = 40
         chartView.drawBarShadowEnabled = false

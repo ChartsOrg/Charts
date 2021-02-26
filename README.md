@@ -1,4 +1,4 @@
-**Version 3.5.0**, synced to [MPAndroidChart #f6a398b](https://github.com/PhilJay/MPAndroidChart/commit/f6a398b)
+**Version 4.0.0**, synced to [MPAndroidChart #f6a398b](https://github.com/PhilJay/MPAndroidChart/commit/f6a398b)
 
 ![alt tag](https://raw.github.com/danielgindi/Charts/master/Assets/feature_graphic.png)
   ![Supported Platforms](https://img.shields.io/cocoapods/p/Charts.svg) [![Releases](https://img.shields.io/github/release/danielgindi/Charts.svg)](https://github.com/danielgindi/Charts/releases) [![Latest pod release](https://img.shields.io/cocoapods/v/Charts.svg)](http://cocoapods.org/pods/charts) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) [![Build Status](https://travis-ci.org/danielgindi/Charts.svg?branch=master)](https://travis-ci.org/danielgindi/Charts) [![codecov](https://codecov.io/gh/danielgindi/Charts/branch/master/graph/badge.svg)](https://codecov.io/gh/danielgindi/Charts)
@@ -50,6 +50,7 @@ In order to correctly compile:
 #### Video tutorials
 
 * [Chart in Swift - Setting Up a Basic Line Chart Using iOS Charts(Alex Nagy)](https://www.youtube.com/watch?v=mWhwe_tLNE8&list=PL_csAAO9PQ8bjzg-wxEff1Fr0Y5W1hrum&index=5)
+* [Charts Framework in SwiftUI - Bar Chart (Stewart Lynch)](https://youtu.be/csd7pyfEXgw)
 
 #### Blog posts
 * [Using Realm and Charts with Swift 3 in iOS 10 (Sami Korpela)](https://medium.com/@skoli/using-realm-and-charts-with-swift-3-in-ios-10-40c42e3838c0#.2gyymwfh8)
@@ -86,11 +87,21 @@ For [Realm](https://realm.io/) support, please add `pod 'ChartsRealm'` too.
 Charts now include Carthage prebuilt binaries.
 
 ```carthage
-github "danielgindi/Charts" == 3.5.0
-github "danielgindi/Charts" ~> 3.5.0
+github "danielgindi/Charts" == 4.0.0
+github "danielgindi/Charts" ~> 4.0.0
 ```
 
 In order to build the binaries for a new release, use `carthage build --no-skip-current && carthage archive Charts`.
+
+## Swift Package Manager Install
+
+Swift Package Manager
+
+```swift
+dependencies: [
+    .package(url: "https://github.com/danielgindi/Charts.git", .upToNextMajor(from: "4.0.0"))
+]
+```
 
 ## 3rd party bindings
 

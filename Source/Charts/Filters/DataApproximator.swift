@@ -27,14 +27,14 @@ open class DataApproximator: NSObject
         var keep = [Bool](repeating: false, count: points.count)
         
         // first and last always stay
-        keep[0] = true
-        keep[points.count - 1] = true
+        keep[points.startIndex] = true
+        keep[points.endIndex - 1] = true
         
         // first and last entry are entry point to recursion
         reduceWithDouglasPeuker(points: points,
                                 tolerance: tolerance,
-                                start: 0,
-                                end: points.count - 1,
+                                start: points.startIndex,
+                                end: points.endIndex - 1,
                                 keep: &keep)
         
         // create a new array with series, only take the kept ones

@@ -17,24 +17,25 @@ import CoreGraphics
 open class Transformer: NSObject
 {
     /// matrix to map the values to the screen pixels
-    internal var _matrixValueToPx = CGAffineTransform.identity
+    internal var matrixValueToPx = CGAffineTransform.identity
 
     /// matrix for handling the different offsets of the chart
-    internal var _matrixOffset = CGAffineTransform.identity
+    internal var matrixOffset = CGAffineTransform.identity
 
-    internal var _viewPortHandler: ViewPortHandler
+    internal var viewPortHandler: ViewPortHandler
 
     @objc public init(viewPortHandler: ViewPortHandler)
     {
-        _viewPortHandler = viewPortHandler
+        self.viewPortHandler = viewPortHandler
     }
 
     /// Prepares the matrix that transforms values to pixels. Calculates the scale factors from the charts size and offsets.
     @objc open func prepareMatrixValuePx(chartXMin: Double, deltaX: CGFloat, deltaY: CGFloat, chartYMin: Double)
     {
-        var scaleX = (_viewPortHandler.contentWidth / deltaX)
-        var scaleY = (_viewPortHandler.contentHeight / deltaY)
+        var scaleX = (viewPortHandler.contentWidth / deltaX)
+        var scaleY = (viewPortHandler.contentHeight / deltaY)
         
+
         if scaleX.isInfinite
         {
             scaleX = 0.0
@@ -64,10 +65,9 @@ open class Transformer: NSObject
             ty = CGFloat(-chartYMin)
         }
 
-        // setup all matrices
-        _matrixValueToPx = CGAffineTransform.identity
-        _matrixValueToPx = _matrixValueToPx.scaledBy(x: scaleX, y: -scaleY)
-        _matrixValueToPx = _matrixValueToPx.translatedBy(x: tx, y: ty)
+        matrixValueToPx = CGAffineTransform.identity
+            .scaledBy(x: scaleX, y: -scaleY)
+            .translatedBy(x: tx, y: ty)
     }
 
     /// Prepares the matrix that contains all offsets.
@@ -75,12 +75,12 @@ open class Transformer: NSObject
     {
         if !inverted
         {
-            _matrixOffset = CGAffineTransform(translationX: _viewPortHandler.offsetLeft, y: _viewPortHandler.chartHeight - _viewPortHandler.offsetBottom)
+            matrixOffset = CGAffineTransform(translationX: viewPortHandler.offsetLeft, y: viewPortHandler.chartHeight - viewPortHandler.offsetBottom)
         }
         else
         {
-            _matrixOffset = CGAffineTransform(scaleX: 1.0, y: -1.0)
-            _matrixOffset = _matrixOffset.translatedBy(x: _viewPortHandler.offsetLeft, y: -_viewPortHandler.offsetTop)
+            matrixOffset = CGAffineTransform(scaleX: 1.0, y: -1.0)
+                .translatedBy(x: viewPortHandler.offsetLeft, y: -viewPortHandler.offsetTop)
         }
     }
 
@@ -178,8 +178,8 @@ open class Transformer: NSObject
     @objc open var valueToPixelMatrix: CGAffineTransform
     {
         return
-            _matrixValueToPx.concatenating(_viewPortHandler.touchMatrix
-                ).concatenating(_matrixOffset
+            matrixValueToPx.concatenating(viewPortHandler.touchMatrix)
+                .concatenating(matrixOffset
         )
     }
     

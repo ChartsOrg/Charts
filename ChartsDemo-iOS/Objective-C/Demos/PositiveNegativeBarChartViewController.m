@@ -12,7 +12,7 @@
 #import "PositiveNegativeBarChartViewController.h"
 #import "ChartsDemo_iOS-Swift.h"
 
-@interface PositiveNegativeBarChartViewController () <ChartViewDelegate, IChartAxisValueFormatter>
+@interface PositiveNegativeBarChartViewController () <ChartViewDelegate, ChartAxisValueFormatter>
 {
     NSArray<NSDictionary *> *dataList;
 }
@@ -182,7 +182,7 @@
     NSLog(@"chartValueNothingSelected");
 }
 
-#pragma mark - IAxisValueFormatter
+#pragma mark - AxisValueFormatter
 
 - (NSString *)stringForValue:(double)value
                         axis:(ChartAxisBase *)axis
