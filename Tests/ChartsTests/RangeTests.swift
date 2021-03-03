@@ -31,7 +31,6 @@ class RangeTests: XCTestCase {
         scatterView.xAxis.axisMaximum = 5.0
 
         let xrange = BarLineScatterCandleBubbleRenderer.XBounds(chart: scatterView, dataSet: dataset, animator: nil)
-        print(xrange)
         XCTAssert(xrange.min == 2)
         XCTAssert(xrange.max == 2)
     }
