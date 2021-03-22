@@ -196,10 +196,7 @@ open class ChartDataSet: ChartBaseDataSet
     /// An empty array if no Entry object at that index.
     open override func entriesForXValue(_ xValue: Double) -> [ChartDataEntry]
     {
-        let match: (ChartDataEntry) -> Bool = { $0.x == xValue }
-        let i = partitioningIndex(where: match)
-        guard i < endIndex else { return [] }
-        return self[i...].prefix(while: match)
+        return self.filter { $0.x == xValue }
     }
     
     /// - Parameters:
