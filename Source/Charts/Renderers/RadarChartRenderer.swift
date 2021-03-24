@@ -127,8 +127,9 @@ open class RadarChartRenderer: LineRadarRenderer
 
             let axp = center.moving(distance: CGFloat((accessibilityValue - chart.chartYMin) * Double(factor) * phaseY),
                                     atAngle: sliceangle * CGFloat(accessibilityValueIndex) * CGFloat(phaseX) + chart.rotationAngle)
-
+            
             let axDescription = description + " - " + accessibilityLabel + ": \(accessibilityValue) \(chart.data?.accessibilityEntryLabelSuffix ?? "")"
+         
             let axElement = createAccessibleElement(withDescription: axDescription,
                                                     container: chart,
                                                     dataSet: dataSet)
@@ -272,6 +273,7 @@ open class RadarChartRenderer: LineRadarRenderer
     
     private var _webLineSegmentsBuffer = [CGPoint](repeating: CGPoint(), count: 2)
     
+    //画背景图
     @objc open func drawWeb(context: CGContext)
     {
         guard
@@ -300,7 +302,8 @@ open class RadarChartRenderer: LineRadarRenderer
 
         for i in stride(from: 0, to: maxEntryCount, by: xIncrements)
         {
-            let p = center.moving(distance: CGFloat(chart.yRange) * factor,
+            //画背景直线
+            let p = center.moving(distance: chart.radius / 6 * 5,
                                   atAngle: sliceangle * CGFloat(i) + rotationangle)
             
             _webLineSegmentsBuffer[0].x = center.x
@@ -317,22 +320,25 @@ open class RadarChartRenderer: LineRadarRenderer
         context.setAlpha(chart.webAlpha)
         
         let labelCount = chart.yAxis.entryCount
-        
         for j in 0 ..< labelCount
         {
             for i in 0 ..< data.entryCount
             {
-                let r = CGFloat(chart.yAxis.entries[j] - chart.chartYMin) * factor
-
-                let p1 = center.moving(distance: r, atAngle: sliceangle * CGFloat(i) + rotationangle)
-                let p2 = center.moving(distance: r, atAngle: sliceangle * CGFloat(i + 1) + rotationangle)
-                
-                _webLineSegmentsBuffer[0].x = p1.x
-                _webLineSegmentsBuffer[0].y = p1.y
-                _webLineSegmentsBuffer[1].x = p2.x
-                _webLineSegmentsBuffer[1].y = p2.y
-                
-                context.strokeLineSegments(between: _webLineSegmentsBuffer)
+//                let r = CGFloat(chart.yAxis.entries[j] - chart.chartYMin) * factor
+//
+//                let p1 = center.moving(distance: r, atAngle: sliceangle * CGFloat(i) + rotationangle)
+//                let p2 = center.moving(distance: r, atAngle: sliceangle * CGFloat(i + 1) + rotationangle)
+//
+//                _webLineSegmentsBuffer[0].x = p1.x
+//                _webLineSegmentsBuffer[0].y = p1.y
+//                _webLineSegmentsBuffer[1].x = p2.x
+//                _webLineSegmentsBuffer[1].y = p2.y
+//
+//                context.strokeLineSegments(between: _webLineSegmentsBuffer)
+                let r = chart.radius / CGFloat(data.entryCount) * CGFloat(i)//CGFloat(chart.yAxis.entries[j] - chart.chartYMin) * factor
+                let circlePath = UIBezierPath(arcCenter: CGPoint(x: center.x, y: center.y), radius: r, startAngle: CGFloat(0), endAngle: CGFloat(Double.pi * 2), clockwise: true)
+                context.addPath(circlePath.cgPath)
+                context.drawPath(using: .stroke)
             }
         }
         
