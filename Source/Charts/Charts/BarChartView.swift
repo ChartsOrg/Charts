@@ -138,6 +138,10 @@ open class BarChartView: BarLineChartViewBase, BarChartDataProvider
     {
         highlightValue(Highlight(x: x, dataSetIndex: dataSetIndex, stackIndex: stackIndex))
     }
+    
+    @objc open func setRoundedCorner(roundedCorner: UIRectCorner, roundedHeight: CGFloat) {
+        (renderer as? BarChartRenderer)?.setRoundedCorner(roundedCorner: roundedCorner, roundedHeight: roundedHeight)
+    }
 
     // MARK: Accessors
     

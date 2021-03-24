@@ -58,6 +58,15 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         self.dataProvider = dataProvider
     }
     
+    private var _roundedCorner: UIRectCorner?
+    private var _roundedHeight: CGFloat = 5
+    
+    public func setRoundedCorner(roundedCorner: UIRectCorner, roundedHeight: CGFloat) {
+        self._roundedCorner = roundedCorner
+        self._roundedHeight = roundedHeight
+    }
+    
+    
     // [CGRect] per dataset
     private var _buffers = [Buffer]()
     
@@ -431,7 +440,18 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 context.setFillColor(dataSet.color(atIndex: j).cgColor)
             }
             
-            context.fill(barRect)
+            //no rounded corner
+            if _roundedCorner == nil
+            {
+                context.fill(barRect)
+            } else
+            {
+                //Modified by james to make barchart top rounded corner
+                let bezierPath = UIBezierPath(roundedRect: barRect, byRoundingCorners: _roundedCorner!, cornerRadii: CGSize(width: barRect.size.width / 2, height: _roundedHeight))
+                context.addPath(bezierPath.cgPath)
+                context.drawPath(using: .fill)
+                //Modified by james to make barchart top rounded corner
+            }
             
             if drawBorder
             {
