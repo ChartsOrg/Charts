@@ -151,7 +151,7 @@ open class YAxisRendererRadarChart: YAxisRenderer
         let xOffset = axis.labelXOffset
 
         let entries = axis.entries[from..<to]
-        zip(entries.indices, entries).forEach { index, entry in
+        entries.indexed().forEach { index, entry in
             let r = CGFloat(entry - axis._axisMinimum) * factor
             let p = center.moving(distance: r, atAngle: chart.rotationAngle)
             let label = axis.getFormattedLabel(index)

@@ -1,5 +1,31 @@
 # Changelog
 
+## [v4.0.1](https://github.com/danielgindi/Charts/tree/v4.0.1) (2021-02-18)
+
+[Full Changelog](https://github.com/danielgindi/Charts/compare/v4.0.0...v4.0.1)
+
+**Merged pull requests:**
+
+- Fix bounds checks on binary search [\#4577](https://github.com/danielgindi/Charts/pull/4577) ([jjatie](https://github.com/jjatie))
+- Added SPM build action [\#4576](https://github.com/danielgindi/Charts/pull/4576) ([jjatie](https://github.com/jjatie))
+- Replace FBSnapshotTestCase with pointfree/swift-snapshot-testing [\#4574](https://github.com/danielgindi/Charts/pull/4574) ([jjatie](https://github.com/jjatie))
+- Fixed incorrect guard return statement when rendering limit lines [\#4563](https://github.com/danielgindi/Charts/pull/4563) ([jjatie](https://github.com/jjatie))
+- SPM GitHub Action [\#4553](https://github.com/danielgindi/Charts/pull/4553) ([jjatie](https://github.com/jjatie))
+- ChartViewBase cleanup [\#4537](https://github.com/danielgindi/Charts/pull/4537) ([nuomi1](https://github.com/nuomi1))
+- Add Tutorial Link.md [\#4516](https://github.com/danielgindi/Charts/pull/4516) ([StewartLynch](https://github.com/StewartLynch))
+- Import swift algorithms [\#4497](https://github.com/danielgindi/Charts/pull/4497) ([jjatie](https://github.com/jjatie))
+- Algorithm updates [\#3638](https://github.com/danielgindi/Charts/pull/3638) ([jjatie](https://github.com/jjatie))
+
+## [v4.0.0](https://github.com/danielgindi/Charts/tree/v4.0.0) (2020-10-30)
+
+[Full Changelog](https://github.com/danielgindi/Charts/compare/v3.6.0...v4.0.0)
+
+**Merged pull requests:**
+
+- Alternative for SPM dynamic linking [\#4478](https://github.com/danielgindi/Charts/pull/4478) ([alexruperez](https://github.com/alexruperez))
+- Resolve conflict for 4.0 branch and master [\#4456](https://github.com/danielgindi/Charts/pull/4456) ([liuxuan30](https://github.com/liuxuan30))
+- ChartBaseDataSet, copy constructor - missing drawIconsEnabled parameter initialization [\#4424](https://github.com/danielgindi/Charts/pull/4424) ([bivant](https://github.com/bivant))
+
 ## [v3.6.0](https://github.com/danielgindi/Charts/tree/v3.6.0) (2020-09-21)
 
 [Full Changelog](https://github.com/danielgindi/Charts/compare/v3.5.0...v3.6.0)

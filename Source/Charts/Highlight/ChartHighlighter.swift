@@ -9,6 +9,7 @@
 //  https://github.com/danielgindi/Charts
 //
 
+import Algorithms
 import Foundation
 import CoreGraphics
 
@@ -73,7 +74,7 @@ open class ChartHighlighter : NSObject, Highlighter
         
         guard let data = self.data else { return vals }
         
-        for (i, set) in zip(data.indices, data) where set.isHighlightEnabled
+        for (i, set) in data.indexed() where set.isHighlightEnabled
         {
             // extract all y-values from all DataSets at the given x-value.
             // some datasets (i.e bubble charts) make sense to have multiple values for an x-value. We'll have to find a way to handle that later on. It's more complicated now when x-indices are floating point.

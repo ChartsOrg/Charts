@@ -50,6 +50,7 @@ In order to correctly compile:
 #### Video tutorials
 
 * [Chart in Swift - Setting Up a Basic Line Chart Using iOS Charts(Alex Nagy)](https://www.youtube.com/watch?v=mWhwe_tLNE8&list=PL_csAAO9PQ8bjzg-wxEff1Fr0Y5W1hrum&index=5)
+* [Charts Framework in SwiftUI - Bar Chart (Stewart Lynch)](https://youtu.be/csd7pyfEXgw)
 
 #### Blog posts
 * [Using Realm and Charts with Swift 3 in iOS 10 (Sami Korpela)](https://medium.com/@skoli/using-realm-and-charts-with-swift-3-in-ios-10-40c42e3838c0#.2gyymwfh8)
