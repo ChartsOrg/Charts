@@ -173,7 +173,7 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
                     if dataSet.isDecreasingFilled
                     {
                         context.setFillColor(color.cgColor)
-                        context.addPath(bezierPath.cgPath)
+                        context.addPath(roundedRect.cgPath)
                         context.drawPath(using: .fill)
                     }
                     else
@@ -191,7 +191,7 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
                     if dataSet.isIncreasingFilled
                     {
                         context.setFillColor(color.cgColor)
-                        context.addPath(bezierPath.cgPath)
+                        context.addPath(roundedRect.cgPath)
                         context.drawPath(using: .fill)
                     }
                     else
