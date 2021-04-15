@@ -160,7 +160,7 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
                 
                 
                 // define roundedRect for corner radius
-                let roundedRect = UIBezierPath(roundedRect: _bodyRect, cornerRadius: dataSet.cornerRadius)
+                let roundedRect = UIBezierPath(roundedRect: _bodyRect, cornerRadius: dataSet.barCornerRadius)
                 
                 // draw body differently for increasing and decreasing entry
 
