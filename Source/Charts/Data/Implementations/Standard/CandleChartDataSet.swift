@@ -72,7 +72,7 @@ open class CandleChartDataSet: LineScatterCandleRadarChartDataSet, CandleChartDa
         }
     }
     
-    /// the corner radius of the canlde bar,
+    /// the corner radius of the candle bar,
     ///
     /// **default**: 0.0
     open var barCornerRadius = CGFloat(0.0)
