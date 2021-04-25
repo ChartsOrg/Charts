@@ -66,35 +66,3 @@ class ChartDataTests: XCTestCase {
     }
 }
 
-class ChartDataDifferentSizeDataSetsTests: XCTestCase {
-    var data: BarChartData!
-
-    private enum SetLabels {
-        static let one = "label1"
-        static let two = "label2"
-        static let badLabel = "Bad label"
-    }
-
-    override func setUp() {
-        super.setUp()
-
-        let values1 = (0 ..< 50).map { (i) -> ChartDataEntry in
-            let val = Double(arc4random_uniform(range) + 3)
-            return ChartDataEntry(x: Double(i), y: val)
-        }
-        let values2 = (0 ..< 30).map { (i) -> ChartDataEntry in
-            let val = Double(arc4random_uniform(range) + 3)
-            return ChartDataEntry(x: Double(i), y: val)
-        }
-
-        let set1 = ScatterChartDataSet(entries: values1, label: SetLabels.one)
-        let set2 = ScatterChartDataSet(entries: values2, label: SetLabels.two)
-
-        data = BarChartData(dataSets: [set1, set2, set3])
-    }
-
-    func testMaxEntry() {
-        let maxEntryCountSet = data.maxEntryCountSet
-        
-    }
-}
