@@ -423,7 +423,6 @@ open class ChartData: NSObject, ExpressibleByArrayLiteral
     @objc open var maxEntryCountSet: Element?
     {
         return self.max(by: \.entryCount)
-//        return self.max { $0.entryCount > $1.entryCount }
     }
 }
 

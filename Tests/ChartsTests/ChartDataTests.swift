@@ -65,4 +65,3 @@ class ChartDataTests: XCTestCase {
         XCTAssertTrue(data.dataSet(forLabel: SetLabels.badLabel, ignorecase: false) == nil)
     }
 }
-
