@@ -199,7 +199,7 @@ open class ChartDataSet: ChartBaseDataSet
         let match: (ChartDataEntry) -> Bool = { $0.x >= xValue }
         let i = partitioningIndex(where: match)
 
-        guard self[i].x == xValue else { return [] }
+        guard i < endIndex && self[i].x == xValue else { return [] }
         return self[i...].prefix(while: { $0.x == xValue })
     }
     
