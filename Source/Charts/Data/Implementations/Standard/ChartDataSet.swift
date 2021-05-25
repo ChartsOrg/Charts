@@ -235,18 +235,17 @@ open class ChartDataSet: ChartBaseDataSet
             }
 
         case .closest:
+            if(closest > startIndex){
+                let closestXIndex = closest
+                formIndex(before: &closest)
+                let value = self[closest]
 
-            let closestXIndex = closest
-
-            formIndex(before: &closest)
-            let value = self[closest]
-
-            // If the x value is closer to the original x index revert closest otherwise fall through
-            if abs(value.x - xValue) > abs(closestXValue - xValue)
-            {
-                closest = closestXIndex
+                // If the x value is closer to the original x index revert closest otherwise fall through
+                if abs(value.x - xValue) > abs(closestXValue - xValue)
+                {
+                    closest = closestXIndex
+                }
             }
-
             break
         }
 
