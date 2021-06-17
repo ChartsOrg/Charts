@@ -134,6 +134,15 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
     /// The marker that is displayed when a value is clicked on the chart
     @objc open var marker: Marker?
+    
+    /// This signifies that setNeedsDisplay() has been called
+    public var drawRequestInProgress = false
+    
+    /// This signifies that once drawRequestInProgress is not set notifyDataSetChanged() should be called
+    public var notifyDataSetChangedQueued = false
+    
+    /// This signifies that once drawRequestInProgress is not set highlightValue() should be called
+    public var highlightValueQueued = false
 
     /// An extra offset to be appended to the viewport's top
     @objc open var extraTopOffset: CGFloat = 0.0
@@ -435,6 +444,24 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// Highlights the value selected by touch gesture.
     @objc open func highlightValue(_ highlight: Highlight?, callDelegate: Bool)
     {
+        if (drawRequestInProgress) { // Buffer up to 1 call, ignore others until the buffered execution begins
+            if (highlightValueQueued) { // call already buffered
+                return
+            }
+            highlightValueQueued = true
+            DispatchQueue.global(qos: .background).async {
+                while (self.drawRequestInProgress) { // wait for current draw request to finish
+                    usleep(useconds_t(50 * 1000)) // sleep for 50 millisec
+                }
+                self.highlightValueQueued = false
+                DispatchQueue.main.async {
+                    self.highlightValue(highlight, callDelegate: callDelegate)
+                }
+                return
+            }
+            return
+        }
+        drawRequestInProgress = true
         var high = highlight
         guard
             let h = high,

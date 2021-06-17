@@ -293,6 +293,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         drawDescription(in: context)
         
         drawMarkers(context: context)
+        drawRequestInProgress = true
     }
     
     private var _autoScaleLastLowestVisibleX: Double?
@@ -337,6 +338,24 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     
     open override func notifyDataSetChanged()
     {
+        if (drawRequestInProgress) { // Buffer up to 1 call, ignore others until the buffered execution begins
+            if (notifyDataSetChangedQueued) { // call already buffered
+                return
+            }
+            notifyDataSetChangedQueued = true
+            DispatchQueue.global(qos: .background).async {
+                while (self.drawRequestInProgress) { // wait for current draw request to finish
+                    usleep(useconds_t(50 * 1000)) // sleep for 50 millisec
+                }
+                self.notifyDataSetChangedQueued = false
+                DispatchQueue.main.async {
+                    self.notifyDataSetChanged()
+                }
+                return
+            }
+            return
+        }
+        drawRequestInProgress = true
         renderer?.initBuffers()
         
         calcMinMax()
