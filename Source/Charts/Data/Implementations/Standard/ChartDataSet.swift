@@ -196,9 +196,14 @@ open class ChartDataSet: ChartBaseDataSet
     /// An empty array if no Entry object at that index.
     open override func entriesForXValue(_ xValue: Double) -> [ChartDataEntry]
     {
-        let match: (ChartDataEntry) -> Bool = { $0.x == xValue }
-        let i = partitioningIndex(where: match)
-        guard i < endIndex else { return [] }
+        let match: (ChartDataEntry) -> Bool = {
+            $0.x > xValue - 0.5 && $0.x <= xValue + 0.5
+        }
+        let ind = firstIndex(where: match)
+        guard let ind = ind else {
+            return []
+        }
+        let i = distance(from: startIndex, to: ind)
         return self[i...].prefix(while: match)
     }
     
