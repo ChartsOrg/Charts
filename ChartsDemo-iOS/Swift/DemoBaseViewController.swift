@@ -51,6 +51,8 @@ enum Option {
     case toggleRotate
     case toggleHighlightCircle
     
+    case customDraw
+    
     var label: String {
         switch self {
         case .toggleValues: return "Toggle Y-Values"
@@ -91,6 +93,7 @@ enum Option {
         case .toggleYLabels: return "Toggle Y-Labels"
         case .toggleRotate: return "Toggle Rotate"
         case .toggleHighlightCircle: return "Toggle highlight circle"
+        case .customDraw: return "Custom Draw"
         }
     }
 }
@@ -174,10 +177,52 @@ class DemoBaseViewController: UIViewController, ChartViewDelegate {
                     set.barBorderWidth = set.barBorderWidth == 1.0 ? 0.0 : 1.0
                 }
             }
+            
+        case .customDraw:
+            customDraw(chartView)
+            
             chartView.setNeedsDisplay()
         default:
             break
         }
+    }
+    
+    func customDraw(_ chartView: ChartViewBase) {
+        guard let chart = chartView as? BarLineChartViewBase else {
+            NSLog("Bar, Line, Candle, Scatter, Bubble support");
+            return
+        }
+ 
+        let alertVC = UIAlertController(title: "Custom Draw", message: nil, preferredStyle: .actionSheet)
+        
+        let action1 = UIAlertAction(title: "Line Segment", style: .default) {_ in
+            self.appendNewCustomDrawing(chartView: chart, type: .lineSegment)
+        }
+        alertVC.addAction(action1)
+        
+        let action2 = UIAlertAction(title: "Line Horizontal", style: .default) {_ in
+            self.appendNewCustomDrawing(chartView: chart, type: .lineHorizontal)
+        }
+        alertVC.addAction(action2)
+        
+        let action3 = UIAlertAction(title: "Rectangle", style: .default) {_ in
+            self.appendNewCustomDrawing(chartView: chart, type: .rectangle)
+        }
+        alertVC.addAction(action3)
+        
+        let action4 = UIAlertAction(title: "Fibonacci", style: .default) {_ in
+            self.appendNewCustomDrawing(chartView: chart, type: .fibonacciPeriod)
+        }
+        alertVC.addAction(action4)
+        
+        self.navigationController?.present(alertVC, animated: true, completion: nil)
+    }
+    
+    func appendNewCustomDrawing(chartView: BarLineChartViewBase, type: CustomGraphicsDrawType) {
+        let customDrawDataSet = CustomDrawChartDataSet()
+        customDrawDataSet.customDrawLineType = type
+        customDrawDataSet.customDrawLineColor = ChartColorTemplates.randomColor()
+        chartView.addCustomDrawGraphics(dataSet: customDrawDataSet)
     }
     
     @IBAction func optionsButtonTapped(_ sender: Any) {

@@ -35,7 +35,8 @@ class CandleStickChartViewController: DemoBaseViewController {
                         .toggleAutoScaleMinMax,
                         .toggleShadowColorSameAsCandle,
                         .toggleShowCandleBar,
-                        .toggleData]
+                        .toggleData,
+                        .customDraw]
         
         chartView.delegate = self
         

@@ -32,7 +32,8 @@ class ScatterChartViewController: DemoBaseViewController {
                         .saveToGallery,
                         .togglePinchZoom,
                         .toggleAutoScaleMinMax,
-                        .toggleData]
+                        .toggleData,
+                        .customDraw]
         
         chartView.delegate = self
 
@@ -111,6 +112,7 @@ class ScatterChartViewController: DemoBaseViewController {
         data.setValueFont(.systemFont(ofSize: 7, weight: .light))
 
         chartView.data = data
+        chartView.customDrawData = CustomDrawChartData()
     }
     
     override func optionTapped(_ option: Option) {

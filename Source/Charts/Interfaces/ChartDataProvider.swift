@@ -35,5 +35,7 @@ public protocol ChartDataProvider
     
     var data: ChartData? { get }
     
+    var customDrawData: CustomDrawChartData? { get }
+    
     var maxVisibleCount: Int { get }
 }

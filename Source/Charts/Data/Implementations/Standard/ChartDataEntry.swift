@@ -108,3 +108,17 @@ extension ChartDataEntry/*: Equatable*/ {
             && x == object.x
     }
 }
+
+//MARK: custom graphics moving
+extension ChartDataEntry {
+    
+    open func changeValue(with x: Double, y: Double) {
+        self.x += x
+        self.y += y
+    }
+    
+    open func resetValue(with x: Double, y: Double) {
+        self.x = x
+        self.y = y
+    }
+}

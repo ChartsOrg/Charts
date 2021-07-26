@@ -33,7 +33,8 @@ class BubbleChartViewController: DemoBaseViewController {
                         .saveToGallery,
                         .togglePinchZoom,
                         .toggleAutoScaleMinMax,
-                        .toggleData]
+                        .toggleData,
+                        .customDraw]
         
         chartView.delegate = self
         
@@ -113,6 +114,7 @@ class BubbleChartViewController: DemoBaseViewController {
         data.setValueTextColor(.white)
         
         chartView.data = data
+        chartView.customDrawData = CustomDrawChartData()
     }
     
     override func optionTapped(_ option: Option) {
