@@ -104,11 +104,13 @@ extension BarLineChartViewBase {
         editingDrawDataEntry = CustomDrawChartDataEntry(x: Double(valuePoint.x), y: Double(valuePoint.y))
         editingDrawDataSet.append(editingDrawDataEntry!)
         
-        /// if the graphics has finished, change the state for drawing & editing, set the highlighted index
+        /// set the highlighted index
+        self.customGraphicsHighlighted = [Highlight(x: 0, dataSetIndex: customDrawData.index(of: editingDrawDataSet), stackIndex: 0)]
+
+        /// if the graphics has finished, change the state for drawing & editing
         if editingDrawDataSet.dataSetCompletedCustomDraw {
             drawingCustomGraphics = false
             editingCustomGraphics = true
-            self.customGraphicsHighlighted = [Highlight(x: 0, dataSetIndex: customDrawData.index(of: editingDrawDataSet), stackIndex: 0)]
         }
         
         setNeedsDisplay()

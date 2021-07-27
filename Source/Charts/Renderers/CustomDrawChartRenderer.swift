@@ -1,5 +1,5 @@
 //
-//  ChartCustomDraw.swift
+//  CustomDrawChartRenderer.swift
 //  Charts
 //
 //  Created by JustLee on 2021/7/22.
@@ -8,7 +8,7 @@
 import Foundation
 import CoreGraphics
 
-open class CustomDrawRenderer: BarLineScatterCandleBubbleRenderer {
+open class CustomDrawChartRenderer: BarLineScatterCandleBubbleRenderer {
     
     @objc open weak var dataProvider: BarLineScatterCandleBubbleChartDataProvider?
     
@@ -24,22 +24,20 @@ open class CustomDrawRenderer: BarLineScatterCandleBubbleRenderer {
         
         for i in 0 ..< customDrawData.dataSetCount
         {
-            guard let set = customDrawData.dataSet(at: i) else { continue }
+            guard let set = customDrawData.dataSet(at: i) as? CustomDrawChartDataSet else {
+                fatalError("Datasets for CustomDrawRenderer must inherit with CustomDrawChartDataSet")
+                continue
+            }
             
             if set.isVisible
             {
-                if !(set is CustomDrawChartDataSetProtocol)
-                {
-                    fatalError("Datasets for CustomDrawRenderer must conform to CustomDrawChartDataSetProtocol")
-                }
-                
-                drawCustomDataSet(context: context, dataSet: set as! CustomDrawChartDataSetProtocol)
+                drawCustomDataSet(context: context, dataSet: set)
             }
         }
 
     }
     
-    open func drawCustomDataSet(context: CGContext, dataSet: CustomDrawChartDataSetProtocol)
+    open func drawCustomDataSet(context: CGContext, dataSet: CustomDrawChartDataSet)
     {
         dataSet.clearGraphicsPath()
         
@@ -47,6 +45,11 @@ open class CustomDrawRenderer: BarLineScatterCandleBubbleRenderer {
         case .lineSegment:
             drawLineSegment(context: context, dataSet: dataSet)
             break
+            
+        case .threeWaves:
+            drawLineWaves(context: context, dataSet: dataSet)
+            break
+            
         case .rectangle:
             drawClosedGraphics(context: context, dataSet: dataSet)
             break
@@ -70,7 +73,8 @@ open class CustomDrawRenderer: BarLineScatterCandleBubbleRenderer {
             guard let dataSet = customDrawData[high.dataSetIndex] as? CustomDrawChartDataSet,
                    dataSet.isHighlightEnabled else { continue }
             
-            if dataSet.customDrawLineType.calculatePathType != .closedGraphics {
+            if dataSet.customDrawLineType.calculatePathType != .closedGraphics
+            {
                 drawBaseAlphaPath(context: context, dataSet: dataSet)
             }
             
@@ -81,13 +85,86 @@ open class CustomDrawRenderer: BarLineScatterCandleBubbleRenderer {
     }
 }
 
-extension CustomDrawRenderer {
+///graphics type function
+extension CustomDrawChartRenderer {
+    
+    open func drawLineSegment(context: CGContext, dataSet: CustomDrawChartDataSet)
+    {
+        if dataSet.finished
+        {
+            drawBaseContinuousLineSegment(context: context, dataSet: dataSet)
+        } else {
+            dataSet.forEach {
+                drawBaseCircle(context: context, dataSet: dataSet, beginEntry: $0)
+            }
+        }
+    }
+
+    open func drawLineWaves(context: CGContext, dataSet: CustomDrawChartDataSet) {
+        if dataSet.count == 1, let entry = dataSet.first
+        {
+            drawBaseCircle(context: context, dataSet: dataSet, beginEntry: entry)
+        } else {
+            drawBaseContinuousLineSegment(context: context, dataSet: dataSet)
+        }
+    }
+    
+    open func drawClosedGraphics(context: CGContext, dataSet: CustomDrawChartDataSet)
+    {
+        if dataSet.finished
+        {
+            drawBaseClosedGraphics(context: context, dataSet: dataSet)
+        } else {
+            dataSet.entries.forEach {
+                drawBaseCircle(context: context, dataSet: dataSet, beginEntry: $0)
+            }
+        }
+    }
+    
+    open func drawFibonacciPeriodLine(context: CGContext, dataSet: CustomDrawChartDataSet)
+    {
+        guard let dataProvider = self.dataProvider else { return }
+
+        dataSet.forEach {
+            $0.y = Double.middleMagnitude(dataProvider.chartYMax, dataProvider.chartYMin)
+        }
+        
+        if dataSet.finished {
+            drawBaseContinuousLineSegment(context: context, dataSet: dataSet)
+            FibonacciPeriod.getFibonacciSequenceBy(begin: dataSet.first!.x, next: dataSet.last!.x, count: 11).map {
+                return CustomDrawChartDataEntry(x: $0, y: dataSet.first!.y)
+            }.forEach {
+                drawBaseLineVertical(context: context, dataSet: dataSet, beginEntry: $0)
+            }
+        } else {
+            dataSet.entries.forEach {
+                drawBaseLineVertical(context: context, dataSet: dataSet, beginEntry: $0)
+            }
+        }
+    }
+    
+    open func drawHorizontalLine(context: CGContext, dataSet: CustomDrawChartDataSet)
+    {
+        guard let dataProvider = self.dataProvider else { return }
+
+        if dataSet.finished
+        {
+            let entry = dataSet[0]
+            entry.x = Double.middleMagnitude(dataProvider.chartXMin, dataProvider.chartXMax)
+            
+            drawBaseLineHorizontal(context: context, dataSet: dataSet, beginEntry: entry)
+        }
+    }
+}
+
+/// basic graphics function
+extension CustomDrawChartRenderer {
     
     /// transform the entry to drawing point
     /// - Parameters:
     ///   - entry: entry description
     ///   - axisDependency: axisDependency description
-    open func transEntryToValuePoint(entry: ChartDataEntry?, axisDependency: YAxis.AxisDependency = .left) -> CGPoint
+    open func transformEntryToPixelPoint(entry: ChartDataEntry?, axisDependency: YAxis.AxisDependency = .left) -> CGPoint
     {
         guard let dataProvider = dataProvider,
               let entry = entry else { return .zero }
@@ -109,7 +186,7 @@ extension CustomDrawRenderer {
         let holdRadius = max(dataSet.circleHoleRadius, dataSet.lineWidth + 2)
         let circleRadius = dataSet.circleRadius
         
-        let point = transEntryToValuePoint(entry: beginEntry, axisDependency: dataSet.axisDependency)
+        let point = transformEntryToPixelPoint(entry: beginEntry, axisDependency: dataSet.axisDependency)
         let pointRect = CGRect(x: point.x - holdRadius, y: point.y - holdRadius, width: holdRadius * 2, height: holdRadius * 2)
         let circleRect = CGRect(x: point.x - circleRadius, y: point.y - circleRadius, width: circleRadius * 2, height: circleRadius * 2)
 
@@ -133,13 +210,13 @@ extension CustomDrawRenderer {
         }
     }
     
-    /// draw line segment
+    /// draw line segment with specific points
     /// - Parameters:
     ///   - context: context description
     ///   - dataSet: dataSet description
     ///   - beginEntry: beginEntry
     ///   - endEntry: endEntry
-    open func drawBaseLineSegment(context: CGContext, dataSet: CustomDrawChartDataSet, beginEntry: ChartDataEntry, endEntry: ChartDataEntry)
+    open func drawBaseSpecificLineSegment(context: CGContext, dataSet: CustomDrawChartDataSet, beginEntry: ChartDataEntry, endEntry: ChartDataEntry)
     {
         context.setLineWidth(dataSet.lineWidth)
         if dataSet.lineDashLengths != nil {
@@ -149,13 +226,37 @@ extension CustomDrawRenderer {
         }
         context.setStrokeColor(dataSet.customDrawLineColor.cgColor)
         
-        let beginPoint = transEntryToValuePoint(entry: beginEntry, axisDependency: dataSet.axisDependency)
-        let endPoint = transEntryToValuePoint(entry: endEntry, axisDependency: dataSet.axisDependency)
+        let beginPoint = transformEntryToPixelPoint(entry: beginEntry, axisDependency: dataSet.axisDependency)
+        let endPoint = transformEntryToPixelPoint(entry: endEntry, axisDependency: dataSet.axisDependency)
         context.addLines(between: [beginPoint, endPoint])
         
         context.strokePath()
     
-        dataSet.appendSingleLinePath(points: [beginPoint, endPoint], pathWidth: dataSet.circleRadius)
+        dataSet.appendSingleLinePath(points: [beginPoint, endPoint])
+    }
+    
+    /// draw continuous line segment
+    /// - Parameters:
+    ///   - context: context description
+    ///   - dataSet: dataSet description
+    open func drawBaseContinuousLineSegment(context: CGContext, dataSet: CustomDrawChartDataSet)
+    {
+        context.setLineWidth(dataSet.lineWidth)
+        
+        if dataSet.lineDashLengths != nil {
+            context.setLineDash(phase: dataSet.lineDashPhase, lengths: dataSet.lineDashLengths!)
+        } else {
+            context.setLineDash(phase: 0.0, lengths: [])
+        }
+        context.setStrokeColor(dataSet.customDrawLineColor.cgColor)
+        
+        for index in stride(from: 0, to: dataSet.entries.count - 1, by: 1) {
+            let beginPoint = transformEntryToPixelPoint(entry: dataSet[index], axisDependency: dataSet.axisDependency)
+            let endPoint = transformEntryToPixelPoint(entry: dataSet[index + 1], axisDependency: dataSet.axisDependency)
+            context.addLines(between: [beginPoint, endPoint])
+            context.strokePath()
+            dataSet.appendSingleLinePath(points: [beginPoint, endPoint])
+        }
     }
     
     /// draw closed graphics
@@ -163,20 +264,22 @@ extension CustomDrawRenderer {
     ///   - context: context description
     ///   - dataSet: dataSet description
     ///   - entries: entries description
-    open func drawBaseClosedGraphics(context: CGContext, dataSet: CustomDrawChartDataSet, entries: [ChartDataEntry])
+    open func drawBaseClosedGraphics(context: CGContext, dataSet: CustomDrawChartDataSet)
     {
         context.setFillColor(dataSet.customDrawLineColor.withAlphaComponent(0.4).cgColor)
         
         var points = [CGPoint]()
-        let firstPoint = transEntryToValuePoint(entry: entries.first, axisDependency: dataSet.axisDependency)
+        
+        let firstPoint = transformEntryToPixelPoint(entry: dataSet.entries.first, axisDependency: dataSet.axisDependency)
         context.move(to: firstPoint)
+        
         points.append(firstPoint)
-        entries.forEach {
-            let transformPoint = transEntryToValuePoint(entry: $0, axisDependency: dataSet.axisDependency)
+        dataSet.entries.forEach {
+            let transformPoint = transformEntryToPixelPoint(entry: $0, axisDependency: dataSet.axisDependency)
             points.append(transformPoint)
             context.addLine(to: transformPoint)
-            
         }
+        
         context.closePath()
         context.fillPath()
         
@@ -191,7 +294,8 @@ extension CustomDrawRenderer {
     open func drawBaseLineVertical(context: CGContext, dataSet: CustomDrawChartDataSet, beginEntry: ChartDataEntry)
     {
         guard let dataProvider = self.dataProvider else { return }
-        drawBaseLineSegment(context: context, dataSet: dataSet, beginEntry: ChartDataEntry(x: beginEntry.x, y: dataProvider.chartYMin), endEntry: ChartDataEntry(x: beginEntry.x, y: dataProvider.chartYMax))
+        
+        drawBaseSpecificLineSegment(context: context, dataSet: dataSet, beginEntry: ChartDataEntry(x: beginEntry.x, y: dataProvider.chartYMin), endEntry: ChartDataEntry(x: beginEntry.x, y: dataProvider.chartYMax))
     }
     
     /// draw basic horizontal line
@@ -202,73 +306,7 @@ extension CustomDrawRenderer {
     open func drawBaseLineHorizontal(context: CGContext, dataSet: CustomDrawChartDataSet, beginEntry: ChartDataEntry)
     {
         guard let dataProvider = self.dataProvider else { return }
-        drawBaseLineSegment(context: context, dataSet: dataSet, beginEntry: ChartDataEntry(x: dataProvider.chartXMin, y: beginEntry.y), endEntry: ChartDataEntry(x: dataProvider.chartXMax, y: beginEntry.y))
-    }
-}
-
-extension CustomDrawRenderer {
-    open func drawLineSegment(context: CGContext, dataSet: CustomDrawChartDataSetProtocol)
-    {
-        guard let dataSet = dataSet as? CustomDrawChartDataSet else { return }
         
-        if dataSet.dataSetCompletedCustomDraw {
-            drawBaseLineSegment(context: context, dataSet: dataSet, beginEntry: dataSet.entries[0], endEntry: dataSet.entries[1])
-        } else {
-            for entry in dataSet {
-                drawBaseCircle(context: context, dataSet: dataSet, beginEntry: entry)
-            }
-        }
-    }
-
-    open func drawVerticalLine(context: CGContext, dataSet: CustomDrawChartDataSetProtocol)
-    {
-        guard let dataProvider = self.dataProvider, let dataSet = dataSet as? CustomDrawChartDataSet else { return }
-        if dataSet.count == 1 {
-            let entry = dataSet.first!
-            entry.y = Double.middleMagnitude(dataProvider.chartYMin, dataProvider.chartYMax)
-            drawBaseLineVertical(context: context, dataSet: dataSet, beginEntry: entry)
-        }
-    }
-    
-    open func drawClosedGraphics(context: CGContext, dataSet: CustomDrawChartDataSetProtocol)
-    {
-        guard let dataSet = dataSet as? CustomDrawChartDataSet else { return }
-        if !dataSet.finished, let entry = dataSet.first {
-            drawBaseCircle(context: context, dataSet: dataSet, beginEntry: entry)
-        } else {
-            drawBaseClosedGraphics(context: context, dataSet: dataSet, entries: dataSet.entries)
-        }
-    }
-    
-    open func drawFibonacciPeriodLine(context: CGContext, dataSet: CustomDrawChartDataSetProtocol)
-    {
-        guard let dataProvider = self.dataProvider, let dataSet = dataSet as? CustomDrawChartDataSet else { return }
-
-        dataSet.forEach {
-            $0.y = Double.middleMagnitude(dataProvider.chartYMax, dataProvider.chartYMin)
-        }
-        
-        if dataSet.count == 1 {
-            drawBaseLineVertical(context: context, dataSet: dataSet, beginEntry: dataSet.first!)
-        } else if dataSet.count == 2 {
-            drawBaseLineSegment(context: context, dataSet: dataSet, beginEntry: dataSet[0], endEntry: dataSet[1])
-            FibonacciPeriod.getFibonacciSequenceBy(begin: dataSet.first!.x, next: dataSet.last!.x, count: 11).map {
-                return CustomDrawChartDataEntry(x: $0, y: dataSet.first!.y)
-            }.forEach {
-                drawBaseLineVertical(context: context, dataSet: dataSet, beginEntry: $0)
-            }
-        }
-    }
-    
-    open func drawHorizontalLine(context: CGContext, dataSet: CustomDrawChartDataSetProtocol)
-    {
-        guard let dataProvider = self.dataProvider, let dataSet = dataSet as? CustomDrawChartDataSet else { return }
-
-        if dataSet.count == 1 {
-            let entry = dataSet.first!
-            entry.x = Double.middleMagnitude(dataProvider.chartXMin, dataProvider.chartXMax)
-            
-            drawBaseLineHorizontal(context: context, dataSet: dataSet, beginEntry: entry)
-        }
+        drawBaseSpecificLineSegment(context: context, dataSet: dataSet, beginEntry: ChartDataEntry(x: dataProvider.chartXMin, y: beginEntry.y), endEntry: ChartDataEntry(x: dataProvider.chartXMax, y: beginEntry.y))
     }
 }

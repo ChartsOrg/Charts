@@ -130,7 +130,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     @objc open var renderer: DataRenderer?
     
     /// the renderer object for custom draw graphics
-    @objc open var customDrawRenderer: CustomDrawRenderer?
+    @objc open var customDrawRenderer: CustomDrawChartRenderer?
     
     /// delegate to receive chart custom drawing events
     @objc open weak var customDrawDelegate: ChartViewCustomDrawDelegate?

@@ -159,7 +159,7 @@
 		F31624A926A924A500999108 /* CustomChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31624A826A924A500999108 /* CustomChartDataSet.swift */; };
 		F31624AB26A924AE00999108 /* CustomDrawChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31624AA26A924AE00999108 /* CustomDrawChartData.swift */; };
 		F31624AD26A924C800999108 /* CustomChartDataSetProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31624AC26A924C800999108 /* CustomChartDataSetProtocol.swift */; };
-		F31624B326A9298200999108 /* CustomDrawRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31624B226A9298200999108 /* CustomDrawRenderer.swift */; };
+		F31624B326A9298200999108 /* CustomDrawChartRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31624B226A9298200999108 /* CustomDrawChartRenderer.swift */; };
 		F37B07008B8AE7F3909FFB9C /* DataRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0216EDC6A1FE272F4EB19FCF /* DataRenderer.swift */; };
 		F5A209116FAC68F5903D0B46 /* ChartAnimationEasing.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFB762958EE8E6521563665D /* ChartAnimationEasing.swift */; };
 		F744C510DA9B85C228BBB335 /* DefaultFillFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6C1BEFDF17404666C7B6054 /* DefaultFillFormatter.swift */; };
@@ -331,7 +331,7 @@
 		F31624A826A924A500999108 /* CustomChartDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomChartDataSet.swift; path = Source/Charts/Data/Implementations/Standard/CustomChartDataSet.swift; sourceTree = "<group>"; };
 		F31624AA26A924AE00999108 /* CustomDrawChartData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomDrawChartData.swift; path = Source/Charts/Data/Implementations/Standard/CustomDrawChartData.swift; sourceTree = "<group>"; };
 		F31624AC26A924C800999108 /* CustomChartDataSetProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomChartDataSetProtocol.swift; path = Source/Charts/Data/Interfaces/CustomChartDataSetProtocol.swift; sourceTree = "<group>"; };
-		F31624B226A9298200999108 /* CustomDrawRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomDrawRenderer.swift; path = Source/Charts/Renderers/CustomDrawRenderer.swift; sourceTree = "<group>"; };
+		F31624B226A9298200999108 /* CustomDrawChartRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomDrawChartRenderer.swift; path = Source/Charts/Renderers/CustomDrawChartRenderer.swift; sourceTree = "<group>"; };
 		F368CF209744D8F3B85B1028 /* RadarHighlighter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RadarHighlighter.swift; path = Source/Charts/Highlight/RadarHighlighter.swift; sourceTree = "<group>"; };
 		F3788EC55EF908B0805D7C2F /* BubbleChartDataSetProtocol.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BubbleChartDataSetProtocol.swift; path = Source/Charts/Data/Interfaces/BubbleChartDataSetProtocol.swift; sourceTree = "<group>"; };
 		F4785FEACAE4367F36FB8868 /* CandleChartData.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CandleChartData.swift; path = Source/Charts/Data/Implementations/Standard/CandleChartData.swift; sourceTree = "<group>"; };
@@ -438,7 +438,7 @@
 				46D8013D44629521B1746364 /* PieChartRenderer.swift */,
 				7AC9C3D69ACB5BDE22421E15 /* RadarChartRenderer.swift */,
 				80D5B764EC0AE1E17E55DC67 /* ScatterChartRenderer.swift */,
-				F31624B226A9298200999108 /* CustomDrawRenderer.swift */,
+				F31624B226A9298200999108 /* CustomDrawChartRenderer.swift */,
 			);
 			name = ChartRenderers;
 			sourceTree = "<group>";
@@ -949,7 +949,7 @@
 				F31624AD26A924C800999108 /* CustomChartDataSetProtocol.swift in Sources */,
 				4E98788ABEF6496C23F3E6C6 /* HorizontalBarHighlighter.swift in Sources */,
 				73EDF662AD989E930D365B72 /* PieHighlighter.swift in Sources */,
-				F31624B326A9298200999108 /* CustomDrawRenderer.swift in Sources */,
+				F31624B326A9298200999108 /* CustomDrawChartRenderer.swift in Sources */,
 				3097296AC7FFA994FE4AD312 /* PieRadarHighlighter.swift in Sources */,
 				C33E1AF5471A60BA42DAF52E /* RadarHighlighter.swift in Sources */,
 				9C91C151608E2D6E19B1EAD1 /* Range.swift in Sources */,

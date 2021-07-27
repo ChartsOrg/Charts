@@ -310,7 +310,7 @@ extension UIBezierPath {
     *a.x -1, a.y-diff     b.x+1, b.y-diff*
     **************************************
      */
-    static func singleLinePath(points: [CGPoint], maxDiffValue: CGFloat) -> UIBezierPath {
+    static func singleLinePath(points: [CGPoint], pathWidth: CGFloat) -> UIBezierPath {
         let calculateBezierPath = UIBezierPath()
         
         if points.count >= 2 {
@@ -318,8 +318,8 @@ extension UIBezierPath {
             let lastPoint = points.last!
             let angle = fabs(Double(atan((firstPoint.y - lastPoint.y) / (firstPoint.x - lastPoint.x))))
             
-            let distanceX = CGFloat(fabs(sin(angle))) * maxDiffValue
-            let distanceY = CGFloat(fabs(cos(angle))) * maxDiffValue
+            let distanceX = CGFloat(fabs(sin(angle))) * pathWidth
+            let distanceY = CGFloat(fabs(cos(angle))) * pathWidth
 
             var point1 = CGPoint(x: firstPoint.x + distanceX, y: firstPoint.y + distanceY)
             var point2 = CGPoint(x: firstPoint.x - distanceX, y: firstPoint.y - distanceY)

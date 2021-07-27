@@ -14,6 +14,12 @@ open class CustomDrawChartDataSet: LineChartDataSet, CustomDrawChartDataSetProto
     @objc open var customDrawLinePaths: [UIBezierPath] = [UIBezierPath]()
     
     @objc open var customDrawLineColor: NSUIColor = .black
+    
+    @objc open var minimumXErrorScale: CGFloat = 0.05
+    
+    @objc open var minimumYErrorScale: CGFloat = 0.05
+    
+    @objc open var graphicsPathWidth: CGFloat = 5.0
 }
 
 //Drawing
@@ -127,10 +133,10 @@ extension CustomDrawChartDataSet: CustomDrawChartDataSetMoveProtocol
         }
     }
 
-    public func appendSingleLinePath(points: [CGPoint], pathWidth: CGFloat)
+    public func appendSingleLinePath(points: [CGPoint])
     {
         if entries.count > 0 {
-            customDrawLinePaths.append(UIBezierPath.singleLinePath(points: points, maxDiffValue: pathWidth))
+            customDrawLinePaths.append(UIBezierPath.singleLinePath(points: points, pathWidth: graphicsPathWidth))
         }
     }
 
@@ -146,7 +152,7 @@ extension CustomDrawChartDataSet: CustomDrawChartDataSetLocationProtocol {
     public func locateTouchEntry(touchPoint: CGPoint, xRange: CGFloat, yRange: CGFloat) -> CustomDrawChartDataEntry?
     {
         for closestEntry in entries {
-            if fabs(closestEntry.x - Double(touchPoint.x)) < 0.5 && fabs(closestEntry.y - Double(touchPoint.y)) < Double(yRange) * 0.05 {
+            if fabs(closestEntry.x - Double(touchPoint.x)) < Double(xRange * minimumXErrorScale) && fabs(closestEntry.y - Double(touchPoint.y)) < Double(yRange * minimumYErrorScale) {
                 return closestEntry as? CustomDrawChartDataEntry
             }
         }

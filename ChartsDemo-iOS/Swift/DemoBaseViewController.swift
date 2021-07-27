@@ -200,20 +200,25 @@ class DemoBaseViewController: UIViewController, ChartViewDelegate {
         }
         alertVC.addAction(action1)
         
-        let action2 = UIAlertAction(title: "Line Horizontal", style: .default) {_ in
-            self.appendNewCustomDrawing(chartView: chart, type: .lineHorizontal)
+        let action2 = UIAlertAction(title: "Three Waves", style: .default) {_ in
+            self.appendNewCustomDrawing(chartView: chart, type: .threeWaves)
         }
         alertVC.addAction(action2)
         
-        let action3 = UIAlertAction(title: "Rectangle", style: .default) {_ in
-            self.appendNewCustomDrawing(chartView: chart, type: .rectangle)
+        let action3 = UIAlertAction(title: "Line Horizontal", style: .default) {_ in
+            self.appendNewCustomDrawing(chartView: chart, type: .lineHorizontal)
         }
         alertVC.addAction(action3)
         
-        let action4 = UIAlertAction(title: "Fibonacci", style: .default) {_ in
-            self.appendNewCustomDrawing(chartView: chart, type: .fibonacciPeriod)
+        let action4 = UIAlertAction(title: "Rectangle", style: .default) {_ in
+            self.appendNewCustomDrawing(chartView: chart, type: .rectangle)
         }
         alertVC.addAction(action4)
+        
+        let action5 = UIAlertAction(title: "Fibonacci", style: .default) {_ in
+            self.appendNewCustomDrawing(chartView: chart, type: .fibonacciPeriod)
+        }
+        alertVC.addAction(action5)
         
         self.navigationController?.present(alertVC, animated: true, completion: nil)
     }

@@ -169,7 +169,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
 
         self.highlighter = ChartHighlighter(chart: self)
         
-        self.customDrawRenderer = CustomDrawRenderer(dataProvider:self, animator: chartAnimator, viewPortHandler: viewPortHandler)
+        self.customDrawRenderer = CustomDrawChartRenderer(dataProvider:self, animator: chartAnimator, viewPortHandler: viewPortHandler)
 
         _tapGestureRecognizer = NSUITapGestureRecognizer(target: self, action: #selector(tapGestureRecognized(_:)))
         _doubleTapGestureRecognizer = NSUITapGestureRecognizer(target: self, action: #selector(doubleTapGestureRecognized(_:)))

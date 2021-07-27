@@ -11,6 +11,7 @@ import UIKit
 @objc public enum CustomGraphicsDrawType: Int
 {
     case lineSegment = 0
+    case threeWaves
     case rectangle
     case lineHorizontal
     case fibonacciPeriod
@@ -35,6 +36,9 @@ extension CustomGraphicsDrawType
         case .lineSegment:
             return .singleLine
             
+        case .threeWaves:
+            return .multiLines
+            
         case .lineHorizontal:
             return .extendLine
             
@@ -52,14 +56,13 @@ extension CustomGraphicsDrawType
         switch self {
         case .lineSegment:
             return 2
+        case .threeWaves:
+            return 4
         case .rectangle:
             return 2
         case .lineHorizontal:
             return 1
         case .fibonacciPeriod:
-            return 2
-            
-        default:
             return 2
         }
     }
@@ -68,7 +71,7 @@ extension CustomGraphicsDrawType
     var needSupplyGraphicsPoint: Bool
     {
         switch self {
-        case .lineSegment, .fibonacciPeriod, .lineHorizontal:
+        case .lineSegment, .threeWaves, .fibonacciPeriod, .lineHorizontal:
             return false
         case .rectangle:
             return true
@@ -99,6 +102,15 @@ public protocol CustomDrawChartDataSetDrawingProtocol
 /// locate the graphics with touch point, calculate whether the touch point is in the path
 public protocol CustomDrawChartDataSetLocationProtocol
 {
+    /// the minimum error percent scale with screen x range
+    var minimumXErrorScale: CGFloat { get }
+    
+    /// the minimum error percent scale with screen y range
+    var minimumYErrorScale: CGFloat { get }
+    
+    /// the graphics location path width
+    var graphicsPathWidth: CGFloat { get }
+    
     /// locate dataset or entry
     /// - Parameters:
     ///   - touchPoint: touchPoint description
@@ -118,8 +130,7 @@ public protocol CustomDrawChartDataSetLocationProtocol
     /// generate a line bezier path through points
     /// - Parameters:
     ///   - points: points
-    ///   - pathWidth: path width
-    func appendSingleLinePath(points: [CGPoint], pathWidth: CGFloat)
+    func appendSingleLinePath(points: [CGPoint])
     
     /// clear
     func clearGraphicsPath()
