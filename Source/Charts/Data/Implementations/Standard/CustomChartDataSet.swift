@@ -15,9 +15,9 @@ open class CustomDrawChartDataSet: LineChartDataSet, CustomDrawChartDataSetProto
     
     @objc open var customDrawLineColor: NSUIColor = .black
     
-    @objc open var minimumXErrorScale: CGFloat = 0.05
+    @objc open var minimumXErrorScale: CGFloat = 0.01
     
-    @objc open var minimumYErrorScale: CGFloat = 0.05
+    @objc open var minimumYErrorScale: CGFloat = 0.01
     
     @objc open var graphicsPathWidth: CGFloat = 5.0
 }
