@@ -143,6 +143,10 @@ extension BarLineChartViewBase {
         if let customDrawData = customDrawData, let dataSet = locateCustomDataSet(touchPoint: touchPoint) {
             editingDrawDataEntry = locateCustomDataEntry(dataSet: dataSet, touchPoint: touchPoint)
 
+            if !dataSet.finished {
+                return false
+            }
+            
             if moving {
                 if editingDrawDataSet != nil {
                     return editingDrawDataSet === dataSet
