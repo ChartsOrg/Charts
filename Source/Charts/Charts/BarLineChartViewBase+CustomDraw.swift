@@ -143,10 +143,6 @@ extension BarLineChartViewBase {
         if let customDrawData = customDrawData, let dataSet = locateCustomDataSet(touchPoint: touchPoint) {
             editingDrawDataEntry = locateCustomDataEntry(dataSet: dataSet, touchPoint: touchPoint)
 
-            if !dataSet.finished {
-                return false
-            }
-            
             if moving {
                 if editingDrawDataSet != nil {
                     return editingDrawDataSet === dataSet
@@ -270,15 +266,5 @@ extension BarLineChartViewBase {
             customDrawDelegate.customDrawDataSetDeselected?(self, dataSet: dataSet)
         }
     }
- 
-    open override func nsuiTouchesMoved(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
-    {
-        if let touch = touches.first {
-            if customDrawInterruptMovingGesture(touchPoint: touch.location(in: self)) {
-                moveCustomDrawDataSet(previousPoint: touch.previousLocation(in: self), currentPoint: touch.location(in: self))
-                return
-            }
-        }
-        super.nsuiTouchesMoved(touches, withEvent: event)
-    }
+    
 }
