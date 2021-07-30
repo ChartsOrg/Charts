@@ -14,10 +14,8 @@ open class CustomDrawChartDataSet: LineChartDataSet, CustomDrawChartDataSetProto
     @objc open var customDrawLinePaths: [UIBezierPath] = [UIBezierPath]()
     
     @objc open var customDrawLineColor: NSUIColor = .black
-    
-    @objc open var minimumXErrorScale: CGFloat = 0.01
-    
-    @objc open var minimumYErrorScale: CGFloat = 0.01
+        
+    @objc open var minimumYRangeErrorScale: CGFloat = 0.05
     
     @objc open var graphicsPathWidth: CGFloat = 5.0
 }
@@ -149,10 +147,10 @@ extension CustomDrawChartDataSet: CustomDrawChartDataSetMoveProtocol
 // location
 extension CustomDrawChartDataSet: CustomDrawChartDataSetLocationProtocol {
 
-    public func locateTouchEntry(touchPoint: CGPoint, xRange: CGFloat, yRange: CGFloat) -> CustomDrawChartDataEntry?
+    public func locateTouchEntry(touchPoint: CGPoint, yRange: CGFloat) -> CustomDrawChartDataEntry?
     {
         for closestEntry in entries {
-            if fabs(closestEntry.x - Double(touchPoint.x)) < Double(xRange * minimumXErrorScale) && fabs(closestEntry.y - Double(touchPoint.y)) < Double(yRange * minimumYErrorScale) {
+            if fabs(closestEntry.x - Double(touchPoint.x)) < 0.5 && fabs(closestEntry.y - Double(touchPoint.y)) < Double(yRange * minimumYRangeErrorScale) {
                 return closestEntry as? CustomDrawChartDataEntry
             }
         }

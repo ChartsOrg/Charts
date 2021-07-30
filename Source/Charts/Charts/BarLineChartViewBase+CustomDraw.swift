@@ -21,24 +21,12 @@ extension BarLineChartViewBase {
         
         for dataSet in dataSets {
             let valuePoint = valueForTouchPoint(point: touchPoint, axis: dataSet.axisDependency)
-            if let entry = dataSet.locateTouchEntry(touchPoint: valuePoint, xRange: CGFloat(highestVisibleX - lowestVisibleX), yRange: CGFloat(chartYMax - chartYMin)) {
+            if let entry = dataSet.locateTouchEntry(touchPoint: valuePoint, yRange: CGFloat(chartYMax - chartYMin)) {
                 return entry
             }
         }
         return nil
     }
-    
-    private func locateCustomDataEntry(dataSet: CustomDrawChartDataSet?, touchPoint: CGPoint) -> CustomDrawChartDataEntry?
-    {
-        guard let dataSet = dataSet else { return nil }
-        
-        let valuePoint = valueForTouchPoint(point: touchPoint, axis: dataSet.axisDependency)
-        if let entry = dataSet.locateTouchEntry(touchPoint: valuePoint, xRange: CGFloat(highestVisibleX - lowestVisibleX), yRange: CGFloat(chartYMax - chartYMin)) {
-            return entry
-        }
-        return nil
-    }
-     
     
     /// locate the gesture point for custom draw dataset
     /// Find the dataset  through the entry, using locateCustomDataEntry(touchPoint:)
@@ -141,14 +129,16 @@ extension BarLineChartViewBase {
     open func resetEditCustomGraphicsDataSet(touchPoint: CGPoint, moving: Bool) -> Bool
     {
         if let customDrawData = customDrawData, let dataSet = locateCustomDataSet(touchPoint: touchPoint) {
-            editingDrawDataEntry = locateCustomDataEntry(dataSet: dataSet, touchPoint: touchPoint)
-
+            
             if moving {
+                if !dataSet.finished {
+                    return false
+                }
                 if editingDrawDataSet != nil {
                     return editingDrawDataSet === dataSet
                 }
             }
-            
+            editingDrawDataEntry = locateCustomDataEntry(touchPoint: touchPoint)
             editingDrawDataSet = dataSet
 
             ///move the selected graphics to the front
@@ -194,8 +184,7 @@ extension BarLineChartViewBase {
         }
         /// the new graphics aren't unfinished
         if drawingCustomGraphics {
-            appendCustomDrawGraphicsEntry(touchPoint: touchPoint)
-            return true
+            return false
         }
         /// find the editing graphic dataset through gesture point
         return resetEditCustomGraphicsDataSet(touchPoint: touchPoint, moving: true)
@@ -265,6 +254,17 @@ extension BarLineChartViewBase {
         if let customDrawDelegate = customDrawDelegate, let dataSet = editingDrawDataSet {
             customDrawDelegate.customDrawDataSetDeselected?(self, dataSet: dataSet)
         }
+    }
+    
+    open override func nsuiTouchesMoved(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+    {
+        if let touch = touches.first {
+            if customDrawInterruptMovingGesture(touchPoint: touch.location(in: self)) {
+                moveCustomDrawDataSet(previousPoint: touch.previousLocation(in: self), currentPoint: touch.location(in: self))
+                return
+            }
+        }
+        super.nsuiTouchesMoved(touches, withEvent: event)
     }
     
 }

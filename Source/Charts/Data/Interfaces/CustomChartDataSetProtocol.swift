@@ -102,11 +102,8 @@ public protocol CustomDrawChartDataSetDrawingProtocol
 /// locate the graphics with touch point, calculate whether the touch point is in the path
 public protocol CustomDrawChartDataSetLocationProtocol
 {
-    /// the minimum error percent scale with screen x range
-    var minimumXErrorScale: CGFloat { get }
-    
     /// the minimum error percent scale with screen y range
-    var minimumYErrorScale: CGFloat { get }
+    var minimumYRangeErrorScale: CGFloat { get }
     
     /// the graphics location path width
     var graphicsPathWidth: CGFloat { get }
@@ -114,9 +111,8 @@ public protocol CustomDrawChartDataSetLocationProtocol
     /// locate dataset or entry
     /// - Parameters:
     ///   - touchPoint: touchPoint description
-    ///   - xRange: you can set the min error distance scale
     ///   - yRange: you can set the min error distance scale
-    func locateTouchEntry(touchPoint: CGPoint, xRange: CGFloat, yRange: CGFloat) -> CustomDrawChartDataEntry?
+    func locateTouchEntry(touchPoint: CGPoint, yRange: CGFloat) -> CustomDrawChartDataEntry?
     
     /// calculate whether the touch point is in graphics path
     /// - Parameters:
