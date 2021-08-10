@@ -193,9 +193,13 @@ class DemoBaseViewController: UIViewController, ChartViewDelegate {
             outline2.insets.right = 12
 
             for set in chartView.data!.dataSets {
-                if let set = set as? BarChartDataSet {
-                    set.barValueOutlines = [outline1, outline2]
-                }
+				if let set = set as? BarChartDataSet {
+					if set.barValueOutlines.isEmpty {
+						set.barValueOutlines = [outline1, outline2]
+					} else {
+						set.barValueOutlines = [BarChartBarValueOutline]()
+					}
+				}
             }
             chartView.setNeedsDisplay()
 
