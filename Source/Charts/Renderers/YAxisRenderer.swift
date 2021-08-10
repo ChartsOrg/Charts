@@ -293,7 +293,7 @@ open class YAxisRenderer: NSObject, AxisRenderer
             let label = l.label
             
             // if drawing the limit-value label is enabled
-            guard l.drawLabelEnabled, !label.isEmpty else { return }
+            guard l.drawLabelEnabled, !label.isEmpty else { continue }
 
             let labelLineHeight = l.valueFont.lineHeight
 
