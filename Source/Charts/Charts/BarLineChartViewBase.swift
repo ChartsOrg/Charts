@@ -204,13 +204,13 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         }
         
         xAxisRenderer.renderAxisLine(context: context)
-        leftYAxisRenderer.renderAxisLine(context: context)
+//        leftYAxisRenderer.renderAxisLine(context: context) // Comment vertical line
         rightYAxisRenderer.renderAxisLine(context: context)
 
         // The renderers are responsible for clipping, to account for line-width center etc.
         if xAxis.drawGridLinesBehindDataEnabled
         {
-            xAxisRenderer.renderGridLines(context: context)
+//            xAxisRenderer.renderGridLines(context: context) // Comment vertical line
             leftYAxisRenderer.renderGridLines(context: context)
             rightYAxisRenderer.renderGridLines(context: context)
         }
