@@ -134,6 +134,12 @@ extension BarLineScatterCandleBubbleRenderer.XBounds: Sequence {
         private var iterator: IndexingIterator<ClosedRange<Int>>
         
         fileprivate init(min: Int, max: Int) {
+            guard min <= max else {
+                // If min is more then max, it crashes. Happens with large data in zooming and scrolling.  Swap them to make it work.
+                self.iterator = (max...min).makeIterator()
+                return
+            }
+            
             self.iterator = (min...max).makeIterator()
         }
         
