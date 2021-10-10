@@ -71,6 +71,16 @@ open class MarkerView: NSUIView, IMarker
         context.restoreGState()
     }
     
+    open func drawWithoutOffset(context: CGContext, point: CGPoint)
+    {
+        context.saveGState()
+        context.translateBy(x: point.x , y: point.y)
+        NSUIGraphicsPushContext(context)
+        self.nsuiLayer?.render(in: context)
+        NSUIGraphicsPopContext()
+        context.restoreGState()
+    }
+    
     @objc
     open class func viewFromXib(in bundle: Bundle = .main) -> MarkerView?
     {
