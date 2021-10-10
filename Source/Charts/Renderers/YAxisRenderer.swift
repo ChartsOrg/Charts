@@ -322,7 +322,7 @@ open class YAxisRenderer: AxisRendererBase
             position = position.applying(trans)
             
             context.beginPath()
-            context.move(to: CGPoint(x: viewPortHandler.contentLeft, y: position.y))
+            context.move(to: CGPoint(x: viewPortHandler.contentLeft + l.lineXOffset, y: position.y))
             context.addLine(to: CGPoint(x: viewPortHandler.contentRight, y: position.y))
             
             context.setStrokeColor(l.lineColor.cgColor)
@@ -378,7 +378,7 @@ open class YAxisRenderer: AxisRendererBase
                         align: .left,
                         attributes: [NSAttributedString.Key.font: l.valueFont, NSAttributedString.Key.foregroundColor: l.valueTextColor])
                 }
-                else
+                else if l.labelPosition == .bottomLeft
                 {
                     ChartUtils.drawText(context: context,
                         text: label,
@@ -387,6 +387,15 @@ open class YAxisRenderer: AxisRendererBase
                             y: position.y + yOffset - labelLineHeight),
                         align: .left,
                         attributes: [NSAttributedString.Key.font: l.valueFont, NSAttributedString.Key.foregroundColor: l.valueTextColor])
+                }
+                else {
+                    ChartUtils.drawText(context: context,
+                                        text: label,
+                                        point: CGPoint(
+                                            x: viewPortHandler.contentLeft + xOffset,
+                                            y: position.y - (labelLineHeight / 2)),
+                                        align: .left,
+                                        attributes: [NSAttributedString.Key.font: l.valueFont, NSAttributedString.Key.foregroundColor: l.valueTextColor])
                 }
             }
         }
