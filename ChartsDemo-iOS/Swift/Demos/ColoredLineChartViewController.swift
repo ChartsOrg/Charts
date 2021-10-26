@@ -33,12 +33,12 @@ class ColoredLineChartViewController: DemoBaseViewController {
     }
     
     func setupChart(_ chart: LineChartView, data: LineChartData, color: UIColor) {
-        (data.getDataSetByIndex(0) as! LineChartDataSet).circleHoleColor = color
+        (data[0] as! LineChartDataSet).circleHoleColor = color
         
         chart.delegate = self
         chart.backgroundColor = color
         
-        chart.chartDescription?.enabled = false
+        chart.chartDescription.enabled = false
         
         chart.dragEnabled = true
         chart.setScaleEnabled(true)

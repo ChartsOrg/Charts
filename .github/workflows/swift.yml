@@ -1,0 +1,65 @@
+name: Swift
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  iOS:
+    runs-on: macos-latest
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_12.4.app/Contents/Developer
+    strategy:
+      matrix:
+        destination: ["OS=14.4,name=iPhone 12 Pro"] #, "OS=12.4,name=iPhone XS", "OS=11.4,name=iPhone X", "OS=10.3.1,name=iPhone SE"]
+    steps:
+      - uses: actions/checkout@v2
+      - name: iOS - ${{ matrix.destination }}
+        run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace "Charts.xcworkspace" -scheme "Charts" -destination "${{ matrix.destination }}" clean test | xcpretty
+
+  tvOS:
+    runs-on: macos-latest
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_12.4.app/Contents/Developer
+    strategy:
+      matrix:
+        destination: ["OS=14.3,name=Apple TV 4K"]
+    steps:
+      - uses: actions/checkout@v2
+      - name: tvOS - ${{ matrix.destination }}
+        run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace "Charts.xcworkspace" -scheme "Charts" -destination "${{ matrix.destination }}" clean test | xcpretty
+
+  macOS_demo:
+    runs-on: macOS-latest
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_12.4.app/Contents/Developer
+    steps:
+      - uses: actions/checkout@v2
+      - name: macOS
+        run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace "Charts.xcworkspace" -scheme "ChartsDemo-macOS" -destination "platform=macOS" clean build | xcpretty
+
+  iOS_demo:
+    runs-on: macos-latest
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_12.4.app/Contents/Developer
+    strategy:
+      matrix:
+        destination: ["OS=14.4,name=iPhone 12 Pro"] #, "OS=12.4,name=iPhone XS", "OS=11.4,name=iPhone X", "OS=10.3.1,name=iPhone SE"]
+    steps:
+      - uses: actions/checkout@v2
+      - name: iOS - ${{ matrix.destination }}
+        run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace "Charts.xcworkspace" -scheme "ChartsDemo-iOS" -destination "${{ matrix.destination }}" clean build | xcpretty
+
+  spm:
+    name: Test with SPM
+    runs-on: macOS-latest
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_12.4.app/Contents/Developer
+    steps:
+      - uses: actions/checkout@v2
+      - name: SPM Test
+        run: swift build -c debug

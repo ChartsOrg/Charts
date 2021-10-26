@@ -12,7 +12,7 @@
 #import "NegativeStackedBarChartViewController.h"
 #import "ChartsDemo_iOS-Swift.h"
 
-@interface NegativeStackedBarChartViewController () <ChartViewDelegate, IChartAxisValueFormatter>
+@interface NegativeStackedBarChartViewController () <ChartViewDelegate, ChartAxisValueFormatter>
 
 @property (nonatomic, strong) IBOutlet HorizontalBarChartView *chartView;
 
@@ -184,7 +184,7 @@
     NSLog(@"chartValueNothingSelected");
 }
 
-#pragma mark - IAxisValueFormatter
+#pragma mark - AxisValueFormatter
 
 - (NSString *)stringForValue:(double)value
                         axis:(ChartAxisBase *)axis

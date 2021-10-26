@@ -24,7 +24,7 @@ open class BarHighlighter: ChartHighlighter
         
         let pos = getValsForTouch(x: x, y: y)
 
-        if let set = barData.getDataSetByIndex(high.dataSetIndex) as? IBarChartDataSet,
+        if let set = barData[high.dataSetIndex] as? BarChartDataSetProtocol,
             set.isStacked
         {
             return getStackedHighlight(high: high,
@@ -57,7 +57,7 @@ open class BarHighlighter: ChartHighlighter
     ///   - yValue:
     /// - Returns:
     @objc open func getStackedHighlight(high: Highlight,
-                                  set: IBarChartDataSet,
+                                  set: BarChartDataSetProtocol,
                                   xValue: Double,
                                   yValue: Double) -> Highlight?
     {
@@ -74,7 +74,7 @@ open class BarHighlighter: ChartHighlighter
         
         guard
             let ranges = entry.ranges,
-            ranges.count > 0
+            !ranges.isEmpty
             else { return nil }
 
         let stackIndex = getClosestStackIndex(ranges: ranges, value: yValue)
@@ -98,10 +98,11 @@ open class BarHighlighter: ChartHighlighter
     @objc open func getClosestStackIndex(ranges: [Range]?, value: Double) -> Int
     {
         guard let ranges = ranges else { return 0 }
+        
         if let stackIndex = ranges.firstIndex(where: { $0.contains(value) }) {
             return stackIndex
         } else {
-            let length = max(ranges.count - 1, 0)
+            let length = max(ranges.endIndex - 1, 0)
             return (value > ranges[length].to) ? length : 0
         }
     }
