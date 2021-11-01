@@ -136,6 +136,10 @@
 		5BEAED401ABC1AC60013F194 /* SinusBarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BEAED3E1ABC1AC60013F194 /* SinusBarChartViewController.m */; };
 		5BEAED411ABC1AC60013F194 /* SinusBarChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BEAED3F1ABC1AC60013F194 /* SinusBarChartViewController.xib */; };
 		B64D06EB1FB199130067418D /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B64D06EA1FB199130067418D /* Launch Screen.storyboard */; };
+		EC32B042272F2BF20051605D /* CustomLineChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC32B040272F2BF20051605D /* CustomLineChartViewController.swift */; };
+		EC32B044272F2C000051605D /* CustomLineChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC32B043272F2C000051605D /* CustomLineChartViewController.xib */; };
+		EC32B046272F2C580051605D /* CustomBarChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC32B045272F2C580051605D /* CustomBarChartViewController.xib */; };
+		EC32B048272F2C650051605D /* CustomBarChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC32B047272F2C650051605D /* CustomBarChartViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -324,6 +328,10 @@
 		5BEAED3E1ABC1AC60013F194 /* SinusBarChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SinusBarChartViewController.m; sourceTree = "<group>"; };
 		5BEAED3F1ABC1AC60013F194 /* SinusBarChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SinusBarChartViewController.xib; sourceTree = "<group>"; };
 		B64D06EA1FB199130067418D /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		EC32B040272F2BF20051605D /* CustomLineChartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomLineChartViewController.swift; sourceTree = "<group>"; };
+		EC32B043272F2C000051605D /* CustomLineChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomLineChartViewController.xib; sourceTree = "<group>"; };
+		EC32B045272F2C580051605D /* CustomBarChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomBarChartViewController.xib; sourceTree = "<group>"; };
+		EC32B047272F2C650051605D /* CustomBarChartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomBarChartViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -392,6 +400,8 @@
 		225B36431F6EBA410005B3D5 /* Demos */ = {
 			isa = PBXGroup;
 			children = (
+				EC32B040272F2BF20051605D /* CustomLineChartViewController.swift */,
+				EC32B047272F2C650051605D /* CustomBarChartViewController.swift */,
 				225B36511F6EBA410005B3D5 /* AnotherBarChartViewController.swift */,
 				225B36581F6EBA410005B3D5 /* BarChartViewController.swift */,
 				225B364E1F6EBA410005B3D5 /* BubbleChartViewController.swift */,
@@ -432,6 +442,8 @@
 		227136F61F6EB69D006D2A11 /* Demos */ = {
 			isa = PBXGroup;
 			children = (
+				EC32B045272F2C580051605D /* CustomBarChartViewController.xib */,
+				EC32B043272F2C000051605D /* CustomLineChartViewController.xib */,
 				5BEAED111ABBFB2B0013F194 /* AnotherBarChartViewController.xib */,
 				5BD47E641ABB424E008FCEC6 /* BarChartViewController.xib */,
 				55E3564D1ADC638F00A57971 /* BubbleChartViewController.xib */,
@@ -715,9 +727,11 @@
 				225B367C1F6EBA640005B3D5 /* HorizontalBarChartViewController.xib in Resources */,
 				225B36841F6EBA640005B3D5 /* PieChartViewController.xib in Resources */,
 				225B36741F6EBA640005B3D5 /* AnotherBarChartViewController.xib in Resources */,
+				EC32B046272F2C580051605D /* CustomBarChartViewController.xib in Resources */,
 				225B36781F6EBA640005B3D5 /* ColoredLineChartViewController.xib in Resources */,
 				225B36791F6EBA640005B3D5 /* CombinedChartViewController.xib in Resources */,
 				225B367B1F6EBA640005B3D5 /* HalfPieChartViewController.xib in Resources */,
+				EC32B044272F2C000051605D /* CustomLineChartViewController.xib in Resources */,
 				068A9B1A1FBBF355003CF1AD /* Launch Screen.storyboard in Resources */,
 				225B367A1F6EBA640005B3D5 /* CubicLineChartViewController.xib in Resources */,
 				225B368B1F6EBA640005B3D5 /* StackedBarChartViewController.xib in Resources */,
@@ -797,6 +811,7 @@
 				5B442CD223D9B0A300B1F801 /* BalloonMarker.swift in Sources */,
 				225B366D1F6EBA470005B3D5 /* PiePolylineChartViewController.swift in Sources */,
 				225B366F1F6EBA470005B3D5 /* BarChartViewController.swift in Sources */,
+				EC32B042272F2BF20051605D /* CustomLineChartViewController.swift in Sources */,
 				225B36601F6EBA470005B3D5 /* LineChart2ViewController.swift in Sources */,
 				225B366C1F6EBA470005B3D5 /* HorizontalBarChartViewController.swift in Sources */,
 				225B36401F6EBA1D0005B3D5 /* XYMarkerView.swift in Sources */,
@@ -811,6 +826,7 @@
 				225B36711F6EBA470005B3D5 /* CandleStickChartViewController.swift in Sources */,
 				225B36631F6EBA470005B3D5 /* ScatterChartViewController.swift in Sources */,
 				225B365C1F6EBA470005B3D5 /* MultipleBarChartViewController.swift in Sources */,
+				EC32B048272F2C650051605D /* CustomBarChartViewController.swift in Sources */,
 				225B366E1F6EBA470005B3D5 /* CombinedChartViewController.swift in Sources */,
 				225B36641F6EBA470005B3D5 /* StackedBarChartViewController.swift in Sources */,
 				225B36651F6EBA470005B3D5 /* BubbleChartViewController.swift in Sources */,
