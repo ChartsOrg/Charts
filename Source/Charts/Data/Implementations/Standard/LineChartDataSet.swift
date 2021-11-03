@@ -151,6 +151,10 @@ open class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
         }
     }
     
+    open var valueBottomSpacing = CGFloat(0.0)
+    
+    open var circles: [Double] = []
+    
     // MARK: NSCopying
     
     open override func copy(with zone: NSZone? = nil) -> Any

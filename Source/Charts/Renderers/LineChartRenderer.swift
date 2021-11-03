@@ -513,7 +513,7 @@ open class LineChartRenderer: LineRadarRenderer
                                 viewPortHandler: viewPortHandler),
                             point: CGPoint(
                                 x: pt.x,
-                                y: pt.y - CGFloat(valOffset) - valueFont.lineHeight),
+                                y: pt.y - CGFloat(valOffset) - valueFont.lineHeight - dataSet.valueBottomSpacing),
                             align: .center,
                             attributes: [NSAttributedString.Key.font: valueFont, NSAttributedString.Key.foregroundColor: dataSet.valueTextColorAt(j)])
                     }
@@ -612,7 +612,7 @@ open class LineChartRenderer: LineRadarRenderer
                 
                 // Skip Circles and Accessibility if not enabled,
                 // reduces CPU significantly if not needed
-                if !dataSet.isDrawCirclesEnabled
+                if !dataSet.isDrawCirclesEnabled  || !dataSet.circles.contains(e.x)
                 {
                     continue
                 }
