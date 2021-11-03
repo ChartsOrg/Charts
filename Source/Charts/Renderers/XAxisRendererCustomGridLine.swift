@@ -10,6 +10,7 @@
 //
 
 import Foundation
+import CoreGraphics
 import Algorithms
 
 open class XAxisRendererCustomGridLine: XAxisRenderer
