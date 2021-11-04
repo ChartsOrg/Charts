@@ -324,7 +324,7 @@ open class LineChartRenderer: LineRadarRenderer
             _lineSegments[0].x = CGFloat(e.x)
             _lineSegments[0].y = CGFloat(e.y * phaseY)
             
-            if j < _xBounds.max
+            if j < min(_xBounds.max, Int(dataSet.circles.max() ?? Double(_xBounds.max)))
             {
                 // TODO: remove the check.
                 // With the new XBounds iterator, j is always smaller than _xBounds.max
