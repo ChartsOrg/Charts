@@ -173,7 +173,7 @@ public protocol IChartDataSet
     var axisDependency: YAxis.AxisDependency { get }
     
     /// List representing all colors that are used for drawing the actual values for this DataSet
-    var valueColors: [NSUIColor] { get }
+    var valueColors: [NSUIColor] { get set }
     
     /// All the colors that are used for this DataSet.
     /// Colors are reused as soon as the number of Entries the DataSet represents is higher than the size of the colors array.
