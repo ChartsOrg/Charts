@@ -128,67 +128,69 @@ open class AxisRendererBase: Renderer
         var n = axis.centerAxisLabelsEnabled ? 1 : 0
         
         // force label count
-        if axis.isForceLabelsEnabled
-        {
-            interval = Double(range) / Double(labelCount - 1)
-            
-            // Ensure stops contains at least n elements.
-            axis.entries.removeAll(keepingCapacity: true)
-            axis.entries.reserveCapacity(labelCount)
-            
-            var v = yMin
-            
-            for _ in 0 ..< labelCount
+        if !axis.isForceEntriesEnable {
+            if axis.isForceLabelsEnabled
             {
-                axis.entries.append(v)
-                v += interval
-            }
-            
-            n = labelCount
-        }
-        else
-        {
-            // no forced count
-        
-            var first = interval == 0.0 ? 0.0 : ceil(yMin / interval) * interval
-            
-            if axis.centerAxisLabelsEnabled
-            {
-                first -= interval
-            }
-            
-            let last = interval == 0.0 ? 0.0 : (floor(yMax / interval) * interval).nextUp
-            
-            if interval != 0.0 && last != first
-            {
-                for _ in stride(from: first, through: last, by: interval)
+                interval = Double(range) / Double(labelCount - 1)
+                
+                // Ensure stops contains at least n elements.
+                axis.entries.removeAll(keepingCapacity: true)
+                axis.entries.reserveCapacity(labelCount)
+                
+                var v = yMin
+                
+                for _ in 0 ..< labelCount
                 {
-                    n += 1
+                    axis.entries.append(v)
+                    v += interval
                 }
+                
+                n = labelCount
             }
-            else if last == first && n == 0
+            else
             {
-                n = 1
-            }
+                // no forced count
+            
+                var first = interval == 0.0 ? 0.0 : ceil(yMin / interval) * interval
+                
+                if axis.centerAxisLabelsEnabled
+                {
+                    first -= interval
+                }
+                
+                let last = interval == 0.0 ? 0.0 : (floor(yMax / interval) * interval).nextUp
+                
+                if interval != 0.0 && last != first
+                {
+                    for _ in stride(from: first, through: last, by: interval)
+                    {
+                        n += 1
+                    }
+                }
+                else if last == first && n == 0
+                {
+                    n = 1
+                }
 
-            // Ensure stops contains at least n elements.
-            axis.entries.removeAll(keepingCapacity: true)
-            axis.entries.reserveCapacity(labelCount)
-            
-            var f = first
-            var i = 0
-            while i < n
-            {
-                if f == 0.0
+                // Ensure stops contains at least n elements.
+                axis.entries.removeAll(keepingCapacity: true)
+                axis.entries.reserveCapacity(labelCount)
+                
+                var f = first
+                var i = 0
+                while i < n
                 {
-                    // Fix for IEEE negative zero case (Where value == -0.0, and 0.0 == -0.0)
-                    f = 0.0
+                    if f == 0.0
+                    {
+                        // Fix for IEEE negative zero case (Where value == -0.0, and 0.0 == -0.0)
+                        f = 0.0
+                    }
+                    
+                    axis.entries.append(Double(f))
+                    
+                    f += interval
+                    i += 1
                 }
-                
-                axis.entries.append(Double(f))
-                
-                f += interval
-                i += 1
             }
         }
         

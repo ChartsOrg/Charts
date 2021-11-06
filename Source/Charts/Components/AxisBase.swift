@@ -130,6 +130,8 @@ open class AxisBase: ComponentBase
     
     /// if true, the set number of y-labels will be forced
     @objc open var forceLabelsEnabled = false
+
+    @objc open var isForceEntriesEnable = false
     
     @objc open func getLongestLabel() -> String
     {
