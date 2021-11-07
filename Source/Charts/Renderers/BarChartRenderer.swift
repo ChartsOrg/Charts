@@ -431,7 +431,43 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 context.setFillColor(dataSet.color(atIndex: j).cgColor)
             }
             
-            context.fill(barRect)
+            if dataSet.barCornerRadius > 0 {
+                if isStacked {
+                    var corners: UIRectCorner = []
+                    if buffer.rects.count == 1 {
+                        corners = .allCorners
+                    } else {
+                        let indexInStack = j % stackSize
+
+                        if indexInStack == 0  {
+                            corners = [.bottomLeft, .bottomRight]
+                        }
+                        if indexInStack == stackSize - 1 {
+                            corners = [.topLeft, .topRight]
+                        }
+                    }
+                    if corners.isEmpty {
+                        context.fill(barRect)
+                    } else {
+                        let bezierPath = UIBezierPath(roundedRect:barRect,
+                                                      byRoundingCorners: corners,
+                                                        cornerRadii: CGSize(width: dataSet.barCornerRadius, height:  dataSet.barCornerRadius))
+
+                        context.addPath(bezierPath.cgPath)
+                        context.drawPath(using: .fill)
+                    }
+
+                } else {
+                    let bezierPath = UIBezierPath(roundedRect:barRect,
+                                                  byRoundingCorners: .allCorners,
+                                                    cornerRadii: CGSize(width: dataSet.barCornerRadius, height:  dataSet.barCornerRadius))
+
+                    context.addPath(bezierPath.cgPath)
+                    context.drawPath(using: .fill)
+                }
+            } else {
+                context.fill(barRect)
+            }
             
             if drawBorder
             {
@@ -689,6 +725,9 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                             
                             trans.pointValuesToPixel(&transformed)
                             
+                            let numOfValue =  vals.count
+                            var itemIndexInStack = 0
+
                             for k in 0 ..< transformed.count
                             {
                                 let val = vals[k]
@@ -720,6 +759,27 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                                         align: .center,
                                         color: dataSet.valueTextColorAt(index))
                                 }
+                                
+                                if dataSet.isDrawTopBarValue {
+                                    if itemIndexInStack == numOfValue - 1 {
+                                        let barValueY = y + (dataSet.isDrawValuesEnabled ? (drawBelow ? negOffset : posOffset) : 0)
+
+                                        drawValue(
+                                            context: context,
+                                            value: formatter.stringForValue(
+                                                vals[k],
+                                                entry: e,
+                                                dataSetIndex: dataSetIndex,
+                                                viewPortHandler: viewPortHandler),
+                                            xPos: x,
+                                            yPos: barValueY,
+                                            font: valueFont,
+                                            align: .center,
+                                            color: dataSet.valueTextColorAt(index))
+                                    }
+                                }
+                                
+                                itemIndexInStack += 1
                                 
                                 if let icon = e.icon, dataSet.isDrawIconsEnabled
                                 {

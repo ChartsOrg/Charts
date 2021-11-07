@@ -19,7 +19,12 @@ private struct ItemDef {
 class DemoListViewController: UIViewController {
     
     @IBOutlet var tableView: UITableView!
-    private var itemDefs = [ItemDef(title: "Line Chart",
+    private var itemDefs = [
+        ItemDef(title: "Hyper Vertical Bar Chart",
+                            subtitle: "Hyper Vertical Bar Chart",
+                            class: VerticalBarChartDemoViewController.self),
+
+        ItemDef(title: "Line Chart",
                             subtitle: "A simple demonstration of the linechart.",
                             class: LineChart1ViewController.self),
                     ItemDef(title: "Line Chart (Dual YAxis)",
