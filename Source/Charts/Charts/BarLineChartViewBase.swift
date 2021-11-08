@@ -1939,8 +1939,14 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             x: viewPortHandler.contentLeft,
             y: viewPortHandler.contentBottom)
         
-        getTransformer(forAxis: .left).pixelToValues(&pt)
-        
+                
+        if leftAxis.entryCount == 0 && rightAxis.entryCount > 0 {
+            getTransformer(forAxis: .right).pixelToValues(&pt)
+        }
+        else {
+            getTransformer(forAxis: .left).pixelToValues(&pt)
+        }
+
         return max(xAxis._axisMinimum, Double(pt.x))
     }
     
@@ -1951,7 +1957,12 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             x: viewPortHandler.contentRight,
             y: viewPortHandler.contentBottom)
         
-        getTransformer(forAxis: .left).pixelToValues(&pt)
+        if leftAxis.entryCount == 0 && rightAxis.entryCount > 0 {
+            getTransformer(forAxis: .right).pixelToValues(&pt)
+        }
+        else {
+            getTransformer(forAxis: .left).pixelToValues(&pt)
+        }
 
         return min(xAxis._axisMaximum, Double(pt.x))
     }
