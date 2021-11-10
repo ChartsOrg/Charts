@@ -15,7 +15,7 @@ import CoreGraphics
 open class YAxisTitleRenderer: YAxisRenderer {
     
     private let titleLabelPadding: CGFloat = 10
-    open var title: String? = "Bar X Title"
+    open var title: String?
     open var titleFont: UIFont?
     
     open override func renderAxisLabels(context: CGContext) {

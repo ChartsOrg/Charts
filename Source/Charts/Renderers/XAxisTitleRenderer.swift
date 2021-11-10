@@ -15,8 +15,8 @@ import CoreGraphics
 
 open class XAxisTitleRenderer: XAxisRenderer {
     
-    private let titleLabelPadding: CGFloat = 20
-    open var title: String? = "Bar X Title"
+    private let titleLabelPadding: CGFloat = 10
+    open var title: String?
     open var titleFont: UIFont?
     
     open override func renderAxisLabels(context: CGContext) {
