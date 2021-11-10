@@ -8,8 +8,9 @@
 //
 //  https://github.com/danielgindi/Charts
 //
-
-import Foundation
+#if canImport(UIKit)
+import UIKit
+import CoreGraphics
 
 open class YAxisTitleRenderer: YAxisRenderer {
     
@@ -54,3 +55,4 @@ open class YAxisTitleRenderer: YAxisRenderer {
         
     }
 }
+#endif

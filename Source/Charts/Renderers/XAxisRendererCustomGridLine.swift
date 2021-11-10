@@ -8,7 +8,7 @@
 //
 //  https://github.com/danielgindi/Charts
 //
-
+#if canImport(UIKit)
 import Foundation
 import CoreGraphics
 import Algorithms
@@ -60,3 +60,4 @@ open class XAxisRendererCustomGridLine: XAxisTitleRenderer
         }
     }
 }
+#endif

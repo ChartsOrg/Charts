@@ -9,7 +9,9 @@
 //  https://github.com/danielgindi/Charts
 //
 
-import Foundation
+#if canImport(UIKit)
+import UIKit
+import CoreGraphics
 
 open class XAxisTitleRenderer: XAxisRenderer {
     
@@ -54,3 +56,4 @@ open class XAxisTitleRenderer: XAxisRenderer {
         
     }
 }
+#endif

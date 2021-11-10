@@ -8,13 +8,9 @@
 //
 //  https://github.com/danielgindi/Charts
 //
-
+#if canImport(UIKit)
 import Foundation
 import CoreGraphics
-
-#if !os(OSX)
-    import UIKit
-#endif
 
 open class LineChartRendererSegmented: LineChartRenderer
 {
@@ -207,3 +203,4 @@ open class LineChartRendererSegmented: LineChartRenderer
         context.restoreGState()
     }
 }
+#endif
