@@ -13,7 +13,7 @@ import Foundation
 import CoreGraphics
 import Algorithms
 
-open class XAxisRendererCustomGridLine: XAxisRenderer
+open class XAxisRendererCustomGridLine: XAxisTitleRenderer
 {
     open override func renderGridLines(context: CGContext)
     {

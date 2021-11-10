@@ -23,10 +23,11 @@ final class CustomLineChartView: LineChartView {
     }
     
     private func setup() {
-        extraBottomOffset = 10
-        
+        extraBottomOffset = 40
+        extraLeftOffset = 30
+        backgroundColor = .gray
         chartDescription.enabled = false
-        dragEnabled = false
+        dragEnabled = true
         setScaleEnabled(false)
         pinchZoomEnabled = false
         legend.enabled = false
@@ -61,9 +62,9 @@ final class CustomLineChartView: LineChartView {
         xAxis.gridLineDashLengths = [10, 10]
         xAxis.gridLineDashPhase = 0
         xAxis.labelPosition = .bottom
-        xAxis.granularity = 6
+        xAxis.granularity = 3
         xAxis.axisMinimum = 0
-        xAxis.axisMaximum = 32
+//        xAxis.axisMaximum = 32
         xAxis.avoidFirstLastClippingEnabled = true
     }
     
@@ -86,7 +87,6 @@ class CustomLineChartViewController: DemoBaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         // Do any additional setup after loading the view.
         self.title = "Line Chart 1"
         self.options = [.toggleValues,
@@ -169,8 +169,10 @@ class CustomLineChartViewController: DemoBaseViewController {
         set1.formSize = 15
         
         let data = LineChartData(dataSet: set1)
-        
         chartView.data = data
+        chartView.viewPortHandler.setMinimumScaleX(2)
+//        chartView.viewPortHandler.setMaximumScaleY(20)
+
         chartView.animate(xAxisDuration: 2.5)
         
     }

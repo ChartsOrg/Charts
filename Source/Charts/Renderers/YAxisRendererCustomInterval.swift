@@ -11,7 +11,7 @@
 
 import Foundation
 
-open class YAxisRendererCustomInterval: YAxisRenderer
+open class YAxisRendererCustomInterval: YAxisTitleRenderer
 {
     /// Sets up the axis values. Computes the desired number of labels between the two given extremes.
     @objc open override func computeAxisValues(min: Double, max: Double)
