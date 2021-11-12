@@ -15,7 +15,7 @@ import CoreGraphics
 
 open class XAxisTitleRenderer: XAxisRenderer {
     
-    private let titleLabelPadding: CGFloat = 10
+    private let titleLabelPadding: CGFloat = 8
     open var title: String?
     open var titleFont: UIFont?
     

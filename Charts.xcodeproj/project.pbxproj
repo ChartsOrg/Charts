@@ -155,8 +155,8 @@
 		EC2D4EB5273BCCBA00C9078E /* AxisRendererCustomInterval.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2D4EB1273BCCB900C9078E /* AxisRendererCustomInterval.swift */; };
 		EC2D4EB6273BCCBA00C9078E /* XAxisRendererCustomGridLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2D4EB2273BCCB900C9078E /* XAxisRendererCustomGridLine.swift */; };
 		EC2D4EB8273BCCDB00C9078E /* LineChartRendererSegmented.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2D4EB7273BCCDB00C9078E /* LineChartRendererSegmented.swift */; };
-		EC2D4EBC273BF2FC00C9078E /* YAxisTitleRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2D4EBB273BF2FC00C9078E /* YAxisTitleRenderer.swift */; };
-		EC2D4EBE273BF33200C9078E /* XAxisTitleRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2D4EBD273BF33200C9078E /* XAxisTitleRenderer.swift */; };
+		EC62F900273D3E5A00740C9B /* XAxisTitleRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC62F8FE273D3E5A00740C9B /* XAxisTitleRenderer.swift */; };
+		EC62F901273D3E5A00740C9B /* YAxisTitleRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC62F8FF273D3E5A00740C9B /* YAxisTitleRenderer.swift */; };
 		ECE7EAE7179A7F57CE9BBD8F /* Legend.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64A75540C627E09080B402A /* Legend.swift */; };
 		ECECC58CEF03B1718F8267E8 /* AxisRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75935E899183DDFA181E2CC /* AxisRenderer.swift */; };
 		F100D68395F169B93590FA96 /* HorizontalBarChartRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539382766378B702660FDFB2 /* HorizontalBarChartRenderer.swift */; };
@@ -329,8 +329,8 @@
 		EC2D4EB1273BCCB900C9078E /* AxisRendererCustomInterval.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AxisRendererCustomInterval.swift; path = Source/Charts/Renderers/AxisRendererCustomInterval.swift; sourceTree = "<group>"; };
 		EC2D4EB2273BCCB900C9078E /* XAxisRendererCustomGridLine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XAxisRendererCustomGridLine.swift; path = Source/Charts/Renderers/XAxisRendererCustomGridLine.swift; sourceTree = "<group>"; };
 		EC2D4EB7273BCCDB00C9078E /* LineChartRendererSegmented.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LineChartRendererSegmented.swift; path = Source/Charts/Renderers/LineChartRendererSegmented.swift; sourceTree = "<group>"; };
-		EC2D4EBB273BF2FC00C9078E /* YAxisTitleRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YAxisTitleRenderer.swift; sourceTree = "<group>"; };
-		EC2D4EBD273BF33200C9078E /* XAxisTitleRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XAxisTitleRenderer.swift; sourceTree = "<group>"; };
+		EC62F8FE273D3E5A00740C9B /* XAxisTitleRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XAxisTitleRenderer.swift; path = Source/Charts/Renderers/XAxisTitleRenderer.swift; sourceTree = "<group>"; };
+		EC62F8FF273D3E5A00740C9B /* YAxisTitleRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YAxisTitleRenderer.swift; path = Source/Charts/Renderers/YAxisTitleRenderer.swift; sourceTree = "<group>"; };
 		ECE1B1623D3AF69CECAE8562 /* CircleShapeRenderer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CircleShapeRenderer.swift; path = Source/Charts/Renderers/Scatter/CircleShapeRenderer.swift; sourceTree = "<group>"; };
 		EDEAF554FD0D68EA4C0E7E49 /* BubbleChartDataProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BubbleChartDataProvider.swift; path = Source/Charts/Interfaces/BubbleChartDataProvider.swift; sourceTree = "<group>"; };
 		F22750328058DEC2F019646F /* ChartDataEntry.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ChartDataEntry.swift; path = Source/Charts/Data/Implementations/Standard/ChartDataEntry.swift; sourceTree = "<group>"; };
@@ -413,6 +413,8 @@
 		2227EA571FF1F219007D98D9 /* AxisRenderers */ = {
 			isa = PBXGroup;
 			children = (
+				EC62F8FE273D3E5A00740C9B /* XAxisTitleRenderer.swift */,
+				EC62F8FF273D3E5A00740C9B /* YAxisTitleRenderer.swift */,
 				EC2D4EB1273BCCB900C9078E /* AxisRendererCustomInterval.swift */,
 				EC2D4EB2273BCCB900C9078E /* XAxisRendererCustomGridLine.swift */,
 				EC2D4EAF273BCCB900C9078E /* XAxisRendererCustomInterval.swift */,
@@ -424,8 +426,6 @@
 				688B80F1AA88AE54152BE768 /* YAxisRenderer.swift */,
 				EAE417AAA0FCA0DD00E77489 /* YAxisRendererHorizontalBarChart.swift */,
 				AA5A16F4A382813C4FE8BDF9 /* YAxisRendererRadarChart.swift */,
-				EC2D4EBB273BF2FC00C9078E /* YAxisTitleRenderer.swift */,
-				EC2D4EBD273BF33200C9078E /* XAxisTitleRenderer.swift */,
 			);
 			name = AxisRenderers;
 			sourceTree = "<group>";
@@ -907,7 +907,6 @@
 				D50B0EC2BB2245F32E757C50 /* CandleChartDataEntry.swift in Sources */,
 				383D68A13E1C3D6A251E5147 /* CandleChartDataSet.swift in Sources */,
 				81892994002C0640AD858748 /* ChartData.swift in Sources */,
-				EC2D4EBC273BF2FC00C9078E /* YAxisTitleRenderer.swift in Sources */,
 				EAEA60D22CA8C1B7E18D3F7D /* ChartDataEntry.swift in Sources */,
 				7D546013F3A14FF5BB7F3294 /* ChartDataEntryBase.swift in Sources */,
 				66A18A8EEBAAAC2EDA31ABEC /* ChartDataSet.swift in Sources */,
@@ -985,6 +984,7 @@
 				5F96E95C7073D21EFE02BCF7 /* LineChartRenderer.swift in Sources */,
 				24151B0729D77251A8494D70 /* LineRadarRenderer.swift in Sources */,
 				B6DCC229615EFE706F64A37D /* LineScatterCandleRadarRenderer.swift in Sources */,
+				EC62F901273D3E5A00740C9B /* YAxisTitleRenderer.swift in Sources */,
 				795E100895C24049509F1EDE /* PieChartRenderer.swift in Sources */,
 				97AD2D4620AF917100F9C24A /* Platform+Accessibility.swift in Sources */,
 				69EA073EDF75D49ABE1715D6 /* RadarChartRenderer.swift in Sources */,
@@ -1002,9 +1002,9 @@
 				41BEBF8BDB9DC403B5697D67 /* XAxisRenderer.swift in Sources */,
 				2A94F1724FEA9E16A81A8E1F /* XAxisRendererHorizontalBarChart.swift in Sources */,
 				4FACC6FD308AFB231EB4A93D /* XAxisRendererRadarChart.swift in Sources */,
-				EC2D4EBE273BF33200C9078E /* XAxisTitleRenderer.swift in Sources */,
 				41B13F3179ACB5A3837C6E55 /* YAxisRenderer.swift in Sources */,
 				846AC09831FA93F66732591B /* YAxisRendererHorizontalBarChart.swift in Sources */,
+				EC62F900273D3E5A00740C9B /* XAxisTitleRenderer.swift in Sources */,
 				11F68AA2EBF822D7208EE002 /* YAxisRendererRadarChart.swift in Sources */,
 				40C82F2209E1BA9E41E8F3DA /* ChartColorTemplates.swift in Sources */,
 				CB785FE9B6B312408D17BC3B /* ChartUtils.swift in Sources */,
