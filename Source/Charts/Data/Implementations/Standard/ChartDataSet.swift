@@ -197,28 +197,30 @@ open class ChartDataSet: ChartBaseDataSet
     open override func entriesForXValue(_ xValue: Double) -> [ChartDataEntry]
     {
         var entries = [ChartDataEntry]()
-        var low = entries.startIndex
-        var high = entries.endIndex - 1
+        let values = self.entries
+
+        var low = values.startIndex
+        var high = values.endIndex - 1
         
         while low <= high
         {
             var m = (high + low) / 2
-            var entry = entries[m]
+            var entry = values[m]
             
             // if we have a match
             if xValue == entry.x
             {
-                while m > 0 && entries[m - 1].x == xValue
+                while m > 0 && values[m - 1].x == xValue
                 {
                     m -= 1
                 }
                 
-                high = entries.endIndex
+                high = values.endIndex
                 
                 // loop over all "equal" entries
                 while m < high
                 {
-                    entry = entries[m]
+                    entry = values[m]
                     if entry.x == xValue
                     {
                         entries.append(entry)
