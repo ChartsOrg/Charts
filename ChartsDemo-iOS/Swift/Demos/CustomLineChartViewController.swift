@@ -122,25 +122,19 @@ class CustomLineChartViewController: DemoBaseViewController {
     func setDataCount() {
         var values = [ChartDataEntry]()
         values.append(ChartDataEntry(x: 1, y: 15))
-        values.append(ChartDataEntry(x: 2, y: 40))
-        values.append(ChartDataEntry(x: 3, y: 42))
+        values.append(ChartDataEntry(x: 2, y: 42))
         values.append(ChartDataEntry(x: 3, y: 79))
         values.append(ChartDataEntry(x: 4, y: 111))
         values.append(ChartDataEntry(x: 5, y: 84))
-        values.append(ChartDataEntry(x: 7, y: 122))
-        values.append(ChartDataEntry(x: 11, y: 84))
-        values.append(ChartDataEntry(x: 14, y: 79))
-        values.append(ChartDataEntry(x: 15, y: 98))
-        values.append(ChartDataEntry(x: 17, y: 91))
-        values.append(ChartDataEntry(x: 19, y: 91))
-        values.append(ChartDataEntry(x: 22, y: 114))
-        values.append(ChartDataEntry(x: 25, y: 101))
-        values.append(ChartDataEntry(x: 27, y: 101))
-        values.append(ChartDataEntry(x: 30, y: 123))
+        values.append(ChartDataEntry(x: 6, y: 122))
+        values.append(ChartDataEntry(x: 7, y: 35))
+        values.append(ChartDataEntry(x: 8, y: 79))
+        values.append(ChartDataEntry(x: 9, y: 30))
+        values.append(ChartDataEntry(x: 10, y: 140))
         
         let set1 = LineChartDataSet(entries: values, label: "DataSet 1")
         set1.drawIconsEnabled = false
-        let colors = values.map { value -> UIColor in
+        let circleColors = values.map { value -> UIColor in
             switch value.y {
             case 0...37:
                 return UIColor(red: 52/255.0, green: 152/255.0, blue: 219/255.0, alpha: 1.0)
@@ -155,9 +149,15 @@ class CustomLineChartViewController: DemoBaseViewController {
             }
         }
         
+      let colors = [UIColor(red: 52/255.0, green: 152/255.0, blue: 219/255.0, alpha: 1.0),
+                   UIColor(red: 231/255.0, green: 76/255.0, blue: 60/255.0, alpha: 1.0),
+                   UIColor(red: 46/255.0, green: 204/255.0, blue: 113/255.0, alpha: 1.0),
+                   UIColor(red: 241/255.0, green: 196/255.0, blue: 15/255.0, alpha: 1.0)
+                   ]
+        
         set1.highlightLineDashLengths = [5, 2.5]
         set1.colors = colors
-        set1.circleColors = colors
+        set1.circleColors = circleColors
         set1.lineWidth = 2
         set1.circleRadius = 3
         set1.drawCircleHoleEnabled = true
@@ -167,10 +167,13 @@ class CustomLineChartViewController: DemoBaseViewController {
         set1.formLineDashLengths = [5, 2.5]
         set1.formLineWidth = 1
         set1.formSize = 15
-        
         let data = LineChartData(dataSet: set1)
+//        var rangeColor: [ClosedRange<Double>: UIColor] = [:]
+        
+//        (chartView.renderer as? LineChartRendererSegmented).rangeColor = rangeColor
+        
         chartView.data = data
-        chartView.viewPortHandler.setMinimumScaleX(2)
+//        chartView.viewPortHandler.setMinimumScaleX(2)
 //        chartView.viewPortHandler.setMaximumScaleY(20)
 
         chartView.animate(xAxisDuration: 2.5)
