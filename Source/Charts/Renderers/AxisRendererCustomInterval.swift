@@ -4,7 +4,7 @@
 //
 //  Created by Nirmal Choudhari on 03/11/21.
 //
-
+#if canImport(UIKit)
 import Foundation
 import CoreGraphics
 
@@ -132,3 +132,4 @@ struct AxisRendererCustomInterval {
         }
     }
 }
+#endif

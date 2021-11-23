@@ -8,7 +8,7 @@
 //
 //  https://github.com/danielgindi/Charts
 //
-
+#if canImport(UIKit)
 import Foundation
 
 open class YAxisRendererCustomInterval: YAxisTitleRenderer
@@ -19,3 +19,4 @@ open class YAxisRendererCustomInterval: YAxisTitleRenderer
         AxisRendererCustomInterval.computeAxisValues(min: min, max: max, axis: axis)
     }
 }
+#endif

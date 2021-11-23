@@ -9,12 +9,14 @@
 //  https://github.com/danielgindi/Charts
 //
 
-import Foundation
+#if canImport(UIKit)
+import UIKit
+import CoreGraphics
 
 open class XAxisTitleRenderer: XAxisRenderer {
     
-    private let titleLabelPadding: CGFloat = 20
-    open var title: String? = "Bar X Title"
+    private let titleLabelPadding: CGFloat = 16
+    open var title: String?
     open var titleFont: UIFont?
     
     open override func renderAxisLabels(context: CGContext) {
@@ -54,3 +56,4 @@ open class XAxisTitleRenderer: XAxisRenderer {
         
     }
 }
+#endif
