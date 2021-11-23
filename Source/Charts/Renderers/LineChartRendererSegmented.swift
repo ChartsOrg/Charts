@@ -20,8 +20,8 @@ open class LineChartRendererSegmented: LineChartRenderer
     // Calculated based on the color array for the dataset
     // If y Axis has n range (n+1) lables provide n values in color array. Default color will be `defaultLineColor`
     private var rangeColor: [ClosedRange<Double>: UIColor] = [:]
-    var yRangeValues = [Double]()
-    var defaultLineColor: UIColor = .black
+    open var yRangeValues = [Double]()
+    open var defaultLineColor: UIColor = .black
     
     @objc open override func drawLinear(context: CGContext, dataSet: LineChartDataSetProtocol)
     {
