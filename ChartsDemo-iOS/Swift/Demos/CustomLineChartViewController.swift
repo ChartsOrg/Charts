@@ -168,14 +168,8 @@ class CustomLineChartViewController: DemoBaseViewController {
         set1.formLineWidth = 1
         set1.formSize = 15
         let data = LineChartData(dataSet: set1)
-//        var rangeColor: [ClosedRange<Double>: UIColor] = [:]
-        
-//        (chartView.renderer as? LineChartRendererSegmented).rangeColor = rangeColor
-        
-        chartView.data = data
-//        chartView.viewPortHandler.setMinimumScaleX(2)
-//        chartView.viewPortHandler.setMaximumScaleY(20)
 
+        chartView.data = data
         chartView.animate(xAxisDuration: 2.5)
         
     }
