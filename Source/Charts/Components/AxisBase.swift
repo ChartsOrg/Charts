@@ -131,8 +131,14 @@ open class AxisBase: ComponentBase
     /// if true, the set number of y-labels will be forced
     @objc open var forceLabelsEnabled = false
     
+    @objc open var longestLabel: String?
+    
     @objc open func getLongestLabel() -> String
     {
+        if let longestLabel = longestLabel {
+            return longestLabel
+        }
+        
         let longest = entries.indices
             .lazy
             .map(getFormattedLabel(_:))
