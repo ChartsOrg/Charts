@@ -787,7 +787,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         // NOTE: The formatter can cause issues when the x-axis labels are consecutive ints.
         // i.e. due to the Double conversion, if there are more than one data set that are grouped,
         // there is the possibility of some labels being rounded up. A floor() might fix this, but seems to be a brute force solution.
-        let label = xAxis.valueFormatter?.stringForValue(e.x, axis: xAxis) ?? "\(e.x)"
+        let label = xAxis.valueFormatter?.stringForValue(Double(idx), axis: xAxis) ?? "\(e.x)"
 
         var elementValueText = dataSet.valueFormatter.stringForValue(
             e.y,
