@@ -106,6 +106,12 @@ open class PieChartDataSet: ChartDataSet, PieChartDataSetProtocol
     /// the color for the highlighted sector
     open var highlightColor: NSUIColor? = nil
 
+    /// the width used for drawing borders around the slices. If borderWidth == 0, no border will be drawn.
+    open var sliceBorderWidth: CGFloat = 0.0
+
+    /// the color drawing borders around the slices.
+    open var sliceBorderColor: NSUIColor = NSUIColor.black
+
     // MARK: - NSCopying
 
     open override func copy(with zone: NSZone? = nil) -> Any
@@ -125,6 +131,8 @@ open class PieChartDataSet: ChartDataSet, PieChartDataSetProtocol
         copy.entryLabelFont = entryLabelFont
         copy.entryLabelColor = entryLabelColor
         copy.highlightColor = highlightColor
+        copy.sliceBorderWidth = sliceBorderWidth
+        copy.sliceBorderColor = sliceBorderColor
         return copy
     }
 }

@@ -44,6 +44,7 @@
                      @{@"key": @"drawCenter", @"label": @"Draw CenterText"},
                      @{@"key": @"saveToGallery", @"label": @"Save to Camera Roll"},
                      @{@"key": @"toggleData", @"label": @"Toggle Data"},
+                     @{@"key": @"toggleSliceBorders", @"label": @"Toggle Slice Borders"},
                      ];
     
     [self setupPieChartView:_chartView];

@@ -61,4 +61,10 @@ public protocol PieChartDataSetProtocol: ChartDataSetProtocol
     /// get/sets the color for the highlighted sector
     var highlightColor: NSUIColor? { get set }
 
+    /// the width used for drawing borders around the slices. If borderWidth == 0, no border will be drawn.
+    var sliceBorderWidth: CGFloat { get set }
+
+    /// the color drawing borders around the slices.
+    var sliceBorderColor: NSUIColor { get set }
+
 }
