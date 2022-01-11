@@ -76,4 +76,24 @@ class PieChartTests: XCTestCase {
         chart.highlightValue(x: 1.0, dataSetIndex: 0, callDelegate: false)
         assertChartSnapshot(matching: chart)
     }
+
+    func testSliceBorder() {
+        let defaultBorderWidth: CGFloat = 0
+        let defaultBorderColor: NSUIColor = .black
+
+        XCTAssertEqual(dataSet.sliceBorderWidth, defaultBorderWidth)
+        XCTAssertEqual(dataSet.sliceBorderColor, defaultBorderColor)
+
+        let newSliceBorderWidth: CGFloat = 1
+        dataSet.sliceBorderWidth = newSliceBorderWidth
+        XCTAssertEqual(dataSet.sliceBorderWidth, newSliceBorderWidth)
+        dataSet.sliceBorderWidth = defaultBorderWidth
+
+        let newSliceBorderColor: NSUIColor = NSUIColor.red
+        dataSet.sliceBorderColor = newSliceBorderColor
+        XCTAssertEqual(dataSet.sliceBorderColor, newSliceBorderColor)
+        dataSet.sliceBorderColor = defaultBorderColor
+
+        assertChartSnapshot(matching: chart)
+    }
 }
