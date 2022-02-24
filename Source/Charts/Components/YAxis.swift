@@ -120,8 +120,13 @@ open class YAxis: AxisBase
     
     @objc open func requiredSize() -> CGSize
     {
-        let label = getLongestLabel() as NSString
-        var size = label.size(withAttributes: [.font: labelFont])
+        var size = entries.indices.map { index -> CGSize in
+            getFormattedLabel(index).size(withAttributes: [.font: labelFont])
+        }.reduce(CGSize.zero) { partialResult, size in
+            CGSize(width: partialResult.width > size.width ? partialResult.width : size.width,
+                   height: partialResult.height > size.height ? partialResult.height : size.height)
+        }
+
         size.width += xOffset * 2.0
         size.height += yOffset * 2.0
         size.width = max(minWidth, min(size.width, maxWidth > 0.0 ? maxWidth : size.width))
