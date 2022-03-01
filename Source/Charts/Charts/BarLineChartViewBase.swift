@@ -80,6 +80,30 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// **default**: An instance of YAxisRenderer
     @objc open lazy var rightYAxisRenderer = YAxisRenderer(viewPortHandler: viewPortHandler, axis: rightAxis, transformer: _rightAxisTransformer)
 
+    // MARK: AudioGraphSupportChart
+    @available(macOS 12, iOS 15, watchOS 6, tvOS 15, *)
+    @objc open lazy var accessibilityChartDescriptor: AXChartDescriptor? = nil
+
+    @objc public var audioGraphSummary: String = "" {
+        didSet { updateAccessibilityChartDesciptor() }
+    }
+
+    @objc public var audioGraphXAxisTitle: String = "" {
+        didSet { updateAccessibilityChartDesciptor() }
+    }
+
+    @objc public var audioGraphYAxisTitle: String = "" {
+        didSet { updateAccessibilityChartDesciptor() }
+    }
+
+    @objc public var isAudioGraphContinuous: Bool = false {
+        didSet { updateAccessibilityChartDesciptor() }
+    }
+
+    @objc public var yAxisForSelectedEntry: YAxis? = nil {
+        didSet { updateAccessibilityChartDesciptor() }
+    }
+
     internal var _leftAxisTransformer: Transformer!
     internal var _rightAxisTransformer: Transformer!
     
@@ -141,6 +165,8 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             self.addGestureRecognizer(_pinchGestureRecognizer)
             _pinchGestureRecognizer.isEnabled = _pinchZoomEnabled || _scaleXEnabled || _scaleYEnabled
         #endif
+
+        automaticallyUpdateYAxisForSelectedEntry()
     }
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?)
@@ -355,7 +381,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         }
         
         calculateOffsets()
-        
+        updateAccessibilityChartDesciptor()
         setNeedsDisplay()
     }
     
