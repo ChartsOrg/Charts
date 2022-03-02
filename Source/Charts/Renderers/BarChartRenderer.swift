@@ -787,7 +787,8 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         // NOTE: The formatter can cause issues when the x-axis labels are consecutive ints.
         // i.e. due to the Double conversion, if there are more than one data set that are grouped,
         // there is the possibility of some labels being rounded up. A floor() might fix this, but seems to be a brute force solution.
-        let label = xAxis.valueFormatter?.stringForValue(Double(idx), axis: xAxis) ?? "\(e.x)"
+//        let xAxisLabel = xAxis.valueFormatter?.stringForValue(Double(idx), axis: xAxis) ?? "\(e.x)"
+        let xAxisAccessibilityLabel = xAxis.valueFormatter?.accessibilityStringForValue!(Double(idx), axis: xAxis) ?? "\(e.x)"
 
         var elementValueText = dataSet.valueFormatter.stringForValue(
             e.y,
@@ -826,7 +827,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         let dataSetCount = dataProvider.barData?.dataSetCount ?? -1
         let doesContainMultipleDataSets = dataSetCount > 1
 
-        element.accessibilityLabel = "\(doesContainMultipleDataSets ? (dataSet.label ?? "")  + ", " : "") \(label): \(elementValueText)"
+        element.accessibilityLabel = "\(doesContainMultipleDataSets ? (dataSet.label ?? "")  + ", " : "") \(dataSet.xAxisAccessibilityLabel ?? "")  \(xAxisAccessibilityLabel): \(dataSet.yAxisAccessibilityLabel ?? "")  \(Double(round(100 * (e.y)) / 100))"
 
         modifier(element)
 

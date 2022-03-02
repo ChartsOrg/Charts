@@ -882,7 +882,7 @@ open class LineChartRenderer: LineRadarRenderer
                                          modifier: (NSUIAccessibilityElement) -> ()) -> NSUIAccessibilityElement
     {
         let element = NSUIAccessibilityElement(accessibilityContainer: container)
-        let xAxis = container.xAxis
+//        let xAxis = container.xAxis
 
         guard let e = dataSet.entryForIndex(idx) else { return element }
         guard let dataProvider = dataProvider else { return element }
@@ -890,7 +890,7 @@ open class LineChartRenderer: LineRadarRenderer
         // NOTE: The formatter can cause issues when the x-axis labels are consecutive ints.
         // i.e. due to the Double conversion, if there are more than one data set that are grouped,
         // there is the possibility of some labels being rounded up. A floor() might fix this, but seems to be a brute force solution.
-        let label = xAxis.valueFormatter?.stringForValue(e.x, axis: xAxis) ?? "\(e.x)"
+        let label = "\(Int(e.x))"//xAxis.valueFormatter?.stringForValue(e.x, axis: xAxis) ??
 
         let elementValueText = dataSet.valueFormatter.stringForValue(e.y,
                                                                      entry: e,
@@ -900,7 +900,7 @@ open class LineChartRenderer: LineRadarRenderer
         let dataSetCount = dataProvider.lineData?.dataSetCount ?? -1
         let doesContainMultipleDataSets = dataSetCount > 1
 
-        element.accessibilityLabel = "\(doesContainMultipleDataSets ? (dataSet.label ?? "")  + ", " : "") \(label): \(elementValueText)"
+        element.accessibilityLabel = "\(doesContainMultipleDataSets ? (dataSet.label ?? "")  + ", " : "") \(dataSet.xAxisAccessibilityLabel ?? ""), \((label as NSString).integerValue): \(dataSet.yAxisAccessibilityLabel ?? "") \((elementValueText as NSString).integerValue)"
 
         modifier(element)
 

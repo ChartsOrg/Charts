@@ -27,4 +27,7 @@ public protocol AxisValueFormatter: class
     func stringForValue(_ value: Double,
                         axis: AxisBase?) -> String
     
+    @objc optional func accessibilityStringForValue(_ value: Double,
+                                                    axis: AxisBase?) -> String
+    
 }
