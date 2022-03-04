@@ -787,8 +787,10 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         // NOTE: The formatter can cause issues when the x-axis labels are consecutive ints.
         // i.e. due to the Double conversion, if there are more than one data set that are grouped,
         // there is the possibility of some labels being rounded up. A floor() might fix this, but seems to be a brute force solution.
-//        let xAxisLabel = xAxis.valueFormatter?.stringForValue(Double(idx), axis: xAxis) ?? "\(e.x)"
-        let xAxisAccessibilityLabel = xAxis.valueFormatter?.accessibilityStringForValue!(Double(idx), axis: xAxis) ?? "\(e.x)"
+        var label  = "\(e.x)"
+        if let accessibilityStringForValue =  xAxis.valueFormatter?.accessibilityStringForValue {
+            label = accessibilityStringForValue(Double(idx), xAxis)
+        }
 
         var elementValueText = dataSet.valueFormatter.stringForValue(
             e.y,
@@ -827,7 +829,13 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         let dataSetCount = dataProvider.barData?.dataSetCount ?? -1
         let doesContainMultipleDataSets = dataSetCount > 1
 
-        element.accessibilityLabel = "\(doesContainMultipleDataSets ? (dataSet.label ?? "")  + ", " : "") \(dataSet.xAxisAccessibilityLabel ?? "")  \(xAxisAccessibilityLabel): \(dataSet.yAxisAccessibilityLabel ?? "")  \(Double(round(100 * (e.y)) / 100))"
+        let elementValueTextDouble = (elementValueText as NSString).doubleValue
+        let elementValueTextRounded = round(100 * elementValueTextDouble) / 100
+
+        let xAxisLabel = "\(dataSet.xAxisAccessibilityLabel ?? ""), \(label)"
+        let yAxisLabel = "\(dataSet.yAxisAccessibilityLabel ?? ""), \(elementValueTextRounded)"
+
+        element.accessibilityLabel = "\(doesContainMultipleDataSets ? (dataSet.label ?? "")  + ", " : "") \(xAxisLabel) : \(yAxisLabel)"
 
         modifier(element)
 
