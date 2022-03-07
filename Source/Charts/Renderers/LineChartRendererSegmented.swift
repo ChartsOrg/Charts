@@ -166,9 +166,5 @@ open class LineChartRendererSegmented: LineChartRenderer
         return rangeColor[colorKey] ?? defaultLineColor
     }
     
-//    @objc open override func drawData(context: CGContext) {
-//        <#code#>
-//    }
-    
 }
 #endif
