@@ -832,10 +832,10 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         let elementValueTextDouble = (elementValueText as NSString).doubleValue
         let elementValueTextRounded = round(100 * elementValueTextDouble) / 100
 
-        let xAxisLabel = "\(dataSet.xAxisAccessibilityLabel ?? ""), \(label)"
-        let yAxisLabel = "\(dataSet.yAxisAccessibilityLabel ?? ""), \(elementValueTextRounded)"
+        let xAxisLabel = "\(dataSet.xAxisAccessibilityLabel ?? ""): \(label)"
+        let yAxisLabel = "\(dataSet.yAxisAccessibilityLabel ?? ""): \(elementValueTextRounded)"
 
-        element.accessibilityLabel = "\(doesContainMultipleDataSets ? (dataSet.label ?? "")  + ", " : "") \(xAxisLabel) : \(yAxisLabel)"
+        element.accessibilityLabel = "\(doesContainMultipleDataSets ? (dataSet.label ?? "")  + ", " : "") \(xAxisLabel) , \(yAxisLabel)"
 
         modifier(element)
 

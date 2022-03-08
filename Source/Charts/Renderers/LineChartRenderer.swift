@@ -899,10 +899,10 @@ open class LineChartRenderer: LineRadarRenderer
         let dataSetCount = dataProvider.lineData?.dataSetCount ?? -1
         let doesContainMultipleDataSets = dataSetCount > 1
 
-        let xAxisLabel = "\(dataSet.xAxisAccessibilityLabel ?? ""), \((label as NSString).integerValue)"
-        let yAxisLabel = "\(dataSet.yAxisAccessibilityLabel ?? ""), \((elementValueText as NSString).integerValue)"
+        let xAxisLabel = "\(dataSet.xAxisAccessibilityLabel ?? ""): \((label as NSString).integerValue)"
+        let yAxisLabel = "\(dataSet.yAxisAccessibilityLabel ?? ""): \((elementValueText as NSString).integerValue)"
 
-        element.accessibilityLabel = "\(doesContainMultipleDataSets ? (dataSet.label ?? "")  + ", " : "") \(xAxisLabel) : \(yAxisLabel)"
+        element.accessibilityLabel = "\(doesContainMultipleDataSets ? (dataSet.label ?? "")  + ", " : "") \(xAxisLabel) , \(yAxisLabel)"
 
         modifier(element)
 
