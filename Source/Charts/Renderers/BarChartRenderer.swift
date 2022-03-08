@@ -269,7 +269,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         if let chart = dataProvider as? BarChartView {
             let element = createAccessibleHeader(usingChart: chart,
                                                  andData: barData,
-                                                 withDefaultDescription: "Bar Chart")
+                                                 withDefaultDescription: "Bar Chart ")
             accessibleChartElements.append(element)
         }
 

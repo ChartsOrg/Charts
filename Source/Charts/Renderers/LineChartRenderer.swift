@@ -624,7 +624,7 @@ open class LineChartRenderer: LineRadarRenderer
         if let chart = dataProvider as? LineChartView {
             let element = createAccessibleHeader(usingChart: chart,
                                                  andData: lineData,
-                                                 withDefaultDescription: "Line Chart")
+                                                 withDefaultDescription: "Line Chart ")
             accessibleChartElements.append(element)
         }
 
