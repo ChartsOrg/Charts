@@ -101,6 +101,9 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, BarChartData
     
     /// array of labels used to describe the different values of the stacked bars
     open var stackLabels: [String] = []
+
+    /// array of corners to be rounded
+    open var roundedCorners: UIRectCorner = []
     
     // MARK: - Styling functions and accessors
     
