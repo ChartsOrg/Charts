@@ -188,6 +188,10 @@ open class ChartBaseDataSet: NSObject, ChartDataSetProtocol, NSCopying
     /// All the colors that are used for this DataSet.
     /// Colors are reused as soon as the number of Entries the DataSet represents is higher than the size of the colors array.
     open var colors = [NSUIColor]()
+  
+    /// All the gradients that are used for this DataSet.
+    /// Gradients are reused as soon as the number of Entries the DataSet represents is higher than the size of the Gradients array.
+    open var gradients = [Gradient]()
     
     /// List representing all colors that are used for drawing the actual values for this DataSet
     open var valueColors = [NSUIColor]()
@@ -264,6 +268,44 @@ open class ChartBaseDataSet: NSObject, ChartDataSetProtocol, NSCopying
     open func setColors(_ colors: NSUIColor...)
     {
         self.colors = colors
+    }
+
+    open var hasGradients: Bool { !gradients.isEmpty }
+  
+    /// - Returns: The gradient at the given index of the DataSet's gradient array.
+    /// This prevents out-of-bounds by performing a modulus on the gradient index, so gradients will repeat themselves.
+    open func gradient(atIndex index: Int) -> Gradient {
+        var index = index
+        if index < 0
+        {
+            index = 0
+        }
+        return gradients[index % colors.count]
+    }
+    
+    open func resetGradients()
+    {
+        gradients.removeAll(keepingCapacity: false)
+    }
+    
+    open func addGradient(_ gradient: Gradient)
+    {
+        gradients.append(gradient)
+    }
+    
+    open func setGradient(_ gradient: Gradient)
+    {
+        gradients.removeAll(keepingCapacity: false)
+        gradients.append(gradient)
+    }
+    
+    /// Sets gradients
+    ///
+    /// - Parameters:
+    ///   - gradients: the colors to set
+    open func setGradients(_ gradients: Gradient...)
+    {
+        self.gradients = gradients
     }
     
     /// if true, value highlighting is enabled

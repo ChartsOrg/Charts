@@ -384,14 +384,41 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 // Set the color for the currently drawn value. If the index is out of bounds, reuse colors.
                 context.setFillColor(dataSet.color(atIndex: j).cgColor)
             }
+          
+          if dataSet.hasGradients {
+              context.saveGState()
+              defer { context.restoreGState() }
             
-            if (dataSet.shouldRoundCorners) {
-                let path = dataSet.roundedPath(for: barRect)
-                context.addPath(path)
-                context.fillPath()
-            } else {
-                context.fill(barRect)
-            }
+              let gradient = dataSet.gradient(atIndex: j)
+              if (dataSet.shouldRoundCorners) {
+                  let path = dataSet.roundedPath(for: barRect)
+                
+                  context.addPath(path)
+                  context.clip()
+                  context.drawLinearGradient(
+                      gradient.cgGradient,
+                      start: gradient.startPoint(in: barRect),
+                      end: gradient.endPoint(in: barRect),
+                      options: []
+                  )
+              } else {
+                  context.clip(to: barRect)
+                  context.drawLinearGradient(
+                      gradient.cgGradient,
+                      start: gradient.startPoint(in: barRect),
+                      end: gradient.endPoint(in: barRect),
+                      options: []
+                  )
+              }
+          } else {
+              if (dataSet.shouldRoundCorners) {
+                  let path = dataSet.roundedPath(for: barRect)
+                  context.addPath(path)
+                  context.fillPath()
+              } else {
+                  context.fill(barRect)
+              }
+          }
             
             if drawBorder
             {

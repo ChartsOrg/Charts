@@ -159,7 +159,8 @@
         [set1 setColors:ChartColorTemplates.material];
         set1.drawIconsEnabled = NO;
         set1.roundedCorners = UIRectCornerTopLeft | UIRectCornerBottomRight;
-        
+        [set1 setGradients:ChartGradientTemplates.material];
+
         NSMutableArray *dataSets = [[NSMutableArray alloc] init];
         [dataSets addObject:set1];
         
