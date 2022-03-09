@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreGraphics
 
 @objc
 open class Gradient: NSObject {
