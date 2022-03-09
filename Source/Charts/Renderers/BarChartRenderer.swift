@@ -351,6 +351,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 guard viewPortHandler.isInBoundsRight(barRect.origin.x) else { break }
 
                 context.setFillColor(dataSet.barShadowColor.cgColor)
+#if canImport(UIKit)
                 if (dataSet.shouldRoundCorners) {
                     let path = dataSet.roundedPath(for: barRect)
                     context.addPath(path)
@@ -358,6 +359,9 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 } else {
                     context.fill(barRect)
                 }
+#else
+              context.fill(barRect)
+#endif
             }
         }
         
@@ -384,12 +388,13 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 // Set the color for the currently drawn value. If the index is out of bounds, reuse colors.
                 context.setFillColor(dataSet.color(atIndex: j).cgColor)
             }
-          
+#if canImport(UIKit)
           if dataSet.hasGradients {
               context.saveGState()
               defer { context.restoreGState() }
             
               let gradient = dataSet.gradient(atIndex: j)
+
               if (dataSet.shouldRoundCorners) {
                   let path = dataSet.roundedPath(for: barRect)
                 
@@ -410,6 +415,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                       options: []
                   )
               }
+
           } else {
               if (dataSet.shouldRoundCorners) {
                   let path = dataSet.roundedPath(for: barRect)
@@ -419,11 +425,15 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                   context.fill(barRect)
               }
           }
+#else
+          context.fill(barRect)
+#endif
             
             if drawBorder
             {
                 context.setStrokeColor(borderColor.cgColor)
                 context.setLineWidth(borderWidth)
+#if canImport(UIKit)
                 if (dataSet.shouldRoundCorners) {
                     let path = dataSet.roundedPath(for: barRect)
                     context.addPath(path)
@@ -431,6 +441,9 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 } else {
                     context.stroke(barRect)
                 }
+#else
+              context.stroke(barRect)
+#endif
             }
 
             // Create and append the corresponding accessibility element to accessibilityOrderedElements
@@ -788,7 +801,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 prepareBarHighlight(x: e.x, y1: y1, y2: y2, barWidthHalf: barData.barWidth / 2.0, trans: trans, rect: &barRect)
                 
                 setHighlightDrawPos(highlight: high, barRect: barRect)
-                
+#if canImport(UIKit)
                 if (set.shouldRoundCorners) {
                     let path = set.roundedPath(for: barRect)
                     context.addPath(path)
@@ -796,6 +809,9 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 } else {
                     context.fill(barRect)
                 }
+#else
+                context.fill(barRect)
+#endif
             }
         }
     }
@@ -884,7 +900,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         return element
     }
 }
-
+#if canImport(UIKit)
 extension BarChartDataSetProtocol {
   
     var shouldRoundCorners: Bool { !roundedCorners.isEmpty }
@@ -900,3 +916,4 @@ extension BarChartDataSetProtocol {
         return bezierPath.cgPath
     }
 }
+#endif

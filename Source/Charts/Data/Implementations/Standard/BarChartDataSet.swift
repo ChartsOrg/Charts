@@ -11,7 +11,9 @@
 
 import Foundation
 import CoreGraphics
-
+#if canImport(UIKit)
+import UIKit
+#endif
 
 open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, BarChartDataSetProtocol
 {
@@ -101,10 +103,10 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, BarChartData
     
     /// array of labels used to describe the different values of the stacked bars
     open var stackLabels: [String] = []
-
+#if canImport(UIKit)
     /// array of corners to be rounded
     open var roundedCorners: UIRectCorner = []
-    
+#endif
     // MARK: - Styling functions and accessors
     
     /// the color used for drawing the bar-shadows. The bar shadows is a surface behind the bar that indicates the maximum value
