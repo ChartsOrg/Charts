@@ -69,8 +69,8 @@
 		5DC9BC1B6C128B2C9995AB84 /* ScatterChartRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D5B764EC0AE1E17E55DC67 /* ScatterChartRenderer.swift */; };
 		5F96E95C7073D21EFE02BCF7 /* LineChartRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DABDBBCCE6B3620C967F04A /* LineChartRenderer.swift */; };
 		60EDF735AAB7195DCFA5FE4D /* CandleStickChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1A58428DC4780BAB4EAADC /* CandleStickChartView.swift */; };
-		61AFBF8E27D8EA07003033D8 /* Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AFBF8D27D8EA07003033D8 /* Gradient.swift */; };
-		61AFBF9027D8F5E5003033D8 /* ChartGradientTemplates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AFBF8F27D8F5E5003033D8 /* ChartGradientTemplates.swift */; };
+		61CF957A27D90593009DACBF /* Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61CF957827D90593009DACBF /* Gradient.swift */; };
+		61CF957B27D90593009DACBF /* ChartGradientTemplates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61CF957927D90593009DACBF /* ChartGradientTemplates.swift */; };
 		6303DBDEE4FAB8E40D023BCE /* RadarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2440DB759AB93B4A928A3F6F /* RadarChartView.swift */; };
 		63C0A21D145BFEDED5406E4D /* BubbleChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44829AF0ADA583F1F0279B7 /* BubbleChartDataSet.swift */; };
 		64FA1EDB4DC1F65727D52D10 /* CombinedHighlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2465CB73738EBAFB46C57288 /* CombinedHighlighter.swift */; };
@@ -247,8 +247,8 @@
 		5B1C588E9DF6FFD56D7ADF8E /* BarLineScatterCandleBubbleRenderer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BarLineScatterCandleBubbleRenderer.swift; path = Source/Charts/Renderers/BarLineScatterCandleBubbleRenderer.swift; sourceTree = "<group>"; };
 		5C3F5E1A69EC06E86505F7B1 /* BarChartTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BarChartTests.swift; sourceTree = "<group>"; };
 		6021C9E424C36116AEA78CC9 /* HorizontalBarChartView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HorizontalBarChartView.swift; path = Source/Charts/Charts/HorizontalBarChartView.swift; sourceTree = "<group>"; };
-		61AFBF8D27D8EA07003033D8 /* Gradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gradient.swift; sourceTree = "<group>"; };
-		61AFBF8F27D8F5E5003033D8 /* ChartGradientTemplates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartGradientTemplates.swift; sourceTree = "<group>"; };
+		61CF957827D90593009DACBF /* Gradient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Gradient.swift; path = Source/Charts/Utils/Gradient.swift; sourceTree = "<group>"; };
+		61CF957927D90593009DACBF /* ChartGradientTemplates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChartGradientTemplates.swift; path = Source/Charts/Utils/ChartGradientTemplates.swift; sourceTree = "<group>"; };
 		62B73FCEDD3841E7B958F6A9 /* ChartDataProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ChartDataProvider.swift; path = Source/Charts/Interfaces/ChartDataProvider.swift; sourceTree = "<group>"; };
 		65AD9E95D9ED4DC0BD73A743 /* Charts.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Charts.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		688B80F1AA88AE54152BE768 /* YAxisRenderer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = YAxisRenderer.swift; path = Source/Charts/Renderers/YAxisRenderer.swift; sourceTree = "<group>"; };
@@ -650,6 +650,8 @@
 		D047819AB7170595896D6FE8 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				61CF957927D90593009DACBF /* ChartGradientTemplates.swift */,
+				61CF957827D90593009DACBF /* Gradient.swift */,
 				F6227A646166E248F90F86AD /* ChartColorTemplates.swift */,
 				3FDA09EF973925A110506799 /* ChartUtils.swift */,
 				5A4CFFFB65819121595F06F1 /* Fill.swift */,
@@ -663,8 +665,6 @@
 				FF475B9593B9898853814340 /* Transformer.swift */,
 				324C9127B53A8D39C8B49277 /* TransformerHorizontalBarChart.swift */,
 				72EAEBB7CF73E33565FC2896 /* ViewPortHandler.swift */,
-				61AFBF8D27D8EA07003033D8 /* Gradient.swift */,
-				61AFBF8F27D8F5E5003033D8 /* ChartGradientTemplates.swift */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -901,7 +901,7 @@
 				2C879FC24D7A15D70BE4063F /* PieChartData.swift in Sources */,
 				23649EFC635A76022F07FFA6 /* PieChartDataEntry.swift in Sources */,
 				B539114951455C35BADAE3F3 /* PieChartDataSet.swift in Sources */,
-				61AFBF9027D8F5E5003033D8 /* ChartGradientTemplates.swift in Sources */,
+				61CF957B27D90593009DACBF /* ChartGradientTemplates.swift in Sources */,
 				0C52C70C6E6EA09BD7426386 /* RadarChartData.swift in Sources */,
 				C2EFB4EC8C97FA9987F1B50D /* RadarChartDataEntry.swift in Sources */,
 				221CA2922588FCBC00C2DD1E /* Sequence+KeyPath.swift in Sources */,
@@ -940,7 +940,7 @@
 				9C91C151608E2D6E19B1EAD1 /* Range.swift in Sources */,
 				00BC23EF0E04E17188344403 /* BarChartDataProvider.swift in Sources */,
 				28FEE609C5B22FD64C7E5D10 /* BarLineScatterCandleBubbleChartDataProvider.swift in Sources */,
-				61AFBF8E27D8EA07003033D8 /* Gradient.swift in Sources */,
+				61CF957A27D90593009DACBF /* Gradient.swift in Sources */,
 				4272DA5D44AF7DA05A5A8287 /* BubbleChartDataProvider.swift in Sources */,
 				30DCC4BAA5601B154ABADA13 /* CandleChartDataProvider.swift in Sources */,
 				FD37AAC0270F390FFC470A65 /* ChartDataProvider.swift in Sources */,
