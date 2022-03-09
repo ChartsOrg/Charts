@@ -10,12 +10,12 @@ import CoreGraphics
 
 @objc
 open class Gradient: NSObject {
-  let startColor: NSUIColor
-  let endColor: NSUIColor
+  let startColor: CGColor
+  let endColor: CGColor
   let startPoint: CGPoint
   let endPoint: CGPoint
   
-  init(startColor: NSUIColor, endColor: NSUIColor, angle: CGFloat) {
+  public init(startColor: CGColor, endColor: CGColor, angle: CGFloat) {
     self.startColor = startColor
     self.endColor = endColor
     let points = Self.calculatePoints(for: angle)
@@ -28,7 +28,7 @@ open class Gradient: NSObject {
 
 extension Gradient {
   var locations: [CGFloat] { [0, 1] }
-  var colors: CFArray { [startColor.cgColor, endColor.cgColor] as CFArray }
+  var colors: CFArray { [startColor, endColor] as CFArray }
   
   var cgGradient: CGGradient {
     CGGradient(
