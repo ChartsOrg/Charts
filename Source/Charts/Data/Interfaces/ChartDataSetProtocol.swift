@@ -188,7 +188,23 @@ public protocol ChartDataSetProtocol
     func addColor(_ color: NSUIColor)
     
     func setColor(_ color: NSUIColor)
+
+    /// All the gradients that are used for this DataSet.
+    /// Gradients are reused as soon as the number of Entries the DataSet represents is higher than the size of the Gradients array.
+    var gradients: [Gradient] { get }
+  
+    var hasGradients: Bool { get }
     
+    /// - Returns: The gradient at the given index of the DataSet's color array.
+    /// This prevents out-of-bounds by performing a modulus on the color index, so colours will repeat themselves.
+    func gradient(atIndex: Int) -> Gradient
+    
+    func resetGradients()
+    
+    func addGradient(_ gradient: Gradient)
+    
+    func setGradient(_ gradient: Gradient)
+
     /// if true, value highlighting is enabled
     var highlightEnabled: Bool { get set }
     
