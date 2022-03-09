@@ -148,6 +148,7 @@
     if (_chartView.data.dataSetCount > 0)
     {
         set1 = (BarChartDataSet *)_chartView.data.dataSets[0];
+        set1.roundedCorners = UIRectCornerTopLeft | UIRectCornerTopRight;
         [set1 replaceEntries: yVals];
         [_chartView.data notifyDataChanged];
         [_chartView notifyDataSetChanged];
@@ -157,6 +158,7 @@
         set1 = [[BarChartDataSet alloc] initWithEntries:yVals label:@"The year 2017"];
         [set1 setColors:ChartColorTemplates.material];
         set1.drawIconsEnabled = NO;
+        set1.roundedCorners = UIRectCornerTopLeft | UIRectCornerBottomRight;
         
         NSMutableArray *dataSets = [[NSMutableArray alloc] init];
         [dataSets addObject:set1];
