@@ -891,7 +891,7 @@ open class LineChartRenderer: LineRadarRenderer
         // there is the possibility of some labels being rounded up. A floor() might fix this, but seems to be a brute force solution.
         let label = "\(Int(e.x))"
 
-        let elementValueText = dataSet.valueFormatter.stringForValue(e.y,
+        let elementValueText = dataSet.valueFormatter.stringForValue(e.y.rounded(.up),
                                                                      entry: e,
                                                                      dataSetIndex: dataSetIndex,
                                                                      viewPortHandler: viewPortHandler)
