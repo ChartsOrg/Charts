@@ -828,12 +828,11 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
 
         let dataSetCount = dataProvider.barData?.dataSetCount ?? -1
         let doesContainMultipleDataSets = dataSetCount > 1
+        
+        let elementValueTextInt = (elementValueText as NSString).integerValue
 
-        let elementValueTextDouble = (elementValueText as NSString).doubleValue
-        let elementValueTextRounded = round(100 * elementValueTextDouble) / 100
-
-        let xAxisLabel = "\(dataSet.xAxisAccessibilityLabel ?? ""): \(label)"
-        let yAxisLabel = "\(dataSet.yAxisAccessibilityLabel ?? ""): \(elementValueTextRounded)"
+        let xAxisLabel = "\(dataSet.xAxisAccessibilityLabel?[0] ?? "") : \(label)"
+        let yAxisLabel = "\(dataSet.yAxisAccessibilityLabel?[0] ?? "") : \(elementValueTextInt) \(dataSet.yAxisAccessibilityLabel?[1] ?? "")"
 
         element.accessibilityLabel = "\(doesContainMultipleDataSets ? (dataSet.label ?? "")  + ", " : "") \(xAxisLabel) , \(yAxisLabel)"
 
