@@ -13,7 +13,7 @@ import Foundation
 import CoreGraphics
 
 @objc(ChartMarker)
-public protocol Marker: class
+public protocol Marker: AnyObject
 {
     /// - Returns: The desired (general) offset you wish the IMarker to have on the x-axis.
     /// By returning x: -(width / 2) you will center the IMarker horizontally.
