@@ -194,6 +194,10 @@ open class ChartBaseDataSet: NSObject, ChartDataSetProtocol, NSCopying
 
     /// The label string that describes the DataSet.
     open var label: String? = "DataSet"
+
+    /// The acessibility label strings that are used for giving custom accessibility.
+    open var xAxisAccessibilityLabel: [String]? = []
+    open var yAxisAccessibilityLabel: [String]? = []
     
     /// The axis this DataSet should be plotted against.
     open var axisDependency = YAxis.AxisDependency.left

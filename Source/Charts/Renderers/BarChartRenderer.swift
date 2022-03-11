@@ -269,7 +269,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         if let chart = dataProvider as? BarChartView {
             let element = createAccessibleHeader(usingChart: chart,
                                                  andData: barData,
-                                                 withDefaultDescription: "Bar Chart")
+                                                 withDefaultDescription: "Bar Chart ")
             accessibleChartElements.append(element)
         }
 
@@ -787,7 +787,10 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         // NOTE: The formatter can cause issues when the x-axis labels are consecutive ints.
         // i.e. due to the Double conversion, if there are more than one data set that are grouped,
         // there is the possibility of some labels being rounded up. A floor() might fix this, but seems to be a brute force solution.
-        let label = xAxis.valueFormatter?.stringForValue(e.x, axis: xAxis) ?? "\(e.x)"
+        var label  = "\(e.x)"
+        if let accessibilityStringForValue =  xAxis.valueFormatter?.accessibilityStringForValue {
+            label = accessibilityStringForValue(Double(idx), xAxis)
+        }
 
         var elementValueText = dataSet.valueFormatter.stringForValue(
             e.y,
@@ -825,8 +828,13 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
 
         let dataSetCount = dataProvider.barData?.dataSetCount ?? -1
         let doesContainMultipleDataSets = dataSetCount > 1
+        
+        let elementValueTextInt = (elementValueText as NSString).integerValue
 
-        element.accessibilityLabel = "\(doesContainMultipleDataSets ? (dataSet.label ?? "")  + ", " : "") \(label): \(elementValueText)"
+        let xAxisLabel = "\(dataSet.xAxisAccessibilityLabel?[0] ?? "") : \(label)"
+        let yAxisLabel = "\(dataSet.yAxisAccessibilityLabel?[0] ?? "") : \(elementValueTextInt) \(dataSet.yAxisAccessibilityLabel?[1] ?? "")"
+
+        element.accessibilityLabel = "\(doesContainMultipleDataSets ? (dataSet.label ?? "")  + ", " : "") \(xAxisLabel) , \(yAxisLabel)"
 
         modifier(element)
 

@@ -168,6 +168,10 @@ public protocol ChartDataSetProtocol
     
     /// The label string that describes the DataSet.
     var label: String? { get }
+
+    /// The acessibility label strings that are used for giving custom accessibility.
+    var xAxisAccessibilityLabel: [String]? { get }
+    var yAxisAccessibilityLabel: [String]? { get }
     
     /// The axis this DataSet should be plotted against.
     var axisDependency: YAxis.AxisDependency { get }

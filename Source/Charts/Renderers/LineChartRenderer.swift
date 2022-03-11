@@ -624,7 +624,7 @@ open class LineChartRenderer: LineRadarRenderer
         if let chart = dataProvider as? LineChartView {
             let element = createAccessibleHeader(usingChart: chart,
                                                  andData: lineData,
-                                                 withDefaultDescription: "Line Chart")
+                                                 withDefaultDescription: "Line Chart ")
             accessibleChartElements.append(element)
         }
 
@@ -882,7 +882,6 @@ open class LineChartRenderer: LineRadarRenderer
                                          modifier: (NSUIAccessibilityElement) -> ()) -> NSUIAccessibilityElement
     {
         let element = NSUIAccessibilityElement(accessibilityContainer: container)
-        let xAxis = container.xAxis
 
         guard let e = dataSet.entryForIndex(idx) else { return element }
         guard let dataProvider = dataProvider else { return element }
@@ -890,9 +889,9 @@ open class LineChartRenderer: LineRadarRenderer
         // NOTE: The formatter can cause issues when the x-axis labels are consecutive ints.
         // i.e. due to the Double conversion, if there are more than one data set that are grouped,
         // there is the possibility of some labels being rounded up. A floor() might fix this, but seems to be a brute force solution.
-        let label = xAxis.valueFormatter?.stringForValue(e.x, axis: xAxis) ?? "\(e.x)"
+        let label = "\(Int(e.x))"
 
-        let elementValueText = dataSet.valueFormatter.stringForValue(e.y,
+        let elementValueText = dataSet.valueFormatter.stringForValue(e.y.rounded(),
                                                                      entry: e,
                                                                      dataSetIndex: dataSetIndex,
                                                                      viewPortHandler: viewPortHandler)
@@ -900,7 +899,10 @@ open class LineChartRenderer: LineRadarRenderer
         let dataSetCount = dataProvider.lineData?.dataSetCount ?? -1
         let doesContainMultipleDataSets = dataSetCount > 1
 
-        element.accessibilityLabel = "\(doesContainMultipleDataSets ? (dataSet.label ?? "")  + ", " : "") \(label): \(elementValueText)"
+        let xAxisLabel = "\(dataSet.xAxisAccessibilityLabel?[0] ?? "") : \((label as NSString).integerValue) \(dataSet.xAxisAccessibilityLabel?[1] ?? "")"
+        let yAxisLabel = "\(dataSet.yAxisAccessibilityLabel?[0] ?? "") : \((elementValueText as NSString).integerValue)"
+
+        element.accessibilityLabel = "\(doesContainMultipleDataSets ? (dataSet.label ?? "")  + ", " : "") \(yAxisLabel) , \(xAxisLabel)"
 
         modifier(element)
 
