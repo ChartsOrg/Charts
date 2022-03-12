@@ -13,7 +13,7 @@ import Foundation
 
 /// An interface for providing custom axis Strings.
 @objc(ChartAxisValueFormatter)
-public protocol AxisValueFormatter: class
+public protocol AxisValueFormatter: AnyObject
 {
     
     /// Called when a value from an axis is formatted before being drawn.
