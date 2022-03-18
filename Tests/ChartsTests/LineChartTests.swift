@@ -27,6 +27,9 @@ class LineChartTests: XCTestCase {
 
         dataSet = LineChartDataSet(entries: entries, label: "First unit test data")
         dataSet.drawIconsEnabled = false
+        dataSet.drawVertexImagesEnabled = false
+        dataSet.vertexImagesBundle = Bundle(for: classForCoder)
+        dataSet.vertexImageNames = values.map { _ -> String in "icon" }
         dataSet.iconsOffset = CGPoint(x: 0, y: 20.0)
 
         chart = LineChartView(frame: CGRect(x: 0, y: 0, width: 480, height: 350))
@@ -67,6 +70,13 @@ class LineChartTests: XCTestCase {
 
     func testDrawIcons() {
         dataSet.drawIconsEnabled = true
+        dataSet.drawVertexImagesEnabled = false
+        assertChartSnapshot(matching: chart)
+    }
+    
+    func testDrawLabelImages() {
+        dataSet.drawVertexImagesEnabled = true
+        dataSet.drawCirclesEnabled = false
         assertChartSnapshot(matching: chart)
     }
 }

@@ -602,6 +602,116 @@ open class LineChartRenderer: LineRadarRenderer
     open override func drawExtras(context: CGContext)
     {
         drawCircles(context: context)
+        drawImages(context: context)
+    }
+    
+    private func drawImages(context: CGContext) {
+        guard
+            let dataProvider = dataProvider,
+            let lineData = dataProvider.lineData
+        else { return }
+        
+        let phaseY = animator.phaseY
+        
+        var pt = CGPoint()
+        var rect = CGRect()
+        
+        // If we redraw the data, remove and repopulate accessible elements to update label values and frames
+        accessibleChartElements.removeAll()
+        accessibilityOrderedElements = accessibilityCreateEmptyOrderedElements()
+
+        // Make the chart header the first element in the accessible elements array
+        if let chart = dataProvider as? LineChartView {
+            let element = createAccessibleHeader(usingChart: chart,
+                                                 andData: lineData,
+                                                 withDefaultDescription: "Line Chart")
+            accessibleChartElements.append(element)
+        }
+
+        context.saveGState()
+        
+        for i in lineData.indices
+        {
+            guard let dataSet = lineData[i] as? LineChartDataSetProtocol else { continue }
+
+            // Skip Circles and Accessibility if not enabled,
+            // reduces CPU significantly if not needed
+            if !dataSet.isVisible || !dataSet.isDrawVertexImagesEnabled || dataSet.entryCount == 0
+            {
+                continue
+            }
+            
+            let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
+            let valueToPixelMatrix = trans.valueToPixelMatrix
+            
+            _xBounds.set(chart: dataProvider, dataSet: dataSet, animator: animator)
+            
+            let imageRadius = dataSet.vertexImagesRadius
+            let imageDiameter = imageRadius * 2.0
+            
+            for j in _xBounds
+            {
+                guard let e = dataSet.entryForIndex(j) else { break }
+
+                pt.x = CGFloat(e.x)
+                pt.y = CGFloat(e.y * phaseY)
+                pt = pt.applying(valueToPixelMatrix)
+                
+                if (!viewPortHandler.isInBoundsRight(pt.x))
+                {
+                    break
+                }
+                
+                // make sure the circles don't do shitty things outside bounds
+                if (!viewPortHandler.isInBoundsLeft(pt.x) || !viewPortHandler.isInBoundsY(pt.y))
+                {
+                    continue
+                }
+                
+                // Accessibility element geometry
+                let scaleFactor: CGFloat = 3
+                let accessibilityRect = CGRect(x: pt.x - (scaleFactor * imageRadius),
+                                               y: pt.y - (scaleFactor * imageRadius),
+                                               width: scaleFactor * imageDiameter,
+                                               height: scaleFactor * imageDiameter)
+                // Create and append the corresponding accessibility element to accessibilityOrderedElements
+                if let chart = dataProvider as? LineChartView
+                {
+                    let element = createAccessibleElement(withIndex: j,
+                                                          container: chart,
+                                                          dataSet: dataSet,
+                                                          dataSetIndex: i)
+                    { (element) in
+                        element.accessibilityFrame = accessibilityRect
+                    }
+
+                    accessibilityOrderedElements[i].append(element)
+                }
+
+                rect.origin.x = pt.x - imageRadius
+                rect.origin.y = pt.y - imageRadius
+                rect.size.width = imageDiameter
+                rect.size.height = imageDiameter
+                
+                if let imagePathAtIndex = dataSet.vertexImageNames[safe: j] {
+                    let icon = UIImage(named: imagePathAtIndex, in: dataSet.vertexImagesBundle ?? nil, compatibleWith: nil)
+                    if icon != nil {
+                        let cgImage = icon?.cgImage
+                        if cgImage != nil {
+                            let flippedImage = UIImage(cgImage: cgImage!, scale: UIScreen.main.scale, orientation: .upMirrored)
+                            flippedImage.draw(in: rect)
+                        }
+                    }
+                }
+                
+            }
+        }
+        
+        context.restoreGState()
+
+        // Merge nested ordered arrays into the single accessibleChartElements.
+        accessibleChartElements.append(contentsOf: accessibilityOrderedElements.flatMap { $0 } )
+        accessibilityPostLayoutChangedNotification()
     }
     
     private func drawCircles(context: CGContext)

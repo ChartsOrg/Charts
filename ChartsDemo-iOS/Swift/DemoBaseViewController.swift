@@ -35,6 +35,7 @@ enum Option {
     // CubicLineSampleFillFormatter
     case toggleFilled
     case toggleCircles
+    case toggleVertexImages
     case toggleCubic
     case toggleHorizontalCubic
     case toggleStepped
@@ -76,6 +77,7 @@ enum Option {
         // CubicLineSampleFillFormatter
         case .toggleFilled: return "Toggle Filled"
         case .toggleCircles: return "Toggle Circles"
+        case .toggleVertexImages: return "Toggle Vertex Images"
         case .toggleCubic: return "Toggle Cubic"
         case .toggleHorizontalCubic: return "Toggle Horizontal Cubic"
         case .toggleStepped: return "Toggle Stepped"

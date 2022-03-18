@@ -70,6 +70,21 @@ public protocol LineChartDataSetProtocol: LineRadarChartDataSetProtocol
     /// `true` if drawing the circle-holes is enabled, `false` ifnot.
     var isDrawCircleHoleEnabled: Bool { get }
     
+    /// The radius of the drawn vertex images.
+    var vertexImagesRadius: CGFloat { get set }
+    
+    /// `true` if drawing vertex images for this DataSet is enabled, `false` ifnot
+    var drawVertexImagesEnabled: Bool { get set }
+    
+    /// `true` if drawing the vertex images is enabled, `false` ifnot.
+    var isDrawVertexImagesEnabled: Bool { get }
+    
+    /// a list of vertex image names to load
+    var vertexImageNames: [String] { get set }
+    
+    /// load the vertex images from a specified Bundle.
+    var vertexImagesBundle: Bundle? { get set }
+    
     /// This is how much (in pixels) into the dash pattern are we starting from.
     var lineDashPhase: CGFloat { get }
     

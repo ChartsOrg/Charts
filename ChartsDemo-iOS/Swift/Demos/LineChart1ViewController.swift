@@ -25,6 +25,7 @@ class LineChart1ViewController: DemoBaseViewController {
         self.options = [.toggleValues,
                         .toggleFilled,
                         .toggleCircles,
+                        .toggleVertexImages,
                         .toggleCubic,
                         .toggleHorizontalCubic,
                         .toggleIcons,
@@ -200,6 +201,13 @@ class LineChart1ViewController: DemoBaseViewController {
             for set in chartView.data!.dataSets as! [LineChartDataSet] {
                 set.isDrawLineWithGradientEnabled = !set.isDrawLineWithGradientEnabled
                 setup(set)
+            }
+            chartView.setNeedsDisplay()
+        case .toggleVertexImages:
+            for set in chartView.data!.dataSets as! [LineChartDataSet] {
+                set.drawVertexImagesEnabled = !set.drawVertexImagesEnabled
+                set.vertexImagesBundle = Bundle(for: classForCoder)
+                set.vertexImageNames = set.isDrawVertexImagesEnabled ? set.entries.map { _ -> String in "icon"} : []
             }
             chartView.setNeedsDisplay()
         default:
