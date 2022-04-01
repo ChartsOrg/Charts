@@ -101,8 +101,9 @@ open class ChartDataSet: ChartBaseDataSet
 
         guard !isEmpty else { return }
         
-        let indexFrom = entryIndex(x: fromX, closestToY: .nan, rounding: .down)
-        let indexTo = entryIndex(x: toX, closestToY: .nan, rounding: .up)
+        let indexFrom = entryIndex(x: fromX, closestToY: .nan, rounding: .closest)
+        var indexTo = entryIndex(x: toX, closestToY: .nan, rounding: .up)
+        if indexTo == -1 { indexTo = entryIndex(x: toX, closestToY: .nan, rounding: .closest) }
         
         guard indexTo >= indexFrom else { return }
         // only recalculate y
@@ -216,7 +217,7 @@ open class ChartDataSet: ChartBaseDataSet
         rounding: ChartDataSetRounding) -> Int
     {
         var closest = partitioningIndex { $0.x >= xValue }
-        guard closest < endIndex else { return -1 }
+        guard closest < endIndex else { return rounding == .closest ? (endIndex-1) : -1 }
 
         let closestXValue = self[closest].x
 
