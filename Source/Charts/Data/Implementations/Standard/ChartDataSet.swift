@@ -219,7 +219,7 @@ open class ChartDataSet: ChartBaseDataSet
         var closest = partitioningIndex { $0.x >= xValue }
         guard closest < endIndex else { return rounding == .closest ? (endIndex-1) : -1 }
 
-        let closestXValue = self[closest].x
+        var closestXValue = self[closest].x
 
         switch rounding {
         case .up:
@@ -244,6 +244,7 @@ open class ChartDataSet: ChartBaseDataSet
                 let distanceAfter = abs(self[closest].x - xValue)
                 let distanceBefore = abs(self[closest-1].x - xValue)
                 distanceBefore < distanceAfter ? closest -= 1 : ()
+                closestXValue = self[closest].x
             }
         }
 
