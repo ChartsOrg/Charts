@@ -123,7 +123,6 @@ If you are having questions or problems, you should:
 
  - Make sure you are using the latest version of the library. Check the [**release-section**](https://github.com/danielgindi/Charts/releases).
  - Study the Android version's [**Documentation-Wiki**](https://github.com/PhilJay/MPAndroidChart/wiki)
- - Study the (Still incomplete [![Doc-Percent](https://img.shields.io/cocoapods/metrics/doc-percent/Charts.svg)](http://cocoadocs.org/docsets/Charts/)) [**Pod-Documentation**](http://cocoadocs.org/docsets/Charts/)
  - Search or open questions on [**stackoverflow**](http://stackoverflow.com/questions/tagged/ios-charts) with the `ios-charts` tag
  - Search [**known issues**](https://github.com/danielgindi/Charts/issues) for your problem (open and closed)
  - Create new issues (please :fire: **search known issues before** :fire:, do not create duplicate issues)
