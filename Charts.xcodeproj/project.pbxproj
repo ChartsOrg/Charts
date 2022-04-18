@@ -743,8 +743,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F1D4AA9E26EA32041FC0E3B6 /* Build configuration list for PBXNativeTarget "Charts" */;
 			buildPhases = (
-				B2B2DD73E237562739EE1F83 /* Headers */,
 				B5996DB2D9B6F0DB0E9D3F3E /* Sources */,
+				B2B2DD73E237562739EE1F83 /* Headers */,
 				E257C254E738A8AE047C6FB6 /* Resources */,
 				C16A09321DC2DCF289FF0E3B /* Frameworks */,
 			);
