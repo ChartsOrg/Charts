@@ -192,13 +192,13 @@ class LineChart2ViewController: DemoBaseViewController {
 //}
     // TODO: Declarations in extensions cannot override yet.
 //extension LineChart2ViewController {
-    override func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
-        super.chartValueSelected(chartView, entry: entry, highlight: highlight)
-        
-        self.chartView.centerViewToAnimated(xValue: entry.x, yValue: entry.y,
-                                            axis: self.chartView.data![highlight.dataSetIndex].axisDependency,
-                                            duration: 1)
-        //[_chartView moveViewToAnimatedWithXValue:entry.x yValue:entry.y axis:[_chartView.data getDataSetByIndex:dataSetIndex].axisDependency duration:1.0];
-        //[_chartView zoomAndCenterViewAnimatedWithScaleX:1.8 scaleY:1.8 xValue:entry.x yValue:entry.y axis:[_chartView.data getDataSetByIndex:dataSetIndex].axisDependency duration:1.0];
-    }
+//    override func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
+//        super.chartValueSelected(chartView, entry: entry, highlight: highlight)
+//
+//        self.chartView.centerViewToAnimated(xValue: entry.x, yValue: entry.y,
+//                                            axis: self.chartView.data![highlight.dataSetIndex].axisDependency,
+//                                            duration: 1)
+//        //[_chartView moveViewToAnimatedWithXValue:entry.x yValue:entry.y axis:[_chartView.data getDataSetByIndex:dataSetIndex].axisDependency duration:1.0];
+//        //[_chartView zoomAndCenterViewAnimatedWithScaleX:1.8 scaleY:1.8 xValue:entry.x yValue:entry.y axis:[_chartView.data getDataSetByIndex:dataSetIndex].axisDependency duration:1.0];
+//    }
 }
