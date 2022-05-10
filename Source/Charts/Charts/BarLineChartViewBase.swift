@@ -800,7 +800,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         }
     }
     
-    private func performPanChange(translation: CGPoint) -> Bool
+    func performPanChange(translation: CGPoint) -> Bool
     {
         var translation = translation
         
