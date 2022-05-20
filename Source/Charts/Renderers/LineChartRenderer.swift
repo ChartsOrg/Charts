@@ -772,6 +772,8 @@ open class LineChartRenderer: LineRadarRenderer
         
         for high in indices
         {
+            guard checkHighlightedIndexSettable(for: lineData, at: high.dataSetIndex) else { continue }
+
             guard let set = lineData[high.dataSetIndex] as? LineChartDataSetProtocol
                 , set.isHighlightEnabled
                 else { continue }
@@ -942,5 +944,13 @@ open class LineChartRenderer: LineRadarRenderer
         modifier(element)
 
         return element
+    }
+    
+    private func checkHighlightedIndexSettable(for lineData: LineChartData, at index: Int) -> Bool {
+        guard !lineData.isEmpty,
+              index >= 0 && index < lineData.count else {
+                  return false
+              }
+        return true
     }
 }
