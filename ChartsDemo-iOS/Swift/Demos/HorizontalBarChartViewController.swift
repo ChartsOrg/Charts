@@ -110,7 +110,6 @@ class HorizontalBarChartViewController: DemoBaseViewController {
         data.barWidth = barWidth
         
         chartView.data = data
-        chartView.customDrawData = CustomDrawChartData()
     }
 
     override func optionTapped(_ option: Option) {

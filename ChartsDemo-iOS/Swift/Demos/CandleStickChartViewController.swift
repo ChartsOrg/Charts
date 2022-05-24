@@ -104,6 +104,8 @@ class CandleStickChartViewController: DemoBaseViewController {
         
         let data = CandleChartData(dataSet: set1)
         chartView.data = data
+        
+        chartView.customDrawData = CustomDrawChartData()
     }
     
     override func optionTapped(_ option: Option) {

@@ -109,7 +109,6 @@ class PositiveNegativeBarChartViewController: DemoBaseViewController {
         data.barWidth = 0.8
         
         chartView.data = data
-        chartView.customDrawData = CustomDrawChartData()
     }
     
     override func optionTapped(_ option: Option) {
