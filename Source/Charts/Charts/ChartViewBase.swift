@@ -484,6 +484,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
                 {
                     delegate?.chartValueNothingSelected?(self)
                 }
+                setNeedsDisplay()
                 return
         }
 

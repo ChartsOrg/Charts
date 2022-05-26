@@ -101,8 +101,9 @@ open class ChartDataSet: ChartBaseDataSet
 
         guard !isEmpty else { return }
         
-        let indexFrom = entryIndex(x: fromX, closestToY: .nan, rounding: .down)
-        let indexTo = entryIndex(x: toX, closestToY: .nan, rounding: .up)
+        let indexFrom = entryIndex(x: fromX, closestToY: .nan, rounding: .closest)
+        var indexTo = entryIndex(x: toX, closestToY: .nan, rounding: .up)
+        if indexTo == -1 { indexTo = entryIndex(x: toX, closestToY: .nan, rounding: .closest) }
         
         guard indexTo >= indexFrom else { return }
         // only recalculate y
@@ -197,9 +198,11 @@ open class ChartDataSet: ChartBaseDataSet
     open override func entriesForXValue(_ xValue: Double) -> [ChartDataEntry]
     {
         let match: (ChartDataEntry) -> Bool = { $0.x == xValue }
-        let i = partitioningIndex(where: match)
+        var partitioned = self.entries
+        _ = partitioned.partition(by: match)
+        let i = partitioned.partitioningIndex(where: match)
         guard i < endIndex else { return [] }
-        return self[i...].prefix(while: match)
+        return partitioned[i...].prefix(while: match)
     }
     
     /// - Parameters:
@@ -214,9 +217,10 @@ open class ChartDataSet: ChartBaseDataSet
         rounding: ChartDataSetRounding) -> Int
     {
         var closest = partitioningIndex { $0.x >= xValue }
-        guard closest < endIndex else { return Swift.max(endIndex - 1, 0) }
 
-        let closestXValue = self[closest].x
+        guard closest < endIndex else { return rounding == .closest ? (endIndex-1) : -1 }
+
+        var closestXValue = self[closest].x
 
         switch rounding {
         case .up:
@@ -234,7 +238,15 @@ open class ChartDataSet: ChartBaseDataSet
             }
 
         case .closest:
-            break
+            // The closest value in the beginning of this function
+            // `var closest = partitioningIndex { $0.x >= xValue }`
+            // doesn't guarantee closest rounding method
+            if closest > 0 {
+                let distanceAfter = abs(self[closest].x - xValue)
+                let distanceBefore = abs(self[closest-1].x - xValue)
+                distanceBefore < distanceAfter ? closest -= 1 : ()
+                closestXValue = self[closest].x
+            }
         }
 
         // Search by closest to y-value
