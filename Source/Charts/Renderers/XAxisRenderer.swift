@@ -304,7 +304,7 @@ open class XAxisRenderer: NSObject, AxisRenderer
 
             if i == axis.highlightedLabelIndex {
                 labelAttrs[.font] = axis.boldLabelFont
-                labelAttrs[.underlineStyle] = NSUnderlineStyle.single.rawValue
+                labelAttrs[.underlineStyle] = 1
             } else {
                 labelAttrs[.font] = axis.labelFont
                 labelAttrs[.underlineStyle] = 0
