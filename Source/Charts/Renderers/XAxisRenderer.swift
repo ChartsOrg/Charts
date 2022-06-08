@@ -252,7 +252,7 @@ open class XAxisRenderer: NSObject, AxisRenderer
         let paraStyle = ParagraphStyle.default.mutableCopy() as! MutableParagraphStyle
         paraStyle.alignment = .center
         
-        let labelAttrs: [NSAttributedString.Key : Any] = [.font: axis.labelFont,
+        var labelAttrs: [NSAttributedString.Key : Any] = [.font: axis.labelFont,
                                                          .foregroundColor: axis.labelTextColor,
                                                          .paragraphStyle: paraStyle]
 
@@ -299,6 +299,15 @@ open class XAxisRenderer: NSObject, AxisRenderer
                     let width = labelns.boundingRect(with: labelMaxSize, options: .usesLineFragmentOrigin, attributes: labelAttrs, context: nil).size.width
                     position.x += width / 2.0
                 }
+            }
+
+
+            if i == axis.highlightedLabelIndex {
+                labelAttrs[.font] = axis.boldLabelFont
+                labelAttrs[.underlineStyle] = NSUnderlineStyle.single.rawValue
+            } else {
+                labelAttrs[.font] = axis.labelFont
+                labelAttrs[.underlineStyle] = 0
             }
             
             drawLabel(context: context,
