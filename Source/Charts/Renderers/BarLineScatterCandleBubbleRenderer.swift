@@ -102,9 +102,15 @@ open class BarLineScatterCandleBubbleRenderer: NSObject, DataRenderer
             
             let low = chart.lowestVisibleX
             let high = chart.highestVisibleX
-            
-            let entryFrom = dataSet.entryForXValue(low, closestToY: .nan, rounding: .down)
-            let entryTo = dataSet.entryForXValue(high, closestToY: .nan, rounding: .up)
+
+            // First, try to find entries on the boundary of or outside of the visible range. Then, if there are none, try to find entries
+            // inside of the visible range.
+            //
+            // We want to allow and prioritize entries outside of the visible range because renderers may draw graphics in between entries.
+            // For example, a zoomed-in line graph should still show a line connecting the entry outside of the visible range with the entry
+            // inside of the visible range even if the line is only partially shown.
+            let entryFrom = dataSet.entryForXValue(low, closestToY: .nan, rounding: .down) ?? dataSet.entryForXValue(low, closestToY: .nan, rounding: .up)
+            let entryTo = dataSet.entryForXValue(high, closestToY: .nan, rounding: .up) ?? dataSet.entryForXValue(high, closestToY: .nan, rounding: .down)
             
             self.min = entryFrom == nil ? 0 : dataSet.entryIndex(entry: entryFrom!)
             self.max = entryTo == nil ? 0 : dataSet.entryIndex(entry: entryTo!)
