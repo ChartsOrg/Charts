@@ -310,7 +310,7 @@ open class ChartDataSet: ChartBaseDataSet
     /// - Parameters:
     ///   - e: the entry to add
     /// - Returns: True
-    // TODO: This should return `Void` to follow Swift convention
+    @discardableResult
     open override func addEntryOrdered(_ e: ChartDataEntry) -> Bool
     {
         if let last = last, last.x > e.x
