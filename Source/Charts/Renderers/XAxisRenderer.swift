@@ -20,6 +20,10 @@ open class XAxisRenderer: NSObject, AxisRenderer
     @objc public let axis: XAxis
     @objc public let transformer: Transformer?
 
+    //*********** START OF SPECTRA CUSTOMIZATIONS ************//
+    public static let higihlightedLabelMarker: String = ".spectra.highlighted"
+    //*********** END OF SPECTRA CUSTOMIZATIONS ************//
+
     @objc public init(viewPortHandler: ViewPortHandler, axis: XAxis, transformer: Transformer?)
     {
         self.viewPortHandler = viewPortHandler
@@ -301,23 +305,32 @@ open class XAxisRenderer: NSObject, AxisRenderer
                 }
             }
 
+            //*********** START OF SPECTRA CUSTOMIZATIONS ************//
 
-            if i == axis.highlightedLabelIndex {
+            if label.contains(XAxisRenderer.higihlightedLabelMarker) {
                 labelAttrs[.font] = axis.boldLabelFont
                 labelAttrs[.underlineStyle] = 1
             } else {
                 labelAttrs[.font] = axis.labelFont
                 labelAttrs[.underlineStyle] = 0
             }
-            
+
+            var currentLabel: String = label
+
+            if label.contains(XAxisRenderer.higihlightedLabelMarker) {
+                currentLabel.removeLast(XAxisRenderer.higihlightedLabelMarker.count)
+            }
+
             drawLabel(context: context,
-                      formattedLabel: label,
+                      formattedLabel: currentLabel,
                       x: position.x,
                       y: pos,
                       attributes: labelAttrs,
                       constrainedTo: labelMaxSize,
                       anchor: anchor,
                       angleRadians: labelRotationAngleRadians)
+
+            //*********** END OF SPECTRA CUSTOMIZATIONS ************//
         }
     }
     
