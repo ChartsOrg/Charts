@@ -23,10 +23,14 @@ open class AxisBase: ComponentBase
     
     /// Custom formatter that is used instead of the auto-formatter if set
     private lazy var _axisValueFormatter: AxisValueFormatter = DefaultAxisValueFormatter(decimals: decimals)
-    
     @objc open var labelFont = NSUIFont.systemFont(ofSize: 10.0)
-    @objc open var boldLabelFont = NSUIFont.systemFont(ofSize: 10, weight: .bold)
     @objc open var labelTextColor = NSUIColor.labelOrBlack
+
+
+    //*********** START OF SPECTRA CUSTOMIZATIONS ************//
+    @objc open var highlightedLabelFont = NSUIFont.systemFont(ofSize: 10, weight: .bold)
+    @objc open var highlightedLabelTextColor = NSUIColor.labelOrBlack
+    //*********** END OF SPECTRA CUSTOMIZATIONS ************//
     
     @objc open var axisLineColor = NSUIColor.gray
     @objc open var axisLineWidth = CGFloat(0.5)

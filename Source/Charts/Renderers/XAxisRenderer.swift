@@ -308,10 +308,12 @@ open class XAxisRenderer: NSObject, AxisRenderer
             //*********** START OF SPECTRA CUSTOMIZATIONS ************//
 
             if label.contains(XAxisRenderer.higihlightedLabelMarker) {
-                labelAttrs[.font] = axis.boldLabelFont
+                labelAttrs[.font] = axis.highlightedLabelFont
+                labelAttrs[.backgroundColor] = axis.highlightedLabelTextColor
                 labelAttrs[.underlineStyle] = 1
             } else {
                 labelAttrs[.font] = axis.labelFont
+                labelAttrs[.backgroundColor] = axis.labelTextColor
                 labelAttrs[.underlineStyle] = 0
             }
 
