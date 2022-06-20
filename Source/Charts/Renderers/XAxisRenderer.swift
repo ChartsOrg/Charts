@@ -309,11 +309,11 @@ open class XAxisRenderer: NSObject, AxisRenderer
 
             if label.contains(XAxisRenderer.higihlightedLabelMarker) {
                 labelAttrs[.font] = axis.highlightedLabelFont
-                labelAttrs[.backgroundColor] = axis.highlightedLabelTextColor
+                labelAttrs[.foregroundColor] = axis.highlightedLabelTextColor
                 labelAttrs[.underlineStyle] = 1
             } else {
                 labelAttrs[.font] = axis.labelFont
-                labelAttrs[.backgroundColor] = axis.labelTextColor
+                labelAttrs[.foregroundColor] = axis.labelTextColor
                 labelAttrs[.underlineStyle] = 0
             }
 
