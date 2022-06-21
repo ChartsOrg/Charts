@@ -307,14 +307,20 @@ open class XAxisRenderer: NSObject, AxisRenderer
 
             //*********** START OF SPECTRA CUSTOMIZATIONS ************//
 
+            let shadow = NSShadow()
+            shadow.shadowColor = UIColor.black.withAlphaComponent(0.6)
+            shadow.shadowBlurRadius = 5
+
             if label.contains(XAxisRenderer.higihlightedLabelMarker) {
                 labelAttrs[.font] = axis.highlightedLabelFont
                 labelAttrs[.foregroundColor] = axis.highlightedLabelTextColor
                 labelAttrs[.underlineStyle] = 1
+                labelAttrs[.shadow] = shadow
             } else {
                 labelAttrs[.font] = axis.labelFont
                 labelAttrs[.foregroundColor] = axis.labelTextColor
                 labelAttrs[.underlineStyle] = 0
+                labelAttrs[.shadow] = nil
             }
 
             var currentLabel: String = label
