@@ -11,7 +11,9 @@
 
 import Foundation
 import CoreGraphics
-
+//*********** START OF SPECTRA CUSTOMIZATIONS ************//
+import UIKit
+//*********** END OF SPECTRA CUSTOMIZATIONS ************//
 
 @objc(ChartXAxisRenderer)
 open class XAxisRenderer: NSObject, AxisRenderer
