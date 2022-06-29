@@ -6,7 +6,7 @@ on:
       - master
   pull_request:
     branches:
-      - '*'
+      - "*"
 
 jobs:
   iOS:
@@ -34,7 +34,7 @@ jobs:
         run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace "Charts.xcworkspace" -scheme "Charts" -destination "${{ matrix.destination }}" clean test | xcpretty
 
   macOS_demo:
-    runs-on: macOS-latest
+    runs-on: macos-latest
     env:
       DEVELOPER_DIR: /Applications/Xcode_12.4.app/Contents/Developer
     steps:
@@ -56,7 +56,7 @@ jobs:
 
   spm:
     name: Test with SPM
-    runs-on: macOS-latest
+    runs-on: macos-latest
     env:
       DEVELOPER_DIR: /Applications/Xcode_12.4.app/Contents/Developer
     steps:

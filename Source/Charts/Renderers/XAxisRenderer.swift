@@ -16,9 +16,9 @@ import CoreGraphics
 @objc(ChartXAxisRenderer)
 open class XAxisRenderer: NSObject, AxisRenderer
 {
-    public let viewPortHandler: ViewPortHandler
-    public let axis: XAxis
-    public let transformer: Transformer?
+    @objc public let viewPortHandler: ViewPortHandler
+    @objc public let axis: XAxis
+    @objc public let transformer: Transformer?
 
     @objc public init(viewPortHandler: ViewPortHandler, axis: XAxis, transformer: Transformer?)
     {
