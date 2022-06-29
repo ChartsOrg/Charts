@@ -83,7 +83,7 @@ class PieChartViewController: DemoBaseViewController {
         let set = PieChartDataSet(entries: entries, label: "Election Results")
         set.drawIconsEnabled = false
         set.sliceSpace = 2
-        
+        set.highlightGradient = ChartGradientTemplates.material().randomElement()
         
         set.colors = ChartColorTemplates.vordiplom()
             + ChartColorTemplates.joyful()

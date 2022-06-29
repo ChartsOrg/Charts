@@ -60,5 +60,8 @@ public protocol PieChartDataSetProtocol: ChartDataSetProtocol
 
     /// get/sets the color for the highlighted sector
     var highlightColor: NSUIColor? { get set }
+  
+    /// get/sets the gradient for the highlighted sector. Gradient has more priority than `highlightColor`
+    var highlightGradient: Gradient? { get set }
 
 }

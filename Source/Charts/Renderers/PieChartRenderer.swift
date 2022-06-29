@@ -866,8 +866,35 @@ open class PieChartRenderer: NSObject, DataRenderer
 
             context.beginPath()
             context.addPath(path)
+#if canImport(UIKit)
+            if let gradient = set.highlightGradient {
+                context.saveGState()
+                defer { context.restoreGState() }
+                let angleMiddle = startAngleOuter + sweepAngleOuter / 2.0
+                let gradientRadius = radius + highlightedRadius
+                let arcEndPointX = center.x + gradientRadius * cos(angleMiddle.DEG2RAD)
+                let arcEndPointY = center.y + gradientRadius * sin(angleMiddle.DEG2RAD)
+              
+                let startPoint = center
+                let endPoint = CGPoint(x: arcEndPointX, y: arcEndPointY)
+                
+              context.clip(using: .evenOdd)
+                context.drawLinearGradient(
+                    gradient.cgGradient,
+                    start: startPoint,
+                    end: endPoint,
+                    options: [.drawsAfterEndLocation, .drawsBeforeStartLocation]
+                )
+              
+              
+            } else {
+                context.fillPath(using: .evenOdd)
+            }
+#else
             context.fillPath(using: .evenOdd)
 
+#endif
+            
             let axElement = createAccessibleElement(withIndex: index,
                                                     container: chart,
                                                     dataSet: set)
