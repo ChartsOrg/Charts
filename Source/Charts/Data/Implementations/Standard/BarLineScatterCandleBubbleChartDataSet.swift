@@ -13,7 +13,7 @@ import Foundation
 import CoreGraphics
 
 
-open class BarLineScatterCandleBubbleChartDataSet: ChartDataSet, IBarLineScatterCandleBubbleChartDataSet
+open class BarLineScatterCandleBubbleChartDataSet: ChartDataSet, BarLineScatterCandleBubbleChartDataSetProtocol
 {
     // MARK: - Data functions and accessors
     
