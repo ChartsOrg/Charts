@@ -245,7 +245,8 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                     bottom *= phaseY
                 }
 
-                let barRect = CGRect(x: left, y: top,
+                // Round up the y value to match the value of Marker view.
+                let barRect = CGRect(x: left, y: Double(Int(top)),
                                      width: right - left,
                                      height: bottom - top)
                 _buffers[index][bufferIndex] = barRect
