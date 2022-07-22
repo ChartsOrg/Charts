@@ -17,15 +17,15 @@ Okay so there's this beautiful library called [MPAndroidChart](https://github.co
 
 I've chosen to write it in `Swift` as it can be highly optimized by the compiler, and can be used in both `Swift` and `ObjC` project. The demo project is written in `ObjC` to demonstrate how it works.
 
-**An amazing feature** of this library now, for Android, iOS, tvOS and macOS, is the time it saves you when developing for both platforms, as the learning curve is singleton- it happens only once, and the code stays very similar so developers don't have to go around and re-invent the app to produce the same output with a different library. (And that's not even considering the fact that there's not really another good choice out there currently...)
+**An amazing feature** of this library now, for Android, iOS, tvOS, and macOS, is the time it saves you when developing for both platforms, as the learning curve is singleton- it happens only once, and the code stays very similar so developers don't have to go around and re-invent the app to produce the same output with a different library. (And that's not even considering the fact that there's not really another good choice out there currently...)
 
 ## Having trouble running the demo?
 
 * `ChartsDemo/ChartsDemo.xcodeproj` is the demo project for iOS/tvOS
 * `ChartsDemo-OSX/ChartsDemo-OSX.xcodeproj` is the demo project for macOS
 * Make sure you are running a supported version of Xcode.
-  * Usually it is specified here a few lines above.
-  * In most cases it will be the latest Xcode version.
+  * Usually, it is specified here a few lines above.
+  * In most cases, it will be the latest Xcode version.
 * Make sure that your project supports Swift 5.0
 * Optional: Run `carthage checkout` in the project folder, to fetch dependencies (i.e testing dependencies).
   * If you don't have Carthage - you can get it [here](https://github.com/Carthage/Carthage/releases).
@@ -39,11 +39,11 @@ In order to correctly compile:
 2. Go to your target's settings, hit the "+" under the "Embedded Binaries" section, and select the Charts.framework  
 3. `@import Charts`  
 4.  When using Swift in an ObjC project:
-   - You need to import your Bridging Header. Usually it is "*YourProject-Swift.h*", so in ChartsDemo it's "*ChartsDemo-Swift.h*". Do not try to actually include "*ChartsDemo-Swift.h*" in your project :-)
+   - You need to import your Bridging Header. Usually, it is "*YourProject-Swift.h*", so in ChartsDemo it's "*ChartsDemo-Swift.h*". Do not try to actually include "*ChartsDemo-Swift.h*" in your project :-)
    - (Xcode 8.1 and earlier) Under "Build Options", mark "Embedded Content Contains Swift Code"
    - (Xcode 8.2+) Under "Build Options", mark "Always Embed Swift Standard Libraries"
 5. When using [Realm.io](https://realm.io/):
-   - Note that the Realm framework is not linked with Charts - it is only there for *optional* bindings. Which means that you need to have the framework in your project, and in a compatible version to whatever is compiled with Charts. We will do our best to always compile against the latest version.
+   - Note that the Realm framework is not linked with Charts - it is only there for *optional* bindings which means that you need to have the framework in your project, and in a compatible version to whatever is compiled with Charts. We will do our best to always compile against the latest version.
    - You'll need to add `ChartsRealm` as a dependency too.
 
 ## 3rd party tutorials
@@ -112,7 +112,7 @@ Xamarin (by @Flash3001): *iOS* - [GitHub](https://github.com/Flash3001/iOSCharts
 ## Help
 
 If you like what you see here, and want to support the work being done in this repository, you could:
-* Contribute code, issues and pull requests
+* Contribute code, issues, and pull requests
 * Let people know this library exists (:fire: spread the word :fire:)
 * [![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=68UL6Y8KUPS96) (You can buy me a beer, or you can buy me dinner :-)
 
@@ -204,7 +204,7 @@ Features
 
 Documentation
 =======
-Currently there's no need for documentation for the iOS/tvOS/macOS version, as the API is **95% the same** as on Android.  
+Currently, there's no need for documentation for the iOS/tvOS/macOS version, as the API is **95% the same** as on Android.  
 You can read the official [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart) documentation here: [**Wiki**](https://github.com/PhilJay/MPAndroidChart/wiki)
 
 Or you can see the Charts Demo project in both Objective-C and Swift ([**ChartsDemo-iOS**](https://github.com/danielgindi/Charts/tree/master/ChartsDemo-iOS), as well as macOS [**ChartsDemo-macOS**](https://github.com/danielgindi/Charts/tree/master/ChartsDemo-macOS)) and learn the how-tos from it.
@@ -213,7 +213,7 @@ Or you can see the Charts Demo project in both Objective-C and Swift ([**ChartsD
 Special Thanks
 =======
 
-Goes to [@liuxuan30](https://github.com/liuxuan30), [@petester42](https://github.com/petester42) and  [@AlBirdie](https://github.com/AlBirdie) for new features, bugfixes, and lots and lots of involvement in our open-sourced community! You guys are a huge help to all of those coming here with questions and issues, and I couldn't respond to all of those without you.
+Goes to [@liuxuan30](https://github.com/liuxuan30), [@petester42](https://github.com/petester42), and  [@AlBirdie](https://github.com/AlBirdie) for new features, bug fixes, and lots and lots of involvement in our open-sourced community! You guys are a huge help to all of those coming here with questions and issues, and I couldn't respond to all of those without you.
 
 ### Our amazing sponsors
 
