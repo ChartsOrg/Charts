@@ -435,6 +435,11 @@ extension ChartDataSet: RandomAccessCollection {
 
 // MARK: RangeReplaceableCollection
 extension ChartDataSet: RangeReplaceableCollection {
+    public func replaceSubrange<C>(_ subrange: Swift.Range<Index>, with newElements: C) where C : Collection, Element == C.Element {
+        entries.replaceSubrange(subrange, with: newElements)
+        notifyDataSetChanged()
+    }
+
     public func append(_ newElement: Element) {
         calcMinMax(entry: newElement)
         entries.append(newElement)

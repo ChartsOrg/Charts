@@ -43,10 +43,10 @@ open class PieChartRenderer: NSObject, DataRenderer
         // If we redraw the data, remove and repopulate accessible elements to update label values and frames
         accessibleChartElements.removeAll()
 
-        for case let set as PieChartDataSetProtocol in pieData where
-            set.isVisible && set.entryCount > 0
+        for case let dataSet as PieChartDataSetProtocol in pieData where
+        dataSet.isVisible && dataSet.entryCount > 0
         {
-            drawDataSet(context: context, dataSet: set)
+            drawDataSet(context: context, dataSet: dataSet)
         }
     }
 
