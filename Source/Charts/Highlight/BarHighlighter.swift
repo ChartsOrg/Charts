@@ -95,7 +95,7 @@ open class BarHighlighter: ChartHighlighter
     ///   - entry:
     ///   - value:
     /// - Returns: The index of the closest value inside the values array / ranges (stacked barchart) to the value given as a parameter.
-    @objc open func getClosestStackIndex(ranges: [Range]?, value: Double) -> Int
+    @objc open func getClosestStackIndex(ranges: [ChartRange]?, value: Double) -> Int
     {
         guard let ranges = ranges else { return 0 }
         if let stackIndex = ranges.firstIndex(where: { $0.contains(value) }) {
