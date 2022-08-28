@@ -24,6 +24,12 @@
     
     DemoListViewController *vc = [[DemoListViewController alloc] init];
     UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:vc];
+    if (@available(iOS 13.0, *)) {
+        UINavigationBarAppearance *appearance = [[UINavigationBarAppearance alloc] init];
+        [appearance configureWithOpaqueBackground];
+        nvc.navigationBar.standardAppearance = appearance;
+        nvc.navigationBar.scrollEdgeAppearance = appearance;
+    }
     
     _window.rootViewController = nvc;
     [_window makeKeyAndVisible];
