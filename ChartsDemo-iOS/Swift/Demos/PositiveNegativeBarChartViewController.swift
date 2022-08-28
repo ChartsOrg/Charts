@@ -35,7 +35,8 @@ class PositiveNegativeBarChartViewController: DemoBaseViewController {
                         .togglePinchZoom,
                         .toggleAutoScaleMinMax,
                         .toggleData,
-                        .toggleBarBorders]
+                        .toggleBarBorders,
+                        .customDraw]
         
         self.setup(barLineChartView: chartView)
         

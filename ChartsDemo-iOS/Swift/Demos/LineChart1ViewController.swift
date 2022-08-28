@@ -37,7 +37,8 @@ class LineChart1ViewController: DemoBaseViewController {
                         .saveToGallery,
                         .togglePinchZoom,
                         .toggleAutoScaleMinMax,
-                        .toggleData]
+                        .toggleData,
+                        .customDraw]
 
         chartView.delegate = self
 
@@ -131,6 +132,8 @@ class LineChart1ViewController: DemoBaseViewController {
         let data = LineChartData(dataSet: set1)
 
         chartView.data = data
+        
+        chartView.customDrawData = CustomDrawChartData()
     }
 
     private func setup(_ dataSet: LineChartDataSet) {

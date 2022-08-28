@@ -32,7 +32,8 @@ class ScatterChartViewController: DemoBaseViewController {
                         .saveToGallery,
                         .togglePinchZoom,
                         .toggleAutoScaleMinMax,
-                        .toggleData]
+                        .toggleData,
+                        .customDraw]
         
         chartView.delegate = self
 

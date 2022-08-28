@@ -43,6 +43,30 @@ public protocol ChartViewDelegate
     @objc optional func chartView(_ chartView: ChartViewBase, animatorDidStop animator: Animator)
 }
 
+@objc
+public protocol ChartViewCustomDrawDelegate
+{
+    /// called when custom draw action change the location
+    /// - Parameters:
+    ///   - touchPoint: the finger point
+    @objc optional func customDrawTouchPointChanged(_ chartView: ChartViewBase, touchPoint: CGPoint)
+    
+    /// called when the custom draw action finished
+    /// - Parameters:
+    ///   - dataSet: current action drawing dataset
+    @objc optional func customDrawActionCompleted(_ chartView: ChartViewBase, dataSet: CustomDrawChartDataSet)
+    
+    /// called when the custom draw graphics selected
+    /// - Parameters:
+    ///   - dataSet: the dataset that finger location on the chart
+    @objc optional func customDrawDataSetDidSelected(_ chartView: ChartViewBase, dataSet: CustomDrawChartDataSet)
+    
+    /// called when the selected dataset has deselected
+    /// - Parameters:
+    /// - dataSet: the dataset that pervious selected
+    @objc optional func customDrawDataSetDeselected(_ chartView: ChartViewBase, dataSet: CustomDrawChartDataSet)
+}
+
 open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
 {
     // MARK: - Properties
@@ -105,6 +129,12 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// object responsible for rendering the data
     @objc open var renderer: DataRenderer?
     
+    /// the renderer object for custom draw graphics
+    @objc open var customDrawRenderer: CustomDrawChartRenderer?
+    
+    /// delegate to receive chart custom drawing events
+    @objc open weak var customDrawDelegate: ChartViewCustomDrawDelegate?
+    
     @objc open var highlighter: Highlighter?
 
     /// The ViewPortHandler of the chart that is responsible for the
@@ -123,6 +153,8 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
 
     /// The array of currently highlighted values. This might an empty if nothing is highlighted.
     @objc open internal(set) var highlighted = [Highlight]()
+    
+    @objc open internal(set) var customGraphicsHighlighted = [Highlight]()
     
     /// `true` if drawing the marker is enabled when tapping on values
     /// (use the `marker` property to specify a marker)
@@ -340,6 +372,11 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         return !highlighted.isEmpty
     }
 
+    @objc open func customDrawGraphicsToHighlight() -> Bool
+    {
+        return !customGraphicsHighlighted.isEmpty
+    }
+    
     /// Highlights the values at the given indices in the given DataSets. Provide
     /// null or an empty array to undo all highlighting. 
     /// This should be used to programmatically highlight values.
@@ -843,6 +880,17 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         }
     }
     private var _dragDecelerationFrictionCoef: CGFloat = 0.9
+    
+    // MARK: - Custom Draw Property
+    
+    /// object that hold the custom draw line data, object out of calculation
+    @objc open var customDrawData: CustomDrawChartData?
+    {
+        didSet
+        {
+            notifyDataSetChanged()
+        }
+    }    
     
     /// The maximum distance in screen pixels away from an entry causing it to highlight.
     /// **default**: 500.0

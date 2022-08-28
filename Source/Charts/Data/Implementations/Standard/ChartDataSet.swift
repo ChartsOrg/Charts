@@ -217,6 +217,7 @@ open class ChartDataSet: ChartBaseDataSet
         rounding: ChartDataSetRounding) -> Int
     {
         var closest = partitioningIndex { $0.x >= xValue }
+
         guard closest < endIndex else { return rounding == .closest ? (endIndex-1) : -1 }
 
         var closestXValue = self[closest].x
@@ -375,6 +376,10 @@ open class ChartDataSet: ChartBaseDataSet
     open override func clear()
     {
         removeAll(keepingCapacity: true)
+    }
+    
+    public override func contains(_ element: Element) -> Bool {
+        return entries.contains(element)
     }
     
     // MARK: - Data functions and accessors

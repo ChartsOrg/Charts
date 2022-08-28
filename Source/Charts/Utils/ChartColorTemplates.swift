@@ -191,4 +191,8 @@ open class ChartColorTemplates: NSObject
         
         return NSUIColor.clear
     }
+    
+    @objc open class func randomColor() -> NSUIColor {
+        return NSUIColor.init(red: CGFloat(arc4random_uniform(256))/255.0, green: CGFloat(arc4random_uniform(256))/255.0, blue: CGFloat(arc4random_uniform(256))/255.0, alpha: 1)
+    }
 }

@@ -35,7 +35,8 @@ class CombinedChartViewController: DemoBaseViewController {
                         .saveToGallery,
                         .toggleData,
                         .toggleBarBorders,
-                        .removeDataSet]
+                        .removeDataSet,
+                        .customDraw]
         
         chartView.delegate = self
         
@@ -94,6 +95,7 @@ class CombinedChartViewController: DemoBaseViewController {
         chartView.xAxis.axisMaximum = data.xMax + 0.25
         
         chartView.data = data
+        chartView.customDrawData = CustomDrawChartData()
     }
     
     override func optionTapped(_ option: Option) {

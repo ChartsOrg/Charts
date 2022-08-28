@@ -36,7 +36,8 @@ class BarChartViewController: DemoBaseViewController {
                         .saveToGallery,
                         .togglePinchZoom,
                         .toggleData,
-                        .toggleBarBorders]
+                        .toggleBarBorders,
+                        .customDraw]
         
         self.setup(barLineChartView: chartView)
         
@@ -140,6 +141,8 @@ class BarChartViewController: DemoBaseViewController {
             chartView.data = data
         }
         
+        chartView.customDrawData = CustomDrawChartData()
+
 //        chartView.setNeedsDisplay()
     }
     

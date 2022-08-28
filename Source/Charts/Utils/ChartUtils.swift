@@ -104,6 +104,10 @@ extension Double
 
         return Int(ceil(-log10(i))) + 2
     }
+    
+    static func middleMagnitude(_ x: Double, _ y: Double) -> Double {
+        return min(x, y) + (max(x, y) - min(x, y)) / 2
+    }
 }
 
 extension CGPoint
@@ -294,5 +298,100 @@ extension CGContext
     {
         let rect = text.boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
         drawMultilineText(text, at: point, constrainedTo: size, anchor: anchor, knownTextSize: rect.size, angleRadians: angleRadians, attributes: attributes)
+    }
+}
+
+
+extension UIBezierPath {
+    /*
+    **************************************
+    *a.x-1, a.y+diff    b.x+1, b.y + diff*
+    *      a--------------------b        *
+    *a.x -1, a.y-diff     b.x+1, b.y-diff*
+    **************************************
+     */
+    static func singleLinePath(points: [CGPoint], pathWidth: CGFloat) -> UIBezierPath {
+        let calculateBezierPath = UIBezierPath()
+        
+        if points.count >= 2 {
+            let firstPoint = points.first!
+            let lastPoint = points.last!
+            let angle = fabs(Double(atan((firstPoint.y - lastPoint.y) / (firstPoint.x - lastPoint.x))))
+            
+            let distanceX = CGFloat(fabs(sin(angle))) * pathWidth
+            let distanceY = CGFloat(fabs(cos(angle))) * pathWidth
+
+            var point1 = CGPoint(x: firstPoint.x + distanceX, y: firstPoint.y + distanceY)
+            var point2 = CGPoint(x: firstPoint.x - distanceX, y: firstPoint.y - distanceY)
+            var point3 = CGPoint(x: lastPoint.x - distanceX, y: lastPoint.y - distanceY)
+            var point4 = CGPoint(x: lastPoint.x + distanceX, y: lastPoint.y + distanceY)
+                        
+            if firstPoint.x < lastPoint.x && firstPoint.y < lastPoint.y {
+                point1 = CGPoint(x: firstPoint.x + distanceX, y: firstPoint.y - distanceY)
+                point2 = CGPoint(x: firstPoint.x - distanceX, y: firstPoint.y + distanceY)
+                point3 = CGPoint(x: lastPoint.x - distanceX, y: lastPoint.y + distanceY)
+                point4 = CGPoint(x: lastPoint.x + distanceX, y: lastPoint.y - distanceY)
+            } else if (lastPoint.x < firstPoint.x && lastPoint.y < firstPoint.y) {
+                point1 = CGPoint(x: firstPoint.x - distanceX, y: firstPoint.y + distanceY)
+                point2 = CGPoint(x: firstPoint.x + distanceX, y: firstPoint.y - distanceY)
+                point3 = CGPoint(x: lastPoint.x + distanceX, y: lastPoint.y - distanceY)
+                point4 = CGPoint(x: lastPoint.x - distanceX, y: lastPoint.y + distanceY)
+            } else if (lastPoint.x < firstPoint.x && lastPoint.y > firstPoint.y) {
+                point1 = CGPoint(x: firstPoint.x + distanceX, y: firstPoint.y + distanceY)
+                point2 = CGPoint(x: firstPoint.x - distanceX, y: firstPoint.y - distanceY)
+                point3 = CGPoint(x: lastPoint.x - distanceX, y: lastPoint.y - distanceY)
+                point4 = CGPoint(x: lastPoint.x + distanceX, y: lastPoint.y + distanceY)
+            }
+            
+            calculateBezierPath.move(to: point1)
+            calculateBezierPath.addLine(to: point2)
+            calculateBezierPath.addLine(to: point3)
+            calculateBezierPath.addLine(to: point4)
+        }
+        return calculateBezierPath
+    }
+    
+    
+    static func closedGraphicsPath(points: [CGPoint]) -> UIBezierPath {
+        let calculateBezierPath = UIBezierPath()
+        if points.count > 0 {
+            let point = points.first!
+            calculateBezierPath.move(to: point)
+            points.forEach {
+                calculateBezierPath.addLine(to: $0)
+            }
+            calculateBezierPath.close()
+        }
+        return calculateBezierPath
+    }
+}
+
+
+class FibonacciPeriod {
+    static public func getFibonacciSequenceBy(begin: Double, next: Double, count: Int) -> [Double] {
+        
+        let space = max(0, fabs(begin - next))
+        let leftDirection = begin - next > 0
+        var result = Array(repeating: 0.0, count: count)
+        result[0] = 0
+        result[1] = 1
+        
+        for index in stride(from: 2, to: count, by: +1) {
+            result[index] = result[index - 1] + result[index - 2]
+        }
+        
+        for index in stride(from: 0, to: count, by: +1) {
+            if index == 0 {
+                result[index] = begin
+            } else {
+                if leftDirection {
+                    result[index] = result[index - 1] - space * result[index]
+                } else {
+                    result[index] = result[index - 1] + space * result[index]
+                }
+            }
+        }
+                
+        return result
     }
 }
