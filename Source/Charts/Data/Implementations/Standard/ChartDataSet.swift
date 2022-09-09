@@ -454,6 +454,17 @@ extension ChartDataSet: RangeReplaceableCollection {
         return element
     }
 
+    public func replaceSubrange<C>(_ subrange: Swift.Range<Index>, with newElements: C) where C : Collection, Element == C.Element {
+        let subrange = subrange.relative(to: entries)
+        for _ in subrange.lowerBound..<subrange.upperBound {
+            entries.remove(at: subrange.lowerBound)
+        }
+        for x in newElements.reversed() {
+            entries.insert(x, at: subrange.lowerBound)
+        }
+        notifyDataSetChanged()
+    }
+
     public func removeFirst() -> Element {
         let element = entries.removeFirst()
         notifyDataSetChanged()
