@@ -12,10 +12,10 @@ jobs:
   iOS:
     runs-on: macos-latest
     env:
-      DEVELOPER_DIR: /Applications/Xcode_12.4.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_14.0.app/Contents/Developer
     strategy:
       matrix:
-        destination: ["OS=14.4,name=iPhone 12 Pro"] #, "OS=12.4,name=iPhone XS", "OS=11.4,name=iPhone X", "OS=10.3.1,name=iPhone SE"]
+        destination: ["OS=16.0,name=iPhone 14 Pro"] #, "OS=14.4,name=iPhone 12 Pro", "OS=12.4,name=iPhone XS", "OS=11.4,name=iPhone X", "OS=10.3.1,name=iPhone SE"]
     steps:
       - uses: actions/checkout@v2
       - name: iOS - ${{ matrix.destination }}
@@ -24,10 +24,10 @@ jobs:
   tvOS:
     runs-on: macos-latest
     env:
-      DEVELOPER_DIR: /Applications/Xcode_12.4.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_14.0.app/Contents/Developer
     strategy:
       matrix:
-        destination: ["OS=14.3,name=Apple TV 4K"]
+        destination: ["OS=16.0,name=Apple TV 4K"]
     steps:
       - uses: actions/checkout@v2
       - name: tvOS - ${{ matrix.destination }}
@@ -36,7 +36,7 @@ jobs:
   macOS_demo:
     runs-on: macos-latest
     env:
-      DEVELOPER_DIR: /Applications/Xcode_12.4.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_14.0.app/Contents/Developer
     steps:
       - uses: actions/checkout@v2
       - name: macOS
@@ -45,10 +45,10 @@ jobs:
   iOS_demo:
     runs-on: macos-latest
     env:
-      DEVELOPER_DIR: /Applications/Xcode_12.4.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_14.0.app/Contents/Developer
     strategy:
       matrix:
-        destination: ["OS=14.4,name=iPhone 12 Pro"] #, "OS=12.4,name=iPhone XS", "OS=11.4,name=iPhone X", "OS=10.3.1,name=iPhone SE"]
+        destination: ["OS=16.0,name=iPhone 14 Pro"] #, "OS=14.4,name=iPhone 12 Pro", "OS=12.4,name=iPhone XS", "OS=11.4,name=iPhone X", "OS=10.3.1,name=iPhone SE"]
     steps:
       - uses: actions/checkout@v2
       - name: iOS - ${{ matrix.destination }}
@@ -58,7 +58,7 @@ jobs:
     name: Test with SPM
     runs-on: macos-latest
     env:
-      DEVELOPER_DIR: /Applications/Xcode_12.4.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_14.0.app/Contents/Developer
     steps:
       - uses: actions/checkout@v2
       - name: SPM Test
