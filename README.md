@@ -8,10 +8,10 @@
 ### Another heads up: ChartsRealm is now in a [separate repo](https://github.com/danielgindi/ChartsRealm). Pods is also now `Charts` and `ChartsRealm`, instead of ~`Charts/Core`~ and ~`Charts/Realm`~
 ### One more heads up: As Swift evolves, if you are not using the latest Swift compiler, you shouldn't check out the master branch. Instead, you should go to the release page and pick up whatever suits you.
 
-* Xcode 11 / Swift 5 (master branch)
-* iOS >= 8.0 (Use as an **Embedded** Framework)
-* tvOS >= 9.0
-* macOS >= 10.11
+* Xcode 14 / Swift 5.7 (master branch)
+* iOS >= 12.0 (Use as an **Embedded** Framework)
+* tvOS >= 12.0
+* macOS >= 10.13
 
 Okay so there's this beautiful library called [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart) by [Philipp Jahoda](https://www.linkedin.com/in/philippjahoda) which has become very popular amongst Android developers, but there was no decent solution to create charts for iOS.
 
@@ -89,8 +89,8 @@ For [Realm](https://realm.io/) support, please add `pod 'ChartsRealm'` too.
 Charts now include Carthage prebuilt binaries.
 
 ```carthage
-github "danielgindi/Charts" == 4.0.0
-github "danielgindi/Charts" ~> 4.0.0
+github "danielgindi/Charts" == 4.1.0
+github "danielgindi/Charts" ~> 4.1.0
 ```
 
 In order to build the binaries for a new release, use `carthage build --no-skip-current && carthage archive Charts`.
@@ -101,7 +101,7 @@ Swift Package Manager
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/danielgindi/Charts.git", .upToNextMajor(from: "4.0.0"))
+    .package(url: "https://github.com/danielgindi/Charts.git", .upToNextMajor(from: "4.1.0"))
 ]
 ```
 
