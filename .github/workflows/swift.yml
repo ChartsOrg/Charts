@@ -10,7 +10,7 @@ on:
 
 jobs:
   iOS:
-    runs-on: macos-latest
+    runs-on: macos-12
     env:
       DEVELOPER_DIR: /Applications/Xcode_14.0.app/Contents/Developer
     strategy:
@@ -22,7 +22,7 @@ jobs:
         run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace "Charts.xcworkspace" -scheme "Charts" -destination "${{ matrix.destination }}" clean test | xcpretty
 
   tvOS:
-    runs-on: macos-latest
+    runs-on: macos-12
     env:
       DEVELOPER_DIR: /Applications/Xcode_14.0.app/Contents/Developer
     strategy:
@@ -34,7 +34,7 @@ jobs:
         run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace "Charts.xcworkspace" -scheme "Charts" -destination "${{ matrix.destination }}" clean test | xcpretty
 
   macOS_demo:
-    runs-on: macos-latest
+    runs-on: macos-12
     env:
       DEVELOPER_DIR: /Applications/Xcode_14.0.app/Contents/Developer
     steps:
@@ -43,7 +43,7 @@ jobs:
         run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace "Charts.xcworkspace" -scheme "ChartsDemo-macOS" -destination "platform=macOS" clean build | xcpretty
 
   iOS_demo:
-    runs-on: macos-latest
+    runs-on: macos-12
     env:
       DEVELOPER_DIR: /Applications/Xcode_14.0.app/Contents/Developer
     strategy:
@@ -56,7 +56,7 @@ jobs:
 
   spm:
     name: Test with SPM
-    runs-on: macos-latest
+    runs-on: macos-12
     env:
       DEVELOPER_DIR: /Applications/Xcode_14.0.app/Contents/Developer
     steps:
