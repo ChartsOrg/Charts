@@ -24,10 +24,10 @@ jobs:
   tvOS:
     runs-on: macos-12
     env:
-      DEVELOPER_DIR: /Applications/Xcode_13.4.1.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_14.0.app/Contents/Developer
     strategy:
       matrix:
-        destination: ["OS=15.4,name=Apple TV 4K (2nd generation)"]
+        destination: ["OS=16.0,name=Apple TV 4K (2nd generation)"]
     steps:
       - uses: actions/checkout@v2
       - name: tvOS - ${{ matrix.destination }}
