@@ -12,7 +12,7 @@ jobs:
   iOS:
     runs-on: macos-12
     env:
-      DEVELOPER_DIR: /Applications/Xcode_14.0.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_13.4.1.app/Contents/Developer
     strategy:
       matrix:
         destination: ["OS=15.5,name=iPhone 13 Pro"] #, "OS=14.4,name=iPhone 12 Pro", "OS=12.4,name=iPhone XS", "OS=11.4,name=iPhone X", "OS=10.3.1,name=iPhone SE"]
@@ -24,7 +24,7 @@ jobs:
   tvOS:
     runs-on: macos-12
     env:
-      DEVELOPER_DIR: /Applications/Xcode_14.0.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_13.4.1.app/Contents/Developer
     strategy:
       matrix:
         destination: ["OS=15.4,name=Apple TV 4K (2nd generation)"]
