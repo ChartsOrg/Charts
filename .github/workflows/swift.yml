@@ -12,10 +12,10 @@ jobs:
   iOS:
     runs-on: macos-12
     env:
-      DEVELOPER_DIR: /Applications/Xcode_13.4.1.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_14.0.app/Contents/Developer
     strategy:
       matrix:
-        destination: ["OS=15.5,name=iPhone 13 Pro"] #, "OS=14.4,name=iPhone 12 Pro", "OS=12.4,name=iPhone XS", "OS=11.4,name=iPhone X", "OS=10.3.1,name=iPhone SE"]
+        destination: ["OS=16.0,name=iPhone 14 Pro"] #, "OS=14.4,name=iPhone 12 Pro", "OS=12.4,name=iPhone XS", "OS=11.4,name=iPhone X", "OS=10.3.1,name=iPhone SE"]
     steps:
       - uses: actions/checkout@v2
       - name: iOS - ${{ matrix.destination }}
