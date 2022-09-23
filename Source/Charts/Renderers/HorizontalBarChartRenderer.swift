@@ -345,7 +345,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                 let valueFont = dataSet.valueFont
                 let yOffset = -valueFont.lineHeight / 2.0
                 
-                let formatter = dataSet.valueFormatter
+                let formatter = dataSet.valueFormatter!
                 
                 let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
                 

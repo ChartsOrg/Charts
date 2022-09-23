@@ -355,7 +355,7 @@ open class PieChartRenderer: NSObject, DataRenderer
             let entryLabelFont = dataSet.entryLabelFont
             let lineHeight = valueFont.lineHeight
             
-            let formatter = dataSet.valueFormatter
+            let formatter = dataSet.valueFormatter!
             
             for j in 0 ..< dataSet.entryCount
             {
@@ -900,7 +900,7 @@ open class PieChartRenderer: NSObject, DataRenderer
         guard let e = dataSet.entryForIndex(idx) else { return element }
         guard let data = container.data as? PieChartData else { return element }
 
-        let formatter = dataSet.valueFormatter
+        let formatter = dataSet.valueFormatter!
         
         var elementValueText = formatter.stringForValue(
             e.y,

@@ -195,8 +195,10 @@ public protocol ChartDataSetProtocol
     /// `true` if value highlighting is enabled for this dataset
     var isHighlightEnabled: Bool { get }
     
-    /// Custom formatter that is used instead of the auto-formatter if set
-    var valueFormatter: ValueFormatter { get set }
+    /// Custom formatter that is used instead of the auto-formatter if set.
+    /// The ChartView will set a default formatter if this is nil when the DataSet is added to the
+    /// chart.
+    var valueFormatter: ValueFormatter? { get set }
     
     /// Sets/get a single color for value text.
     /// Setting the color clears the colors array and adds a single color.
