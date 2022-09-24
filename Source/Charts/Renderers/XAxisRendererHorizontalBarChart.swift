@@ -306,7 +306,7 @@ open class XAxisRendererHorizontalBarChart: XAxisRenderer
                     point = CGPoint(x: viewPortHandler.contentRight - xOffset,
                                     y: position.y - yOffset)
 
-                case .rightBottom:
+                case .rightBottom, .centerRight:
                     align = .right
                     point = CGPoint(x: viewPortHandler.contentRight - xOffset,
                                     y: position.y + yOffset - labelLineHeight)
