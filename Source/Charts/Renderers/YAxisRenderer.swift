@@ -295,9 +295,10 @@ open class YAxisRenderer: NSObject, AxisRenderer
             context.saveGState()
             defer { context.restoreGState() }
             
-            var clippingRect = viewPortHandler.contentRect
+            var clippingRect = viewPortHandler.contentRect + viewPortHandler.offsetRight
             clippingRect.origin.y -= l.lineWidth / 2.0
             clippingRect.size.height += l.lineWidth
+            clippingRect.size.width += viewPortHandler.offsetRight
             if l.labelPosition == .centerRight {
                 clippingRect.size.height += viewPortHandler.offsetRight
             }
@@ -351,7 +352,7 @@ open class YAxisRenderer: NSObject, AxisRenderer
                                     y: position.y + yOffset - labelLineHeight)
                 case .centerRight:
                     align = .right
-                    point = CGPoint(x: viewPortHandler.contentRight + viewPortHandler.offsetRight - xOffset,
+                    point = CGPoint(x: viewPortHandler.contentRight + viewPortHandler.offsetRight,
                                     y: position.y - labelLineHeight / 2)
                 case .leftTop:
                     align = .left
