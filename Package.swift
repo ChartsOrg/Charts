@@ -5,9 +5,9 @@ import PackageDescription
 let package = Package(
     name: "Charts",
     platforms: [
-          .iOS(.v9),
-          .tvOS(.v9),
-          .macOS(.v10_11),
+          .iOS(.v12),
+          .tvOS(.v12),
+          .macOS(.v10_12),
     ],
     products: [
         .library(
@@ -19,7 +19,7 @@ let package = Package(
             targets: ["Charts"])
     ],
     dependencies: [
-        .package(url: "https://github.com/apple/swift-algorithms", from: "0.0.1")
+        .package(url: "https://github.com/apple/swift-algorithms", from: "1.0.0")
     ],
     targets: [
         .target(

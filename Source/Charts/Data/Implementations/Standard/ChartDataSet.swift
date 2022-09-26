@@ -101,8 +101,9 @@ open class ChartDataSet: ChartBaseDataSet
 
         guard !isEmpty else { return }
         
-        let indexFrom = entryIndex(x: fromX, closestToY: .nan, rounding: .down)
-        let indexTo = entryIndex(x: toX, closestToY: .nan, rounding: .up)
+        let indexFrom = entryIndex(x: fromX, closestToY: .nan, rounding: .closest)
+        var indexTo = entryIndex(x: toX, closestToY: .nan, rounding: .up)
+        if indexTo == -1 { indexTo = entryIndex(x: toX, closestToY: .nan, rounding: .closest) }
         
         guard indexTo >= indexFrom else { return }
         // only recalculate y
@@ -263,9 +264,9 @@ open class ChartDataSet: ChartBaseDataSet
         rounding: ChartDataSetRounding) -> Int
     {
         var closest = partitioningIndex { $0.x >= xValue }
-        guard closest < endIndex else { return -1 }
+        guard closest < endIndex else { return index(before: endIndex) }
 
-        let closestXValue = self[closest].x
+        var closestXValue = self[closest].x
 
         switch rounding {
         case .up:
@@ -283,7 +284,18 @@ open class ChartDataSet: ChartBaseDataSet
             }
 
         case .closest:
-            break
+            // The closest value in the beginning of this function
+            // `var closest = partitioningIndex { $0.x >= xValue }`
+            // doesn't guarantee closest rounding method
+            if closest > startIndex {
+                let distanceAfter = abs(self[closest].x - xValue)
+                let distanceBefore = abs(self[index(before: closest)].x - xValue)
+                if distanceBefore < distanceAfter
+                {
+                    closest = index(before: closest)
+                }
+                closestXValue = self[closest].x
+            }
         }
 
         // Search by closest to y-value
@@ -473,6 +485,11 @@ extension ChartDataSet: RandomAccessCollection {
 
 // MARK: RangeReplaceableCollection
 extension ChartDataSet: RangeReplaceableCollection {
+    public func replaceSubrange<C>(_ subrange: Swift.Range<Index>, with newElements: C) where C : Collection, Element == C.Element {
+        entries.replaceSubrange(subrange, with: newElements)
+        notifyDataSetChanged()
+    }
+
     public func append(_ newElement: Element) {
         calcMinMax(entry: newElement)
         entries.append(newElement)
