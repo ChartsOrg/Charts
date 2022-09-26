@@ -295,12 +295,11 @@ open class YAxisRenderer: NSObject, AxisRenderer
             context.saveGState()
             defer { context.restoreGState() }
             
-            var clippingRect = viewPortHandler.contentRect + viewPortHandler.offsetRight
+            var clippingRect = viewPortHandler.contentRect
             clippingRect.origin.y -= l.lineWidth / 2.0
             clippingRect.size.height += l.lineWidth
-            clippingRect.size.width += viewPortHandler.offsetRight
             if l.labelPosition == .centerRight {
-                clippingRect.size.height += viewPortHandler.offsetRight
+                clippingRect.size.width += viewPortHandler.offsetRight
             }
 
             context.clip(to: clippingRect)
