@@ -13,7 +13,7 @@ import Foundation
 import CoreGraphics
 
 @objc(ChartHighlighter)
-public protocol Highlighter: class
+public protocol Highlighter: AnyObject
 {
     /// - Parameters:
     ///   - x:
