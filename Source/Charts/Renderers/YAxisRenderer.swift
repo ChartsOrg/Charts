@@ -298,6 +298,10 @@ open class YAxisRenderer: NSObject, AxisRenderer
             var clippingRect = viewPortHandler.contentRect
             clippingRect.origin.y -= l.lineWidth / 2.0
             clippingRect.size.height += l.lineWidth
+            if l.labelPosition == .centerRight {
+                clippingRect.size.width += viewPortHandler.offsetRight
+            }
+
             context.clip(to: clippingRect)
             
             position.x = 0.0
@@ -345,7 +349,10 @@ open class YAxisRenderer: NSObject, AxisRenderer
                     align = .right
                     point = CGPoint(x: viewPortHandler.contentRight - xOffset,
                                     y: position.y + yOffset - labelLineHeight)
-
+                case .centerRight:
+                    align = .right
+                    point = CGPoint(x: viewPortHandler.contentRight + viewPortHandler.offsetRight,
+                                    y: position.y - labelLineHeight / 2)
                 case .leftTop:
                     align = .left
                     point = CGPoint(x: viewPortHandler.contentLeft + xOffset,
@@ -359,8 +366,27 @@ open class YAxisRenderer: NSObject, AxisRenderer
 
                 context.drawText(label,
                                  at: point,
+                                 edgeInsets: l.valueEdgeInsets,
                                  align: align,
-                                 attributes: [.font: l.valueFont, .foregroundColor: l.valueTextColor])
+                                 attributes: [
+                                    .font: l.valueFont,
+                                    .foregroundColor: l.valueTextColor
+                                 ],
+                                 backgroundColor: l.valueBackgroudColor)
+
+                if !l.centerLeftLabelText.isEmpty {
+                    let leftPoint = CGPoint(x: viewPortHandler.offsetLeft, y: position.y - labelLineHeight / 2)
+
+                    context.drawText(l.centerLeftLabelText,
+                                     at: leftPoint,
+                                     edgeInsets: l.valueEdgeInsets,
+                                     align: .left,
+                                     attributes: [
+                                        .font: l.valueFont,
+                                        .foregroundColor: l.valueTextColor
+                                     ],
+                                     backgroundColor: l.valueBackgroudColor)
+                }
             }
         }
         

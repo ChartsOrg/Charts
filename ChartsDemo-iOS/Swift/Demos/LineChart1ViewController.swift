@@ -59,8 +59,11 @@ class LineChart1ViewController: DemoBaseViewController {
         let ll1 = ChartLimitLine(limit: 150, label: "Upper Limit")
         ll1.lineWidth = 4
         ll1.lineDashLengths = [5, 5]
-        ll1.labelPosition = .rightTop
+        ll1.labelPosition = .centerRight
+        ll1.valueEdgeInsets = .init(top: 4, left: 8, bottom: 4, right: 8)
         ll1.valueFont = .systemFont(ofSize: 10)
+        ll1.valueBackgroudColor = .green
+        ll1.centerLeftLabelText = "Target"
 
         let ll2 = ChartLimitLine(limit: -30, label: "Lower Limit")
         ll2.lineWidth = 4

@@ -149,16 +149,24 @@ extension CGContext {
         NSUIGraphicsPopContext()
     }
 
-    open func drawText(_ text: String, at point: CGPoint, align: NSTextAlignment, anchor: CGPoint = CGPoint(x: 0.5, y: 0.5), angleRadians: CGFloat = 0.0, attributes: [NSAttributedStringKey : Any]?)
+    open func drawText(_ text: String, at point: CGPoint, edgeInsets: UIEdgeInsets = .zero, align: NSTextAlignment, anchor: CGPoint = CGPoint(x: 0.5, y: 0.5), angleRadians: CGFloat = 0.0, attributes: [NSAttributedStringKey : Any]?, backgroundColor: NSUIColor = .clear)
     {
         let drawPoint = getDrawPoint(text: text, point: point, align: align, attributes: attributes)
-        
+
         if (angleRadians == 0.0)
         {
             NSUIGraphicsPushContext(self)
-            
-            (text as NSString).draw(at: drawPoint, withAttributes: attributes)
-            
+
+            if edgeInsets == .zero {
+                (text as NSString).draw(at: drawPoint, withAttributes: attributes)
+            } else {
+                let (rect, point) = getDrawRect(text: text, point: point, edgeInsets: edgeInsets, align: align, attributes: attributes)
+                let path = UIBezierPath.init(rect: rect)
+                backgroundColor.setFill()
+                path.fill()
+                (text as NSString).draw(at: point, withAttributes: attributes)
+            }
+
             NSUIGraphicsPopContext()
         }
         else
@@ -232,6 +240,27 @@ extension CGContext {
             point.x -= text.size(withAttributes: attributes).width
         }
         return point
+    }
+
+    private func getDrawRect(text: String, point: CGPoint, edgeInsets: UIEdgeInsets, align: NSTextAlignment, attributes: [NSAttributedStringKey : Any]?) -> (CGRect, CGPoint)
+    {
+        var point = point
+        var textStartPoint = point
+
+        let containerWidth = text.size(withAttributes: attributes).width + edgeInsets.left + edgeInsets.right
+        let containerHeight = text.size(withAttributes: attributes).height + edgeInsets.top + edgeInsets.bottom
+
+        if align == .center {
+            point.x -= containerWidth / 2.0
+            textStartPoint.x -= text.size(withAttributes: attributes).width / 2.0
+        } else if align == .right {
+            point.x -= containerWidth
+            textStartPoint.x -= containerWidth - edgeInsets.right
+        } else if align == .left {
+            textStartPoint.x += edgeInsets.left
+        }
+        point.y -= edgeInsets.top
+        return (.init(x: point.x, y: point.y, width: containerWidth, height: containerHeight), textStartPoint)
     }
     
     func drawMultilineText(_ text: String, at point: CGPoint, constrainedTo size: CGSize, anchor: CGPoint, knownTextSize: CGSize, angleRadians: CGFloat, attributes: [NSAttributedStringKey : Any]?)
