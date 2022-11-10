@@ -116,6 +116,9 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, BarChartData
     /// the alpha value (transparency) that is used for drawing the highlight indicator bar. min = 0.0 (fully transparent), max = 1.0 (fully opaque)
     open var highlightAlpha = CGFloat(120.0 / 255.0)
     
+    /// the value should create a radius in barchart. (0.0 no corner radius)
+    open var barCornerRadiusFactor: CGFloat = 0.0
+
     // MARK: - NSCopying
     
     open override func copy(with zone: NSZone? = nil) -> Any
