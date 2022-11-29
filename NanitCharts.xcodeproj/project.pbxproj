@@ -127,7 +127,7 @@
 		C2EFB4EC8C97FA9987F1B50D /* RadarChartDataEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91EEEDE2AB8F2DA3AFCF0733 /* RadarChartDataEntry.swift */; };
 		C33E1AF5471A60BA42DAF52E /* RadarHighlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F368CF209744D8F3B85B1028 /* RadarHighlighter.swift */; };
 		C3F0DDB7F0A922F0BB7EDB8A /* BarChartDataSetProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A53A9E42FC07FFDACA937C1 /* BarChartDataSetProtocol.swift */; };
-		C7B150D740255670DEB9F455 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65AD9E95D9ED4DC0BD73A743 /* Charts.framework */; };
+		C7B150D740255670DEB9F455 /* NanitCharts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65AD9E95D9ED4DC0BD73A743 /* NanitCharts.framework */; };
 		C9AA360A2355F01F00C97D93 /* Platform+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AA36092355F01F00C97D93 /* Platform+Color.swift */; };
 		C9F3DC262355F791000C3215 /* Platform+Graphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F3DC242355F791000C3215 /* Platform+Graphics.swift */; };
 		C9F3DC272355F791000C3215 /* Platform+Gestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F3DC252355F791000C3215 /* Platform+Gestures.swift */; };
@@ -194,7 +194,7 @@
 		18462BFDD9DEE76D51D40503 /* ScatterChartView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ScatterChartView.swift; path = Source/Charts/Charts/ScatterChartView.swift; sourceTree = "<group>"; };
 		18BFB0A14A5C47A302A597D9 /* CandleChartDataSetProtocol.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CandleChartDataSetProtocol.swift; path = Source/Charts/Data/Interfaces/CandleChartDataSetProtocol.swift; sourceTree = "<group>"; };
 		1C02C3AF5C92FCFC18224C35 /* XAxisRenderer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = XAxisRenderer.swift; path = Source/Charts/Renderers/XAxisRenderer.swift; sourceTree = "<group>"; };
-		1CBBC58C6CE1EBEE9852CE41 /* ChartsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChartsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1CBBC58C6CE1EBEE9852CE41 /* NanitChartsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NanitChartsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F3D55A7E6176D52DC957D27 /* XAxisRendererHorizontalBarChart.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = XAxisRendererHorizontalBarChart.swift; path = Source/Charts/Renderers/XAxisRendererHorizontalBarChart.swift; sourceTree = "<group>"; };
 		2194AA554712E6BA2677F114 /* BubbleChartRenderer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BubbleChartRenderer.swift; path = Source/Charts/Renderers/BubbleChartRenderer.swift; sourceTree = "<group>"; };
 		219BC9CEA037F897E92E45D1 /* ScatterChartDataSetProtocol.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ScatterChartDataSetProtocol.swift; path = Source/Charts/Data/Interfaces/ScatterChartDataSetProtocol.swift; sourceTree = "<group>"; };
@@ -246,7 +246,7 @@
 		5C3F5E1A69EC06E86505F7B1 /* BarChartTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BarChartTests.swift; sourceTree = "<group>"; };
 		6021C9E424C36116AEA78CC9 /* HorizontalBarChartView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HorizontalBarChartView.swift; path = Source/Charts/Charts/HorizontalBarChartView.swift; sourceTree = "<group>"; };
 		62B73FCEDD3841E7B958F6A9 /* ChartDataProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ChartDataProvider.swift; path = Source/Charts/Interfaces/ChartDataProvider.swift; sourceTree = "<group>"; };
-		65AD9E95D9ED4DC0BD73A743 /* Charts.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Charts.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		65AD9E95D9ED4DC0BD73A743 /* NanitCharts.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NanitCharts.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		688B80F1AA88AE54152BE768 /* YAxisRenderer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = YAxisRenderer.swift; path = Source/Charts/Renderers/YAxisRenderer.swift; sourceTree = "<group>"; };
 		6A4770E0F75EFFC30707A7C8 /* DefaultAxisValueFormatter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DefaultAxisValueFormatter.swift; path = Source/Charts/Formatters/DefaultAxisValueFormatter.swift; sourceTree = "<group>"; };
 		6CEC0C69C89CE9B99F3B4409 /* ChartDataSet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ChartDataSet.swift; path = Source/Charts/Data/Implementations/Standard/ChartDataSet.swift; sourceTree = "<group>"; };
@@ -338,7 +338,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C7B150D740255670DEB9F455 /* Charts.framework in Frameworks */,
+				C7B150D740255670DEB9F455 /* NanitCharts.framework in Frameworks */,
 				22BBDA0825CC4C2F00435670 /* SnapshotTesting in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -624,8 +624,8 @@
 		AB2D554102718F209377399E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				65AD9E95D9ED4DC0BD73A743 /* Charts.framework */,
-				1CBBC58C6CE1EBEE9852CE41 /* ChartsTests.xctest */,
+				65AD9E95D9ED4DC0BD73A743 /* NanitCharts.framework */,
+				1CBBC58C6CE1EBEE9852CE41 /* NanitChartsTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -739,9 +739,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		A58A4ED274A941CA248EA921 /* Charts */ = {
+		A58A4ED274A941CA248EA921 /* NanitCharts */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F1D4AA9E26EA32041FC0E3B6 /* Build configuration list for PBXNativeTarget "Charts" */;
+			buildConfigurationList = F1D4AA9E26EA32041FC0E3B6 /* Build configuration list for PBXNativeTarget "NanitCharts" */;
 			buildPhases = (
 				B2B2DD73E237562739EE1F83 /* Headers */,
 				B5996DB2D9B6F0DB0E9D3F3E /* Sources */,
@@ -752,17 +752,17 @@
 			);
 			dependencies = (
 			);
-			name = Charts;
+			name = NanitCharts;
 			packageProductDependencies = (
 				228D56222554F27A00BEE75E /* Algorithms */,
 			);
 			productName = Charts;
-			productReference = 65AD9E95D9ED4DC0BD73A743 /* Charts.framework */;
+			productReference = 65AD9E95D9ED4DC0BD73A743 /* NanitCharts.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		F2749BD5443C1CB5FE2080C2 /* ChartsTests */ = {
+		F2749BD5443C1CB5FE2080C2 /* NanitChartsTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E61E9728E2BF9CC4048B13D5 /* Build configuration list for PBXNativeTarget "ChartsTests" */;
+			buildConfigurationList = E61E9728E2BF9CC4048B13D5 /* Build configuration list for PBXNativeTarget "NanitChartsTests" */;
 			buildPhases = (
 				E356A2384A2368AB3D2C7912 /* Sources */,
 				5B102E31AA8399941CC6248D /* Resources */,
@@ -773,12 +773,12 @@
 			dependencies = (
 				8676F8A013D87F9961E92465 /* PBXTargetDependency */,
 			);
-			name = ChartsTests;
+			name = NanitChartsTests;
 			packageProductDependencies = (
 				22BBDA0725CC4C2F00435670 /* SnapshotTesting */,
 			);
 			productName = ChartsTests;
-			productReference = 1CBBC58C6CE1EBEE9852CE41 /* ChartsTests.xctest */;
+			productReference = 1CBBC58C6CE1EBEE9852CE41 /* NanitChartsTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -798,7 +798,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 493FF4FB1D40FC7C51DDDA6B /* Build configuration list for PBXProject "Charts" */;
+			buildConfigurationList = 493FF4FB1D40FC7C51DDDA6B /* Build configuration list for PBXProject "NanitCharts" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -815,8 +815,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				A58A4ED274A941CA248EA921 /* Charts */,
-				F2749BD5443C1CB5FE2080C2 /* ChartsTests */,
+				A58A4ED274A941CA248EA921 /* NanitCharts */,
+				F2749BD5443C1CB5FE2080C2 /* NanitChartsTests */,
 			);
 		};
 /* End PBXProject section */
@@ -1010,7 +1010,7 @@
 		8676F8A013D87F9961E92465 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = Charts;
-			target = A58A4ED274A941CA248EA921 /* Charts */;
+			target = A58A4ED274A941CA248EA921 /* NanitCharts */;
 			targetProxy = C2005F425A98942473657ED2 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -1274,7 +1274,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		493FF4FB1D40FC7C51DDDA6B /* Build configuration list for PBXProject "Charts" */ = {
+		493FF4FB1D40FC7C51DDDA6B /* Build configuration list for PBXProject "NanitCharts" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C5C79E736CA16C93F421E934 /* Debug */,
@@ -1283,7 +1283,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E61E9728E2BF9CC4048B13D5 /* Build configuration list for PBXNativeTarget "ChartsTests" */ = {
+		E61E9728E2BF9CC4048B13D5 /* Build configuration list for PBXNativeTarget "NanitChartsTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FA978B0A385680C0086D4D49 /* Release */,
@@ -1292,7 +1292,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F1D4AA9E26EA32041FC0E3B6 /* Build configuration list for PBXNativeTarget "Charts" */ = {
+		F1D4AA9E26EA32041FC0E3B6 /* Build configuration list for PBXNativeTarget "NanitCharts" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D9365FBCFFEE9FCFC79EC4C7 /* Release */,

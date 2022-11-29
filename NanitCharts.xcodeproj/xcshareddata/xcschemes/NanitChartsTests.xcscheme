@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "F2749BD5443C1CB5FE2080C2"
-               BuildableName = "ChartsTests.xctest"
-               BlueprintName = "ChartsTests"
-               ReferencedContainer = "container:Charts.xcodeproj">
+               BuildableName = "NanitChartsTests.xctest"
+               BlueprintName = "NanitChartsTests"
+               ReferencedContainer = "container:NanitCharts.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -34,9 +34,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "F2749BD5443C1CB5FE2080C2"
-               BuildableName = "ChartsTests.xctest"
-               BlueprintName = "ChartsTests"
-               ReferencedContainer = "container:Charts.xcodeproj">
+               BuildableName = "NanitChartsTests.xctest"
+               BlueprintName = "NanitChartsTests"
+               ReferencedContainer = "container:NanitCharts.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F2749BD5443C1CB5FE2080C2"
-            BuildableName = "ChartsTests.xctest"
-            BlueprintName = "ChartsTests"
-            ReferencedContainer = "container:Charts.xcodeproj">
+            BuildableName = "NanitChartsTests.xctest"
+            BlueprintName = "NanitChartsTests"
+            ReferencedContainer = "container:NanitCharts.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <EnvironmentVariables>
