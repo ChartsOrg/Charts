@@ -8,10 +8,10 @@
 ### Another heads up: ChartsRealm is now in a [separate repo](https://github.com/danielgindi/ChartsRealm). Pods is also now `Charts` and `ChartsRealm`, instead of ~`Charts/Core`~ and ~`Charts/Realm`~
 ### One more heads up: As Swift evolves, if you are not using the latest Swift compiler, you shouldn't check out the master branch. Instead, you should go to the release page and pick up whatever suits you.
 
-* Xcode 11 / Swift 5 (master branch)
-* iOS >= 8.0 (Use as an **Embedded** Framework)
-* tvOS >= 9.0
-* macOS >= 10.11
+* Xcode 14 / Swift 5.7 (master branch)
+* iOS >= 12.0 (Use as an **Embedded** Framework)
+* tvOS >= 12.0
+* macOS >= 10.13
 
 Okay so there's this beautiful library called [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart) by [Philipp Jahoda](https://www.linkedin.com/in/philippjahoda) which has become very popular amongst Android developers, but there was no decent solution to create charts for iOS.
 
@@ -36,7 +36,7 @@ I've chosen to write it in `Swift` as it can be highly optimized by the compiler
 In order to correctly compile:
 
 1. Drag the `Charts.xcodeproj` to your project  
-2. Go to your target's settings, hit the "+" under the "Embedded Binaries" section, and select the Charts.framework  
+2. Go to your target's settings, hit the "+" under the "Frameworks, Libraries, and Embedded Content" section, and select the Charts.framework  
 3. `@import Charts`  
 4.  When using Swift in an ObjC project:
    - You need to import your Bridging Header. Usually it is "*YourProject-Swift.h*", so in ChartsDemo it's "*ChartsDemo-Swift.h*". Do not try to actually include "*ChartsDemo-Swift.h*" in your project :-)
@@ -58,6 +58,8 @@ In order to correctly compile:
 * [Beginning Set-up and Example Using Charts with Swift 3](https://github.com/annalizhaz/ChartsForSwiftBasic)
 * [Creating a Radar Chart in Swift (David Piper)](https://medium.com/@HeyDaveTheDev/creating-a-radar-chart-in-swift-5791afcf92f0)
 * [Plotting in IOS using Charts framework with SwiftUI (Evgeny Basisty)](https://medium.com/@zzzzbh/plotting-in-ios-using-charts-framework-with-swiftui-222034a2bea6)
+*   [Set Up a Basic Bar Chart Using iOS-Charts (Penny Huang)](https://medium.com/@penny-huang/swift-setting-up-a-basic-bar-chart-using-ios-charts-afd6aad96ac)
+*  [iOS-Charts Tutorial: Highlight Selected Value With a Custom Marker (Penny Huang)](https://medium.com/@penny-huang/swift-ios-charts-tutorial-highlight-selected-value-with-a-custom-marker-30ccbf92aa1b)
 
 Want your tutorial to show here? Create a PR!
 
@@ -87,8 +89,8 @@ For [Realm](https://realm.io/) support, please add `pod 'ChartsRealm'` too.
 Charts now include Carthage prebuilt binaries.
 
 ```carthage
-github "danielgindi/Charts" == 4.0.0
-github "danielgindi/Charts" ~> 4.0.0
+github "danielgindi/Charts" == 4.1.0
+github "danielgindi/Charts" ~> 4.1.0
 ```
 
 In order to build the binaries for a new release, use `carthage build --no-skip-current && carthage archive Charts`.
@@ -99,7 +101,7 @@ Swift Package Manager
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/danielgindi/Charts.git", .upToNextMajor(from: "4.0.0"))
+    .package(url: "https://github.com/danielgindi/Charts.git", .upToNextMajor(from: "4.1.0"))
 ]
 ```
 
@@ -123,7 +125,6 @@ If you are having questions or problems, you should:
 
  - Make sure you are using the latest version of the library. Check the [**release-section**](https://github.com/danielgindi/Charts/releases).
  - Study the Android version's [**Documentation-Wiki**](https://github.com/PhilJay/MPAndroidChart/wiki)
- - Study the (Still incomplete [![Doc-Percent](https://img.shields.io/cocoapods/metrics/doc-percent/Charts.svg)](http://cocoadocs.org/docsets/Charts/)) [**Pod-Documentation**](http://cocoadocs.org/docsets/Charts/)
  - Search or open questions on [**stackoverflow**](http://stackoverflow.com/questions/tagged/ios-charts) with the `ios-charts` tag
  - Search [**known issues**](https://github.com/danielgindi/Charts/issues) for your problem (open and closed)
  - Create new issues (please :fire: **search known issues before** :fire:, do not create duplicate issues)
