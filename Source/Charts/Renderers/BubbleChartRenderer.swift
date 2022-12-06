@@ -252,7 +252,7 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
         for high in indices
         {
             guard
-                let dataSet = bubbleData[high.dataSetIndex] as? BubbleChartDataSetProtocol,
+                let dataSet = bubbleData[safe: high.dataSetIndex] as? BubbleChartDataSetProtocol,
                 dataSet.isHighlightEnabled,
                 let entry = dataSet.entryForXValue(high.x, closestToY: high.y) as? BubbleChartDataEntry,
                 isInBoundsX(entry: entry, dataSet: dataSet)
