@@ -11,6 +11,7 @@
 
 import Foundation
 
+public typealias IAxisValueFormatter = IndexAxisValueFormatter
 /// This formatter is used for passing an array of x-axis labels, on whole x steps.
 @objc(ChartIndexAxisValueFormatter)
 open class IndexAxisValueFormatter: NSObject, AxisValueFormatter

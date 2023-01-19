@@ -15,7 +15,7 @@ import Foundation
 ///
 /// Simply create your own formatting class and let it implement ValueFormatter. Then override the stringForValue()
 /// method and return whatever you want.
-
+public typealias IValueFormatter = ValueFormatter
 @objc(ChartValueFormatter)
 public protocol ValueFormatter: AnyObject
 {
