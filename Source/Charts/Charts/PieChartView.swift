@@ -154,11 +154,15 @@ open class PieChartView: PieRadarChartViewBase
             return
         }
 
+        guard let dataa = self.data else {return}
+        let data = PieChartData()
+        data.dataSets = dataa.dataSets
+
         let radius = adjustedRadius
         
         let c = adjustedCenterOffsets()
         
-        let shift = (data as? PieChartData)?.dataSet?.selectionShift ?? 0.0
+        let shift = data.dataSet?.selectionShift ?? 0.0
         
         // create the circle box that will contain the pie-chart (the bounds of the pie-chart)
         _circleBox.origin.x = (c.x - radius) + shift
@@ -250,18 +254,23 @@ open class PieChartView: PieRadarChartViewBase
         _drawAngles = [CGFloat]()
         _absoluteAngles = [CGFloat]()
         
-        guard let data = data else { return }
+        guard let dataa = data else { return }
+
+        let data = PieChartData()
+        data.dataSets = dataa.dataSets
 
         let entryCount = data.entryCount
         
         _drawAngles.reserveCapacity(entryCount)
         _absoluteAngles.reserveCapacity(entryCount)
         
-        let yValueSum = (data as! PieChartData).yValueSum
+        let yValueSum = data.yValueSum
+
+//        let yValueSum = (data as! PieChartData).yValueSum
 
         var cnt = 0
 
-        for set in data
+        for set in (data as ChartData)
         {
             for j in 0 ..< set.entryCount
             {
@@ -292,7 +301,9 @@ open class PieChartView: PieRadarChartViewBase
     /// calculates the needed angle for a given value
     private func calcAngle(_ value: Double) -> CGFloat
     {
-        return calcAngle(value: value, yValueSum: (data as! PieChartData).yValueSum)
+        let data = PieChartData()
+        data.dataSets = (self.data ?? PieChartData()).dataSets
+        return calcAngle(value: value, yValueSum: data.yValueSum)
     }
     
     /// calculates the needed angle for a given value
