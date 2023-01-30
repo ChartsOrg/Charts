@@ -298,9 +298,10 @@ open class PieChartRenderer: NSObject, DataRenderer
     {
         guard
             let chart = chart,
-            let data = chart.data
+            let dataa = chart.data
             else { return }
-
+        
+        let data = PieChartData(dataSets: dataa._dataSets)
         let center = chart.centerCircleBox
 
         // get whole the radius
@@ -321,7 +322,7 @@ open class PieChartRenderer: NSObject, DataRenderer
 
         let labelRadius = radius - labelRadiusOffset
 
-        let yValueSum = (data as! PieChartData).yValueSum
+        let yValueSum = data.yValueSum
 
         let drawEntryLabels = chart.isDrawEntryLabelsEnabled
         let usePercentValuesEnabled = chart.usePercentValuesEnabled
