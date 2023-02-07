@@ -391,7 +391,7 @@
 			isa = PBXGroup;
 			children = (
 				E9F158C8C566B26AFD775911 /* Supporting Files */,
-				2647844720BC6574A544A337 /* Charts */,
+				2647844720BC6574A544A337 /* UICharts */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -470,7 +470,7 @@
 			name = ChartEntry;
 			sourceTree = "<group>";
 		};
-		2647844720BC6574A544A337 /* Charts */ = {
+		2647844720BC6574A544A337 /* UICharts */ = {
 			isa = PBXGroup;
 			children = (
 				A49C1F0F9CCD6E5C143C29F4 /* Animation */,
@@ -485,7 +485,7 @@
 				E7589D3E7C2BD2449960AD59 /* Renderers */,
 				D047819AB7170595896D6FE8 /* Utils */,
 			);
-			name = Charts;
+			name = UICharts;
 			sourceTree = "<group>";
 		};
 		3B9DD76FCE8D873300A822C7 /* ChartDataSet */ = {
