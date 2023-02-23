@@ -18,6 +18,7 @@ public typealias NSUIGestureRecognizerState = UIGestureRecognizer.State
 public typealias NSUIGestureRecognizerDelegate = UIGestureRecognizerDelegate
 public typealias NSUITapGestureRecognizer = UITapGestureRecognizer
 public typealias NSUIPanGestureRecognizer = UIPanGestureRecognizer
+public typealias NSUILongPressGestureRecognizer = UILongPressGestureRecognizer
 
 extension NSUITapGestureRecognizer
 {
@@ -40,6 +41,19 @@ extension NSUITapGestureRecognizer
 }
 
 extension NSUIPanGestureRecognizer
+{
+    @objc final func nsuiNumberOfTouches() -> Int
+    {
+        return numberOfTouches
+    }
+
+    @objc final func nsuiLocationOfTouch(_ touch: Int, inView: UIView?) -> CGPoint
+    {
+        return super.location(ofTouch: touch, in: inView)
+    }
+}
+
+extension NSUILongPressGestureRecognizer
 {
     @objc final func nsuiNumberOfTouches() -> Int
     {

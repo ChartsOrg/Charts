@@ -94,8 +94,12 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     #endif
     internal var _panGestureRecognizer: NSUIPanGestureRecognizer!
     
+    internal var _pressGestureRecognizer: NSUILongPressGestureRecognizer!
+    
     /// flag that indicates if a custom viewport offset has been set
     private var _customViewPortEnabled = false
+    /// 记录长按的开始位置
+    private var pressStartLocation: CGPoint = .zero
     
     public override init(frame: CGRect)
     {
@@ -128,13 +132,18 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         
         _panGestureRecognizer.delegate = self
         
+        _pressGestureRecognizer = NSUILongPressGestureRecognizer(target: self, action: #selector(longPressGestureRecognized(_:)))
+        _pressGestureRecognizer.minimumPressDuration = 0.1
+        _pressGestureRecognizer.delegate = self
+        
         self.addGestureRecognizer(_tapGestureRecognizer)
         self.addGestureRecognizer(_doubleTapGestureRecognizer)
         self.addGestureRecognizer(_panGestureRecognizer)
+        self.addGestureRecognizer(_pressGestureRecognizer)
         
         _doubleTapGestureRecognizer.isEnabled = _doubleTapToZoomEnabled
         _panGestureRecognizer.isEnabled = _dragXEnabled || _dragYEnabled
-
+        _pressGestureRecognizer.isEnabled = _dragXEnabled || _dragYEnabled
         #if !os(tvOS)
             _pinchGestureRecognizer = NSUIPinchGestureRecognizer(target: self, action: #selector(BarLineChartViewBase.pinchGestureRecognized(_:)))
             _pinchGestureRecognizer.delegate = self
@@ -782,6 +791,145 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                     
                     _decelerationLastTime = CACurrentMediaTime()
                     _decelerationVelocity = recognizer.velocity(in: self)
+                    
+                    _decelerationDisplayLink = NSUIDisplayLink(target: self, selector: #selector(BarLineChartViewBase.decelerationLoop))
+                    _decelerationDisplayLink.add(to: RunLoop.main, forMode: RunLoop.Mode.common)
+                }
+                
+                _isDragging = false
+            }
+            
+            if _outerScrollView !== nil
+            {
+                _outerScrollView?.nsuiIsScrollEnabled = true
+                _outerScrollView = nil
+            }
+
+            delegate?.chartViewDidEndPanning?(self)
+        }
+    }
+    
+    @objc private func longPressGestureRecognized(_ recognizer: NSUILongPressGestureRecognizer)
+    {
+        if recognizer.state == NSUIGestureRecognizerState.began && recognizer.nsuiNumberOfTouches() > 0
+        {
+            pressStartLocation = recognizer.location(in: self)
+            stopDeceleration()
+            
+            if data === nil || !self.isDragEnabled
+            { // If we have no data, we have nothing to pan and no data to highlight
+                return
+            }
+            
+            // If drag is enabled and we are in a position where there's something to drag:
+            //  * If we're zoomed in, then obviously we have something to drag.
+            //  * If we have a drag offset - we always have something to drag
+            if !self.hasNoDragOffset || !self.isFullyZoomedOut
+            {
+                _isDragging = true
+                
+                _closestDataSetToTouch = getDataSetByTouchPoint(point: recognizer.nsuiLocationOfTouch(0, inView: self))
+                
+                let currentLocation = recognizer.location(in: self)
+                var translation = CGPoint(x: currentLocation.x  - pressStartLocation.x, y: currentLocation.y  - pressStartLocation.y)
+                if !self.dragXEnabled
+                {
+                    translation.x = 0.0
+                }
+                else if !self.dragYEnabled
+                {
+                    translation.y = 0.0
+                }
+                
+                let didUserDrag = translation.x != 0.0 || translation.y != 0.0
+                
+                // Check to see if user dragged at all and if so, can the chart be dragged by the given amount
+                if didUserDrag && !performPanChange(translation: translation)
+                {
+                    if _outerScrollView !== nil
+                    {
+                        // We can stop dragging right now, and let the scroll view take control
+                        _outerScrollView = nil
+                        _isDragging = false
+                    }
+                }
+                else
+                {
+                    if _outerScrollView !== nil
+                    {
+                        // Prevent the parent scroll view from scrolling
+                        _outerScrollView?.nsuiIsScrollEnabled = false
+                    }
+                }
+                _lastPanPoint = CGPoint(x: currentLocation.x  - pressStartLocation.x, y: currentLocation.y  - pressStartLocation.y)
+            }
+            else if self.isHighlightPerDragEnabled
+            {
+                // We will only handle highlights on NSUIGestureRecognizerState.Changed
+                
+//                _isDragging = false
+                
+                // Prevent the parent scroll view from scrolling
+                _outerScrollView?.nsuiIsScrollEnabled = false
+                let h = getHighlightByTouchPoint(recognizer.location(in: self))
+                
+                if h === nil || h == self.lastHighlighted
+                {
+                    lastHighlighted = nil
+                    highlightValue(nil, callDelegate: true)
+                }
+                else
+                {
+                    lastHighlighted = h
+                    highlightValue(h, callDelegate: true)
+                }
+
+            }
+        }
+        else if recognizer.state == NSUIGestureRecognizerState.changed
+        {
+            if _isDragging
+            {
+                let currentLocation = recognizer.location(in: self)
+                let originalTranslation = CGPoint(x: currentLocation.x  - pressStartLocation.x, y: currentLocation.y  - pressStartLocation.y)
+                var translation = CGPoint(x: originalTranslation.x - _lastPanPoint.x, y: originalTranslation.y - _lastPanPoint.y)
+                
+                if !self.dragXEnabled
+                {
+                    translation.x = 0.0
+                }
+                else if !self.dragYEnabled
+                {
+                    translation.y = 0.0
+                }
+                
+                let _ = performPanChange(translation: translation)
+                
+                _lastPanPoint = originalTranslation
+            }
+            else if isHighlightPerDragEnabled
+            {
+                let h = getHighlightByTouchPoint(recognizer.location(in: self))
+                
+                let lastHighlighted = self.lastHighlighted
+                
+                if h != lastHighlighted
+                {
+                    self.lastHighlighted = h
+                    self.highlightValue(h, callDelegate: true)
+                }
+            }
+        }
+        else if recognizer.state == NSUIGestureRecognizerState.ended || recognizer.state == NSUIGestureRecognizerState.cancelled
+        {
+            if _isDragging
+            {
+                if recognizer.state == NSUIGestureRecognizerState.ended && isDragDecelerationEnabled
+                {
+                    stopDeceleration()
+                    
+                    _decelerationLastTime = CACurrentMediaTime()
+                    _decelerationVelocity = CGPoint.zero
                     
                     _decelerationDisplayLink = NSUIDisplayLink(target: self, selector: #selector(BarLineChartViewBase.decelerationLoop))
                     _decelerationDisplayLink.add(to: RunLoop.main, forMode: RunLoop.Mode.common)
