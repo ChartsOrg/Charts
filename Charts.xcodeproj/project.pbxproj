@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		228D56232554F27A00BEE75E /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 228D56222554F27A00BEE75E /* Algorithms */; };
 		22BBDA0825CC4C2F00435670 /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 22BBDA0725CC4C2F00435670 /* SnapshotTesting */; };
-		B472B466299294CC00FE662E /* UICharts in Resources */ = {isa = PBXBuildFile; fileRef = B472B465299294CC00FE662E /* UICharts */; };
+		B472B466299294CC00FE662E /* DGCharts in Resources */ = {isa = PBXBuildFile; fileRef = B472B465299294CC00FE662E /* DGCharts */; };
 		B472B468299294D600FE662E /* Supporting Files in Resources */ = {isa = PBXBuildFile; fileRef = B472B467299294D600FE662E /* Supporting Files */; };
 		B472B47A299294FA00FE662E /* Resources in Resources */ = {isa = PBXBuildFile; fileRef = B472B470299294FA00FE662E /* Resources */; };
 		B472B47D2992950800FE662E /* BarChartTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B472B469299294FA00FE662E /* BarChartTests.swift */; };
@@ -37,7 +37,7 @@
 /* Begin PBXFileReference section */
 		1CBBC58C6CE1EBEE9852CE41 /* ChartsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChartsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		65AD9E95D9ED4DC0BD73A743 /* Charts.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Charts.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B472B465299294CC00FE662E /* UICharts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = UICharts; sourceTree = "<group>"; };
+		B472B465299294CC00FE662E /* DGCharts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = DGCharts; sourceTree = "<group>"; };
 		B472B467299294D600FE662E /* Supporting Files */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Supporting Files"; sourceTree = "<group>"; };
 		B472B469299294FA00FE662E /* BarChartTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BarChartTests.swift; path = ChartsTests/BarChartTests.swift; sourceTree = "<group>"; };
 		B472B46A299294FA00FE662E /* HorizontalBarChartTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HorizontalBarChartTests.swift; path = ChartsTests/HorizontalBarChartTests.swift; sourceTree = "<group>"; };
@@ -83,7 +83,7 @@
 			isa = PBXGroup;
 			children = (
 				B472B467299294D600FE662E /* Supporting Files */,
-				B472B465299294CC00FE662E /* UICharts */,
+				B472B465299294CC00FE662E /* DGCharts */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -232,7 +232,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B472B468299294D600FE662E /* Supporting Files in Resources */,
-				B472B466299294CC00FE662E /* UICharts in Resources */,
+				B472B466299294CC00FE662E /* DGCharts in Resources */,
 				B472B47A299294FA00FE662E /* Resources in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
