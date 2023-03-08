@@ -37,25 +37,21 @@ open class BarChartDataEntry: ChartDataEntry
     }
     
     /// Constructor for normal bars (not stacked).
-    public convenience init(x: Double, y: Double, data: Any?)
+    public override init(x: Double, y: Double, data: AnyObject?)
     {
-        self.init(x: x, y: y)
-        self.data = data
+        super.init(x: x, y: y, data: data)
     }
     
     /// Constructor for normal bars (not stacked).
-    public convenience init(x: Double, y: Double, icon: NSUIImage?)
+    public override init(x: Double, y: Double, icon: NSUIImage?)
     {
-        self.init(x: x, y: y)
-        self.icon = icon
+        super.init(x: x, y: y, icon: icon)
     }
     
     /// Constructor for normal bars (not stacked).
-    public convenience init(x: Double, y: Double, icon: NSUIImage?, data: Any?)
+    public override init(x: Double, y: Double, icon: NSUIImage?, data: AnyObject?)
     {
-        self.init(x: x, y: y)
-        self.icon = icon
-        self.data = data
+        super.init(x: x, y: y, icon: icon, data: data)
     }
     
     /// Constructor for stacked bar entries.
@@ -66,37 +62,50 @@ open class BarChartDataEntry: ChartDataEntry
         calcPosNegSum()
         calcRanges()
     }
-
+        
     /// Constructor for stacked bar entries. One data object for whole stack
-    @objc public convenience init(x: Double, yValues: [Double], icon: NSUIImage?)
+    @objc public init(x: Double, yValues: [Double], data: AnyObject?)
     {
-        self.init(x: x, yValues: yValues)
-        self.icon = icon
-    }
-
-    /// Constructor for stacked bar entries. One data object for whole stack
-    @objc public convenience init(x: Double, yValues: [Double], data: Any?)
-    {
-        self.init(x: x, yValues: yValues)
-        self.data = data
-    }
-
-    /// Constructor for stacked bar entries. One data object for whole stack
-    @objc public convenience init(x: Double, yValues: [Double], icon: NSUIImage?, data: Any?)
-    {
-        self.init(x: x, yValues: yValues)
-        self.icon = icon
-        self.data = data
+        super.init(x: x, y: BarChartDataEntry.calcSum(values: yValues), data: data)
+        self._yVals = yValues
+        calcPosNegSum()
+        calcRanges()
     }
     
-    @objc open func sumBelow(stackIndex: Int) -> Double
+    /// Constructor for stacked bar entries. One data object for whole stack
+    @objc public init(x: Double, yValues: [Double], icon: NSUIImage?, data: AnyObject?)
     {
-        guard let yVals = _yVals, yVals.indices.contains(stackIndex) else
+        super.init(x: x, y: BarChartDataEntry.calcSum(values: yValues), icon: icon, data: data)
+        self._yVals = yValues
+        calcPosNegSum()
+        calcRanges()
+    }
+    
+    /// Constructor for stacked bar entries. One data object for whole stack
+    @objc public init(x: Double, yValues: [Double], icon: NSUIImage?)
+    {
+        super.init(x: x, y: BarChartDataEntry.calcSum(values: yValues), icon: icon)
+        self._yVals = yValues
+        calcPosNegSum()
+        calcRanges()
+    }
+    
+    @objc open func sumBelow(stackIndex :Int) -> Double
+    {
+        guard let yVals = _yVals else
         {
             return 0
         }
-
-        let remainder = yVals[stackIndex...].reduce(into: 0.0) { $0 += $1 }
+        
+        var remainder: Double = 0.0
+        var index = yVals.count - 1
+        
+        while (index > stackIndex && index >= 0)
+        {
+            remainder += yVals[index]
+            index -= 1
+        }
+        
         return remainder
     }
     
@@ -112,20 +121,32 @@ open class BarChartDataEntry: ChartDataEntry
         return _positiveSum
     }
 
-    var stackSize: Int { yValues?.count ?? 1}
-
     @objc open func calcPosNegSum()
     {
-        (_negativeSum, _positiveSum) = _yVals?.reduce(into: (0,0)) { (result, y) in
-            if y < 0
+        guard let _yVals = _yVals else
+        {
+            _positiveSum = 0.0
+            _negativeSum = 0.0
+            return
+        }
+        
+        var sumNeg: Double = 0.0
+        var sumPos: Double = 0.0
+        
+        for f in _yVals
+        {
+            if f < 0.0
             {
-                result.0 += -y
+                sumNeg += -f
             }
             else
             {
-                result.1 += y
+                sumPos += f
             }
-        } ?? (0,0)
+        }
+        
+        _negativeSum = sumNeg
+        _positiveSum = sumPos
     }
     
     /// Splits up the stack-values of the given bar-entry into Range objects.
@@ -135,32 +156,38 @@ open class BarChartDataEntry: ChartDataEntry
     /// - Returns:
     @objc open func calcRanges()
     {
-        guard let values = yValues, !values.isEmpty else { return }
-
+        let values = yValues
+        if values?.isEmpty != false
+        {
+            return
+        }
+        
         if _ranges == nil
         {
             _ranges = [Range]()
         }
         else
         {
-            _ranges!.removeAll()
+            _ranges?.removeAll()
         }
         
-        _ranges!.reserveCapacity(values.count)
+        _ranges?.reserveCapacity(values!.count)
         
         var negRemain = -negativeSum
         var posRemain: Double = 0.0
         
-        for value in values
+        for i in 0 ..< values!.count
         {
+            let value = values![i]
+            
             if value < 0
             {
-                _ranges!.append(Range(from: negRemain, to: negRemain - value))
+                _ranges?.append(Range(from: negRemain, to: negRemain - value))
                 negRemain -= value
             }
             else
             {
-                _ranges!.append(Range(from: posRemain, to: posRemain + value))
+                _ranges?.append(Range(from: posRemain, to: posRemain + value))
                 posRemain += value
             }
         }
@@ -177,7 +204,7 @@ open class BarChartDataEntry: ChartDataEntry
         get { return self._yVals }
         set
         {
-            self.y = BarChartDataEntry.calcSum(values: newValue ?? [])
+            self.y = BarChartDataEntry.calcSum(values: newValue)
             self._yVals = newValue
             calcPosNegSum()
             calcRanges()
@@ -207,8 +234,18 @@ open class BarChartDataEntry: ChartDataEntry
     /// - Parameters:
     ///   - vals:
     /// - Returns:
-    private static func calcSum(values: [Double]) -> Double
+    private static func calcSum(values: [Double]?) -> Double
     {
-        values.reduce(into: 0, +=)
+        guard let values = values
+            else { return 0.0 }
+        
+        var sum = 0.0
+        
+        for f in values
+        {
+            sum += f
+        }
+        
+        return sum
     }
 }

@@ -13,7 +13,7 @@ import Foundation
 import CoreGraphics
 
 
-open class RadarChartDataSet: LineRadarChartDataSet, RadarChartDataSetProtocol
+open class RadarChartDataSet: LineRadarChartDataSet, IRadarChartDataSet
 {
     private func initialize()
     {
@@ -26,9 +26,9 @@ open class RadarChartDataSet: LineRadarChartDataSet, RadarChartDataSetProtocol
         initialize()
     }
     
-    public required override init(entries: [ChartDataEntry], label: String)
+    public required override init(values: [ChartDataEntry]?, label: String?)
     {
-        super.init(entries: entries, label: label)
+        super.init(values: values, label: label)
         initialize()
     }
     

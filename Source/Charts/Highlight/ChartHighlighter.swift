@@ -9,11 +9,10 @@
 //  https://github.com/danielgindi/Charts
 //
 
-import Algorithms
 import Foundation
 import CoreGraphics
 
-open class ChartHighlighter : NSObject, Highlighter
+open class ChartHighlighter : NSObject, IHighlighter
 {
     /// instance of the data-provider
     @objc open weak var chart: ChartDataProvider?
@@ -74,11 +73,17 @@ open class ChartHighlighter : NSObject, Highlighter
         
         guard let data = self.data else { return vals }
         
-        for (i, set) in data.indexed() where set.isHighlightEnabled
+        for i in 0 ..< data.dataSetCount
         {
+            guard
+                let dataSet = data.getDataSetByIndex(i),
+                dataSet.isHighlightEnabled      // don't include datasets that cannot be highlighted
+                else { continue }
+            
+
             // extract all y-values from all DataSets at the given x-value.
             // some datasets (i.e bubble charts) make sense to have multiple values for an x-value. We'll have to find a way to handle that later on. It's more complicated now when x-indices are floating point.
-            vals.append(contentsOf: buildHighlights(dataSet: set, dataSetIndex: i, xValue: xValue, rounding: .closest))
+            vals.append(contentsOf: buildHighlights(dataSet: dataSet, dataSetIndex: i, xValue: xValue, rounding: .closest))
         }
         
         return vals
@@ -86,26 +91,31 @@ open class ChartHighlighter : NSObject, Highlighter
     
     /// - Returns: An array of `Highlight` objects corresponding to the selected xValue and dataSetIndex.
     internal func buildHighlights(
-        dataSet set: ChartDataSetProtocol,
+        dataSet set: IChartDataSet,
         dataSetIndex: Int,
         xValue: Double,
         rounding: ChartDataSetRounding) -> [Highlight]
     {
-        guard let chart = self.chart as? BarLineScatterCandleBubbleChartDataProvider else { return [] }
+        var highlights = [Highlight]()
+        
+        guard let chart = self.chart as? BarLineScatterCandleBubbleChartDataProvider else { return highlights }
         
         var entries = set.entriesForXValue(xValue)
-        if entries.isEmpty, let closest = set.entryForXValue(xValue, closestToY: .nan, rounding: rounding)
+        if entries.count == 0, let closest = set.entryForXValue(xValue, closestToY: .nan, rounding: rounding)
         {
             // Try to find closest x-value and take all entries for that x-value
             entries = set.entriesForXValue(closest.x)
         }
+        
+        for e in entries
+        {
+            let px = chart.getTransformer(forAxis: set.axisDependency).pixelForValues(x: e.x, y: e.y)
 
-        return entries.map { e in
-            let px = chart.getTransformer(forAxis: set.axisDependency)
-                .pixelForValues(x: e.x, y: e.y)
-            
-            return Highlight(x: e.x, y: e.y, xPx: px.x, yPx: px.y, dataSetIndex: dataSetIndex, axis: set.axisDependency)
+            let highlight = Highlight(x: e.x, y: e.y, xPx: px.x, yPx: px.y, dataSetIndex: dataSetIndex, axis: set.axisDependency)
+            highlights.append(highlight)
         }
+        
+        return highlights
     }
 
     // - MARK: - Utilities
@@ -142,16 +152,19 @@ open class ChartHighlighter : NSObject, Highlighter
     internal func getMinimumDistance(
         closestValues: [Highlight],
         y: CGFloat,
-        axis: YAxis.AxisDependency
-    ) -> CGFloat {
+        axis: YAxis.AxisDependency) -> CGFloat
+    {
         var distance = CGFloat.greatestFiniteMagnitude
         
-        for high in closestValues where high.axis == axis
+        for high in closestValues
         {
-            let tempDistance = abs(getHighlightPos(high: high) - y)
-            if tempDistance < distance
+            if high.axis == axis
             {
-                distance = tempDistance
+                let tempDistance = abs(getHighlightPos(high: high) - y)
+                if tempDistance < distance
+                {
+                    distance = tempDistance
+                }
             }
         }
         

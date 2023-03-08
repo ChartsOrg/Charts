@@ -6,9 +6,7 @@
 //  Copyright © 2017 jc. All rights reserved.
 //
 
-#if canImport(UIKit)
-    import UIKit
-#endif
+import UIKit
 import Charts
 
 class ColoredLineChartViewController: DemoBaseViewController {
@@ -33,12 +31,12 @@ class ColoredLineChartViewController: DemoBaseViewController {
     }
     
     func setupChart(_ chart: LineChartView, data: LineChartData, color: UIColor) {
-        (data[0] as! LineChartDataSet).circleHoleColor = color
+        (data.getDataSetByIndex(0) as! LineChartDataSet).circleHoleColor = color
         
         chart.delegate = self
         chart.backgroundColor = color
         
-        chart.chartDescription.enabled = false
+        chart.chartDescription?.enabled = false
         
         chart.dragEnabled = true
         chart.setScaleEnabled(true)
@@ -64,7 +62,7 @@ class ColoredLineChartViewController: DemoBaseViewController {
             return ChartDataEntry(x: Double(i), y: val)
         }
         
-        let set1 = LineChartDataSet(entries: yVals, label: "DataSet 1")
+        let set1 = LineChartDataSet(values: yVals, label: "DataSet 1")
         
         set1.lineWidth = 1.75
         set1.circleRadius = 5.0

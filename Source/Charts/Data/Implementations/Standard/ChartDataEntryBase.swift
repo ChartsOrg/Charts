@@ -14,10 +14,10 @@ import Foundation
 open class ChartDataEntryBase: NSObject
 {
     /// the y value
-    @objc open var y = 0.0
+    @objc open var y = Double(0.0)
     
     /// optional spot for additional data this Entry represents
-    @objc open var data: Any?
+    @objc open var data: AnyObject?
     
     /// optional icon image
     @objc open var icon: NSUIImage?
@@ -42,10 +42,11 @@ open class ChartDataEntryBase: NSObject
     ///   - y: the y value (the actual value of the entry)
     ///   - data: Space for additional data this Entry represents.
     
-    @objc public convenience init(y: Double, data: Any?)
+    @objc public init(y: Double, data: AnyObject?)
     {
-        self.init(y: y)
+        super.init()
         
+        self.y = y
         self.data = data
     }
     
@@ -53,10 +54,11 @@ open class ChartDataEntryBase: NSObject
     ///   - y: the y value (the actual value of the entry)
     ///   - icon: icon image
     
-    @objc public convenience init(y: Double, icon: NSUIImage?)
+    @objc public init(y: Double, icon: NSUIImage?)
     {
-        self.init(y: y)
-
+        super.init()
+        
+        self.y = y
         self.icon = icon
     }
     
@@ -65,10 +67,11 @@ open class ChartDataEntryBase: NSObject
     ///   - icon: icon image
     ///   - data: Space for additional data this Entry represents.
     
-    @objc public convenience init(y: Double, icon: NSUIImage?, data: Any?)
+    @objc public init(y: Double, icon: NSUIImage?, data: AnyObject?)
     {
-        self.init(y: y)
-
+        super.init()
+        
+        self.y = y
         self.icon = icon
         self.data = data
     }
@@ -91,6 +94,7 @@ extension ChartDataEntryBase/*: Equatable*/ {
             return true
         }
 
-        return y == object.y
+        return ((data == nil && object.data == nil) || (data?.isEqual(object.data) ?? false))
+            && y == object.y
     }
 }

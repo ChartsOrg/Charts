@@ -6,9 +6,7 @@
 //  Copyright © 2017 jc. All rights reserved.
 //
 
-#if canImport(UIKit)
-    import UIKit
-#endif
+import UIKit
 import Charts
 
 class StackedBarChartViewController: DemoBaseViewController {
@@ -48,7 +46,7 @@ class StackedBarChartViewController: DemoBaseViewController {
         
         chartView.delegate = self
         
-        chartView.chartDescription.enabled = false
+        chartView.chartDescription?.enabled = false
         
         chartView.maxVisibleCount = 40
         chartView.drawBarShadowEnabled = false
@@ -100,7 +98,7 @@ class StackedBarChartViewController: DemoBaseViewController {
             return BarChartDataEntry(x: Double(i), yValues: [val1, val2, val3], icon: #imageLiteral(resourceName: "icon"))
         }
         
-        let set = BarChartDataSet(entries: yVals, label: "Statistics Vienna 2014")
+        let set = BarChartDataSet(values: yVals, label: "Statistics Vienna 2014")
         set.drawIconsEnabled = false
         set.colors = [ChartColorTemplates.material()[0], ChartColorTemplates.material()[1], ChartColorTemplates.material()[2]]
         set.stackLabels = ["Births", "Divorces", "Marriages"]

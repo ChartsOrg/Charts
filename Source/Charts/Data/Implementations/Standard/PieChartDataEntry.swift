@@ -19,28 +19,19 @@ open class PieChartDataEntry: ChartDataEntry
         super.init()
     }
     
-
-    /// - Parameters:
-    ///   - value: The value on the y-axis
-    @objc public init(value: Double)
-    {
-        super.init(x: .nan, y: value)
-    }
-
     /// - Parameters:
     ///   - value: The value on the y-axis
     ///   - label: The label for the x-axis
     @objc public convenience init(value: Double, label: String?)
     {
-        self.init(value: value)
-        self.label = label
+        self.init(value: value, label: label, icon: nil, data: nil)
     }
     
     /// - Parameters:
     ///   - value: The value on the y-axis
     ///   - label: The label for the x-axis
     ///   - data: Spot for additional data this Entry represents
-    @objc public convenience init(value: Double, label: String?, data: Any?)
+    @objc public convenience init(value: Double, label: String?, data: AnyObject?)
     {
         self.init(value: value, label: label, icon: nil, data: data)
     }
@@ -51,9 +42,7 @@ open class PieChartDataEntry: ChartDataEntry
     ///   - icon: icon image
     @objc public convenience init(value: Double, label: String?, icon: NSUIImage?)
     {
-        self.init(value: value)
-        self.label = label
-        self.icon = icon
+        self.init(value: value, label: label, icon: icon, data: nil)
     }
     
     /// - Parameters:
@@ -61,21 +50,26 @@ open class PieChartDataEntry: ChartDataEntry
     ///   - label: The label for the x-axis
     ///   - icon: icon image
     ///   - data: Spot for additional data this Entry represents
-    @objc public convenience init(value: Double, label: String?, icon: NSUIImage?, data: Any?)
+    @objc public init(value: Double, label: String?, icon: NSUIImage?, data: AnyObject?)
     {
-        self.init(value: value)
+        super.init(x: 0.0, y: value, icon: icon, data: data)
+        
         self.label = label
-        self.icon = icon
-        self.data = data
     }
-
+    
+    /// - Parameters:
+    ///   - value: The value on the y-axis
+    @objc public convenience init(value: Double)
+    {
+        self.init(value: value, label: nil, icon: nil, data: nil)
+    }
+    
     /// - Parameters:
     ///   - value: The value on the y-axis
     ///   - data: Spot for additional data this Entry represents
-    @objc public convenience init(value: Double, data: Any?)
+    @objc public convenience init(value: Double, data: AnyObject?)
     {
-        self.init(value: value)
-        self.data = data
+        self.init(value: value, label: nil, icon: nil, data: data)
     }
     
     /// - Parameters:
@@ -83,19 +77,16 @@ open class PieChartDataEntry: ChartDataEntry
     ///   - icon: icon image
     @objc public convenience init(value: Double, icon: NSUIImage?)
     {
-        self.init(value: value)
-        self.icon = icon
+        self.init(value: value, label: nil, icon: icon, data: nil)
     }
     
     /// - Parameters:
     ///   - value: The value on the y-axis
     ///   - icon: icon image
     ///   - data: Spot for additional data this Entry represents
-    @objc public convenience init(value: Double, icon: NSUIImage?, data: Any?)
+    @objc public convenience init(value: Double, icon: NSUIImage?, data: AnyObject?)
     {
-        self.init(value: value)
-        self.icon = icon
-        self.data = data
+        self.init(value: value, label: nil, icon: icon, data: data)
     }
     
     // MARK: Data property accessors

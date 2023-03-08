@@ -11,11 +11,11 @@
 import Foundation
 import CoreGraphics
 
-open class CrossShapeRenderer : NSObject, ShapeRenderer
+open class CrossShapeRenderer : NSObject, IShapeRenderer
 {
     open func renderShape(
         context: CGContext,
-        dataSet: ScatterChartDataSetProtocol,
+        dataSet: IScatterChartDataSet,
         viewPortHandler: ViewPortHandler,
         point: CGPoint,
         color: NSUIColor)

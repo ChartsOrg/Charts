@@ -38,10 +38,11 @@ open class BubbleChartDataEntry: ChartDataEntry
     ///   - y: The value on the y-axis.
     ///   - size: The size of the bubble.
     ///   - data: Spot for additional data this Entry represents.
-    @objc public convenience init(x: Double, y: Double, size: CGFloat, data: Any?)
+    @objc public init(x: Double, y: Double, size: CGFloat, data: AnyObject?)
     {
-        self.init(x: x, y: y, size: size)
-        self.data = data
+        super.init(x: x, y: y, data: data)
+        
+        self.size = size
     }
     
     /// - Parameters:
@@ -49,10 +50,11 @@ open class BubbleChartDataEntry: ChartDataEntry
     ///   - y: The value on the y-axis.
     ///   - size: The size of the bubble.
     ///   - icon: icon image
-    @objc public convenience init(x: Double, y: Double, size: CGFloat, icon: NSUIImage?)
+    @objc public init(x: Double, y: Double, size: CGFloat, icon: NSUIImage?)
     {
-        self.init(x: x, y: y, size: size)
-        self.icon = icon
+        super.init(x: x, y: y, icon: icon)
+        
+        self.size = size
     }
     
     /// - Parameters:
@@ -61,11 +63,11 @@ open class BubbleChartDataEntry: ChartDataEntry
     ///   - size: The size of the bubble.
     ///   - icon: icon image
     ///   - data: Spot for additional data this Entry represents.
-    @objc public convenience init(x: Double, y: Double, size: CGFloat, icon: NSUIImage?, data: Any?)
+    @objc public init(x: Double, y: Double, size: CGFloat, icon: NSUIImage?, data: AnyObject?)
     {
-        self.init(x: x, y: y, size: size)
-        self.icon = icon
-        self.data = data
+        super.init(x: x, y: y, icon: icon, data: data)
+        
+        self.size = size
     }
     
     // MARK: NSCopying

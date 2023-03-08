@@ -6,9 +6,7 @@
 //  Copyright © 2017 jc. All rights reserved.
 //
 
-#if canImport(UIKit)
-    import UIKit
-#endif
+import UIKit
 import Charts
 
 class ScatterChartViewController: DemoBaseViewController {
@@ -35,8 +33,8 @@ class ScatterChartViewController: DemoBaseViewController {
                         .toggleData]
         
         chartView.delegate = self
-
-        chartView.chartDescription.enabled = false
+        
+        chartView.chartDescription?.enabled = false
         
         chartView.dragEnabled = true
         chartView.setScaleEnabled(true)
@@ -90,24 +88,24 @@ class ScatterChartViewController: DemoBaseViewController {
         }
 
         
-        let set1 = ScatterChartDataSet(entries: values1, label: "DS 1")
+        let set1 = ScatterChartDataSet(values: values1, label: "DS 1")
         set1.setScatterShape(.square)
         set1.setColor(ChartColorTemplates.colorful()[0])
         set1.scatterShapeSize = 8
         
-        let set2 = ScatterChartDataSet(entries: values2, label: "DS 2")
+        let set2 = ScatterChartDataSet(values: values2, label: "DS 2")
         set2.setScatterShape(.circle)
         set2.scatterShapeHoleColor = ChartColorTemplates.colorful()[3]
         set2.scatterShapeHoleRadius = 3.5
         set2.setColor(ChartColorTemplates.colorful()[1])
         set2.scatterShapeSize = 8
         
-        let set3 = ScatterChartDataSet(entries: values3, label: "DS 3")
+        let set3 = ScatterChartDataSet(values: values3, label: "DS 3")
         set3.setScatterShape(.cross)
         set3.setColor(ChartColorTemplates.colorful()[2])
         set3.scatterShapeSize = 8
         
-        let data: ScatterChartData = [set1, set2, set3]
+        let data = ScatterChartData(dataSets: [set1, set2, set3])
         data.setValueFont(.systemFont(ofSize: 7, weight: .light))
 
         chartView.data = data

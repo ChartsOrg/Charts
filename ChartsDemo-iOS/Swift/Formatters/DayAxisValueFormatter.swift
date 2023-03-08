@@ -9,7 +9,7 @@
 import Foundation
 import Charts
 
-public class DayAxisValueFormatter: NSObject, AxisValueFormatter {
+public class DayAxisValueFormatter: NSObject, IAxisValueFormatter {
     weak var chart: BarLineChartViewBase?
     let months = ["Jan", "Feb", "Mar",
                   "Apr", "May", "Jun",

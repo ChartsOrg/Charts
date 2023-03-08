@@ -12,14 +12,8 @@
 import Foundation
 import CoreGraphics
 
-open class CombinedChartRenderer: NSObject, DataRenderer
+open class CombinedChartRenderer: DataRenderer
 {
-    public let viewPortHandler: ViewPortHandler
-
-    public final var accessibleChartElements: [NSUIAccessibilityElement] = []
-
-    public let animator: Animator
-
     @objc open weak var chart: CombinedChartView?
     
     /// if set to true, all values are drawn above their bars, instead of below their top
@@ -34,11 +28,9 @@ open class CombinedChartRenderer: NSObject, DataRenderer
     
     @objc public init(chart: CombinedChartView, animator: Animator, viewPortHandler: ViewPortHandler)
     {
+        super.init(animator: animator, viewPortHandler: viewPortHandler)
+        
         self.chart = chart
-        self.viewPortHandler = viewPortHandler
-        self.animator = animator
-
-        super.init()
         
         createRenderers()
     }
@@ -59,41 +51,49 @@ open class CombinedChartRenderer: NSObject, DataRenderer
                 {
                     _renderers.append(BarChartRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler))
                 }
-
+                break
+                
             case .line:
                 if chart.lineData !== nil
                 {
                     _renderers.append(LineChartRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler))
                 }
-
+                break
+                
             case .candle:
                 if chart.candleData !== nil
                 {
                     _renderers.append(CandleStickChartRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler))
                 }
-
+                break
+                
             case .scatter:
                 if chart.scatterData !== nil
                 {
                     _renderers.append(ScatterChartRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler))
                 }
-
+                break
+                
             case .bubble:
                 if chart.bubbleData !== nil
                 {
                     _renderers.append(BubbleChartRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler))
                 }
+                break
             }
         }
 
     }
     
-    open func initBuffers()
+    open override func initBuffers()
     {
-        _renderers.forEach { $0.initBuffers() }
+        for renderer in _renderers
+        {
+            renderer.initBuffers()
+        }
     }
     
-    open func drawData(context: CGContext)
+    open override func drawData(context: CGContext)
     {
         // If we redraw the data, remove and repopulate accessible elements to update label values and frames
         accessibleChartElements.removeAll()
@@ -111,20 +111,29 @@ open class CombinedChartRenderer: NSObject, DataRenderer
         // TODO: Due to the potential complexity of data presented in Combined charts, a more usable way
         // for VO accessibility would be to use axis based traversal rather than by dataset.
         // Hence, accessibleChartElements is not populated below. (Individual renderers guard against dataSource being their respective views)
-        _renderers.forEach { $0.drawData(context: context) }
+        for renderer in _renderers
+        {
+            renderer.drawData(context: context)
+        }
     }
     
-    open func drawValues(context: CGContext)
+    open override func drawValues(context: CGContext)
     {
-        _renderers.forEach { $0.drawValues(context: context) }
+        for renderer in _renderers
+        {
+            renderer.drawValues(context: context)
+        }
     }
     
-    open func drawExtras(context: CGContext)
+    open override func drawExtras(context: CGContext)
     {
-        _renderers.forEach { $0.drawExtras(context: context) }
+        for renderer in _renderers
+        {
+            renderer.drawExtras(context: context)
+        }
     }
     
-    open func drawHighlighted(context: CGContext, indices: [Highlight])
+    open override func drawHighlighted(context: CGContext, indices: [Highlight])
     {
         for renderer in _renderers
         {
@@ -151,7 +160,7 @@ open class CombinedChartRenderer: NSObject, DataRenderer
                 data = (renderer as! BubbleChartRenderer).dataProvider?.bubbleData
             }
             
-            let dataIndex = data == nil ? nil : (chart?.data as? CombinedChartData)?.allData.firstIndex(of: data!)
+            let dataIndex = data == nil ? nil : (chart?.data as? CombinedChartData)?.allData.index(of: data!)
             
             let dataIndices = indices.filter{ $0.dataIndex == dataIndex || $0.dataIndex == -1 }
             
@@ -159,10 +168,17 @@ open class CombinedChartRenderer: NSObject, DataRenderer
         }
     }
 
-    open func isDrawingValuesAllowed(dataProvider: ChartDataProvider?) -> Bool
+    /// - Returns: The sub-renderer object at the specified index.
+    @objc open func getSubRenderer(index: Int) -> DataRenderer?
     {
-        guard let data = dataProvider?.data else { return false }
-        return data.entryCount < Int(CGFloat(dataProvider?.maxVisibleCount ?? 0) * viewPortHandler.scaleX)
+        if index >= _renderers.count || index < 0
+        {
+            return nil
+        }
+        else
+        {
+            return _renderers[index]
+        }
     }
 
     /// All sub-renderers.
@@ -185,17 +201,16 @@ open class CombinedChartRenderer: NSObject, DataRenderer
     /// e.g. if you provide [DrawOrder.Bar, DrawOrder.Line], the bars will be drawn behind the lines.
     open var drawOrder: [CombinedChartView.DrawOrder]
     {
-        get { _drawOrder }
+        get
+        {
+            return _drawOrder
+        }
         set
         {
-            if !newValue.isEmpty
+            if newValue.count > 0
             {
                 _drawOrder = newValue
             }
         }
-    }
-    
-    public func createAccessibleHeader(usingChart chart: ChartViewBase, andData data: ChartData, withDefaultDescription defaultDescription: String) -> NSUIAccessibilityElement {
-        return AccessibleHeader.create(usingChart: chart, andData: data, withDefaultDescription: defaultDescription)
     }
 }

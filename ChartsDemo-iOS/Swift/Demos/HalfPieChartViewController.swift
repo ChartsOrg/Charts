@@ -6,9 +6,7 @@
 //  Copyright © 2017 jc. All rights reserved.
 //
 
-#if canImport(UIKit)
-    import UIKit
-#endif
+import UIKit
 import Charts
 
 class HalfPieChartViewController: DemoBaseViewController {
@@ -82,7 +80,7 @@ class HalfPieChartViewController: DemoBaseViewController {
                                      label: parties[i % parties.count])
         }
         
-        let set = PieChartDataSet(entries: entries, label: "Election Results")
+        let set = PieChartDataSet(values: entries, label: "Election Results")
         set.sliceSpace = 3
         set.selectionShift = 5
         set.colors = ChartColorTemplates.material()

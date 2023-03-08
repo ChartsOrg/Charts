@@ -6,9 +6,7 @@
 //  Copyright © 2017 jc. All rights reserved.
 //
 
-#if canImport(UIKit)
-    import UIKit
-#endif
+import UIKit
 import Charts
 
 class AnotherBarChartViewController: DemoBaseViewController {
@@ -37,7 +35,7 @@ class AnotherBarChartViewController: DemoBaseViewController {
         
         chartView.delegate = self
         
-        chartView.chartDescription.enabled = false
+        chartView.chartDescription?.enabled = false
         chartView.maxVisibleCount = 60
         chartView.pinchZoomEnabled = false
         chartView.drawBarShadowEnabled = false
@@ -70,13 +68,13 @@ class AnotherBarChartViewController: DemoBaseViewController {
         }
         
         var set1: BarChartDataSet! = nil
-        if let set = chartView.data?.first as? BarChartDataSet {
+        if let set = chartView.data?.dataSets.first as? BarChartDataSet {
             set1 = set
-            set1?.replaceEntries(yVals)
+            set1?.values = yVals
             chartView.data?.notifyDataChanged()
             chartView.notifyDataSetChanged()
         } else {
-            set1 = BarChartDataSet(entries: yVals, label: "Data Set")
+            set1 = BarChartDataSet(values: yVals, label: "Data Set")
             set1.colors = ChartColorTemplates.vordiplom()
             set1.drawValuesEnabled = false
             

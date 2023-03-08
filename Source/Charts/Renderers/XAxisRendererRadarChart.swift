@@ -12,28 +12,36 @@
 import Foundation
 import CoreGraphics
 
+#if !os(OSX)
+    import UIKit
+#endif
+
 open class XAxisRendererRadarChart: XAxisRenderer
 {
     @objc open weak var chart: RadarChartView?
     
-    @objc public init(viewPortHandler: ViewPortHandler, axis: XAxis, chart: RadarChartView)
+    @objc public init(viewPortHandler: ViewPortHandler, xAxis: XAxis?, chart: RadarChartView)
     {
-        super.init(viewPortHandler: viewPortHandler, axis: axis, transformer: nil)
+        super.init(viewPortHandler: viewPortHandler, xAxis: xAxis, transformer: nil)
         
         self.chart = chart
     }
     
     open override func renderAxisLabels(context: CGContext)
     {
-        guard
-            let chart = chart,
-            axis.isEnabled,
-            axis.isDrawLabelsEnabled
+        guard let
+            xAxis = axis as? XAxis,
+            let chart = chart
             else { return }
-
-        let labelFont = axis.labelFont
-        let labelTextColor = axis.labelTextColor
-        let labelRotationAngleRadians = axis.labelRotationAngle.RAD2DEG
+        
+        if !xAxis.isEnabled || !xAxis.isDrawLabelsEnabled
+        {
+            return
+        }
+        
+        let labelFont = xAxis.labelFont
+        let labelTextColor = xAxis.labelTextColor
+        let labelRotationAngleRadians = xAxis.labelRotationAngle.RAD2DEG
         let drawLabelAnchor = CGPoint(x: 0.5, y: 0.25)
         
         let sliceangle = chart.sliceAngle
@@ -43,17 +51,20 @@ open class XAxisRendererRadarChart: XAxisRenderer
         
         let center = chart.centerOffsets
         
-        for i in 0..<(chart.data?.maxEntryCountSet?.entryCount ?? 0)
+        for i in stride(from: 0, to: chart.data?.maxEntryCountSet?.entryCount ?? 0, by: 1)
         {
-            let label = axis.valueFormatter?.stringForValue(Double(i), axis: axis) ?? ""
+            
+            let label = xAxis.valueFormatter?.stringForValue(Double(i), axis: xAxis) ?? ""
+            
             let angle = (sliceangle * CGFloat(i) + chart.rotationAngle).truncatingRemainder(dividingBy: 360.0)
-            let p = center.moving(distance: CGFloat(chart.yRange) * factor + axis.labelRotatedWidth / 2.0, atAngle: angle)
-
+            
+            let p = center.moving(distance: CGFloat(chart.yRange) * factor + xAxis.labelRotatedWidth / 2.0, atAngle: angle)
+            
             drawLabel(context: context,
                       formattedLabel: label,
                       x: p.x,
-                      y: p.y - axis.labelRotatedHeight / 2.0,
-                      attributes: [.font: labelFont, .foregroundColor: labelTextColor],
+                      y: p.y - xAxis.labelRotatedHeight / 2.0,
+                      attributes: [NSAttributedString.Key.font: labelFont, NSAttributedString.Key.foregroundColor: labelTextColor],
                       anchor: drawLabelAnchor,
                       angleRadians: labelRotationAngleRadians)
         }
@@ -68,11 +79,13 @@ open class XAxisRendererRadarChart: XAxisRenderer
         anchor: CGPoint,
         angleRadians: CGFloat)
     {
-        context.drawText(formattedLabel,
-                         at: CGPoint(x: x, y: y),
-                         anchor: anchor,
-                         angleRadians: angleRadians,
-                         attributes: attributes)
+        ChartUtils.drawText(
+            context: context,
+            text: formattedLabel,
+            point: CGPoint(x: x, y: y),
+            attributes: attributes,
+            anchor: anchor,
+            angleRadians: angleRadians)
     }
     
     open override func renderLimitLines(context: CGContext)

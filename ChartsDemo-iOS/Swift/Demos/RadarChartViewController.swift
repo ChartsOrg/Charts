@@ -6,9 +6,7 @@
 //  Copyright © 2017 jc. All rights reserved.
 //
 
-#if canImport(UIKit)
-    import UIKit
-#endif
+import UIKit
 import Charts
 
 class RadarChartViewController: DemoBaseViewController {
@@ -41,7 +39,7 @@ class RadarChartViewController: DemoBaseViewController {
         
         chartView.delegate = self
         
-        chartView.chartDescription.enabled = false
+        chartView.chartDescription?.enabled = false
         chartView.webLineWidth = 1
         chartView.innerWebLineWidth = 1
         chartView.webColor = .lightGray
@@ -126,7 +124,7 @@ class RadarChartViewController: DemoBaseViewController {
         let entries1 = (0..<cnt).map(block)
         let entries2 = (0..<cnt).map(block)
         
-        let set1 = RadarChartDataSet(entries: entries1, label: "Last Week")
+        let set1 = RadarChartDataSet(values: entries1, label: "Last Week")
         set1.setColor(UIColor(red: 103/255, green: 110/255, blue: 129/255, alpha: 1))
         set1.fillColor = UIColor(red: 103/255, green: 110/255, blue: 129/255, alpha: 1)
         set1.drawFilledEnabled = true
@@ -135,7 +133,7 @@ class RadarChartViewController: DemoBaseViewController {
         set1.drawHighlightCircleEnabled = true
         set1.setDrawHighlightIndicators(false)
         
-        let set2 = RadarChartDataSet(entries: entries2, label: "This Week")
+        let set2 = RadarChartDataSet(values: entries2, label: "This Week")
         set2.setColor(UIColor(red: 121/255, green: 162/255, blue: 175/255, alpha: 1))
         set2.fillColor = UIColor(red: 121/255, green: 162/255, blue: 175/255, alpha: 1)
         set2.drawFilledEnabled = true
@@ -144,7 +142,7 @@ class RadarChartViewController: DemoBaseViewController {
         set2.drawHighlightCircleEnabled = true
         set2.setDrawHighlightIndicators(false)
         
-        let data: RadarChartData = [set1, set2]
+        let data = RadarChartData(dataSets: [set1, set2])
         data.setValueFont(.systemFont(ofSize: 8, weight: .light))
         data.setDrawValues(false)
         data.setValueTextColor(.white)
@@ -153,8 +151,6 @@ class RadarChartViewController: DemoBaseViewController {
     }
     
     override func optionTapped(_ option: Option) {
-        guard let data = chartView.data else { return }
-
         switch option {
         case .toggleXLabels:
             chartView.xAxis.drawLabelsEnabled = !chartView.xAxis.drawLabelsEnabled
@@ -170,14 +166,14 @@ class RadarChartViewController: DemoBaseViewController {
             chartView.rotationEnabled = !chartView.rotationEnabled
             
         case .toggleFilled:
-            for case let set as RadarChartDataSet in data {
+            for set in chartView.data!.dataSets as! [RadarChartDataSet] {
                 set.drawFilledEnabled = !set.drawFilledEnabled
             }
             
             chartView.setNeedsDisplay()
             
         case .toggleHighlightCircle:
-            for case let set as RadarChartDataSet in data {
+            for set in chartView.data!.dataSets as! [RadarChartDataSet] {
                 set.drawHighlightCircleEnabled = !set.drawHighlightCircleEnabled
             }
             chartView.setNeedsDisplay()
@@ -200,7 +196,7 @@ class RadarChartViewController: DemoBaseViewController {
     }
 }
 
-extension RadarChartViewController: AxisValueFormatter {
+extension RadarChartViewController: IAxisValueFormatter {
     func stringForValue(_ value: Double, axis: AxisBase?) -> String {
         return activities[Int(value) % activities.count]
     }

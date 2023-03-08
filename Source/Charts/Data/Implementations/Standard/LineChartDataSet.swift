@@ -13,7 +13,7 @@ import Foundation
 import CoreGraphics
 
 
-open class LineChartDataSet: LineRadarChartDataSet, LineChartDataSetProtocol
+open class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
 {
     @objc(LineChartMode)
     public enum Mode: Int
@@ -36,9 +36,9 @@ open class LineChartDataSet: LineRadarChartDataSet, LineChartDataSetProtocol
         initialize()
     }
     
-    public override init(entries: [ChartDataEntry], label: String)
+    public override init(values: [ChartDataEntry]?, label: String?)
     {
-        super.init(entries: entries, label: label)
+        super.init(values: values, label: label)
         initialize()
     }
     
@@ -67,11 +67,7 @@ open class LineChartDataSet: LineRadarChartDataSet, LineChartDataSetProtocol
             _cubicIntensity = newValue.clamped(to: 0.05...1)
         }
     }
-
-    open var isDrawLineWithGradientEnabled = false
-
-    open var gradientPositions: [CGFloat]?
-    
+        
     /// The radius of the drawn circles.
     open var circleRadius = CGFloat(8.0)
     
@@ -140,10 +136,10 @@ open class LineChartDataSet: LineRadarChartDataSet, LineChartDataSetProtocol
     open var lineCapType = CGLineCap.butt
     
     /// formatter for customizing the position of the fill-line
-    private var _fillFormatter: FillFormatter = DefaultFillFormatter()
+    private var _fillFormatter: IFillFormatter = DefaultFillFormatter()
     
-    /// Sets a custom FillFormatterProtocol to the chart that handles the position of the filled-line for each DataSet. Set this to null to use the default logic.
-    open var fillFormatter: FillFormatter?
+    /// Sets a custom IFillFormatter to the chart that handles the position of the filled-line for each DataSet. Set this to null to use the default logic.
+    open var fillFormatter: IFillFormatter?
     {
         get
         {

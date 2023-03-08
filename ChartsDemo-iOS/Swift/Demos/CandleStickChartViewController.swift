@@ -6,9 +6,7 @@
 //  Copyright © 2017 jc. All rights reserved.
 //
 
-#if canImport(UIKit)
-    import UIKit
-#endif
+import UIKit
 import Charts
 
 class CandleStickChartViewController: DemoBaseViewController {
@@ -39,7 +37,7 @@ class CandleStickChartViewController: DemoBaseViewController {
         
         chartView.delegate = self
         
-        chartView.chartDescription.enabled = false
+        chartView.chartDescription?.enabled = false
         
         chartView.dragEnabled = false
         chartView.setScaleEnabled(true)
@@ -89,7 +87,7 @@ class CandleStickChartViewController: DemoBaseViewController {
             return CandleChartDataEntry(x: Double(i), shadowH: val + high, shadowL: val - low, open: even ? val + open : val - open, close: even ? val - close : val + close, icon: UIImage(named: "icon")!)
         }
         
-        let set1 = CandleChartDataSet(entries: yVals1, label: "Data Set")
+        let set1 = CandleChartDataSet(values: yVals1, label: "Data Set")
         set1.axisDependency = .left
         set1.setColor(UIColor(white: 80/255, alpha: 1))
         set1.drawIconsEnabled = false
@@ -108,7 +106,7 @@ class CandleStickChartViewController: DemoBaseViewController {
     override func optionTapped(_ option: Option) {
         switch option {
         case .toggleShadowColorSameAsCandle:
-            for case let set as CandleChartDataSet in chartView.data! {
+            for set in chartView.data!.dataSets as! [CandleChartDataSet] {
                 set.shadowColorSameAsCandle = !set.shadowColorSameAsCandle
             }
             chartView.notifyDataSetChanged()

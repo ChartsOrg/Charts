@@ -6,9 +6,7 @@
 //  Copyright © 2017 jc. All rights reserved.
 //
 
-#if canImport(UIKit)
-    import UIKit
-#endif
+import UIKit
 import Charts
 
 class LineChart2ViewController: DemoBaseViewController {
@@ -41,7 +39,7 @@ class LineChart2ViewController: DemoBaseViewController {
         
         chartView.delegate = self
         
-        chartView.chartDescription.enabled = false
+        chartView.chartDescription?.enabled = false
         chartView.dragEnabled = true
         chartView.setScaleEnabled(true)
         chartView.pinchZoomEnabled = true
@@ -104,7 +102,7 @@ class LineChart2ViewController: DemoBaseViewController {
             return ChartDataEntry(x: Double(i), y: val)
         }
 
-        let set1 = LineChartDataSet(entries: yVals1, label: "DataSet 1")
+        let set1 = LineChartDataSet(values: yVals1, label: "DataSet 1")
         set1.axisDependency = .left
         set1.setColor(UIColor(red: 51/255, green: 181/255, blue: 229/255, alpha: 1))
         set1.setCircleColor(.white)
@@ -115,7 +113,7 @@ class LineChart2ViewController: DemoBaseViewController {
         set1.highlightColor = UIColor(red: 244/255, green: 117/255, blue: 117/255, alpha: 1)
         set1.drawCircleHoleEnabled = false
         
-        let set2 = LineChartDataSet(entries: yVals2, label: "DataSet 2")
+        let set2 = LineChartDataSet(values: yVals2, label: "DataSet 2")
         set2.axisDependency = .right
         set2.setColor(.red)
         set2.setCircleColor(.white)
@@ -126,7 +124,7 @@ class LineChart2ViewController: DemoBaseViewController {
         set2.highlightColor = UIColor(red: 244/255, green: 117/255, blue: 117/255, alpha: 1)
         set2.drawCircleHoleEnabled = false
 
-        let set3 = LineChartDataSet(entries: yVals3, label: "DataSet 3")
+        let set3 = LineChartDataSet(values: yVals3, label: "DataSet 3")
         set3.axisDependency = .right
         set3.setColor(.yellow)
         set3.setCircleColor(.white)
@@ -137,7 +135,7 @@ class LineChart2ViewController: DemoBaseViewController {
         set3.highlightColor = UIColor(red: 244/255, green: 117/255, blue: 117/255, alpha: 1)
         set3.drawCircleHoleEnabled = false
         
-        let data: LineChartData = [set1, set2, set3]
+        let data = LineChartData(dataSets: [set1, set2, set3])
         data.setValueTextColor(.white)
         data.setValueFont(.systemFont(ofSize: 9))
         
@@ -145,35 +143,33 @@ class LineChart2ViewController: DemoBaseViewController {
     }
     
     override func optionTapped(_ option: Option) {
-        guard let data = chartView.data else { return }
-
         switch option {
         case .toggleFilled:
-            for case let set as LineChartDataSet in data {
+            for set in chartView.data!.dataSets as! [LineChartDataSet] {
                 set.drawFilledEnabled = !set.drawFilledEnabled
             }
             chartView.setNeedsDisplay()
             
         case .toggleCircles:
-            for case let set as LineChartDataSet in data {
+            for set in chartView.data!.dataSets as! [LineChartDataSet] {
                 set.drawCirclesEnabled = !set.drawCirclesEnabled
             }
             chartView.setNeedsDisplay()
             
         case .toggleCubic:
-            for case let set as LineChartDataSet in data {
+            for set in chartView.data!.dataSets as! [LineChartDataSet] {
                 set.mode = (set.mode == .cubicBezier) ? .linear : .cubicBezier
             }
             chartView.setNeedsDisplay()
             
         case .toggleStepped:
-            for case let set as LineChartDataSet in data {
+            for set in chartView.data!.dataSets as! [LineChartDataSet] {
                 set.mode = (set.mode == .stepped) ? .linear : .stepped
             }
             chartView.setNeedsDisplay()
             
         case .toggleHorizontalCubic:
-            for case let set as LineChartDataSet in data {
+            for set in chartView.data!.dataSets as! [LineChartDataSet] {
                 set.mode = (set.mode == .cubicBezier) ? .horizontalBezier : .cubicBezier
             }
             chartView.setNeedsDisplay()
@@ -196,7 +192,7 @@ class LineChart2ViewController: DemoBaseViewController {
         super.chartValueSelected(chartView, entry: entry, highlight: highlight)
         
         self.chartView.centerViewToAnimated(xValue: entry.x, yValue: entry.y,
-                                            axis: self.chartView.data![highlight.dataSetIndex].axisDependency,
+                                            axis: self.chartView.data!.getDataSetByIndex(highlight.dataSetIndex).axisDependency,
                                             duration: 1)
         //[_chartView moveViewToAnimatedWithXValue:entry.x yValue:entry.y axis:[_chartView.data getDataSetByIndex:dataSetIndex].axisDependency duration:1.0];
         //[_chartView zoomAndCenterViewAnimatedWithScaleX:1.8 scaleY:1.8 xValue:entry.x yValue:entry.y axis:[_chartView.data getDataSetByIndex:dataSetIndex].axisDependency duration:1.0];

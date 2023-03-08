@@ -11,9 +11,8 @@
 
 import Foundation
 
-/// The default value formatter used for all chart components that needs a default
 @objc(ChartDefaultValueFormatter)
-open class DefaultValueFormatter: NSObject, ValueFormatter
+open class DefaultValueFormatter: NSObject, IValueFormatter
 {
     public typealias Block = (
         _ value: Double,
@@ -23,76 +22,69 @@ open class DefaultValueFormatter: NSObject, ValueFormatter
     
     @objc open var block: Block?
     
-    @objc open var hasAutoDecimals: Bool
+    @objc open var hasAutoDecimals: Bool = false
     
+    private var _formatter: NumberFormatter?
     @objc open var formatter: NumberFormatter?
     {
-        willSet
+        get { return _formatter }
+        set
         {
             hasAutoDecimals = false
+            _formatter = newValue
         }
     }
     
+    private var _decimals: Int?
     open var decimals: Int?
     {
-        didSet
+        get { return _decimals }
+        set
         {
-            setupDecimals(decimals: decimals)
-        }
-    }
-
-    private func setupDecimals(decimals: Int?)
-    {
-        if let digits = decimals
-        {
-            formatter?.minimumFractionDigits = digits
-            formatter?.maximumFractionDigits = digits
-            formatter?.usesGroupingSeparator = true
+            _decimals = newValue
+            
+            if let digits = newValue
+            {
+                self.formatter?.minimumFractionDigits = digits
+                self.formatter?.maximumFractionDigits = digits
+                self.formatter?.usesGroupingSeparator = true
+            }
         }
     }
     
     public override init()
     {
-        formatter = NumberFormatter()
-        formatter?.usesGroupingSeparator = true
-        decimals = 1
-        hasAutoDecimals = true
-
         super.init()
-        setupDecimals(decimals: decimals)
+        
+        self.formatter = NumberFormatter()
+        hasAutoDecimals = true
     }
     
     @objc public init(formatter: NumberFormatter)
     {
-        self.formatter = formatter
-        hasAutoDecimals = false
-
         super.init()
+        
+        self.formatter = formatter
     }
     
     @objc public init(decimals: Int)
     {
-        formatter = NumberFormatter()
-        formatter?.usesGroupingSeparator = true
+        super.init()
+        
+        self.formatter = NumberFormatter()
+        self.formatter?.usesGroupingSeparator = true
         self.decimals = decimals
         hasAutoDecimals = true
-
-        super.init()
-        setupDecimals(decimals: decimals)
     }
     
     @objc public init(block: @escaping Block)
     {
-        self.block = block
-        hasAutoDecimals = false
-
         super.init()
+        
+        self.block = block
     }
-
-    /// This function is deprecated - Use `init(block:)` instead.
-    // DEC 11, 2017
-    @available(*, deprecated, message: "Use `init(block:)` instead.")
-    @objc public static func with(block: @escaping Block) -> DefaultValueFormatter
+    
+    @objc public static func with(block: @escaping Block) -> DefaultValueFormatter?
     {
         return DefaultValueFormatter(block: block)
     }

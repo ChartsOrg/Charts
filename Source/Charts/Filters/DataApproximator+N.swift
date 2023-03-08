@@ -9,7 +9,6 @@
 //
 
 import Foundation
-import CoreGraphics
 
 extension CGPoint {
     fileprivate func distanceToLine(from linePoint1: CGPoint, to linePoint2: CGPoint) -> CGFloat {
@@ -78,12 +77,12 @@ extension DataApproximator {
         var keep = [Bool](repeating: false, count: points.count)
         
         // first and last always stay
-        keep[points.startIndex] = true
-        keep[points.endIndex - 1] = true
+        keep[0] = true
+        keep[points.count - 1] = true
         var currentStoredPoints = 2
         
         var queue = [LineAlt]()
-        let line = LineAlt(start: points.startIndex, end: points.endIndex - 1, points: points)
+        let line = LineAlt(start: 0, end: points.count - 1, points: points)
         queue.append(line)
         
         repeat {

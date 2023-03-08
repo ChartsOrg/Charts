@@ -6,9 +6,7 @@
 //  Copyright © 2017 jc. All rights reserved.
 //
 
-#if canImport(UIKit)
-    import UIKit
-#endif
+import UIKit
 import Charts
 
 class PositiveNegativeBarChartViewController: DemoBaseViewController {
@@ -46,7 +44,7 @@ class PositiveNegativeBarChartViewController: DemoBaseViewController {
         chartView.drawBarShadowEnabled = false
         chartView.drawValueAboveBarEnabled = true
         
-        chartView.chartDescription.enabled = false
+        chartView.chartDescription?.enabled = false
         
         chartView.rightAxis.enabled = false
 
@@ -95,7 +93,7 @@ class PositiveNegativeBarChartViewController: DemoBaseViewController {
             return entry.y > 0 ? red : green
         }
         
-        let set = BarChartDataSet(entries: yVals, label: "Values")
+        let set = BarChartDataSet(values: yVals, label: "Values")
         set.colors = colors
         set.valueColors = colors
         
@@ -115,7 +113,7 @@ class PositiveNegativeBarChartViewController: DemoBaseViewController {
     }
 }
 
-extension PositiveNegativeBarChartViewController: AxisValueFormatter {
+extension PositiveNegativeBarChartViewController: IAxisValueFormatter {
     func stringForValue(_ value: Double, axis: AxisBase?) -> String {
         return dataLabels[min(max(Int(value), 0), dataLabels.count - 1)]
     }

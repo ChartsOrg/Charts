@@ -29,13 +29,13 @@ open class BarDemoViewController: NSViewController
         let yse2 = ys2.enumerated().map { x, y in return BarChartDataEntry(x: Double(x), y: y) }
         
         let data = BarChartData()
-        let ds1 = BarChartDataSet(entries: yse1, label: "Hello")
+        let ds1 = BarChartDataSet(values: yse1, label: "Hello")
         ds1.colors = [NSUIColor.red]
-        data.append(ds1)
+        data.addDataSet(ds1)
 
-        let ds2 = BarChartDataSet(entries: yse2, label: "World")
+        let ds2 = BarChartDataSet(values: yse2, label: "World")
         ds2.colors = [NSUIColor.blue]
-        data.append(ds2)
+        data.addDataSet(ds2)
 
         let barWidth = 0.4
         let barSpace = 0.05
@@ -51,15 +51,15 @@ open class BarDemoViewController: NSViewController
         
         self.barChartView.gridBackgroundColor = NSUIColor.white
         
-        self.barChartView.chartDescription.text = "Barchart Demo"
+        self.barChartView.chartDescription?.text = "Barchart Demo"
     }
     
-    @IBAction func save(_ sender: Any)
+    @IBAction func save(_ sender: AnyObject)
     {
         let panel = NSSavePanel()
         panel.allowedFileTypes = ["png"]
         panel.beginSheetModal(for: self.view.window!) { (result) -> Void in
-            if result == NSApplication.ModalResponse.OK
+            if result.rawValue == NSFileHandlingPanelOKButton
             {
                 if let path = panel.url?.path
                 {

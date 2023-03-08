@@ -9,7 +9,6 @@
 //  https://github.com/danielgindi/Charts
 //
 
-import Algorithms
 import Foundation
 import CoreGraphics
 
@@ -36,8 +35,10 @@ open class CombinedHighlighter: ChartHighlighter
             let dataObjects = chart.combinedData?.allData
             else { return vals }
         
-        for (i, dataObject) in dataObjects.indexed()
+        for i in 0..<dataObjects.count
         {
+            let dataObject = dataObjects[i]
+
             // in case of BarData, let the BarHighlighter take over
             if barHighlighter != nil && dataObject is BarChartData,
                 let high = barHighlighter?.getHighlight(x: x, y: y)
@@ -47,9 +48,13 @@ open class CombinedHighlighter: ChartHighlighter
             }
             else
             {
-                for (j, set) in dataObject.indexed() where set.isHighlightEnabled
+                for j in 0..<dataObject.dataSetCount
                 {
-                    let highs = buildHighlights(dataSet: set, dataSetIndex: j, xValue: xValue, rounding: .closest)
+                    guard let dataSet = dataObject.getDataSetByIndex(j),
+                        dataSet.isHighlightEnabled      // don't include datasets that cannot be highlighted
+                        else { continue }
+
+                    let highs = buildHighlights(dataSet: dataSet, dataSetIndex: j, xValue: xValue, rounding: .closest)
 
                     for high in highs
                     {

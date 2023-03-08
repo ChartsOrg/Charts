@@ -7,6 +7,6 @@
 #import <UIKit/UIKit.h>
 #import "ChartsDemo_iOS-Swift.h"
 
-@interface IntAxisValueFormatter : NSObject <ChartAxisValueFormatter>
+@interface IntAxisValueFormatter : NSObject <IChartAxisValueFormatter>
 
 @end

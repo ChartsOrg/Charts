@@ -27,7 +27,6 @@ class PiePolylineChartViewController: DemoBaseViewController {
                         .toggleXValues,
                         .togglePercent,
                         .toggleHole,
-                        .toggleLabelsMinimumAngle,
                         .animateX,
                         .animateY,
                         .animateXY,
@@ -66,7 +65,7 @@ class PiePolylineChartViewController: DemoBaseViewController {
                                      label: parties[i % parties.count])
         }
         
-        let set = PieChartDataSet(entries: entries, label: "Election Results")
+        let set = PieChartDataSet(values: entries, label: "Election Results")
         set.sliceSpace = 2
         
         
@@ -112,10 +111,6 @@ class PiePolylineChartViewController: DemoBaseViewController {
             chartView.drawHoleEnabled = !chartView.drawHoleEnabled
             chartView.setNeedsDisplay()
             
-        case .toggleLabelsMinimumAngle:
-            chartView.sliceTextDrawingThreshold = chartView.sliceTextDrawingThreshold == 0.0 ? 20.0 : 0.0
-            chartView.setNeedsDisplay()
-
         case .drawCenter:
             chartView.drawCenterTextEnabled = !chartView.drawCenterTextEnabled
             chartView.setNeedsDisplay()

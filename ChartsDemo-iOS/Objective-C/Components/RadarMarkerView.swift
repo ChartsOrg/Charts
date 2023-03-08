@@ -11,9 +11,6 @@
 
 import Foundation
 import Charts
-#if canImport(UIKit)
-    import UIKit
-#endif
 
 open class RadarMarkerView: MarkerView
 {

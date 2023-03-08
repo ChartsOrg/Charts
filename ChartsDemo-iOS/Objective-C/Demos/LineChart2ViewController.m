@@ -146,15 +146,15 @@
         set1 = (LineChartDataSet *)_chartView.data.dataSets[0];
         set2 = (LineChartDataSet *)_chartView.data.dataSets[1];
         set3 = (LineChartDataSet *)_chartView.data.dataSets[2];
-        [set1 replaceEntries:yVals1];
-        [set2 replaceEntries:yVals2];
-        [set3 replaceEntries:yVals3];
+        set1.values = yVals1;
+        set2.values = yVals2;
+        set3.values = yVals3;
         [_chartView.data notifyDataChanged];
         [_chartView notifyDataSetChanged];
     }
     else
     {
-        set1 = [[LineChartDataSet alloc] initWithEntries:yVals1 label:@"DataSet 1"];
+        set1 = [[LineChartDataSet alloc] initWithValues:yVals1 label:@"DataSet 1"];
         set1.axisDependency = AxisDependencyLeft;
         [set1 setColor:[UIColor colorWithRed:51/255.f green:181/255.f blue:229/255.f alpha:1.f]];
         [set1 setCircleColor:UIColor.whiteColor];
@@ -165,7 +165,7 @@
         set1.highlightColor = [UIColor colorWithRed:244/255.f green:117/255.f blue:117/255.f alpha:1.f];
         set1.drawCircleHoleEnabled = NO;
         
-        set2 = [[LineChartDataSet alloc] initWithEntries:yVals2 label:@"DataSet 2"];
+        set2 = [[LineChartDataSet alloc] initWithValues:yVals2 label:@"DataSet 2"];
         set2.axisDependency = AxisDependencyRight;
         [set2 setColor:UIColor.redColor];
         [set2 setCircleColor:UIColor.whiteColor];
@@ -176,7 +176,7 @@
         set2.highlightColor = [UIColor colorWithRed:244/255.f green:117/255.f blue:117/255.f alpha:1.f];
         set2.drawCircleHoleEnabled = NO;
         
-        set3 = [[LineChartDataSet alloc] initWithEntries:yVals3 label:@"DataSet 3"];
+        set3 = [[LineChartDataSet alloc] initWithValues:yVals3 label:@"DataSet 3"];
         set3.axisDependency = AxisDependencyRight;
         [set3 setColor:UIColor.yellowColor];
         [set3 setCircleColor:UIColor.whiteColor];
@@ -204,7 +204,7 @@
 {
     if ([key isEqualToString:@"toggleFilled"])
     {
-        for (id<LineChartDataSetProtocol> set in _chartView.data.dataSets)
+        for (id<ILineChartDataSet> set in _chartView.data.dataSets)
         {
             set.drawFilledEnabled = !set.isDrawFilledEnabled;
         }
@@ -215,7 +215,7 @@
     
     if ([key isEqualToString:@"toggleCircles"])
     {
-        for (id<LineChartDataSetProtocol> set in _chartView.data.dataSets)
+        for (id<ILineChartDataSet> set in _chartView.data.dataSets)
         {
             set.drawCirclesEnabled = !set.isDrawCirclesEnabled;
         }
@@ -226,7 +226,7 @@
     
     if ([key isEqualToString:@"toggleCubic"])
     {
-        for (id<LineChartDataSetProtocol> set in _chartView.data.dataSets)
+        for (id<ILineChartDataSet> set in _chartView.data.dataSets)
         {
             set.mode = set.mode == LineChartModeCubicBezier ? LineChartModeLinear : LineChartModeCubicBezier;
         }
@@ -237,7 +237,7 @@
 
     if ([key isEqualToString:@"toggleStepped"])
     {
-        for (id<LineChartDataSetProtocol> set in _chartView.data.dataSets)
+        for (id<ILineChartDataSet> set in _chartView.data.dataSets)
         {
             switch (set.mode) {
                 case LineChartModeLinear:
@@ -254,7 +254,7 @@
     
     if ([key isEqualToString:@"toggleHorizontalCubic"])
     {
-        for (id<LineChartDataSetProtocol> set in _chartView.data.dataSets)
+        for (id<ILineChartDataSet> set in _chartView.data.dataSets)
         {
             set.mode = set.mode == LineChartModeCubicBezier ? LineChartModeHorizontalBezier : LineChartModeCubicBezier;
         }
@@ -282,7 +282,7 @@
 {
     NSLog(@"chartValueSelected");
     
-    [_chartView centerViewToAnimatedWithXValue:entry.x yValue:entry.y axis:[_chartView.data dataSetAtIndex:highlight.dataSetIndex].axisDependency duration:1.0];
+    [_chartView centerViewToAnimatedWithXValue:entry.x yValue:entry.y axis:[_chartView.data getDataSetByIndex:highlight.dataSetIndex].axisDependency duration:1.0];
     //[_chartView moveViewToAnimatedWithXValue:entry.x yValue:entry.y axis:[_chartView.data getDataSetByIndex:dataSetIndex].axisDependency duration:1.0];
     //[_chartView zoomAndCenterViewAnimatedWithScaleX:1.8 scaleY:1.8 xValue:entry.x yValue:entry.y axis:[_chartView.data getDataSetByIndex:dataSetIndex].axisDependency duration:1.0];
 

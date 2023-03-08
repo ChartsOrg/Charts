@@ -11,7 +11,7 @@ private let MAX_LENGTH = 5
 
 @objc protocol Testing123 { }
 
-public class LargeValueFormatter: NSObject, ValueFormatter, AxisValueFormatter {
+public class LargeValueFormatter: NSObject, IValueFormatter, IAxisValueFormatter {
     
     /// Suffix to be appended after the values.
     ///

@@ -6,13 +6,8 @@
 //  Copyright © 2017 jc. All rights reserved.
 //
 
-#if canImport(UIKit)
-    import UIKit
-#endif
+import UIKit
 import Charts
-#if canImport(UIKit)
-    import UIKit
-#endif
 
 private let ITEM_COUNT = 12
 
@@ -39,7 +34,7 @@ class CombinedChartViewController: DemoBaseViewController {
         
         chartView.delegate = self
         
-        chartView.chartDescription.enabled = false
+        chartView.chartDescription?.enabled = false
         
         chartView.drawBarShadowEnabled = false
         chartView.highlightFullBarEnabled = false
@@ -99,7 +94,7 @@ class CombinedChartViewController: DemoBaseViewController {
     override func optionTapped(_ option: Option) {
         switch option {
         case .toggleLineValues:
-            for set in chartView.data! {
+            for set in chartView.data!.dataSets {
                 if let set = set as? LineChartDataSet {
                     set.drawValuesEnabled = !set .drawValuesEnabled
                     
@@ -108,7 +103,7 @@ class CombinedChartViewController: DemoBaseViewController {
             chartView.setNeedsDisplay()
             
         case .toggleBarValues:
-            for set in chartView.data! {
+            for set in chartView.data!.dataSets {
                 if let set = set as? BarChartDataSet {
                     set.drawValuesEnabled = !set .drawValuesEnabled
                 }
@@ -117,7 +112,7 @@ class CombinedChartViewController: DemoBaseViewController {
             
         case .removeDataSet:
             let rnd = Int(arc4random_uniform(UInt32(chartView.data!.dataSetCount)))
-            chartView.data?.removeDataSet(chartView.data![rnd])
+            chartView.data?.removeDataSet(chartView.data!.getDataSetByIndex(rnd))
             chartView.data?.notifyDataChanged()
             chartView.notifyDataSetChanged()
             
@@ -131,7 +126,7 @@ class CombinedChartViewController: DemoBaseViewController {
             return ChartDataEntry(x: Double(i) + 0.5, y: Double(arc4random_uniform(15) + 5))
         }
         
-        let set = LineChartDataSet(entries: entries, label: "Line DataSet")
+        let set = LineChartDataSet(values: entries, label: "Line DataSet")
         set.setColor(UIColor(red: 240/255, green: 238/255, blue: 70/255, alpha: 1))
         set.lineWidth = 2.5
         set.setCircleColor(UIColor(red: 240/255, green: 238/255, blue: 70/255, alpha: 1))
@@ -156,13 +151,13 @@ class CombinedChartViewController: DemoBaseViewController {
             return BarChartDataEntry(x: 0, yValues: [Double(arc4random_uniform(13) + 12), Double(arc4random_uniform(13) + 12)])
         }
         
-        let set1 = BarChartDataSet(entries: entries1, label: "Bar 1")
+        let set1 = BarChartDataSet(values: entries1, label: "Bar 1")
         set1.setColor(UIColor(red: 60/255, green: 220/255, blue: 78/255, alpha: 1))
         set1.valueTextColor = UIColor(red: 60/255, green: 220/255, blue: 78/255, alpha: 1)
         set1.valueFont = .systemFont(ofSize: 10)
         set1.axisDependency = .left
         
-        let set2 = BarChartDataSet(entries: entries2, label: "")
+        let set2 = BarChartDataSet(values: entries2, label: "")
         set2.stackLabels = ["Stack 1", "Stack 2"]
         set2.colors = [UIColor(red: 61/255, green: 165/255, blue: 255/255, alpha: 1),
                        UIColor(red: 23/255, green: 197/255, blue: 255/255, alpha: 1)
@@ -176,7 +171,7 @@ class CombinedChartViewController: DemoBaseViewController {
         let barWidth = 0.45 // x2 dataset
         // (0.45 + 0.02) * 2 + 0.06 = 1.00 -> interval per "group"
         
-        let data: BarChartData = [set1, set2]
+        let data = BarChartData(dataSets: [set1, set2])
         data.barWidth = barWidth
         
         // make this BarData object grouped
@@ -190,7 +185,7 @@ class CombinedChartViewController: DemoBaseViewController {
             return ChartDataEntry(x: i+0.25, y: Double(arc4random_uniform(10) + 55))
         }
         
-        let set = ScatterChartDataSet(entries: entries, label: "Scatter DataSet")
+        let set = ScatterChartDataSet(values: entries, label: "Scatter DataSet")
         set.colors = ChartColorTemplates.material()
         set.scatterShapeSize = 4.5
         set.drawValuesEnabled = false
@@ -204,7 +199,7 @@ class CombinedChartViewController: DemoBaseViewController {
             return CandleChartDataEntry(x: Double(i+1), shadowH: 90, shadowL: 70, open: 85, close: 75)
         }
         
-        let set = CandleChartDataSet(entries: entries, label: "Candle DataSet")
+        let set = CandleChartDataSet(values: entries, label: "Candle DataSet")
         set.setColor(UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 1))
         set.decreasingColor = UIColor(red: 142/255, green: 150/255, blue: 175/255, alpha: 1)
         set.shadowColor = .darkGray
@@ -221,7 +216,7 @@ class CombinedChartViewController: DemoBaseViewController {
                                         size: CGFloat(arc4random_uniform(50) + 105))
         }
         
-        let set = BubbleChartDataSet(entries: entries, label: "Bubble DataSet")
+        let set = BubbleChartDataSet(values: entries, label: "Bubble DataSet")
         set.setColors(ChartColorTemplates.vordiplom(), alpha: 1)
         set.valueTextColor = .white
         set.valueFont = .systemFont(ofSize: 10)
@@ -231,7 +226,7 @@ class CombinedChartViewController: DemoBaseViewController {
     }
 }
 
-extension CombinedChartViewController: AxisValueFormatter {
+extension CombinedChartViewController: IAxisValueFormatter {
     func stringForValue(_ value: Double, axis: AxisBase?) -> String {
         return months[Int(value) % months.count]
     }

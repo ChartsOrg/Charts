@@ -106,7 +106,7 @@
             [values addObject:[[ChartDataEntry alloc] initWithX:i y:val]];
         }
         
-        LineChartDataSet *d = [[LineChartDataSet alloc] initWithEntries:values label:[NSString stringWithFormat:@"DataSet %d", z + 1]];
+        LineChartDataSet *d = [[LineChartDataSet alloc] initWithValues:values label:[NSString stringWithFormat:@"DataSet %d", z + 1]];
         d.lineWidth = 2.5;
         d.circleRadius = 4.0;
         d.circleHoleRadius = 2.0;
@@ -130,7 +130,7 @@
 {
     if ([key isEqualToString:@"toggleFilled"])
     {
-        for (id<LineChartDataSetProtocol> set in _chartView.data.dataSets)
+        for (id<ILineChartDataSet> set in _chartView.data.dataSets)
         {
             set.drawFilledEnabled = !set.isDrawFilledEnabled;
         }
@@ -141,7 +141,7 @@
     
     if ([key isEqualToString:@"toggleCircles"])
     {
-        for (id<LineChartDataSetProtocol> set in _chartView.data.dataSets)
+        for (id<ILineChartDataSet> set in _chartView.data.dataSets)
         {
             set.drawCirclesEnabled = !set.isDrawCirclesEnabled;
         }
@@ -152,7 +152,7 @@
     
     if ([key isEqualToString:@"toggleCubic"])
     {
-        for (id<LineChartDataSetProtocol> set in _chartView.data.dataSets)
+        for (id<ILineChartDataSet> set in _chartView.data.dataSets)
         {
             set.mode = set.mode == LineChartModeCubicBezier ? LineChartModeLinear : LineChartModeCubicBezier;
         }
@@ -163,7 +163,7 @@
 
     if ([key isEqualToString:@"toggleStepped"])
     {
-        for (id<LineChartDataSetProtocol> set in _chartView.data.dataSets)
+        for (id<ILineChartDataSet> set in _chartView.data.dataSets)
         {
             switch (set.mode) {
                 case LineChartModeLinear:

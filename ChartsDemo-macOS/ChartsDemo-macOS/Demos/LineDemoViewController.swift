@@ -28,18 +28,18 @@ open class LineDemoViewController: NSViewController
         let yse2 = ys2.enumerated().map { x, y in return ChartDataEntry(x: Double(x), y: y) }
         
         let data = LineChartData()
-        let ds1 = LineChartDataSet(entries: yse1, label: "Hello")
+        let ds1 = LineChartDataSet(values: yse1, label: "Hello")
         ds1.colors = [NSUIColor.red]
-        data.append(ds1)
+        data.addDataSet(ds1)
         
-        let ds2 = LineChartDataSet(entries: yse2, label: "World")
+        let ds2 = LineChartDataSet(values: yse2, label: "World")
         ds2.colors = [NSUIColor.blue]
-        data.append(ds2)
+        data.addDataSet(ds2)
         self.lineChartView.data = data
         
         self.lineChartView.gridBackgroundColor = NSUIColor.white
 
-        self.lineChartView.chartDescription.text = "Linechart Demo"
+        self.lineChartView.chartDescription?.text = "Linechart Demo"
     }
     
     override open func viewWillAppear()

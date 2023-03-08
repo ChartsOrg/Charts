@@ -126,13 +126,13 @@
     if (_chartView.data.dataSetCount > 0)
     {
         set1 = (LineChartDataSet *)_chartView.data.dataSets[0];
-        [set1 replaceEntries: values];
+        set1.values = values;
         [_chartView.data notifyDataChanged];
         [_chartView notifyDataSetChanged];
     }
     else
     {
-        set1 = [[LineChartDataSet alloc] initWithEntries:values label:@"DataSet 1"];
+        set1 = [[LineChartDataSet alloc] initWithValues:values label:@"DataSet 1"];
         set1.axisDependency = AxisDependencyLeft;
         set1.valueTextColor = [UIColor colorWithRed:51/255.0 green:181/255.0 blue:229/255.0 alpha:1.0];
         set1.lineWidth = 1.5;
@@ -158,7 +158,7 @@
 {
     if ([key isEqualToString:@"toggleFilled"])
     {
-        for (id<LineChartDataSetProtocol> set in _chartView.data.dataSets)
+        for (id<ILineChartDataSet> set in _chartView.data.dataSets)
         {
             set.drawFilledEnabled = !set.isDrawFilledEnabled;
         }
@@ -169,7 +169,7 @@
     
     if ([key isEqualToString:@"toggleCircles"])
     {
-        for (id<LineChartDataSetProtocol> set in _chartView.data.dataSets)
+        for (id<ILineChartDataSet> set in _chartView.data.dataSets)
         {
             set.drawCirclesEnabled = !set.isDrawCirclesEnabled;
         }
@@ -180,7 +180,7 @@
     
     if ([key isEqualToString:@"toggleCubic"])
     {
-        for (id<LineChartDataSetProtocol> set in _chartView.data.dataSets)
+        for (id<ILineChartDataSet> set in _chartView.data.dataSets)
         {
             set.mode = set.mode == LineChartModeCubicBezier ? LineChartModeLinear : LineChartModeCubicBezier;
         }
@@ -191,7 +191,7 @@
 
     if ([key isEqualToString:@"toggleStepped"])
     {
-        for (id<LineChartDataSetProtocol> set in _chartView.data.dataSets)
+        for (id<ILineChartDataSet> set in _chartView.data.dataSets)
         {
             switch (set.mode) {
                 case LineChartModeLinear:
@@ -208,7 +208,7 @@
     
     if ([key isEqualToString:@"toggleHorizontalCubic"])
     {
-        for (id<LineChartDataSetProtocol> set in _chartView.data.dataSets)
+        for (id<ILineChartDataSet> set in _chartView.data.dataSets)
         {
             set.mode = set.mode == LineChartModeCubicBezier ? LineChartModeHorizontalBezier : LineChartModeCubicBezier;
         }

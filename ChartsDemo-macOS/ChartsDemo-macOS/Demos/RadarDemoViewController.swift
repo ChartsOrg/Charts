@@ -28,15 +28,15 @@ open class RadarDemoViewController: NSViewController
         let yse2 = ys2.enumerated().map { x, y in return RadarChartDataEntry(value: y) }
         
         let data = RadarChartData()
-        let ds1 = RadarChartDataSet(entries: yse1, label: "Hello")
+        let ds1 = RadarChartDataSet(values: yse1, label: "Hello")
         ds1.colors = [NSUIColor.red]
-        data.append(ds1)
+        data.addDataSet(ds1)
         
-        let ds2 = RadarChartDataSet(entries: yse2, label: "World")
+        let ds2 = RadarChartDataSet(values: yse2, label: "World")
         ds2.colors = [NSUIColor.blue]
-        data.append(ds2)
+        data.addDataSet(ds2)
         self.radarChartView.data = data
-        self.radarChartView.chartDescription.text = "Radarchart Demo"
+        self.radarChartView.chartDescription?.text = "Radarchart Demo"
 
     }
     

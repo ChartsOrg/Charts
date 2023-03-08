@@ -31,7 +31,6 @@ DerivedData
 *.ipa
 *.dSYM.zip
 *.dSYM
-*.dia
 
 ## Playgrounds
 timeline.xctimeline
@@ -73,4 +72,3 @@ fastlane/test_output
 Carthage
 Charts.framework.zip
 ChartsRealm.framework.zip
-.swiftpm/

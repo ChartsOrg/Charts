@@ -22,12 +22,20 @@ open class RadarHighlighter: PieRadarHighlighter
         let highlights = getHighlights(forIndex: index)
         
         let distanceToCenter = Double(chart.distanceToCenter(x: x, y: y) / chart.factor)
-
-        func closestToCenter(lhs: Highlight, rhs: Highlight) -> Bool {
-            abs(lhs.y - distanceToCenter) < abs(rhs.y - distanceToCenter)
+        
+        var closest: Highlight?
+        var distance = Double.greatestFiniteMagnitude
+        
+        for high in highlights
+        {
+            let cdistance = abs(high.y - distanceToCenter)
+            if cdistance < distance
+            {
+                closest = high
+                distance = cdistance
+            }
         }
-
-        let closest = highlights.min(by: closestToCenter(lhs:rhs:))
+        
         return closest
     }
     
@@ -49,9 +57,12 @@ open class RadarHighlighter: PieRadarHighlighter
         let sliceangle = chart.sliceAngle
         let factor = chart.factor
 
-        for (i, dataSet) in chartData.indexed()
+        for i in chartData.dataSets.indices
         {
-            guard let entry = dataSet.entryForIndex(index) else { continue }
+            guard
+                let dataSet = chartData.getDataSetByIndex(i),
+                let entry = dataSet.entryForIndex(index)
+                else { continue }
             
             let y = (entry.y - chart.chartYMin)
             

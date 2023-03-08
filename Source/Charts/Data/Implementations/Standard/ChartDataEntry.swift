@@ -14,7 +14,7 @@ import Foundation
 open class ChartDataEntry: ChartDataEntryBase, NSCopying
 {
     /// the x value
-    @objc open var x = 0.0
+    @objc open var x = Double(0.0)
     
     public required init()
     {
@@ -29,6 +29,7 @@ open class ChartDataEntry: ChartDataEntryBase, NSCopying
     @objc public init(x: Double, y: Double)
     {
         super.init(y: y)
+        
         self.x = x
     }
     
@@ -39,9 +40,12 @@ open class ChartDataEntry: ChartDataEntryBase, NSCopying
     ///   - y: the y value (the actual value of the entry)
     ///   - data: Space for additional data this Entry represents.
     
-    @objc public convenience init(x: Double, y: Double, data: Any?)
+    @objc public init(x: Double, y: Double, data: AnyObject?)
     {
-        self.init(x: x, y: y)
+        super.init(y: y)
+        
+        self.x = x
+        
         self.data = data
     }
     
@@ -52,10 +56,11 @@ open class ChartDataEntry: ChartDataEntryBase, NSCopying
     ///   - y: the y value (the actual value of the entry)
     ///   - icon: icon image
     
-    @objc public convenience init(x: Double, y: Double, icon: NSUIImage?)
+    @objc public init(x: Double, y: Double, icon: NSUIImage?)
     {
-        self.init(x: x, y: y)
-        self.icon = icon
+        super.init(y: y, icon: icon)
+        
+        self.x = x
     }
     
     /// An Entry represents one single entry in the chart.
@@ -66,11 +71,11 @@ open class ChartDataEntry: ChartDataEntryBase, NSCopying
     ///   - icon: icon image
     ///   - data: Space for additional data this Entry represents.
     
-    @objc public convenience init(x: Double, y: Double, icon: NSUIImage?, data: Any?)
+    @objc public init(x: Double, y: Double, icon: NSUIImage?, data: AnyObject?)
     {
-        self.init(x: x, y: y)
-        self.icon = icon
-        self.data = data
+        super.init(y: y, icon: icon, data: data)
+        
+        self.x = x
     }
         
     // MARK: NSObject
@@ -104,7 +109,8 @@ extension ChartDataEntry/*: Equatable*/ {
             return true
         }
 
-        return y == object.y
+        return ((data == nil && object.data == nil) || (data?.isEqual(object.data) ?? false))
+            && y == object.y
             && x == object.x
     }
 }

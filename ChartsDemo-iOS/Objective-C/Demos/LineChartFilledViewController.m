@@ -105,14 +105,14 @@
     {
         set1 = (LineChartDataSet *)_chartView.data.dataSets[0];
         set2 = (LineChartDataSet *)_chartView.data.dataSets[1];
-        [set1 replaceEntries:yVals1];
-        [set2 replaceEntries:yVals2];
+        set1.values = yVals1;
+        set2.values = yVals2;
         [_chartView.data notifyDataChanged];
         [_chartView notifyDataSetChanged];
     }
     else
     {
-        set1 = [[LineChartDataSet alloc] initWithEntries:yVals1 label:@"DataSet 1"];
+        set1 = [[LineChartDataSet alloc] initWithValues:yVals1 label:@"DataSet 1"];
         set1.axisDependency = AxisDependencyLeft;
         [set1 setColor:[UIColor colorWithRed:255/255.0 green:241/255.0 blue:46/255.0 alpha:1.0]];
         set1.drawCirclesEnabled = NO;
@@ -123,11 +123,11 @@
         set1.fillColor = UIColor.whiteColor;
         set1.highlightColor = [UIColor colorWithRed:244/255.0 green:117/255.0 blue:117/255.0 alpha:1.0];
         set1.drawCircleHoleEnabled = NO;
-        set1.fillFormatter = [ChartDefaultFillFormatter withBlock:^CGFloat(id<LineChartDataSetProtocol>  _Nonnull dataSet, id<LineChartDataProvider>  _Nonnull dataProvider) {
+        set1.fillFormatter = [ChartDefaultFillFormatter withBlock:^CGFloat(id<ILineChartDataSet>  _Nonnull dataSet, id<LineChartDataProvider>  _Nonnull dataProvider) {
             return self.chartView.leftAxis.axisMinimum;
         }];
         
-        set2 = [[LineChartDataSet alloc] initWithEntries:yVals2 label:@"DataSet 2"];
+        set2 = [[LineChartDataSet alloc] initWithValues:yVals2 label:@"DataSet 2"];
         set2.axisDependency = AxisDependencyLeft;
         [set2 setColor:[UIColor colorWithRed:255/255.0 green:241/255.0 blue:46/255.0 alpha:1.0]];
         set2.drawCirclesEnabled = NO;
@@ -138,7 +138,7 @@
         set2.fillColor = UIColor.whiteColor;
         set2.highlightColor = [UIColor colorWithRed:244/255.0 green:117/255.0 blue:117/255.0 alpha:1.0];
         set2.drawCircleHoleEnabled = NO;
-        set2.fillFormatter = [ChartDefaultFillFormatter withBlock:^CGFloat(id<LineChartDataSetProtocol>  _Nonnull dataSet, id<LineChartDataProvider>  _Nonnull dataProvider) {
+        set2.fillFormatter = [ChartDefaultFillFormatter withBlock:^CGFloat(id<ILineChartDataSet>  _Nonnull dataSet, id<LineChartDataProvider>  _Nonnull dataProvider) {
             return self.chartView.leftAxis.axisMaximum;
         }];
         

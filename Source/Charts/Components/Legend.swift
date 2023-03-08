@@ -12,6 +12,10 @@
 import Foundation
 import CoreGraphics
 
+#if !os(OSX)
+    import UIKit
+#endif
+
 @objc(ChartLegend)
 open class Legend: ComponentBase
 {
@@ -98,7 +102,7 @@ open class Legend: ComponentBase
     @objc open var direction: Direction = Direction.leftToRight
 
     @objc open var font: NSUIFont = NSUIFont.systemFont(ofSize: 10.0)
-    @objc open var textColor = NSUIColor.labelOrBlack
+    @objc open var textColor = NSUIColor.black
 
     /// The form/shape of the legend forms
     @objc open var form = Form.square
@@ -229,12 +233,13 @@ open class Legend: ComponentBase
             
             var wasStacked = false
             
-            for i in entries.indices
+            for i in 0 ..< entryCount
             {
                 let e = entries[i]
                 let drawingForm = e.form != .none
                 let formSize = e.formSize.isNaN ? defaultFormSize : e.formSize
-
+                let label = e.label
+                
                 if !wasStacked
                 {
                     width = 0.0
@@ -249,10 +254,10 @@ open class Legend: ComponentBase
                     width += formSize
                 }
                 
-                if let label = e.label
+                if label != nil
                 {
-                    let size = (label as NSString).size(withAttributes: [.font: labelFont])
-
+                    let size = (label! as NSString).size(withAttributes: [.font: labelFont])
+                    
                     if drawingForm && !wasStacked
                     {
                         width += formToTextSpace
@@ -266,7 +271,11 @@ open class Legend: ComponentBase
                     }
                     
                     width += size.width
-                    maxHeight += labelLineHeight + yEntrySpace
+                    
+                    if i < entryCount - 1
+                    {
+                        maxHeight += labelLineHeight + yEntrySpace
+                    }
                 }
                 else
                 {
@@ -306,12 +315,13 @@ open class Legend: ComponentBase
             
             // Start calculating layout
             
+            let labelAttrs = [NSAttributedString.Key.font: labelFont]
             var maxLineWidth: CGFloat = 0.0
             var currentLineWidth: CGFloat = 0.0
             var requiredWidth: CGFloat = 0.0
             var stackedStartIndex: Int = -1
             
-            for i in entries.indices
+            for i in 0 ..< entryCount
             {
                 let e = entries[i]
                 let drawingForm = e.form != .none
@@ -331,9 +341,9 @@ open class Legend: ComponentBase
                 }
                 
                 // grouped forms have null labels
-                if let label = label
+                if label != nil
                 {
-                    calculatedLabelSizes[i] = (label as NSString).size(withAttributes: [.font: labelFont])
+                    calculatedLabelSizes[i] = (label! as NSString).size(withAttributes: labelAttrs)
                     requiredWidth += drawingForm ? formToTextSpace + formSize : 0.0
                     requiredWidth += calculatedLabelSizes[i].width
                 }
@@ -384,7 +394,7 @@ open class Legend: ComponentBase
             
             neededWidth = maxLineWidth
             neededHeight = labelLineHeight * CGFloat(calculatedLineSizes.count) +
-                yEntrySpace * CGFloat(calculatedLineSizes.isEmpty ? 0 : (calculatedLineSizes.count - 1))
+                yEntrySpace * CGFloat(calculatedLineSizes.count == 0 ? 0 : (calculatedLineSizes.count - 1))
         }
         
         neededWidth += xOffset

@@ -24,7 +24,7 @@ open class ComponentBase: NSObject
     /// **default**: 5.0
     @objc open var xOffset = CGFloat(5.0)
     
-    /// The offset this component has on the y-axis
+    /// The offset this component has on the x-axis
     /// **default**: 5.0 (or 0.0 on ChartYAxis)
     @objc open var yOffset = CGFloat(5.0)
     

@@ -12,7 +12,7 @@
 #import "PositiveNegativeBarChartViewController.h"
 #import "ChartsDemo_iOS-Swift.h"
 
-@interface PositiveNegativeBarChartViewController () <ChartViewDelegate, ChartAxisValueFormatter>
+@interface PositiveNegativeBarChartViewController () <ChartViewDelegate, IChartAxisValueFormatter>
 {
     NSArray<NSDictionary *> *dataList;
 }
@@ -149,7 +149,7 @@
         }
     }
     
-    BarChartDataSet *set = set = [[BarChartDataSet alloc] initWithEntries:values label:@"Values"];
+    BarChartDataSet *set = set = [[BarChartDataSet alloc] initWithValues:values label:@"Values"];
     set.colors = colors;
     set.valueColors = colors;
     
@@ -182,7 +182,7 @@
     NSLog(@"chartValueNothingSelected");
 }
 
-#pragma mark - AxisValueFormatter
+#pragma mark - IAxisValueFormatter
 
 - (NSString *)stringForValue:(double)value
                         axis:(ChartAxisBase *)axis

@@ -8,16 +8,13 @@
 
 import Foundation
 import Charts
-#if canImport(UIKit)
-    import UIKit
-#endif
 
 public class XYMarkerView: BalloonMarker {
-    public var xAxisValueFormatter: AxisValueFormatter
+    public var xAxisValueFormatter: IAxisValueFormatter
     fileprivate var yFormatter = NumberFormatter()
     
     public init(color: UIColor, font: UIFont, textColor: UIColor, insets: UIEdgeInsets,
-                xAxisValueFormatter: AxisValueFormatter) {
+                xAxisValueFormatter: IAxisValueFormatter) {
         self.xAxisValueFormatter = xAxisValueFormatter
         yFormatter.minimumFractionDigits = 1
         yFormatter.maximumFractionDigits = 1
