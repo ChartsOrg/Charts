@@ -130,6 +130,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         
         _panGestureRecognizer.delegate = self
         
+        self.addGestureRecognizer(_longTapGestureRecognizer)
         self.addGestureRecognizer(_tapGestureRecognizer)
         self.addGestureRecognizer(_doubleTapGestureRecognizer)
         self.addGestureRecognizer(_panGestureRecognizer)
