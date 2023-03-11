@@ -1,4 +1,4 @@
-import Charts
+import DGCharts
 import SnapshotTesting
 import UIKit
 import XCTest

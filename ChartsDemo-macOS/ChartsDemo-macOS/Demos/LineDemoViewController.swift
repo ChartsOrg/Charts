@@ -10,7 +10,7 @@
 
 import Foundation
 import Cocoa
-import Charts
+import DGCharts
 
 open class LineDemoViewController: NSViewController
 {
