@@ -32,6 +32,22 @@ open class LineScatterCandleRadarRenderer: BarLineScatterCandleBubbleRenderer
         if set.isVerticalHighlightIndicatorEnabled
         {
             context.beginPath()
+
+            if set.isVerticalHighlightRadarIndicatorEnabled {
+                let colorTop = UIColor.white.cgColor
+                let colorBottom = UIColor.clear.cgColor
+
+                var gradientOne = CGGradient(colorsSpace: .none, colors: [colorTop, colorBottom] as CFArray, locations: [0.0, 1.0])!
+                let startPointOne = CGPoint(x: point.x, y: point.y)
+                let endPointOne = CGPoint(x: point.x, y: viewPortHandler.contentBottom)
+                context.drawRadialGradient(gradientOne, startCenter: startPointOne, startRadius: 0.5, endCenter: endPointOne, endRadius: 0.5, options: .drawsAfterEndLocation)
+
+                var gradientTwo = CGGradient(colorsSpace: .none, colors: [colorBottom, colorTop] as CFArray, locations: [0.0, 1.0])!
+                let startPointTwo = CGPoint(x: point.x, y: viewPortHandler.contentTop)
+                let endPointTwo = CGPoint(x: point.x, y: point.y)
+                context.drawRadialGradient(gradientTwo, startCenter: startPointTwo, startRadius: 0.5, endCenter: endPointTwo, endRadius: 0.5, options: .drawsBeforeStartLocation)
+            }
+
             context.move(to: CGPoint(x: point.x, y: viewPortHandler.contentTop))
             context.addLine(to: CGPoint(x: point.x, y: viewPortHandler.contentBottom))
             context.strokePath()
@@ -41,6 +57,22 @@ open class LineScatterCandleRadarRenderer: BarLineScatterCandleBubbleRenderer
         if set.isHorizontalHighlightIndicatorEnabled
         {
             context.beginPath()
+
+            if set.isHorizontalHighlightRadarIndicatorEnabled {
+                let colorTop = UIColor.white.cgColor
+                let colorBottom = UIColor.clear.cgColor
+
+                var gradientOne = CGGradient(colorsSpace: .none, colors: [colorBottom, colorTop] as CFArray, locations: [0.0, 1.0])!
+                let startPointOne = CGPoint(x: viewPortHandler.contentLeft, y: point.y)
+                let endPointOne = CGPoint(x: point.x, y: point.y)
+                context.drawRadialGradient(gradientOne, startCenter: startPointOne, startRadius: 0.5, endCenter: endPointOne, endRadius: 0.5, options: .drawsBeforeStartLocation)
+
+                var gradientTwo = CGGradient(colorsSpace: .none, colors: [colorBottom, colorTop] as CFArray, locations: [0.0, 1.0])!
+                let startPointTwo = CGPoint(x: viewPortHandler.contentRight, y: point.y)
+                let endPointTwo = CGPoint(x: point.x, y: point.y)
+                context.drawRadialGradient(gradientTwo, startCenter: startPointTwo, startRadius: 0.5, endCenter: endPointTwo, endRadius: 0.5, options: .drawsBeforeStartLocation)
+            }
+
             context.move(to: CGPoint(x: viewPortHandler.contentLeft, y: point.y))
             context.addLine(to: CGPoint(x: viewPortHandler.contentRight, y: point.y))
             context.strokePath()
