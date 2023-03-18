@@ -38,6 +38,9 @@ open class RadarDemoViewController: NSViewController
         self.radarChartView.data = data
         self.radarChartView.chartDescription.text = "Radarchart Demo"
 
+        let marker = RadarMarkerViewMac.viewFromXib()!
+        marker.chartView = radarChartView
+        radarChartView.marker = marker
     }
     
     override open func viewWillAppear()
