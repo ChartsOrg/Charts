@@ -72,14 +72,16 @@ open class MarkerView: NSUIView, Marker
     }
     
     @objc
-    open class func viewFromXib(in bundle: Bundle = .main) -> MarkerView?
+    open class func viewFromXib(in bundle: Bundle = .main) -> Self?
     {
         #if !os(OSX)
         
         return bundle.loadNibNamed(
             String(describing: self),
             owner: nil,
-            options: nil)?[0] as? MarkerView
+            options: nil)?
+            .compactMap { $0 as? Self }
+            .first
         #else
         
         var loadedObjects: NSArray? = NSArray()
@@ -89,7 +91,7 @@ open class MarkerView: NSUIView, Marker
             owner: nil,
             topLevelObjects: &loadedObjects)
         {
-            return loadedObjects?[0] as? MarkerView
+            return loadedObjects?.compactMap({ $0 as? Self }).first
         }
         
         return nil
