@@ -300,7 +300,7 @@ open class ChartDataSet: ChartBaseDataSet
     /// - Returns: True
     // TODO: This should return `Void` to follow Swift convention
     @available(*, deprecated, message: "Use `append(_:)` instead", renamed: "append(_:)")
-    open override func addEntry(_ e: ChartDataEntry) -> Bool
+    @discardableResult open override func addEntry(_ e: ChartDataEntry) -> Bool
     {
         append(e)
         return true
@@ -313,8 +313,8 @@ open class ChartDataSet: ChartBaseDataSet
     /// - Parameters:
     ///   - e: the entry to add
     /// - Returns: True
-    @discardableResult
-    open override func addEntryOrdered(_ e: ChartDataEntry) -> Bool
+    // TODO: This should return `Void` to follow Swift convention
+    @discardableResult open override func addEntryOrdered(_ e: ChartDataEntry) -> Bool
     {
         if let last = last, last.x > e.x
         {
