@@ -34,15 +34,15 @@ I've chosen to write it in `Swift` as it can be highly optimized by the compiler
 
 In order to correctly compile:
 
-1. Drag the `Charts.xcodeproj` to your project  
-2. Go to your target's settings, hit the "+" under the "Frameworks, Libraries, and Embedded Content" section, and select the Charts.framework  
-3. `@import Charts`  
+1. Drag the `DGCharts.xcodeproj` to your project  
+2. Go to your target's settings, hit the "+" under the "Frameworks, Libraries, and Embedded Content" section, and select the DGCharts.framework  
+3. `@import DGCharts`  
 4.  When using Swift in an ObjC project:
    - You need to import your Bridging Header. Usually it is "*YourProject-Swift.h*", so in ChartsDemo it's "*ChartsDemo-Swift.h*". Do not try to actually include "*ChartsDemo-Swift.h*" in your project :-)
    - (Xcode 8.1 and earlier) Under "Build Options", mark "Embedded Content Contains Swift Code"
    - (Xcode 8.2+) Under "Build Options", mark "Always Embed Swift Standard Libraries"
 5. When using [Realm.io](https://realm.io/):
-   - Note that the Realm framework is not linked with Charts - it is only there for *optional* bindings. Which means that you need to have the framework in your project, and in a compatible version to whatever is compiled with Charts. We will do our best to always compile against the latest version.
+   - Note that the Realm framework is not linked with Charts - it is only there for *optional* bindings. Which means that you need to have the framework in your project, and in a compatible version to whatever is compiled with DGCharts. We will do our best to always compile against the latest version.
    - You'll need to add `ChartsRealm` as a dependency too.
 
 ## 3rd party tutorials
@@ -78,18 +78,18 @@ Want your tutorial to show here? Create a PR!
 
 ## CocoaPods Install
 
-Add `pod 'Charts'` to your Podfile. "Charts" is the name of the library.  
+Add `pod 'DGCharts'` to your Podfile. "DGCharts" is the name of the library.  
 For [Realm](https://realm.io/) support, please add `pod 'ChartsRealm'` too.
 
 **Note:** ~~`pod 'ios-charts'`~~ is not the correct library, and refers to a different project by someone else.
 
 ## Carthage Install
 
-Charts now include Carthage prebuilt binaries.
+DGCharts now include Carthage prebuilt binaries.
 
 ```carthage
-github "danielgindi/Charts" == 4.1.0
-github "danielgindi/Charts" ~> 4.1.0
+github "danielgindi/DGCharts" == 4.1.0
+github "danielgindi/DGCharts" ~> 4.1.0
 ```
 
 In order to build the binaries for a new release, use `carthage build --no-skip-current && carthage archive Charts`.
