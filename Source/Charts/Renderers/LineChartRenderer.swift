@@ -397,7 +397,7 @@ open class LineChartRenderer: LineRadarRenderer
 
             var firstPoint = true
             
-            let disjointSegmentsAllowed = dataSet.drawCirclesEnabled && !isDrawSteppedEnabled
+            let shouldDisconnectSegments = dataSet.drawCirclesEnabled && !isDrawSteppedEnabled
 
             let path = CGMutablePath()
             for x in stride(from: _xBounds.min, through: _xBounds.range + _xBounds.min, by: 1)
@@ -411,7 +411,7 @@ open class LineChartRenderer: LineRadarRenderer
                         y: CGFloat(e1.y * phaseY))
                     .applying(valueToPixelMatrix)
                 
-                if firstPoint || disjointSegmentsAllowed {
+                if firstPoint || shouldDisconnectSegments {
                     path.move(to: startPoint)
                 }
                 
