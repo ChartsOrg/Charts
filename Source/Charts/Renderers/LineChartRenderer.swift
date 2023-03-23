@@ -409,7 +409,7 @@ open class LineChartRenderer: LineRadarRenderer
                         y: CGFloat(e1.y * phaseY))
                     .applying(valueToPixelMatrix)
                 
-                if firstPoint || (dataSet.drawCirclesEnabled) {
+                if firstPoint || (dataSet.drawCirclesEnabled && !isDrawSteppedEnabled) {
                     path.move(to: startPoint)
                 }
                 
