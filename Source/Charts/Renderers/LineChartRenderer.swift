@@ -396,6 +396,8 @@ open class LineChartRenderer: LineRadarRenderer
             }
 
             var firstPoint = true
+            
+            let disjointSegmentsAllowed = dataSet.drawCirclesEnabled && !isDrawSteppedEnabled
 
             let path = CGMutablePath()
             for x in stride(from: _xBounds.min, through: _xBounds.range + _xBounds.min, by: 1)
@@ -409,7 +411,7 @@ open class LineChartRenderer: LineRadarRenderer
                         y: CGFloat(e1.y * phaseY))
                     .applying(valueToPixelMatrix)
                 
-                if firstPoint || (dataSet.drawCirclesEnabled && !isDrawSteppedEnabled) {
+                if firstPoint || disjointSegmentsAllowed {
                     path.move(to: startPoint)
                 }
                 
