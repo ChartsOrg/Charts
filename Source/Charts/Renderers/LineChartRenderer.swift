@@ -448,9 +448,16 @@ open class LineChartRenderer: LineRadarRenderer
                     drawGradientLine(context: context, dataSet: dataSet, spline: path, matrix: valueToPixelMatrix)
                 } else {
                     context.beginPath()
-                    context.addPath(path)
-                    context.setStrokeColor(dataSet.color(atIndex: 0).cgColor)
-                    context.strokePath()
+                    if dataSet.drawCirclesEnabled {
+                        context.addPath(path)
+                        context.setStrokeColor(dataSet.color(atIndex: 0).cgColor)
+                        context.strokePath()
+                    } else {
+                        let roundedPath = path.copy(strokingWithWidth: dataSet.lineWidth, lineCap: .round, lineJoin: .round, miterLimit: 0)
+                        context.addPath(roundedPath)
+                        context.setFillColor(dataSet.color(atIndex: 0).cgColor)
+                        context.fillPath()
+                    }
                 }
             }
         }
