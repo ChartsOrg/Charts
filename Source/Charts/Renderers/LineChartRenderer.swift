@@ -448,7 +448,7 @@ open class LineChartRenderer: LineRadarRenderer
                     drawGradientLine(context: context, dataSet: dataSet, spline: path, matrix: valueToPixelMatrix)
                 } else {
                     context.beginPath()
-                    if dataSet.drawCirclesEnabled {
+                    if disjointSegmentsAllowed {
                         context.addPath(path)
                         context.setStrokeColor(dataSet.color(atIndex: 0).cgColor)
                         context.strokePath()
