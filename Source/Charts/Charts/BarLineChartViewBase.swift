@@ -100,6 +100,12 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     private var _customViewPortEnabled = false
     /// 记录长按的开始位置
     private var pressStartLocation: CGPoint = .zero
+    /// 长按手势响应时长
+    @objc open var minimumPressDuration = 0.1 {
+        didSet {
+            _pressGestureRecognizer.minimumPressDuration = minimumPressDuration
+        }
+    }
     
     public override init(frame: CGRect)
     {
@@ -133,7 +139,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         _panGestureRecognizer.delegate = self
         
         _pressGestureRecognizer = NSUILongPressGestureRecognizer(target: self, action: #selector(longPressGestureRecognized(_:)))
-        _pressGestureRecognizer.minimumPressDuration = 0.1
+        _pressGestureRecognizer.minimumPressDuration = minimumPressDuration
         _pressGestureRecognizer.delegate = self
         
         self.addGestureRecognizer(_tapGestureRecognizer)
@@ -816,7 +822,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             pressStartLocation = recognizer.location(in: self)
             stopDeceleration()
             
-            if data === nil || !self.isDragEnabled
+            if data === nil
             { // If we have no data, we have nothing to pan and no data to highlight
                 return
             }
