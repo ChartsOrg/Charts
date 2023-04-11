@@ -64,4 +64,18 @@ class ChartDataTests: XCTestCase {
         XCTAssertTrue(data.dataSet(forLabel: SetLabels.badLabel, ignorecase: true) == nil)
         XCTAssertTrue(data.dataSet(forLabel: SetLabels.badLabel, ignorecase: false) == nil)
     }
+
+    func testMaxEntryCountSet() throws {
+        let dataSet1 = BarChartDataSet(entries: (0 ..< 4).map { BarChartDataEntry(x: Double($0), y: Double($0)) },
+                                       label: "data-set-1")
+        let dataSet2 = BarChartDataSet(entries: (0 ..< 3).map { BarChartDataEntry(x: Double($0), y: Double($0)) },
+                                       label: "data-set-2")
+        let dataSet3 = BarChartDataSet(entries: [BarChartDataEntry(x: 0, y: 0)],
+                                       label: "data-set-3")
+        let data = BarChartData(dataSets: [dataSet1, dataSet2, dataSet3])
+
+        let maxEntryCountSet = try XCTUnwrap(data.maxEntryCountSet as? BarChartDataSet)
+
+        XCTAssertEqual(maxEntryCountSet, dataSet1)
+    }
 }

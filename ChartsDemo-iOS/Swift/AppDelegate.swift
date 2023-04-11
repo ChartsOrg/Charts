@@ -22,6 +22,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let vc = DemoListViewController()
         let nav = UINavigationController(rootViewController: vc)
+        if #available(iOS 13.0, *) {
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithOpaqueBackground()
+            nav.navigationBar.standardAppearance = appearance
+            nav.navigationBar.scrollEdgeAppearance = appearance
+        }
         
         window?.rootViewController = nav
         window?.makeKeyAndVisible()
