@@ -169,12 +169,12 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
                     if dataSet.isDecreasingFilled
                     {
                         context.setFillColor(color.cgColor)
-                        context.fill(_bodyRect)
+                        drawChart(context: context, dataSet: dataSet, barRect: _bodyRect, drawBorder: false)
                     }
                     else
                     {
                         context.setStrokeColor(color.cgColor)
-                        context.stroke(_bodyRect)
+                        drawChart(context: context, dataSet: dataSet, barRect: _bodyRect, drawBorder: true)
                     }
                 }
                 else if open < close
@@ -186,12 +186,12 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
                     if dataSet.isIncreasingFilled
                     {
                         context.setFillColor(color.cgColor)
-                        context.fill(_bodyRect)
+                        drawChart(context: context, dataSet: dataSet, barRect: _bodyRect, drawBorder: false)
                     }
                     else
                     {
                         context.setStrokeColor(color.cgColor)
-                        context.stroke(_bodyRect)
+                        drawChart(context: context, dataSet: dataSet, barRect: _bodyRect, drawBorder: true)
                     }
                 }
                 else
@@ -199,7 +199,8 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
                     let color = dataSet.neutralColor ?? dataSet.color(atIndex: j)
                     
                     context.setStrokeColor(color.cgColor)
-                    context.stroke(_bodyRect)
+//                    context.stroke(_bodyRect)
+                    drawChart(context: context, dataSet: dataSet, barRect: _bodyRect, drawBorder: true)
                 }
             }
             else
@@ -413,5 +414,75 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
         modifier(element)
 
         return element
+    }
+    
+    private func drawChart(context: CGContext, dataSet: CandleChartDataSetProtocol, barRect: CGRect, drawBorder: Bool){
+        let radius = dataSet.barRadius
+        let barCorner = dataSet.barCorner
+        
+        if(radius > 0){
+            
+            let isTopLeftRadius = barCorner.contains(.topLeft)
+            let isTopRightRadius = barCorner.contains(.topRight)
+            let isBottomLeftRadius = barCorner.contains(.bottomLeft)
+            let isBottomRightRadius = barCorner.contains(.bottomRight)
+            
+            var topLeftRadius = 0.0
+            var topRightRadius = 0.0
+            var bottomLeftRadius = 0.0
+            var bottomRightRadius = 0.0
+            
+            if(isTopLeftRadius || isTopRightRadius || isBottomLeftRadius || isBottomRightRadius)
+            {
+                if(isTopLeftRadius){
+                    topLeftRadius = radius
+                }
+                if(isTopRightRadius){
+                    topRightRadius = radius
+                }
+                if(isBottomLeftRadius){
+                    bottomLeftRadius = radius
+                }
+                if(isBottomRightRadius){
+                    bottomRightRadius = radius
+                }
+            }else {
+                topRightRadius = radius
+                topLeftRadius = radius
+                bottomLeftRadius = radius
+                bottomRightRadius = radius
+            }
+            
+            let minx = CGRectGetMinX(barRect);
+            let midx = CGRectGetMidX(barRect);
+            let maxx = CGRectGetMaxX(barRect);
+            let miny = CGRectGetMinY(barRect);
+            let midy = CGRectGetMidY(barRect);
+            let maxy = CGRectGetMaxY(barRect);
+            
+            context.move(to: CGPoint(x: minx, y: midy))
+            context.addArc(tangent1End: CGPoint(x: minx, y: miny), tangent2End: CGPoint(x: midx, y: miny), radius: topLeftRadius)
+            context.addArc(tangent1End: CGPoint(x: maxx, y: miny), tangent2End: CGPoint(x: maxx, y: midy), radius: topRightRadius)
+            context.addArc(tangent1End: CGPoint(x: maxx, y: maxy), tangent2End: CGPoint(x: midx, y: maxy), radius: bottomRightRadius)
+            context.addArc(tangent1End: CGPoint(x: minx, y: maxy), tangent2End: CGPoint(x: minx, y: midy), radius: bottomLeftRadius)
+            context.closePath()
+            
+            if drawBorder
+            {
+                context.drawPath(using: .stroke)
+            }else{
+                context.drawPath(using: .fill)
+            }
+            
+        }else{
+            
+            if drawBorder
+            {
+                context.stroke(barRect)
+            }else{
+                
+                context.fill(barRect)
+            }
+        }
     }
 }

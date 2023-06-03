@@ -131,4 +131,10 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, BarChartData
         copy.highlightAlpha = highlightAlpha
         return copy
     }
+    
+    /// the corner used for drawing radius around the bars.
+    open var barCorner: UIRectCorner = .allCorners
+    
+    /// the radius used for drawing radius around the bars. If barRadius == 0, no radius will be drawn.
+    open var barRadius: CGFloat = 0
 }

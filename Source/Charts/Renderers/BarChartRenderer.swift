@@ -379,13 +379,14 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 context.setFillColor(dataSet.color(atIndex: j).cgColor)
             }
             
-            context.fill(barRect)
-            
             if drawBorder
             {
                 context.setStrokeColor(borderColor.cgColor)
                 context.setLineWidth(borderWidth)
-                context.stroke(barRect)
+                drawChart(context: context, dataSet: dataSet, barRect: barRect, drawBorder: true)
+            }else
+            {
+                drawChart(context: context, dataSet: dataSet, barRect: barRect, drawBorder: false)
             }
 
             // Create and append the corresponding accessibility element to accessibilityOrderedElements
@@ -403,6 +404,8 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
 
                 accessibilityOrderedElements[j/stackSize].append(element)
             }
+            
+            
         }
     }
     
@@ -744,7 +747,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 
                 setHighlightDrawPos(highlight: high, barRect: barRect)
                 
-                context.fill(barRect)
+                drawChart(context: context, dataSet: set, barRect: barRect, drawBorder: false)
             }
         }
     }
@@ -831,5 +834,74 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         modifier(element)
 
         return element
+    }
+    
+    private func drawChart(context: CGContext, dataSet: BarChartDataSetProtocol, barRect: CGRect, drawBorder: Bool){
+        let radius = dataSet.barRadius
+        let barCorner = dataSet.barCorner
+        
+        if(radius > 0){
+            
+            let isTopLeftRadius = barCorner.contains(.topLeft)
+            let isTopRightRadius = barCorner.contains(.topRight)
+            let isBottomLeftRadius = barCorner.contains(.bottomLeft)
+            let isBottomRightRadius = barCorner.contains(.bottomRight)
+            
+            var topLeftRadius = 0.0
+            var topRightRadius = 0.0
+            var bottomLeftRadius = 0.0
+            var bottomRightRadius = 0.0
+            
+            if(isTopLeftRadius || isTopRightRadius || isBottomLeftRadius || isBottomRightRadius)
+            {
+                if(isTopLeftRadius){
+                    topLeftRadius = radius
+                }
+                if(isTopRightRadius){
+                    topRightRadius = radius
+                }
+                if(isBottomLeftRadius){
+                    bottomLeftRadius = radius
+                }
+                if(isBottomRightRadius){
+                    bottomRightRadius = radius
+                }
+            }else {
+                topRightRadius = radius
+                topLeftRadius = radius
+                bottomLeftRadius = radius
+                bottomRightRadius = radius
+            }
+            
+            let minx = CGRectGetMinX(barRect);
+            let midx = CGRectGetMidX(barRect);
+            let maxx = CGRectGetMaxX(barRect);
+            let miny = CGRectGetMinY(barRect);
+            let midy = CGRectGetMidY(barRect);
+            let maxy = CGRectGetMaxY(barRect);
+            
+            context.move(to: CGPoint(x: minx, y: midy))
+            context.addArc(tangent1End: CGPoint(x: minx, y: miny), tangent2End: CGPoint(x: midx, y: miny), radius: topLeftRadius)
+            context.addArc(tangent1End: CGPoint(x: maxx, y: miny), tangent2End: CGPoint(x: maxx, y: midy), radius: topRightRadius)
+            context.addArc(tangent1End: CGPoint(x: maxx, y: maxy), tangent2End: CGPoint(x: midx, y: maxy), radius: bottomRightRadius)
+            context.addArc(tangent1End: CGPoint(x: minx, y: maxy), tangent2End: CGPoint(x: minx, y: midy), radius: bottomLeftRadius)
+            context.closePath()
+            
+            if drawBorder
+            {
+                context.drawPath(using: .fillStroke)
+            }else{
+                context.drawPath(using: .fill)
+            }
+            
+        }else{
+            
+            context.fill(barRect)
+            
+            if drawBorder
+            {
+                context.stroke(barRect)
+            }
+        }
     }
 }

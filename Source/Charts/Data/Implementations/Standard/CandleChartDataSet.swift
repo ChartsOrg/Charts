@@ -114,4 +114,10 @@ open class CandleChartDataSet: LineScatterCandleRadarChartDataSet, CandleChartDa
     
     /// Are decreasing values drawn as filled?
     open var isDecreasingFilled: Bool { return decreasingFilled }
+    
+    /// the corner used for drawing radius around the bars.
+    open var barCorner: UIRectCorner = .allCorners
+    
+    /// the radius used for drawing radius around the bars. If barRadius == 0, no radius will be drawn.
+    open var barRadius: CGFloat = 0
 }
