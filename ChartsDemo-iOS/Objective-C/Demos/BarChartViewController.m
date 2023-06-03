@@ -157,6 +157,8 @@
         set1 = [[BarChartDataSet alloc] initWithEntries:yVals label:@"The year 2017"];
         [set1 setColors:ChartColorTemplates.material];
         set1.drawIconsEnabled = NO;
+        set1.barRadius = 3.0;
+        set1.barCorner = UIRectCornerAllCorners;
         
         NSMutableArray *dataSets = [[NSMutableArray alloc] init];
         [dataSets addObject:set1];

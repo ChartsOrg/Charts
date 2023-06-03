@@ -100,6 +100,8 @@ class CandleStickChartViewController: DemoBaseViewController {
         set1.increasingColor = UIColor(red: 122/255, green: 242/255, blue: 84/255, alpha: 1)
         set1.increasingFilled = false
         set1.neutralColor = .blue
+        set1.barRadius = 3.0
+        set1.barCorner = .allCorners
         
         let data = CandleChartData(dataSet: set1)
         chartView.data = data

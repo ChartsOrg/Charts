@@ -104,6 +104,8 @@ class HorizontalBarChartViewController: DemoBaseViewController {
         
         let set1 = BarChartDataSet(entries: yVals, label: "DataSet")
         set1.drawIconsEnabled = false
+        set1.barRadius = 3.0
+        set1.barCorner = .allCorners
         
         let data = BarChartData(dataSet: set1)
         data.setValueFont(UIFont(name:"HelveticaNeue-Light", size:10)!)
