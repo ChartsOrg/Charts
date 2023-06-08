@@ -18,13 +18,9 @@ let package = Package(
             type: .dynamic,
             targets: ["DGCharts"])
     ],
-    dependencies: [
-        .package(url: "https://github.com/apple/swift-algorithms", from: "1.0.0")
-    ],
     targets: [
         .target(
             name: "DGCharts",
-            dependencies: [.product(name: "Algorithms", package: "swift-algorithms")],
             path: "Source/Charts"
         )
     ],
