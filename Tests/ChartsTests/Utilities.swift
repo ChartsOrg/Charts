@@ -44,7 +44,7 @@ func assertChartSnapshot<Value: ChartViewBase>(
 
     let failure = verifySnapshot(
         matching: try value(),
-        as: .image,
+        as: .image(traits: .init(userInterfaceStyle: .light)),
         record: recording,
         snapshotDirectory: snapshotDirectory,
         timeout: timeout,

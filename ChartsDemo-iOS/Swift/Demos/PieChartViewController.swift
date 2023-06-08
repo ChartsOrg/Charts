@@ -106,6 +106,14 @@ class PieChartViewController: DemoBaseViewController {
         
         chartView.data = data
         chartView.highlightValues(nil)
+      
+      
+      var highlights: [Highlight] = []
+      for entry in entries {
+        let highlight = Highlight(x: entry.x, y: entry.y, dataSetIndex: 0)
+          highlights.append(highlight)
+      }
+      chartView.highlightValues(highlights)
     }
     
     override func optionTapped(_ option: Option) {
