@@ -20,12 +20,12 @@
 
 ℹ Please replace this with of what happened instead.  
 
-## Charts Environment
+## DGCharts Environment
 
-**Charts version/Branch/Commit Number:**
+**DGCharts version/Branch/Commit Number:**
 **Xcode version:**
 **Swift version:**
-**Platform(s) running Charts:**
+**Platform(s) running DGCharts:**
 **macOS version running Xcode:**
 
 ## Demo Project

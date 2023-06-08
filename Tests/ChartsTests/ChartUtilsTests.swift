@@ -1,4 +1,4 @@
-@testable import Charts
+@testable import DGCharts
 import XCTest
 
 class ChartUtilsTests: XCTestCase {

@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
-  s.name = "Charts"
-  s.version = "4.1.0"
-  s.summary = "Charts is a powerful & easy to use chart library for iOS, tvOS and OSX (and Android)"
+  s.name = "DGCharts"
+  s.version = "5.0.0"
+  s.summary = "DGCharts is a powerful & easy to use chart library for iOS, tvOS and OSX (and Android)"
   s.homepage = "https://github.com/danielgindi/Charts"
   s.license = { :type => "Apache License, Version 2.0", :file => "LICENSE" }
   s.authors = "Daniel Cohen Gindi", "Philipp Jahoda"
@@ -15,6 +15,5 @@ Pod::Spec.new do |s|
   
   s.subspec "Core" do |ss|
     ss.source_files  = "Source/Charts/**/*.swift"
-    ss.dependency 'SwiftAlgorithms', '~> 1.0'
   end
 end

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1400"
+   LastUpgradeVersion = "1430"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "A58A4ED274A941CA248EA921"
-               BuildableName = "Charts.framework"
-               BlueprintName = "Charts"
+               BuildableName = "DGCharts.framework"
+               BlueprintName = "DGCharts"
                ReferencedContainer = "container:Charts.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -33,8 +33,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "F2749BD5443C1CB5FE2080C2"
-               BuildableName = "ChartsTests.xctest"
-               BlueprintName = "ChartsTests"
+               BuildableName = "DGChartsTests.xctest"
+               BlueprintName = "DGChartsTests"
                ReferencedContainer = "container:Charts.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -50,22 +50,6 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "A58A4ED274A941CA248EA921"
-            BuildableName = "Charts.framework"
-            BlueprintName = "Charts"
-            ReferencedContainer = "container:Charts.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
-      <EnvironmentVariables>
-         <EnvironmentVariable
-            key = "FB_REFERENCE_IMAGE_DIR"
-            value = "$(SOURCE_ROOT)/Tests/ReferenceImages"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-      </EnvironmentVariables>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -73,6 +57,15 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "A58A4ED274A941CA248EA921"
+            BuildableName = "DGCharts.framework"
+            BlueprintName = "DGCharts"
+            ReferencedContainer = "container:Charts.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
