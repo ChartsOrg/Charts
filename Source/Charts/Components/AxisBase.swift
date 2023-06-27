@@ -67,6 +67,11 @@ open class AxisBase: ComponentBase
     /// **default**: false
     @objc open var drawLimitLinesBehindDataEnabled = false
 
+    /// Are the LimitLines drawn at the top
+    ///
+    /// **default**: false
+    @objc open var drawLimitLinesAtTopEnabled = false
+
     /// the flag can be used to turn off the antialias for grid lines
     @objc open var gridAntialiasEnabled = true
     
