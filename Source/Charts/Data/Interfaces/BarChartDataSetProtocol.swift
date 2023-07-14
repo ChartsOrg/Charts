@@ -39,4 +39,10 @@ public protocol BarChartDataSetProtocol: BarLineScatterCandleBubbleChartDataSetP
     
     /// array of labels used to describe the different values of the stacked bars
     var stackLabels: [String] { get set }
+    
+    var gradientColors: [[NSUIColor]] { get set }
+
+    var roundCorners: UIRectCorner { get set }
+    
+    var cornerSize: CGSize { get set }
 }

@@ -365,6 +365,8 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         // In case the chart is stacked, we need to accomodate individual bars within accessibilityOrdereredElements
         let isStacked = dataSet.isStacked
         let stackSize = isStacked ? dataSet.stackSize : 1
+        
+        let isGradientColor = dataSet.gradientColors.count > 0
 
         for j in buffer.indices
         {
@@ -373,14 +375,45 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             guard viewPortHandler.isInBoundsLeft(barRect.origin.x + barRect.size.width) else { continue }
             guard viewPortHandler.isInBoundsRight(barRect.origin.x) else { break }
 
-            if !isSingleColor
-            {
-                // Set the color for the currently drawn value. If the index is out of bounds, reuse colors.
-                context.setFillColor(dataSet.color(atIndex: j).cgColor)
+            if isGradientColor {
+                let fillColors = dataSet.gradientColors[j].map({ $0.cgColor })
+                let locations:[CGFloat] = [0.0, 1.0]
+
+                context.saveGState()
+                if dataSet.cornerSize.equalTo(.zero) == false {
+                    let path = UIBezierPath(roundedRect: barRect, byRoundingCorners: dataSet.roundCorners, cornerRadii: dataSet.cornerSize)
+                    context.addPath(path.cgPath)
+                    context.clip()
+                } else {
+                    context.clip(to: barRect)
+                }
+                let gradient:CGGradient
+                let colorspace:CGColorSpace
+                colorspace = CGColorSpaceCreateDeviceRGB()
+                
+                gradient = CGGradient(colorsSpace: colorspace, colors: fillColors as CFArray, locations: locations)!
+                
+                //Vertical Gradient
+                let startPoint:CGPoint = CGPoint(x: 0.0, y: barRect.minY)
+                let endPoint:CGPoint = CGPoint(x: 0.0, y: barRect.maxY)
+                
+                context.drawLinearGradient(gradient, start: startPoint, end: endPoint, options: .init(rawValue: 0))
+                context.restoreGState()
+            } else {
+                if !isSingleColor
+                {
+                    // Set the color for the currently drawn value. If the index is out of bounds, reuse colors.
+                    context.setFillColor(dataSet.color(atIndex: j).cgColor)
+                }
+                if dataSet.cornerSize.equalTo(.zero) == false {
+                    let path = UIBezierPath(roundedRect: barRect, byRoundingCorners: dataSet.roundCorners, cornerRadii: dataSet.cornerSize)
+                    context.addPath(path.cgPath)
+                    context.drawPath(using: .fill)
+                } else {
+                    context.fill(barRect)
+                }
             }
-            
-            context.fill(barRect)
-            
+
             if drawBorder
             {
                 context.setStrokeColor(borderColor.cgColor)
