@@ -132,10 +132,18 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
         
         for i in from..<to
         {
+            let labelAlginment: TextAlignment
+            if i == from {
+                labelAlginment = .left
+            } else if i == to-1 {
+                labelAlginment = .right
+            } else {
+                labelAlginment = .center
+            }
             let text = axis.getFormattedLabel(i)
             context.drawText(text,
                              at: CGPoint(x: positions[i].x, y: fixedPosition - offset + xOffset),
-                             align: .center,
+                             align: labelAlginment,
                              attributes: [.font: labelFont, .foregroundColor: labelTextColor])
         }
     }
