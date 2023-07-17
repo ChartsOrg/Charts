@@ -100,7 +100,8 @@ open class XAxisRenderer: NSObject, AxisRenderer
             axis.entries.reserveCapacity(labelCount)
 
             let values = stride(from: yMin, to: Double(labelCount) * interval + yMin, by: interval)
-            axis.entries.append(contentsOf: values)
+            //values长度可能超出labelCount,导致后续渲染错误
+            axis.entries.append(contentsOf: values.prefix(labelCount))
 
             n = labelCount
         }

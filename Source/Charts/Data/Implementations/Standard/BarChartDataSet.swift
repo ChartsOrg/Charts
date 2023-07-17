@@ -121,8 +121,6 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, BarChartData
     
     open var roundCorners: UIRectCorner = []
     
-    open var cornerSize: CGSize = .zero
-    
     // MARK: - NSCopying
     
     open override func copy(with zone: NSZone? = nil) -> Any
@@ -138,7 +136,6 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, BarChartData
         copy.highlightAlpha = highlightAlpha
         copy.gradientColors = gradientColors
         copy.roundCorners = roundCorners
-        copy.cornerSize = cornerSize
         return copy
     }
 }

@@ -380,8 +380,8 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 let locations:[CGFloat] = [0.0, 1.0]
 
                 context.saveGState()
-                if dataSet.cornerSize.equalTo(.zero) == false {
-                    let path = UIBezierPath(roundedRect: barRect, byRoundingCorners: dataSet.roundCorners, cornerRadii: dataSet.cornerSize)
+                if dataSet.roundCorners.isEmpty == false {
+                    let path = UIBezierPath(roundedRect: barRect, byRoundingCorners: dataSet.roundCorners, cornerRadii: CGSize(width: max(barRect.width, barRect.height) / 2, height: max(barRect.width, barRect.height) / 2))
                     context.addPath(path.cgPath)
                     context.clip()
                 } else {
@@ -405,8 +405,8 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                     // Set the color for the currently drawn value. If the index is out of bounds, reuse colors.
                     context.setFillColor(dataSet.color(atIndex: j).cgColor)
                 }
-                if dataSet.cornerSize.equalTo(.zero) == false {
-                    let path = UIBezierPath(roundedRect: barRect, byRoundingCorners: dataSet.roundCorners, cornerRadii: dataSet.cornerSize)
+                if dataSet.roundCorners.isEmpty == false {
+                    let path = UIBezierPath(roundedRect: barRect, byRoundingCorners: dataSet.roundCorners, cornerRadii: CGSize(width: max(barRect.width, barRect.height) / 2, height: max(barRect.width, barRect.height) / 2))
                     context.addPath(path.cgPath)
                     context.drawPath(using: .fill)
                 } else {

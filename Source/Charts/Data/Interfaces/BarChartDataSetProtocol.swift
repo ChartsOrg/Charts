@@ -44,5 +44,4 @@ public protocol BarChartDataSetProtocol: BarLineScatterCandleBubbleChartDataSetP
 
     var roundCorners: UIRectCorner { get set }
     
-    var cornerSize: CGSize { get set }
 }
