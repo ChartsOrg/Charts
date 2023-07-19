@@ -47,6 +47,7 @@ open class ChartLimitLine: ComponentBase
     @objc open var drawLabelEnabled = true
     @objc open var label = ""
     @objc open var labelPosition = LabelPosition.rightTop
+    @objc open var labelRotationAngle = CGFloat(0.0)
     
     public override init()
     {
