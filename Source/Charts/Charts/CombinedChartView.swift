@@ -12,6 +12,8 @@
 import Foundation
 import CoreGraphics
 
+public typealias DrawOrder = CombinedChartView.DrawOrder
+
 /// This chart class allows the combination of lines, bars, scatter and candle data all displayed in one chart area.
 open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
 {
