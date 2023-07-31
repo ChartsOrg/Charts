@@ -11,6 +11,7 @@
 
 import Foundation
 import CoreGraphics
+import UIKit
 
 extension Comparable {
     func clamped(to range: ClosedRange<Self>) -> Self {
