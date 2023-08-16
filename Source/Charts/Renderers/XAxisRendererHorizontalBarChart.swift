@@ -270,7 +270,7 @@ open class XAxisRendererHorizontalBarChart: XAxisRenderer
 
                 case .rightBottom:
                     point = CGPoint(x: viewPortHandler.contentRight - labelLineRotatedWidth - xOffset,
-                                    y: position.y + yOffset - labelLineRotatedHeight)
+                                    y: position.y - labelLineRotatedHeight + yOffset)
 
                 case .leftTop:
                     point = CGPoint(x: viewPortHandler.contentLeft + xOffset,
@@ -278,16 +278,19 @@ open class XAxisRendererHorizontalBarChart: XAxisRenderer
 
                 case .leftBottom:
                     point = CGPoint(x: viewPortHandler.contentLeft + xOffset,
-                                    y: position.y + yOffset - labelLineRotatedHeight)
+                                    y: position.y - labelLineRotatedHeight + yOffset)
                 }
 
-                context.drawText(
-                    label,
-                    at: point,
-                    anchor: anchor,
-                    angleRadians: labelRotationAngleRadians,
-                    attributes: [.font: l.valueFont,
-                                 .foregroundColor: l.valueTextColor])
+                let attributes: [NSAttributedString.Key : Any] = [
+                    .font: l.valueFont,
+                    .foregroundColor: l.valueTextColor
+                ]
+
+                context.drawText(label,
+                                 at: point,
+                                 anchor: anchor,
+                                 angleRadians: labelRotationAngleRadians,
+                                 attributes: attributes)
             }
         }
     }

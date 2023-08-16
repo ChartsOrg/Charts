@@ -467,27 +467,27 @@ open class XAxisRenderer: NSObject, AxisRenderer
                 y: viewPortHandler.contentTop + yOffset)
 
         case .rightBottom:
-            point = CGPoint(
-                x: position.x + xOffset,
-                y: viewPortHandler.contentBottom - labelLineRotatedHeight - yOffset)
+            point = CGPoint(x: position.x + xOffset,
+                            y: viewPortHandler.contentBottom - labelLineRotatedHeight - yOffset)
 
         case .leftTop:
-            point = CGPoint(
-                x: position.x - labelLineRotatedWidth - xOffset,
-                y: viewPortHandler.contentTop + yOffset)
+            point = CGPoint(x: position.x - labelLineRotatedWidth - xOffset,
+                            y: viewPortHandler.contentTop + yOffset)
 
         case .leftBottom:
-            point = CGPoint(
-                x: position.x - labelLineRotatedWidth - xOffset,
-                y: viewPortHandler.contentBottom - labelLineRotatedHeight - yOffset)
+            point = CGPoint(x: position.x - labelLineRotatedWidth - xOffset,
+                            y: viewPortHandler.contentBottom - labelLineRotatedHeight - yOffset)
         }
 
-        context.drawText(
-            label,
-            at: point,
-            anchor: anchor,
-            angleRadians: labelRotationAngleRadians,
-            attributes: [.font: limitLine.valueFont,
-                         .foregroundColor: limitLine.valueTextColor])
+        let attributes: [NSAttributedString.Key : Any] = [
+            .font: limitLine.valueFont,
+            .foregroundColor: limitLine.valueTextColor
+        ]
+
+        context.drawText(label,
+                         at: point,
+                         anchor: anchor,
+                         angleRadians: labelRotationAngleRadians,
+                         attributes: attributes)
     }
 }
