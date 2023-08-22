@@ -69,4 +69,41 @@ class LineChartTests: XCTestCase {
         dataSet.drawIconsEnabled = true
         assertChartSnapshot(matching: chart)
     }
+
+    func testLimitLineLabelRotatedBy180() {
+        addLimitLineWithRotatedAngle(labelPosition: .rightBottom, labelRotationAngle: 180)
+        assertChartSnapshot(matching: chart)
+    }
+
+    func testLimitLineLabelRotatedBy120() {
+        addLimitLineWithRotatedAngle(labelPosition: .rightTop, labelRotationAngle: 120)
+        assertChartSnapshot(matching: chart)
+    }
+
+    func testLimitLineLabelRotatedBy90() {
+        addLimitLineWithRotatedAngle(labelPosition: .leftTop, labelRotationAngle: 90)
+        assertChartSnapshot(matching: chart)
+    }
+
+    func testLimitLineLabelRotatedBy45() {
+        addLimitLineWithRotatedAngle(labelPosition: .leftBottom, labelRotationAngle: 45)
+        assertChartSnapshot(matching: chart)
+    }
+
+    func testLimitLineLabelRotatedBy30() {
+        addLimitLineWithRotatedAngle(labelPosition: .leftBottom, labelRotationAngle: 30)
+        assertChartSnapshot(matching: chart)
+    }
+
+    func testLimitLineLabelDefaultRotation() {
+        addLimitLineWithRotatedAngle(labelPosition: .rightTop, labelRotationAngle: 0)
+        assertChartSnapshot(matching: chart)
+    }
+
+    private func addLimitLineWithRotatedAngle(labelPosition: ChartLimitLine.LabelPosition, labelRotationAngle: CGFloat) {
+        let limitline = ChartLimitLine(limit: 50, label: "Limit Line")
+        limitline.labelPosition = labelPosition
+        limitline.labelRotationAngle = labelRotationAngle
+        chart.leftAxis.addLimitLine(limitline)
+    }
 }
