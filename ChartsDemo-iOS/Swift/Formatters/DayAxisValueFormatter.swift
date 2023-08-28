@@ -24,17 +24,14 @@ public class DayAxisValueFormatter: NSObject, AxisValueFormatter {
         let days = Int(value)
         let year = determineYear(forDays: days)
         let month = determineMonth(forDayOfYear: days)
+        let dayOfMonth = determineDayOfMonth(forDays: days, month: month)
         
         let monthName = months[month % months.count]
-        let yearName = "\(year)"
         
-        if let chart = chart,
-            chart.visibleXRange > 30 * 6 {
-            return monthName + yearName
+        if let chart = chart, chart.visibleXRange > 30 * 6 {
+            return "\(monthName) \(year)"
         } else {
-            let dayOfMonth = determineDayOfMonth(forDays: days, month: month + 12 * (year - 2016))
             var appendix: String
-            
             switch dayOfMonth {
             case 1, 21, 31: appendix = "st"
             case 2, 22: appendix = "nd"
@@ -42,7 +39,7 @@ public class DayAxisValueFormatter: NSObject, AxisValueFormatter {
             default: appendix = "th"
             }
             
-            return dayOfMonth == 0 ? "" : String(format: "%d\(appendix) \(monthName)", dayOfMonth)
+            return "\(dayOfMonth)\(appendix) \(monthName)"
         }
     }
     
@@ -99,11 +96,11 @@ public class DayAxisValueFormatter: NSObject, AxisValueFormatter {
     
     private func determineYear(forDays days: Int) -> Int {
         switch days {
-        case ...366: return 2016
-        case 367...730: return 2017
-        case 731...1094: return 2018
-        case 1095...1458: return 2019
-        default: return 2020
+        case ...365: return 2023
+        case 366...730: return 2024
+        case 731...1094: return 2025
+        case 1095...1458: return 2026
+        default: return 2027
         }
     }
 }
