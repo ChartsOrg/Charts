@@ -262,13 +262,33 @@ open class HorizontalBarChartRenderer: BarChartRenderer
             if !isSingleColor
             {
                 // Set the color for the currently drawn value. If the index is out of bounds, reuse colors.
-                context.setFillColor(dataSet.color(atIndex: j).cgColor)
+                let colorSpace = CGColorSpaceCreateDeviceRGB()
+                    let colorLocations: [CGFloat] = [0.0, 1.0]
+
+                    let startPoint = CGPoint(x: barRect.minX, y: barRect.midY)
+                    let endPoint = CGPoint(x: barRect.maxX, y: barRect.midY)
+
+                    let gradient = CGGradient(colorsSpace: colorSpace,
+                                              colors: dataSet.colors.map({ $0.cgColor }) as CFArray,
+                                              locations: colorLocations)!
+
+                    // Create a clipping path with rounded corners
+                    let clippingPath = UIBezierPath(roundedRect: barRect, cornerRadius: 3.0)
+                    context.addPath(clippingPath.cgPath)
+                    context.clip()
+
+                    // Draw the linear gradient within the clipping path
+                    context.drawLinearGradient(gradient, start: startPoint, end: endPoint, options: [])
+                    context.resetClip()
             }
+            else
+            {
 
             //context.fill(barRect)
             let bezierPath = UIBezierPath(roundedRect: barRect, cornerRadius:3.0)
             context.addPath(bezierPath.cgPath)
             context.drawPath(using: .fill)
+            }
 
             if drawBorder
             {
