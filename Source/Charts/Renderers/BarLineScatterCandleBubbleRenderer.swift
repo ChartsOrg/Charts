@@ -100,8 +100,8 @@ open class BarLineScatterCandleBubbleRenderer: NSObject, DataRenderer
         {
             let phaseX = Swift.max(0.0, Swift.min(1.0, animator?.phaseX ?? 1.0))
             
-            let low = chart.lowestVisibleX
-            let high = chart.highestVisibleX
+            let low = Swift.min(chart.lowestVisibleX, dataSet.xMin);
+            let high = Swift.max(chart.highestVisibleX, dataSet.xMax);
             
             let entryFrom = dataSet.entryForXValue(low, closestToY: .nan, rounding: .down)
             let entryTo = dataSet.entryForXValue(high, closestToY: .nan, rounding: .up)
@@ -109,6 +109,7 @@ open class BarLineScatterCandleBubbleRenderer: NSObject, DataRenderer
             self.min = entryFrom == nil ? 0 : dataSet.entryIndex(entry: entryFrom!)
             self.max = entryTo == nil ? 0 : dataSet.entryIndex(entry: entryTo!)
             range = Int(Double(self.max - self.min) * phaseX)
+            print("[chart] Calculates - draw Line range : \(range)");
         }
     }
     

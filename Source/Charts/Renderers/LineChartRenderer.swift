@@ -297,6 +297,7 @@ open class LineChartRenderer: LineRadarRenderer
     
     @objc open func drawLinear(context: CGContext, dataSet: LineChartDataSetProtocol)
     {
+        print("[chart] ---> drawLinear : \(dataSet)")
         guard let dataProvider = dataProvider else { return }
         
         let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
@@ -391,9 +392,11 @@ open class LineChartRenderer: LineRadarRenderer
         }
         else
         { // only one color per dataset
+            print("[chart] ---> entryForIndex --> 1 : \(_xBounds.min)")
             guard dataSet.entryForIndex(_xBounds.min) != nil else {
                 return
             }
+            print("[chart] ---> entryForIndex --> 2 : \(_xBounds.range)")
 
             var firstPoint = true
 
@@ -408,7 +411,7 @@ open class LineChartRenderer: LineRadarRenderer
                         x: CGFloat(e1.x),
                         y: CGFloat(e1.y * phaseY))
                     .applying(valueToPixelMatrix)
-                
+                print("[chart] ---> drawStart --> \(startPoint)  : \(e1)");
                 if firstPoint
                 {
                     path.move(to: startPoint)
@@ -434,6 +437,7 @@ open class LineChartRenderer: LineRadarRenderer
                         x: CGFloat(e2.x),
                         y: CGFloat(e2.y * phaseY))
                     .applying(valueToPixelMatrix)
+                print("[chart] drawEnd ---> \(endPoint) : \(e2)");
                 path.addLine(to: endPoint)
             }
             
