@@ -411,7 +411,7 @@ open class LineChartRenderer: LineRadarRenderer
                         x: CGFloat(e1.x),
                         y: CGFloat(e1.y * phaseY))
                     .applying(valueToPixelMatrix)
-                print("[chart] ---> drawStart --> \(startPoint)  : \(e1)");
+//                print("[chart] ---> drawStart --> \(startPoint)  : \(e1)");
                 if firstPoint
                 {
                     path.move(to: startPoint)
@@ -437,7 +437,7 @@ open class LineChartRenderer: LineRadarRenderer
                         x: CGFloat(e2.x),
                         y: CGFloat(e2.y * phaseY))
                     .applying(valueToPixelMatrix)
-                print("[chart] drawEnd ---> \(endPoint) : \(e2)");
+//                print("[chart] drawEnd ---> \(endPoint) : \(e2)");
                 path.addLine(to: endPoint)
             }
             
@@ -633,17 +633,19 @@ open class LineChartRenderer: LineRadarRenderer
         }
 
         context.saveGState()
-
+        print("[chart] -----> draw view bound lineData.indices : \(lineData.indices.count)")
         for i in lineData.indices
         {
             guard let dataSet = lineData[i] as? LineChartDataSetProtocol else { continue }
-
+            
+            print("[chart] ---> draw dataSet -> \(dataSet)");
             // Skip Circles and Accessibility if not enabled,
             // reduces CPU significantly if not needed
             if !dataSet.isVisible || !dataSet.isDrawCirclesEnabled || dataSet.entryCount == 0
             {
                 continue
             }
+            print("[chart] --> draw datawSet --> 2 : \(dataSet.entryCount)")
             
             let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
             let valueToPixelMatrix = trans.valueToPixelMatrix
@@ -665,16 +667,18 @@ open class LineChartRenderer: LineRadarRenderer
             for j in _xBounds
             {
                 guard let e = dataSet.entryForIndex(j) else { break }
-
+                print("[chart] ---> draw view Bound ---> \(e)")
                 pt.x = CGFloat(e.x)
                 pt.y = CGFloat(e.y * phaseY)
                 pt = pt.applying(valueToPixelMatrix)
-                
-                if (!viewPortHandler.isInBoundsRight(pt.x))
-                {
-                    break
-                }
-                
+                print("[chart] ---> draw view Bound pt ---> \(pt)")
+
+//                if (!viewPortHandler.isInBoundsRight(pt.x))
+//                {
+//                    print("[chart] ---> draw bound 跳出逻辑 \(pt.x)")
+//                    break
+//                }
+//                
                 // make sure the circles don't do shitty things outside bounds
                 if (!viewPortHandler.isInBoundsLeft(pt.x) || !viewPortHandler.isInBoundsY(pt.y))
                 {

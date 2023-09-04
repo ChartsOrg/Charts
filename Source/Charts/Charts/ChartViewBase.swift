@@ -490,20 +490,22 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// draws all MarkerViews on the highlighted positions
     internal func drawMarkers(context: CGContext)
     {
+        print("[chart] ----> draw markers");
         // if there is no marker view or drawing marker is disabled
         guard
             let marker = marker,
             isDrawMarkersEnabled,
             valuesToHighlight()
             else { return }
-        
+        print("[chart] ----> draw markers ---> \(highlighted)");
+
         for highlight in highlighted
         {
             guard
                 let set = data?[highlight.dataSetIndex],
                 let e = data?.entry(for: highlight)
                 else { continue }
-            
+            print("[chart] ---> draw marker ------------> \(e)");
             let entryIndex = set.entryIndex(entry: e)
             guard entryIndex <= Int(Double(set.entryCount) * chartAnimator.phaseX) else { continue }
 

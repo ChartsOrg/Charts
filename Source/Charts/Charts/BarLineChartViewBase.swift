@@ -546,7 +546,8 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             if !isHighLightPerTapEnabled { return }
             
             let h = getHighlightByTouchPoint(recognizer.location(in: self))
-            
+            print("[chart] ---> tapGestureRecognized ----> \(h)");
+
             if h === nil || h == self.lastHighlighted
             {
                 lastHighlighted = nil
