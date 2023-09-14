@@ -211,25 +211,25 @@ internal struct EasingFunctions
     
     internal static let EaseInSine = { (elapsed: TimeInterval, duration: TimeInterval) -> Double in
         var position: TimeInterval = elapsed / duration
-        return Double( -cos(position * Double.pi / 2) + 1.0 )
+        return -cos(position * Double.pi / 2) + 1.0
     }
     
     internal static let EaseOutSine = { (elapsed: TimeInterval, duration: TimeInterval) -> Double in
         var position: TimeInterval = elapsed / duration
-        return Double( sin(position * Double.pi / 2) )
+        return sin(position * Double.pi / 2)
     }
     
     internal static let EaseInOutSine = { (elapsed: TimeInterval, duration: TimeInterval) -> Double in
         var position: TimeInterval = elapsed / duration
-        return Double( -0.5 * (cos(Double.pi * position) - 1.0) )
+        return -0.5 * (cos(Double.pi * position) - 1.0)
     }
     
     internal static let EaseInExpo = { (elapsed: TimeInterval, duration: TimeInterval) -> Double in
-        return (elapsed == 0) ? 0.0 : Double(pow(2.0, 10.0 * (elapsed / duration - 1.0)))
+        return (elapsed == 0) ? 0.0 : pow(2.0, 10.0 * (elapsed / duration - 1.0))
     }
     
     internal static let EaseOutExpo = { (elapsed: TimeInterval, duration: TimeInterval) -> Double in
-        return (elapsed == duration) ? 1.0 : (-Double(pow(2.0, -10.0 * elapsed / duration)) + 1.0)
+        return (elapsed == duration) ? 1.0 : -(pow(2.0, -10.0 * elapsed / duration)) + 1.0
     }
     
     internal static let EaseInOutExpo = { (elapsed: TimeInterval, duration: TimeInterval) -> Double in
@@ -245,32 +245,32 @@ internal struct EasingFunctions
         var position: TimeInterval = elapsed / (duration / 2.0)
         if position < 1.0
         {
-            return Double( 0.5 * pow(2.0, 10.0 * (position - 1.0)) )
+            return 0.5 * pow(2.0, 10.0 * (position - 1.0))
         }
         
         position = position - 1.0
-        return Double( 0.5 * (-pow(2.0, -10.0 * position) + 2.0) )
+        return 0.5 * (-pow(2.0, -10.0 * position) + 2.0)
     }
     
     internal static let EaseInCirc = { (elapsed: TimeInterval, duration: TimeInterval) -> Double in
         var position = Double(elapsed / duration)
-        return -(Double(sqrt(1.0 - position * position)) - 1.0)
+        return -((sqrt(1.0 - position * position)) - 1.0)
     }
     
     internal static let EaseOutCirc = { (elapsed: TimeInterval, duration: TimeInterval) -> Double in
         var position = Double(elapsed / duration)
         position -= 1.0
-        return Double( sqrt(1 - position * position) )
+        return sqrt(1 - position * position)
     }
     
     internal static let EaseInOutCirc = { (elapsed: TimeInterval, duration: TimeInterval) -> Double in
         var position: TimeInterval = elapsed / (duration / 2.0)
         if position < 1.0
         {
-            return Double( -0.5 * (sqrt(1.0 - position * position) - 1.0) )
+            return -0.5 * (sqrt(1.0 - (position * position)) - 1.0)
         }
         position -= 2.0
-        return Double( 0.5 * (sqrt(1.0 - position * position) + 1.0) )
+        return 0.5 * (sqrt(1.0 - (position * position)) + 1.0)
     }
     
     internal static let EaseInElastic = { (elapsed: TimeInterval, duration: TimeInterval) -> Double in
@@ -288,7 +288,7 @@ internal struct EasingFunctions
         var p = duration * 0.3
         var s = p / (2.0 * Double.pi) * asin(1.0)
         position -= 1.0
-        return Double( -(pow(2.0, 10.0 * position) * sin((position * duration - s) * (2.0 * Double.pi) / p)) )
+        return -(pow(2.0, 10.0 * position) * sin((position * duration - s) * (2.0 * Double.pi) / p))
     }
     
     internal static let EaseOutElastic = { (elapsed: TimeInterval, duration: TimeInterval) -> Double in
@@ -305,7 +305,7 @@ internal struct EasingFunctions
         
         var p = duration * 0.3
         var s = p / (2.0 * Double.pi) * asin(1.0)
-        return Double( pow(2.0, -10.0 * position) * sin((position * duration - s) * (2.0 * Double.pi) / p) + 1.0 )
+        return pow(2.0, -10.0 * position) * sin((position * duration - s) * (2.0 * Double.pi) / p) + 1.0
     }
     
     internal static let EaseInOutElastic = { (elapsed: TimeInterval, duration: TimeInterval) -> Double in
@@ -325,23 +325,23 @@ internal struct EasingFunctions
         if position < 1.0
         {
             position -= 1.0
-            return Double( -0.5 * (pow(2.0, 10.0 * position) * sin((position * duration - s) * (2.0 * Double.pi) / p)) )
+            return -0.5 * (pow(2.0, 10.0 * position) * sin((position * duration - s) * (2.0 * Double.pi) / p))
         }
         position -= 1.0
-        return Double( pow(2.0, -10.0 * position) * sin((position * duration - s) * (2.0 * Double.pi) / p) * 0.5 + 1.0 )
+        return pow(2.0, -10.0 * position) * sin((position * duration - s) * (2.0 * Double.pi) / p) * 0.5 + 1.0
     }
     
     internal static let EaseInBack = { (elapsed: TimeInterval, duration: TimeInterval) -> Double in
         let s: TimeInterval = 1.70158
         var position: TimeInterval = elapsed / duration
-        return Double( position * position * ((s + 1.0) * position - s) )
+        return position * position * ((s + 1.0) * position - s)
     }
     
     internal static let EaseOutBack = { (elapsed: TimeInterval, duration: TimeInterval) -> Double in
         let s: TimeInterval = 1.70158
         var position: TimeInterval = elapsed / duration
         position -= 1.0
-        return Double( position * position * ((s + Double(1.0)) * position + s) + Double(1.0) )
+        return position * position * ((s + 1.0) * position + s) + 1.0
     }
     
     internal static let EaseInOutBack = { (elapsed: TimeInterval, duration: TimeInterval) -> Double in
@@ -350,11 +350,11 @@ internal struct EasingFunctions
         if position < 1.0
         {
             s *= 1.525
-            return Double( 0.5 * (position * position * ((s + 1.0) * position - s)) )
+            return 0.5 * (position * position * ((s + 1.0) * position - s))
         }
         s *= 1.525
         position -= 2.0
-        return Double( 0.5 * (position * position * ((s + 1.0) * position + s) + 2.0) )
+        return 0.5 * (position * position * ((s + 1.0) * position + s) + 2.0)
     }
     
     internal static let EaseInBounce = { (elapsed: TimeInterval, duration: TimeInterval) -> Double in
@@ -365,22 +365,22 @@ internal struct EasingFunctions
         var position: TimeInterval = elapsed / duration
         if position < (1.0 / 2.75)
         {
-            return Double( 7.5625 * position * position )
+            return 7.5625 * position * position
         }
         else if position < (2.0 / 2.75)
         {
             position -= (1.5 / 2.75)
-            return Double( 7.5625 * position * position + 0.75 )
+            return 7.5625 * position * position + 0.75
         }
         else if position < (2.5 / 2.75)
         {
             position -= (2.25 / 2.75)
-            return Double( 7.5625 * position * position + 0.9375 )
+            return 7.5625 * position * position + 0.9375
         }
         else
         {
             position -= (2.625 / 2.75)
-            return Double( 7.5625 * position * position + 0.984375 )
+            return 7.5625 * position * position + 0.984375
         }
     }
     

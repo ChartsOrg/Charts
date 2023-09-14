@@ -14,16 +14,16 @@ import Foundation
 open class CandleChartDataEntry: ChartDataEntry
 {
     /// shadow-high value
-    @objc open var high = Double(0.0)
+    @objc open var high: Double = 0.0
     
     /// shadow-low value
-    @objc open var low = Double(0.0)
+    @objc open var low: Double = 0.0
     
     /// close value
-    @objc open var close = Double(0.0)
+    @objc open var close: Double = 0.0
     
     /// open value
-    @objc open var open = Double(0.0)
+    @objc open var open: Double = 0.0
     
     public required init()
     {
