@@ -544,6 +544,18 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     private var _decelerationDisplayLink: NSUIDisplayLink!
     private var _decelerationVelocity = CGPoint()
     
+    /// 关闭拖动和长按手势响应
+    public func cancelPanAndPregressGesture() {
+        _panGestureRecognizer.isEnabled = false
+        _pressGestureRecognizer.isEnabled = false
+    }
+    
+    /// 恢复拖动和长按手势响应
+    public func recoverPanAndPregressGesture() {
+        _panGestureRecognizer.isEnabled = _dragXEnabled || _dragYEnabled
+        _pressGestureRecognizer.isEnabled = _dragXEnabled || _dragYEnabled
+    }
+    
     @objc private func tapGestureRecognized(_ recognizer: NSUITapGestureRecognizer)
     {
         if data === nil
@@ -564,10 +576,17 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             }
             else
             {
+                NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(delayRemoveHighlight), object: nil)
                 lastHighlighted = h
                 highlightValue(h, callDelegate: true)
+                perform(#selector(delayRemoveHighlight), with: nil, afterDelay: 0.1)
             }
         }
+    }
+    
+    @objc private func delayRemoveHighlight() {
+        lastHighlighted = nil
+        highlightValue(nil, callDelegate: true)
     }
     
     @objc private func doubleTapGestureRecognized(_ recognizer: NSUITapGestureRecognizer)
@@ -886,6 +905,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                 }
                 else
                 {
+                    NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(delayRemoveHighlight), object: nil)
                     lastHighlighted = h
                     highlightValue(h, callDelegate: true)
                 }
