@@ -30,7 +30,7 @@ extension Collection {
   ///
   /// - Complexity: O(log *n*), where *n* is the length of this collection if
   ///   the collection conforms to `RandomAccessCollection`, otherwise O(*n*).
-  func partitioningIndex(
+  public func partitioningIndex(
     where belongsInSecondPartition: (Element) throws -> Bool
   ) rethrows -> Index {
     var n = count
