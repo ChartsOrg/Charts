@@ -885,6 +885,20 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                         // Prevent the parent scroll view from scrolling
                         _outerScrollView?.nsuiIsScrollEnabled = false
                     }
+                    
+                    ///识别到长按开始回调
+                    let h = getHighlightByTouchPoint(recognizer.location(in: self))
+                    
+                    if h === nil || h == self.lastHighlighted
+                    {
+                        lastHighlighted = nil
+                        longPressHighlightValue(nil, callDelegate: true)
+                    }
+                    else
+                    {
+                        lastHighlighted = h
+                        longPressHighlightValue(h, callDelegate: true)
+                    }
                 }
                 _lastPanPoint = CGPoint(x: currentLocation.x  - pressStartLocation.x, y: currentLocation.y  - pressStartLocation.y)
             }
