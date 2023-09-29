@@ -51,6 +51,9 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, BarChartData
     /// the overall entry count, including counting each stack-value individually
     private var _entryCountStacks = 0
     
+    /// the corner radius applied to each data set
+        public var cornerRadius: CGFloat = 0.0
+    
     /// Calculates the total number of entries this DataSet represents, including
     /// stacks. All values belonging to a stack are calculated separately.
     private func calcEntryCountIncludingStacks(entries: [BarChartDataEntry])
