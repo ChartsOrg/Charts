@@ -21,6 +21,9 @@ open class LineChartRenderer: LineRadarRenderer
     private lazy var accessibilityOrderedElements: [[NSUIAccessibilityElement]] = accessibilityCreateEmptyOrderedElements()
 
     @objc open weak var dataProvider: LineChartDataProvider?
+
+	internal var maxGradientY: CGFloat = -1
+	internal var minGradientY: CGFloat = -1
     
     @objc public init(dataProvider: LineChartDataProvider, animator: Animator, viewPortHandler: ViewPortHandler)
     {
@@ -822,8 +825,13 @@ open class LineChartRenderer: LineRadarRenderer
             return
         }
 
-        let gradientStart = CGPoint(x: 0, y: boundingBox.minY)
-        let gradientEnd = CGPoint(x: 0, y: boundingBox.maxY)
+		if maxGradientY == -1 && minGradientY == -1 {
+			maxGradientY = boundingBox.maxY
+			minGradientY = boundingBox.minY
+		}
+
+        let gradientStart = CGPoint(x: 0, y: minGradientY)
+        let gradientEnd = CGPoint(x: 0, y: maxGradientY)
         let gradientColorComponents: [CGFloat] = dataSet.colors
             .reversed()
             .reduce(into: []) { (components, color) in
@@ -836,8 +844,8 @@ open class LineChartRenderer: LineRadarRenderer
             .map { (position) in
                 let location = CGPoint(x: boundingBox.minX, y: position)
                     .applying(matrix)
-                let normalizedLocation = (location.y - boundingBox.minY)
-                    / (boundingBox.maxY - boundingBox.minY)
+                let normalizedLocation = (location.y - minGradientY)
+                    / (maxGradientY - minGradientY)
                 return normalizedLocation.clamped(to: 0...1)
             }
 
