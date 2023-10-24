@@ -179,6 +179,8 @@ public protocol ChartDataSetProtocol
     /// Colors are reused as soon as the number of Entries the DataSet represents is higher than the size of the colors array.
     var colors: [NSUIColor] { get }
     
+    var cornerRaidus: Double { get }
+    
     /// - Returns: The color at the given index of the DataSet's color array.
     /// This prevents out-of-bounds by performing a modulus on the color index, so colours will repeat themselves.
     func color(atIndex: Int) -> NSUIColor

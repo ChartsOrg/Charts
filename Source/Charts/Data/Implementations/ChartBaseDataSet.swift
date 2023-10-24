@@ -189,6 +189,8 @@ open class ChartBaseDataSet: NSObject, ChartDataSetProtocol, NSCopying
     /// Colors are reused as soon as the number of Entries the DataSet represents is higher than the size of the colors array.
     open var colors = [NSUIColor]()
     
+    open var cornerRaidus: Double = 0
+    
     /// List representing all colors that are used for drawing the actual values for this DataSet
     open var valueColors = [NSUIColor]()
 
