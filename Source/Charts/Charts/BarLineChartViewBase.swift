@@ -128,6 +128,14 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         
         _panGestureRecognizer.delegate = self
         
+        // Allow trackpad swipe to scroll in Catalyst apps
+        #if targetEnvironment(macCatalyst)
+        if #available(iOS 13.4, macCatalyst 13.4, *) {
+            _panGestureRecognizer.allowedScrollTypesMask = .all
+        }
+        _panGestureRecognizer.maximumNumberOfTouches = 0
+        #endif
+        
         self.addGestureRecognizer(_tapGestureRecognizer)
         self.addGestureRecognizer(_doubleTapGestureRecognizer)
         self.addGestureRecognizer(_panGestureRecognizer)
@@ -677,7 +685,13 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     
     @objc private func panGestureRecognized(_ recognizer: NSUIPanGestureRecognizer)
     {
-        if recognizer.state == NSUIGestureRecognizerState.began && recognizer.nsuiNumberOfTouches() > 0
+        // Allow trackpad swipe to scroll in Catalyst apps
+        #if targetEnvironment(macCatalyst)
+        let isBeginning = recognizer.state == NSUIGestureRecognizerState.began
+        #else
+        let isBeginning = recognizer.state == NSUIGestureRecognizerState.began && recognizer.nsuiNumberOfTouches() > 0
+        #endif
+        if isBeginning
         {
             stopDeceleration()
             
