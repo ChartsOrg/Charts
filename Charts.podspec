@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = "Charts"
-  s.version = "4.0.4.0"
+  s.version = "4.0.4.1"
   s.summary = "Fork of Charts by Daniel Cohen Gindi"
   s.homepage = "https://github.com/danielgindi/Charts"
   s.license = { :type => "Apache License, Version 2.0", :file => "LICENSE" }

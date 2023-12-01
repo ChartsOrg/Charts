@@ -401,9 +401,16 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             
             if (dataSet.hasRoundedCorners)
             {
+                var yValue: Double = 0.0
                 let obj = dataSet.entriesForXValue(Double(j))
-                let yValue = obj.count > 0 ? obj[0].y : 0.0
-                
+                if obj.count > 0 {
+                    yValue = obj[0].y
+                } else {
+                    if let obj2 = dataSet.entryForIndex(Int(j)) {
+                        yValue = obj2.y
+                    }
+                }
+
                 var corners = UIRectCorner.topLeft.union(UIRectCorner.topRight)
                 if yValue < 0.0 {
                     corners = UIRectCorner.bottomLeft.union(UIRectCorner.bottomRight)
