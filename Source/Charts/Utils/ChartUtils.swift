@@ -136,12 +136,9 @@ extension CGContext
             if scaledImage == nil
             {
                 // Scale the image
-                NSUIGraphicsBeginImageContextWithOptions(size, false, 0.0)
-
-                image.draw(in: CGRect(origin: .zero, size: size))
-
-                scaledImage = NSUIGraphicsGetImageFromCurrentImageContext()
-                NSUIGraphicsEndImageContext()
+                scaledImage = UIGraphicsImageRenderer(size: size).image { _ in
+                    image.draw(in: CGRect(origin: .zero, size: size))
+                }
 
                 // Put the scaled image in a cache owned by the original image
                 objc_setAssociatedObject(image, key, scaledImage, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)

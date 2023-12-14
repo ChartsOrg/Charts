@@ -704,33 +704,31 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// - Returns: The bitmap that represents the chart.
     @objc open func getChartImage(transparent: Bool) -> NSUIImage?
     {
-        NSUIGraphicsBeginImageContextWithOptions(bounds.size, isOpaque || !transparent, NSUIMainScreen()?.nsuiScale ?? 1.0)
-        
-        guard let context = NSUIGraphicsGetCurrentContext()
-            else { return nil }
-        
-        let rect = CGRect(origin: .zero, size: bounds.size)
-        
-        if isOpaque || !transparent
-        {
-            // Background color may be partially transparent, we must fill with white if we want to output an opaque image
-            context.setFillColor(NSUIColor.white.cgColor)
-            context.fill(rect)
-            
-            if let backgroundColor = self.backgroundColor
+        let format = UIGraphicsImageRendererFormat()
+        format.opaque = isOpaque || !transparent
+        format.scale = NSUIMainScreen()?.nsuiScale ?? 1.0
+
+        return UIGraphicsImageRenderer(size: bounds.size).image { ctx in
+
+            let context = ctx.cgContext
+            let rect = CGRect(origin: .zero, size: bounds.size)
+
+            if isOpaque || !transparent 
             {
-                context.setFillColor(backgroundColor.cgColor)
+                // Background color may be partially transparent, we must fill with white if we want to output an opaque
+                // image
+                context.setFillColor(NSUIColor.white.cgColor)
                 context.fill(rect)
+
+                if let backgroundColor = self.backgroundColor 
+                {
+                    context.setFillColor(backgroundColor.cgColor)
+                    context.fill(rect)
+                }
             }
+
+            nsuiLayer?.render(in: context)
         }
-        
-        nsuiLayer?.render(in: context)
-        
-        let image = NSUIGraphicsGetImageFromCurrentImageContext()
-        
-        NSUIGraphicsEndImageContext()
-        
-        return image
     }
     
     public enum ImageFormat
