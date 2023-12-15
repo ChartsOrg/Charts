@@ -76,4 +76,9 @@ class PieChartTests: XCTestCase {
         chart.highlightValue(x: 1.0, dataSetIndex: 0, callDelegate: false)
         assertChartSnapshot(matching: chart)
     }
+
+    func testMinAngleForSlices() {
+        chart.minAngleForSlices = 2
+        assertChartSnapshot(matching: chart)
+    }
 }
