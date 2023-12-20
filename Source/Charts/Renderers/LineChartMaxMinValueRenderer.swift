@@ -83,7 +83,7 @@ open class LineChartMaxMinValueRenderer: LineChartRenderer {
                     } else if dataSet.isDrawMaxMinValueEnabled {
                         if Int(e.x) == dataSet.maxValueIndex {
                             let valueText = formatter.stringForValue(e.y, entry: e, dataSetIndex: i, viewPortHandler: viewPortHandler)
-                            let w = valueText.widthWithConstrainedHeight(font: valueFont) + 2
+                            let w = valueText.widthWithConstrainedHeight(font: valueFont) + 4
                             let path = UIBezierPath(roundedRect: CGRect(x: pt.x - w * 0.5, y: pt.y - CGFloat(valOffset) - valueFont.lineHeight - (16 - valueFont.lineHeight) * 0.5, width: w, height: 16), cornerRadius: 2)
                             context.setFillColor(dataSet.color(atIndex: j).cgColor)
                             context.addPath(path.cgPath)
@@ -92,7 +92,7 @@ open class LineChartMaxMinValueRenderer: LineChartRenderer {
                             context.drawText(valueText, at: CGPoint(x: pt.x, y: pt.y - CGFloat(valOffset) - valueFont.lineHeight), align: .center, angleRadians: angleRadians, attributes: [.font: valueFont, .foregroundColor: dataSet.valueTextColorAt(j)])
                         } else if Int(e.x) == dataSet.minValueIndex {
                             let valueText = formatter.stringForValue(e.y, entry: e, dataSetIndex: i, viewPortHandler: viewPortHandler)
-                            let w = valueText.widthWithConstrainedHeight(font: valueFont) + 2
+                            let w = valueText.widthWithConstrainedHeight(font: valueFont) + 4
                             let path = UIBezierPath(roundedRect: CGRect(x: pt.x - w * 0.5, y: pt.y + CGFloat(valOffset) - (16 - valueFont.lineHeight) * 0.5, width: w, height: 16), cornerRadius: 2)
                             context.setFillColor(dataSet.color(atIndex: j).cgColor)
                             context.addPath(path.cgPath)
