@@ -39,4 +39,13 @@ public protocol BarChartDataSetProtocol: BarLineScatterCandleBubbleChartDataSetP
     
     /// array of labels used to describe the different values of the stacked bars
     var stackLabels: [String] { get set }
+    
+    /// array of gradient colors [[color1, color2], [color3, color4]]
+    var barGradientColors: [[NSUIColor]]? { get set }
+
+    var barGradientOrientation: BarChartDataSet.BarGradientOrientation { get set }
+
+    /// - returns: The gradient colors at the given index of the DataSet's gradient color array.
+    /// This prevents out-of-bounds by performing a modulus on the gradient color index, so colours will repeat themselves.
+    func barGradientColor(atIndex index: Int) -> [NSUIColor]?
 }
