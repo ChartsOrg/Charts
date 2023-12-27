@@ -1066,6 +1066,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             // Range might have changed, which means that Y-axis labels could have changed in size, affecting Y-axis size. So we need to recalculate offsets.
             calculateOffsets()
             setNeedsDisplay()
+            delegate?.chartViewDidEndScroll?(self)
         }
     }
     

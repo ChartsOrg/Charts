@@ -45,6 +45,9 @@ public protocol ChartViewDelegate
     // Callbacks when long press begin
     @objc optional func chartViewLongPressBegin(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight)
 
+    // Callbacks when did end scroll
+    @objc optional func chartViewDidEndScroll(_ chartView: ChartViewBase)
+
 }
 
 open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
