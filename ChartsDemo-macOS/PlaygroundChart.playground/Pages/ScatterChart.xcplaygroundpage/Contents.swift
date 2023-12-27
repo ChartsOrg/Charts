@@ -17,7 +17,7 @@
 
 //: # Scatter Chart
 import Cocoa
-import Charts
+import DGCharts
 import PlaygroundSupport
 
 let r = CGRect(x: 0, y: 0, width: 600, height: 600)

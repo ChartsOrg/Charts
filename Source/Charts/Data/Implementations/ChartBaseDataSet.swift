@@ -116,12 +116,12 @@ open class ChartBaseDataSet: NSObject, ChartDataSetProtocol, NSCopying
         fatalError("entryIndex(entry) is not implemented in ChartBaseDataSet")
     }
     
-    open func addEntry(_ e: ChartDataEntry) -> Bool
+    @discardableResult open func addEntry(_ e: ChartDataEntry) -> Bool
     {
         fatalError("addEntry is not implemented in ChartBaseDataSet")
     }
     
-    open func addEntryOrdered(_ e: ChartDataEntry) -> Bool
+    @discardableResult open func addEntryOrdered(_ e: ChartDataEntry) -> Bool
     {
         fatalError("addEntryOrdered is not implemented in ChartBaseDataSet")
     }
