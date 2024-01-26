@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
   s.swift_version = '5.7'
   s.cocoapods_version = '>= 1.5.0'
   
-  s.resource_bundles = {"DGCharts" => ["Sources/Charts/PrivacyInfo.xcprivacy"]}
+  s.resource_bundles = {"DGCharts" => ["Source/Charts/PrivacyInfo.xcprivacy"]}
   
   s.subspec "Core" do |ss|
     ss.source_files  = "Source/Charts/**/*.swift"
