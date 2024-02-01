@@ -51,6 +51,7 @@
 		3395682A1E27756651FF6F4D /* BarChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0108D5925E21A47DA36A66AA /* BarChartData.swift */; };
 		369DEB23452CB436A3A1A644 /* MarkerImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392AAEB02DD7B351D92907C2 /* MarkerImage.swift */; };
 		383D68A13E1C3D6A251E5147 /* CandleChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274116834B1B0345D622E027 /* CandleChartDataSet.swift */; };
+		39279C482B6B643600204A3D /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 3959DF712B4BD33000A20423 /* PrivacyInfo.xcprivacy */; };
 		3B11556EB7DC034E2FC958E4 /* BarChartTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3F5E1A69EC06E86505F7B1 /* BarChartTests.swift */; };
 		3CBE95F1E9394FA08CDCF31E /* BarHighlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543729805D897CC03E5F78D3 /* BarHighlighter.swift */; };
 		40C82F2209E1BA9E41E8F3DA /* ChartColorTemplates.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6227A646166E248F90F86AD /* ChartColorTemplates.swift */; };
@@ -839,6 +840,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				39279C482B6B643600204A3D /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
