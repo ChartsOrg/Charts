@@ -106,7 +106,7 @@ open class AxisBase: ComponentBase
     /// If using granularity this could be avoided by having fewer axis values visible.
     @objc open var granularityEnabled = false
     
-    private var _granularity = Double(1.0)
+    private var _granularity: Double = 1.0
     
     /// The minimum interval between axis values.
     /// This can be used to avoid label duplicating when zooming in.
@@ -210,15 +210,15 @@ open class AxisBase: ComponentBase
     /// Do not touch this directly, instead, use axisMinimum.
     /// This is automatically calculated to represent the real min value,
     /// and is used when calculating the effective minimum.
-    internal var _axisMinimum = Double(0)
+    internal var _axisMinimum: Double = 0
     
     /// Do not touch this directly, instead, use axisMaximum.
     /// This is automatically calculated to represent the real max value,
     /// and is used when calculating the effective maximum.
-    internal var _axisMaximum = Double(0)
+    internal var _axisMaximum: Double = 0
     
     /// the total range of values this axis covers
-    @objc open var axisRange = Double(0)
+    @objc open var axisRange: Double = 0
     
     /// The minumum number of labels on the axis
     @objc open var axisMinLabels = Int(2) {

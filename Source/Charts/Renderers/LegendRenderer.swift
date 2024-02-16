@@ -174,10 +174,10 @@ open class LegendRenderer: NSObject, Renderer
     
     @objc open func renderLegend(context: CGContext)
     {
-        guard let legend = legend else { return }
-        
-        if !legend.enabled
-        {
+        guard
+            let legend = legend,
+            legend.enabled
+        else {
             return
         }
         
@@ -376,7 +376,7 @@ open class LegendRenderer: NSObject, Renderer
         case .vertical:
             
             // contains the stacked legend size in pixels
-            var stack = CGFloat(0.0)
+            var stack: CGFloat = 0.0
             var wasStacked = false
             
             var posY: CGFloat = 0.0
@@ -432,7 +432,7 @@ open class LegendRenderer: NSObject, Renderer
                     }
                 }
                 
-                if e.label != nil
+                if let label = e.label
                 {
                     if drawingForm && !wasStacked
                     {
@@ -445,17 +445,17 @@ open class LegendRenderer: NSObject, Renderer
                     
                     if direction == .rightToLeft
                     {
-                        posX -= (e.label! as NSString).size(withAttributes: [.font: labelFont]).width
+                        posX -= (label as NSString).size(withAttributes: [.font: labelFont]).width
                     }
                     
                     if !wasStacked
                     {
-                        drawLabel(context: context, x: posX, y: posY, label: e.label!, font: labelFont, textColor: e.labelColor ?? labelTextColor)
+                        drawLabel(context: context, x: posX, y: posY, label: label, font: labelFont, textColor: e.labelColor ?? labelTextColor)
                     }
                     else
                     {
                         posY += labelLineHeight + yEntrySpace
-                        drawLabel(context: context, x: posX, y: posY, label: e.label!, font: labelFont, textColor: e.labelColor ?? labelTextColor)
+                        drawLabel(context: context, x: posX, y: posY, label: label, font: labelFont, textColor: e.labelColor ?? labelTextColor)
                     }
                     
                     // make a step down

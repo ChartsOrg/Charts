@@ -155,8 +155,8 @@ open class Legend: ComponentBase
     
     @objc open func getMaximumEntrySize(withFont font: NSUIFont) -> CGSize
     {
-        var maxW = CGFloat(0.0)
-        var maxH = CGFloat(0.0)
+        var maxW: CGFloat = 0.0
+        var maxH: CGFloat = 0.0
         
         var maxFormSize: CGFloat = 0.0
 
@@ -189,10 +189,10 @@ open class Legend: ComponentBase
         )
     }
 
-    @objc open var neededWidth = CGFloat(0.0)
-    @objc open var neededHeight = CGFloat(0.0)
-    @objc open var textWidthMax = CGFloat(0.0)
-    @objc open var textHeightMax = CGFloat(0.0)
+    @objc open var neededWidth: CGFloat = 0.0
+    @objc open var neededHeight: CGFloat = 0.0
+    @objc open var textWidthMax: CGFloat = 0.0
+    @objc open var textHeightMax: CGFloat = 0.0
     
     /// flag that indicates if word wrapping is enabled
     /// this is currently supported only for `orientation == Horizontal`.
@@ -230,9 +230,9 @@ open class Legend: ComponentBase
         {
         case .vertical:
             
-            var maxWidth = CGFloat(0.0)
-            var width = CGFloat(0.0)
-            var maxHeight = CGFloat(0.0)
+            var maxWidth: CGFloat = 0.0
+            var width: CGFloat = 0.0
+            var maxHeight: CGFloat = 0.0
             let labelLineHeight = labelFont.lineHeight
             
             var wasStacked = false

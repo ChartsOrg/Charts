@@ -205,7 +205,7 @@ open class PieChartView: PieRadarChartViewBase
     @objc open override func distanceToCenter(x: CGFloat, y: CGFloat) -> CGFloat
     {
         let c = adjustedCenterOffsets()
-        var dist = CGFloat(0.0)
+        var dist = CGFloat.zero
 
         let xDist = x > c.x ? x - c.x : c.x - x
         let yDist = y > c.y ? y - c.y : c.y - y

@@ -429,215 +429,179 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
 
     open override func drawValues(context: CGContext)
     {
-        // if values are drawn
-        if isDrawingValuesAllowed(dataProvider: dataProvider)
+        guard
+            isDrawingValuesAllowed(dataProvider: dataProvider),
+            let dataProvider = dataProvider,
+            let barData = dataProvider.barData
+        else { return }
+        
+        let valueOffsetPlus: CGFloat = 4.5
+        var posOffset: CGFloat
+        var negOffset: CGFloat
+        let drawValueAboveBar = dataProvider.isDrawValueAboveBarEnabled
+        
+        for dataSetIndex in barData.indices
         {
             guard
-                let dataProvider = dataProvider,
-                let barData = dataProvider.barData
-                else { return }
-
-            let valueOffsetPlus: CGFloat = 4.5
-            var posOffset: CGFloat
-            var negOffset: CGFloat
-            let drawValueAboveBar = dataProvider.isDrawValueAboveBarEnabled
+                let dataSet = barData[dataSetIndex] as? BarChartDataSetProtocol,
+                shouldDrawValues(forDataSet: dataSet)
+            else { continue }
             
-            for dataSetIndex in barData.indices
+            let angleRadians = dataSet.valueLabelAngle.DEG2RAD
+            
+            let isInverted = dataProvider.isInverted(axis: dataSet.axisDependency)
+            
+            // calculate the correct offset depending on the draw position of the value
+            let valueFont = dataSet.valueFont
+            let valueTextHeight = valueFont.lineHeight
+            posOffset = (drawValueAboveBar ? -(valueTextHeight + valueOffsetPlus) : valueOffsetPlus)
+            negOffset = (drawValueAboveBar ? valueOffsetPlus : -(valueTextHeight + valueOffsetPlus))
+            
+            if isInverted
             {
-                guard
-                    let dataSet = barData[dataSetIndex] as? BarChartDataSetProtocol,
-                    shouldDrawValues(forDataSet: dataSet)
-                    else { continue }
-                
-                let angleRadians = dataSet.valueLabelAngle.DEG2RAD
-                
-                let isInverted = dataProvider.isInverted(axis: dataSet.axisDependency)
-                
-                // calculate the correct offset depending on the draw position of the value
-                let valueFont = dataSet.valueFont
-                let valueTextHeight = valueFont.lineHeight
-                posOffset = (drawValueAboveBar ? -(valueTextHeight + valueOffsetPlus) : valueOffsetPlus)
-                negOffset = (drawValueAboveBar ? valueOffsetPlus : -(valueTextHeight + valueOffsetPlus))
-                
-                if isInverted
+                posOffset = -posOffset - valueTextHeight
+                negOffset = -negOffset - valueTextHeight
+            }
+            
+            let buffer = _buffers[dataSetIndex]
+            
+            let formatter = dataSet.valueFormatter
+            
+            let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
+            
+            let phaseY = animator.phaseY
+            
+            let iconsOffset = dataSet.iconsOffset
+            
+            // if only single values are drawn (sum)
+            if !dataSet.isStacked
+            {
+                let range = 0 ..< Int(ceil(Double(dataSet.entryCount) * animator.phaseX))
+                for j in range
                 {
-                    posOffset = -posOffset - valueTextHeight
-                    negOffset = -negOffset - valueTextHeight
-                }
-                
-                let buffer = _buffers[dataSetIndex]
-                
-                let formatter = dataSet.valueFormatter
-                
-                let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
-                
-                let phaseY = animator.phaseY
-                
-                let iconsOffset = dataSet.iconsOffset
-        
-                // if only single values are drawn (sum)
-                if !dataSet.isStacked
-                {
-                    let range = 0 ..< Int(ceil(Double(dataSet.entryCount) * animator.phaseX))
-                    for j in range
-                    {
-                        guard let e = dataSet.entryForIndex(j) as? BarChartDataEntry else { continue }
-                        
-                        let rect = buffer[j]
-                        
-                        let x = rect.origin.x + rect.size.width / 2.0
-                        
-                        guard viewPortHandler.isInBoundsRight(x) else { break }
-                        
-                        guard viewPortHandler.isInBoundsY(rect.origin.y),
-                            viewPortHandler.isInBoundsLeft(x)
-                            else { continue }
-                        
-                        let val = e.y
-                        
-                        if dataSet.isDrawValuesEnabled
-                        {
-                            drawValue(
-                                context: context,
-                                value: formatter.stringForValue(
-                                    val,
-                                    entry: e,
-                                    dataSetIndex: dataSetIndex,
-                                    viewPortHandler: viewPortHandler),
-                                xPos: x,
-                                yPos: val >= 0.0
-                                    ? (rect.origin.y + posOffset)
-                                    : (rect.origin.y + rect.size.height + negOffset),
-                                font: valueFont,
-                                align: .center,
-                                color: dataSet.valueTextColorAt(j),
-                                anchor: CGPoint(x: 0.5, y: 0.5),
-                                angleRadians: angleRadians)
-                        }
-                        
-                        if let icon = e.icon, dataSet.isDrawIconsEnabled
-                        {
-                            var px = x
-                            var py = val >= 0.0
-                                ? (rect.origin.y + posOffset)
-                                : (rect.origin.y + rect.size.height + negOffset)
-                            
-                            px += iconsOffset.x
-                            py += iconsOffset.y
-                            
-                            context.drawImage(icon,
-                                              atCenter: CGPoint(x: px, y: py),
-                                              size: icon.size)
-                        }
-                        
-                    }
-                }
-                else
-                {
-                    // if we have stacks
+                    guard let e = dataSet.entryForIndex(j) as? BarChartDataEntry else { continue }
                     
-                    var bufferIndex = 0
-                    let lastIndex = ceil(Double(dataSet.entryCount) * animator.phaseX)
-
-                    for index in 0 ..< Int(lastIndex)
+                    let rect = buffer[j]
+                    
+                    let x = rect.origin.x + rect.size.width / 2.0
+                    
+                    guard viewPortHandler.isInBoundsRight(x) else { break }
+                    
+                    guard viewPortHandler.isInBoundsY(rect.origin.y),
+                          viewPortHandler.isInBoundsLeft(x)
+                    else { continue }
+                    
+                    let val = e.y
+                    
+                    if dataSet.isDrawValuesEnabled
                     {
-                        guard let e = dataSet.entryForIndex(index) as? BarChartDataEntry else { continue }
+                        drawValue(
+                            context: context,
+                            value: formatter.stringForValue(
+                                val,
+                                entry: e,
+                                dataSetIndex: dataSetIndex,
+                                viewPortHandler: viewPortHandler),
+                            xPos: x,
+                            yPos: val >= 0.0
+                            ? (rect.origin.y + posOffset)
+                            : (rect.origin.y + rect.size.height + negOffset),
+                            font: valueFont,
+                            align: .center,
+                            color: dataSet.valueTextColorAt(j),
+                            anchor: CGPoint(x: 0.5, y: 0.5),
+                            angleRadians: angleRadians)
+                    }
+                    
+                    if let icon = e.icon, dataSet.isDrawIconsEnabled
+                    {
+                        var px = x
+                        var py = val >= 0.0
+                        ? (rect.origin.y + posOffset)
+                        : (rect.origin.y + rect.size.height + negOffset)
                         
-                        let vals = e.yValues
+                        px += iconsOffset.x
+                        py += iconsOffset.y
                         
-                        let rect = buffer[bufferIndex]
+                        context.drawImage(icon,
+                                          atCenter: CGPoint(x: px, y: py),
+                                          size: icon.size)
+                    }
+                    
+                }
+            }
+            else
+            {
+                // if we have stacks
+                
+                var bufferIndex = 0
+                let lastIndex = ceil(Double(dataSet.entryCount) * animator.phaseX)
+                
+                for index in 0 ..< Int(lastIndex)
+                {
+                    guard let e = dataSet.entryForIndex(index) as? BarChartDataEntry else { continue }
+                    
+                    let vals = e.yValues
+                    
+                    let rect = buffer[bufferIndex]
+                    
+                    let x = rect.origin.x + rect.size.width / 2.0
+                    
+                    // we still draw stacked bars, but there is one non-stacked in between
+                    if let values = vals
+                    {
+                        // draw stack values
+                        var transformed = [CGPoint]()
                         
-                        let x = rect.origin.x + rect.size.width / 2.0
+                        var posY = 0.0
+                        var negY = -e.negativeSum
                         
-                        // we still draw stacked bars, but there is one non-stacked in between
-                        if let values = vals
+                        for value in values
                         {
-                            // draw stack values
-                            var transformed = [CGPoint]()
-
-                            var posY = 0.0
-                            var negY = -e.negativeSum
-
-                            for value in values
+                            let y: Double
+                            
+                            if value == 0.0 && (posY == 0.0 || negY == 0.0)
                             {
-                                let y: Double
-                                
-                                if value == 0.0 && (posY == 0.0 || negY == 0.0)
-                                {
-                                    // Take care of the situation of a 0.0 value, which overlaps a non-zero bar
-                                    y = value
-                                }
-                                else if value >= 0.0
-                                {
-                                    posY += value
-                                    y = posY
-                                }
-                                else
-                                {
-                                    y = negY
-                                    negY -= value
-                                }
-
-                                transformed.append(CGPoint(x: 0.0, y: CGFloat(y * phaseY)))
+                                // Take care of the situation of a 0.0 value, which overlaps a non-zero bar
+                                y = value
                             }
-
-                            trans.pointValuesToPixel(&transformed)
-
-                            for (value, transformed) in zip(values, transformed)
+                            else if value >= 0.0
                             {
-                                let drawBelow = (value == 0.0 && negY == 0.0 && posY > 0.0) || value < 0.0
-                                let y = transformed.y + (drawBelow ? negOffset : posOffset)
-
-                                guard viewPortHandler.isInBoundsRight(x) else { break }
-                                guard viewPortHandler.isInBoundsY(y),
-                                    viewPortHandler.isInBoundsLeft(x)
-                                    else { continue }
-
-                                if dataSet.isDrawValuesEnabled
-                                {
-                                    drawValue(
-                                        context: context,
-                                        value: formatter.stringForValue(
-                                            value,
-                                            entry: e,
-                                            dataSetIndex: dataSetIndex,
-                                            viewPortHandler: viewPortHandler),
-                                        xPos: x,
-                                        yPos: y,
-                                        font: valueFont,
-                                        align: .center,
-                                        color: dataSet.valueTextColorAt(index),
-                                        anchor: CGPoint(x: 0.5, y: 0.5),
-                                        angleRadians: angleRadians)
-                                }
-
-                                if let icon = e.icon, dataSet.isDrawIconsEnabled
-                                {
-                                    context.drawImage(icon,
-                                                      atCenter: CGPoint(x: x + iconsOffset.x,
-                                                                      y: y + iconsOffset.y),
-                                                      size: icon.size)
-                                }
+                                posY += value
+                                y = posY
                             }
+                            else
+                            {
+                                y = negY
+                                negY -= value
+                            }
+                            
+                            transformed.append(CGPoint(x: 0.0, y: CGFloat(y * phaseY)))
                         }
-                        else
+                        
+                        trans.pointValuesToPixel(&transformed)
+                        
+                        for (value, transformed) in zip(values, transformed)
                         {
+                            let drawBelow = (value == 0.0 && negY == 0.0 && posY > 0.0) || value < 0.0
+                            let y = transformed.y + (drawBelow ? negOffset : posOffset)
+                            
                             guard viewPortHandler.isInBoundsRight(x) else { break }
-                            guard viewPortHandler.isInBoundsY(rect.origin.y),
-                                viewPortHandler.isInBoundsLeft(x) else { continue }
-
+                            guard viewPortHandler.isInBoundsY(y),
+                                  viewPortHandler.isInBoundsLeft(x)
+                            else { continue }
+                            
                             if dataSet.isDrawValuesEnabled
                             {
                                 drawValue(
                                     context: context,
                                     value: formatter.stringForValue(
-                                        e.y,
+                                        value,
                                         entry: e,
                                         dataSetIndex: dataSetIndex,
                                         viewPortHandler: viewPortHandler),
                                     xPos: x,
-                                    yPos: rect.origin.y +
-                                        (e.y >= 0 ? posOffset : negOffset),
+                                    yPos: y,
                                     font: valueFont,
                                     align: .center,
                                     color: dataSet.valueTextColorAt(index),
@@ -647,21 +611,54 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                             
                             if let icon = e.icon, dataSet.isDrawIconsEnabled
                             {
-                                var px = x
-                                var py = rect.origin.y +
-                                    (e.y >= 0 ? posOffset : negOffset)
-                                
-                                px += iconsOffset.x
-                                py += iconsOffset.y
-                                
                                 context.drawImage(icon,
-                                                  atCenter: CGPoint(x: px, y: py),
+                                                  atCenter: CGPoint(x: x + iconsOffset.x,
+                                                                    y: y + iconsOffset.y),
                                                   size: icon.size)
                             }
                         }
-
-                        bufferIndex += vals?.count ?? 1
                     }
+                    else
+                    {
+                        guard viewPortHandler.isInBoundsRight(x) else { break }
+                        guard viewPortHandler.isInBoundsY(rect.origin.y),
+                              viewPortHandler.isInBoundsLeft(x) else { continue }
+                        
+                        if dataSet.isDrawValuesEnabled
+                        {
+                            drawValue(
+                                context: context,
+                                value: formatter.stringForValue(
+                                    e.y,
+                                    entry: e,
+                                    dataSetIndex: dataSetIndex,
+                                    viewPortHandler: viewPortHandler),
+                                xPos: x,
+                                yPos: rect.origin.y +
+                                (e.y >= 0 ? posOffset : negOffset),
+                                font: valueFont,
+                                align: .center,
+                                color: dataSet.valueTextColorAt(index),
+                                anchor: CGPoint(x: 0.5, y: 0.5),
+                                angleRadians: angleRadians)
+                        }
+                        
+                        if let icon = e.icon, dataSet.isDrawIconsEnabled
+                        {
+                            var px = x
+                            var py = rect.origin.y +
+                            (e.y >= 0 ? posOffset : negOffset)
+                            
+                            px += iconsOffset.x
+                            py += iconsOffset.y
+                            
+                            context.drawImage(icon,
+                                              atCenter: CGPoint(x: px, y: py),
+                                              size: icon.size)
+                        }
+                    }
+                    
+                    bufferIndex += vals?.count ?? 1
                 }
             }
         }
