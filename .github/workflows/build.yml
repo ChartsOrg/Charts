@@ -1,4 +1,4 @@
-name: Swift
+name: Build
 
 on:
   workflow_dispatch:
@@ -77,5 +77,5 @@ jobs:
       DEVELOPER_DIR: /Applications/Xcode_14.2.app/Contents/Developer
     steps:
       - uses: actions/checkout@v3
-      - name: Carthage Test
+      - name: Cocoapdos Test
         run: pod lib lint
