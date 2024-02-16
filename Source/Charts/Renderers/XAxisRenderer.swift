@@ -341,7 +341,10 @@ open class XAxisRenderer: NSObject, AxisRenderer
         context.saveGState()
         defer { context.restoreGState() }
 
-        context.clip(to: self.gridClippingRect)
+        // clip when line cap is not round to have rounded edges for grid
+        if axis.gridLineCap != .round {
+            context.clip(to: self.gridClippingRect)
+        }
         
         context.setShouldAntialias(axis.gridAntialiasEnabled)
         context.setStrokeColor(axis.gridColor.cgColor)

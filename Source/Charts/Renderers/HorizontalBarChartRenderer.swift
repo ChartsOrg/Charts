@@ -228,7 +228,8 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                 _barShadowRectBuffer.size.width = viewPortHandler.contentWidth
                 
                 context.setFillColor(dataSet.barShadowColor.cgColor)
-                context.fill(_barShadowRectBuffer)
+                // to round the edges for each bar's shadow
+                setRoundedCorners(context: context, barRect: _barShadowRectBuffer, dataSet: dataSet as! BarChartDataSet)
             }
         }
         
@@ -265,7 +266,8 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                 context.setFillColor(dataSet.color(atIndex: j).cgColor)
             }
 
-            context.fill(barRect)
+            // to round the edges for each bar
+            setRoundedCorners(context: context, barRect: barRect, dataSet: dataSet as! BarChartDataSet)
 
             if drawBorder
             {

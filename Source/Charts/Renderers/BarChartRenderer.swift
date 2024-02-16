@@ -379,7 +379,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 context.setFillColor(dataSet.color(atIndex: j).cgColor)
             }
             
-            context.fill(barRect)
+            setRoundedCorners(context: context, barRect: barRect, dataSet: dataSet as! BarChartDataSet)
             
             if drawBorder
             {
@@ -404,6 +404,12 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 accessibilityOrderedElements[j/stackSize].append(element)
             }
         }
+    }
+    
+    func setRoundedCorners(context: CGContext, barRect: CGRect, dataSet: BarChartDataSet) {
+        let bezierPath = UIBezierPath(roundedRect: barRect, cornerRadius: barRect.width * dataSet.cornerRadius)
+                        context.addPath(bezierPath.cgPath)
+                        context.drawPath(using: .fill)
     }
     
     open func prepareBarHighlight(
