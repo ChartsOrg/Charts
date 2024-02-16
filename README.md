@@ -93,8 +93,8 @@ For [Realm](https://realm.io/) support, please add `pod 'ChartsRealm'` too.
 DGCharts now include Carthage prebuilt binaries.
 
 ```carthage
-github "danielgindi/Charts" == 5.0.0
-github "danielgindi/Charts" ~> 5.0.0
+github "danielgindi/Charts" == 5.1.0
+github "danielgindi/Charts" ~> 5.1.0
 ```
 
 In order to build the binaries for a new release, use `carthage build --no-skip-current && carthage archive Charts`.
@@ -105,7 +105,7 @@ Swift Package Manager
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/danielgindi/Charts.git", .upToNextMajor(from: "5.0.0"))
+    .package(url: "https://github.com/danielgindi/Charts.git", .upToNextMajor(from: "5.1.0"))
 ]
 ```
 
