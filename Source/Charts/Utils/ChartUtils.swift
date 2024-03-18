@@ -157,25 +157,87 @@ extension CGContext
         NSUIGraphicsPopContext()
     }
 
-    public func drawText(_ text: String, at point: CGPoint, align: TextAlignment, anchor: CGPoint = CGPoint(x: 0.5, y: 0.5), angleRadians: CGFloat = 0.0, attributes: [NSAttributedString.Key : Any]?)
+    public func drawText(_ text: String, at point: CGPoint, align: TextAlignment, anchor: CGPoint = CGPoint(x: 0.5, y: 0.5), angleRadians: CGFloat = 0.0, attributes: [NSAttributedString.Key : Any]?, isUpperSemicircle:Bool = false, drawWithWidth:Bool = false, maxWidth:CGFloat? = nil, maxHeight:CGFloat? = nil)
     {
-        let drawPoint = getDrawPoint(text: text, point: point, align: align, attributes: attributes)
+        var mutableAttributes = attributes
+        let paragraphStyle = MutableParagraphStyle()
+        paragraphStyle.lineSpacing = 8.0
+        paragraphStyle.lineBreakMode = .byCharWrapping
+        if align == .right {
+            paragraphStyle.alignment = .right
+        }
+        mutableAttributes?.updateValue(paragraphStyle, forKey: .paragraphStyle)
+        let font:NSUIFont = mutableAttributes?[.font] as! NSUIFont
+        let twoLineHeight = font.pointSize * 2 + paragraphStyle.lineSpacing
+        let textMaxWidth = font.pointSize * 6 + 1
+        
+        var height:CGFloat? = nil
+        var width:CGFloat? = nil
+        var x:CGFloat? = nil
+        var y:CGFloat? = nil
+        var subText:String? = nil
+        
+        subText = text.count > 12 ? text.prefix(11) + "…" : text
+        var displayText = subText != nil ? subText! : text
+        
+        var drawPoint = getDrawPoint(text: displayText, point: point, align: align, attributes: mutableAttributes, isUpperSemicircle: isUpperSemicircle, maxWidth: maxWidth)
+        if drawWithWidth {
+            guard let maxWidth = maxWidth else {
+                return
+            }
+            let size = displayText.size(withAttributes: mutableAttributes)
+            height = displayText.count > 6 ? twoLineHeight : font.pointSize
+            width = align == .center ? ceil(size.width) + 1 : (ceil(size.width) < textMaxWidth ? ceil(size.width) + 1 : textMaxWidth)
+            x = drawPoint.x
+            y = drawPoint.y
+            if drawPoint.x < 0 {
+                height = twoLineHeight
+                width! += drawPoint.x
+                x = 0
+            } else if drawPoint.x + width! > maxWidth {
+                height = twoLineHeight
+                width! -= drawPoint.x + width! - maxWidth
+            }
+            
+            if let maxHeight = maxHeight {
+                if drawPoint.y < 0 {
+                    drawPoint.y += font.pointSize + paragraphStyle.lineSpacing
+                    y = drawPoint.y
+                    height = font.pointSize
+                } else if drawPoint.y + (height ?? font.pointSize) > maxHeight {
+                    height = font.pointSize
+                }
+            }
+            
+        }
         
         if (angleRadians == 0.0)
         {
             NSUIGraphicsPushContext(self)
             
-            (text as NSString).draw(at: drawPoint, withAttributes: attributes)
+            if var width = width, let height = height, let x = x, let y = y {
+                if width < font.pointSize {
+                    width = font.pointSize
+                }
+                let maxDisplayTextCount:Int = Int(width / font.pointSize) * Int(height / font.pointSize)
+                if displayText.count > 6 && displayText.count > maxDisplayTextCount {
+                    displayText = text.prefix(maxDisplayTextCount - 1) + "…"
+                }
+                (displayText as NSString).draw(in: CGRect.init(x: x, y: y, width: width, height: height), withAttributes: mutableAttributes)
+            } else {
+                (displayText as NSString).draw(at: drawPoint, withAttributes: mutableAttributes)
+            }
             
             NSUIGraphicsPopContext()
         }
         else
         {
-            drawText(text, at: drawPoint, anchor: anchor, angleRadians: angleRadians, attributes: attributes)
+            drawText(displayText, at: drawPoint, anchor: anchor, angleRadians: angleRadians, attributes: mutableAttributes, width: width, height: height)
         }
     }
     
-    public func drawText(_ text: String, at point: CGPoint, anchor: CGPoint = CGPoint(x: 0.5, y: 0.5), angleRadians: CGFloat, attributes: [NSAttributedString.Key : Any]?)
+
+    public func drawText(_ text: String, at point: CGPoint, anchor: CGPoint = CGPoint(x: 0.5, y: 0.5), angleRadians: CGFloat, attributes: [NSAttributedString.Key : Any]?, width: CGFloat? = nil, height: CGFloat? = nil)
     {
         var drawOffset = CGPoint()
 
@@ -204,7 +266,11 @@ extension CGContext
             translateBy(x: translate.x, y: translate.y)
             rotate(by: angleRadians)
 
-            (text as NSString).draw(at: drawOffset, withAttributes: attributes)
+            if let width = width, let height = height{
+                (text as NSString).draw(in: CGRect.init(x: drawOffset.x, y: drawOffset.y, width: width, height: height), withAttributes: attributes)
+            } else {
+                (text as NSString).draw(at: drawOffset, withAttributes: attributes)
+            }
 
             restoreGState()
         }
@@ -227,18 +293,41 @@ extension CGContext
         NSUIGraphicsPopContext()
     }
 
-    private func getDrawPoint(text: String, point: CGPoint, align: TextAlignment, attributes: [NSAttributedString.Key : Any]?) -> CGPoint
+    private func getDrawPoint(text: String, point: CGPoint, align: TextAlignment, attributes: [NSAttributedString.Key : Any]?, isUpperSemicircle:Bool = false, maxWidth:CGFloat? = nil) -> CGPoint
     {
         var point = point
-        
+        let size = text.size(withAttributes: attributes)
+        let font:NSUIFont = attributes?[.font] as! NSUIFont
+        let paragraphStyle:ParagraphStyle = attributes?[.paragraphStyle] as! ParagraphStyle
+        let textMaxWidth = font.pointSize * 6 + 1
+
         if align == .center
         {
-            point.x -= text.size(withAttributes: attributes).width / 2.0
+            point.x -= size.width / 2.0 - 5.0
         }
         else if align == .right
         {
-            point.x -= text.size(withAttributes: attributes).width
+            point.x -= size.width < textMaxWidth ? size.width : textMaxWidth
         }
+        else if align == .left
+        {
+            point.x -= 4.0
+        }
+        
+        if (align != .center && isUpperSemicircle && size.width > textMaxWidth) {
+            point.y -= text.count > 6 ? font.pointSize + paragraphStyle.lineSpacing : font.pointSize
+        } else if point.x < 0 && isUpperSemicircle {
+            point.y -= font.pointSize + paragraphStyle.lineSpacing
+        } else if let maxWidth = maxWidth {
+            if (maxWidth - point.x < min(size.width, textMaxWidth) && isUpperSemicircle) {
+                point.y -= font.pointSize + paragraphStyle.lineSpacing
+            }
+        } else if align == .center && isUpperSemicircle {
+            point.y -= 4.0
+        } else if align == .center && !isUpperSemicircle {
+            point.y += 4.0
+        }
+        
         return point
     }
     
