@@ -50,7 +50,9 @@ enum Option {
     case toggleYLabels
     case toggleRotate
     case toggleHighlightCircle
-    
+    // PieChart
+    case toggleSliceBorders
+
     var label: String {
         switch self {
         case .toggleValues: return "Toggle Y-Values"
@@ -91,6 +93,8 @@ enum Option {
         case .toggleYLabels: return "Toggle Y-Labels"
         case .toggleRotate: return "Toggle Rotate"
         case .toggleHighlightCircle: return "Toggle highlight circle"
+        // Pie Chart
+        case .toggleSliceBorders: return "Toggle Slice Borders"
         }
     }
 }
@@ -175,6 +179,15 @@ class DemoBaseViewController: UIViewController, ChartViewDelegate {
                 }
             }
             chartView.setNeedsDisplay()
+
+        case .toggleSliceBorders:
+            for set in chartView.data!.dataSets {
+                if let set = set as? PieChartDataSet {
+                    set.sliceBorderWidth = set.sliceBorderWidth == 1.0 ? 0.0 : 1.0
+                }
+            }
+            chartView.setNeedsDisplay()
+
         default:
             break
         }
