@@ -65,6 +65,9 @@ In order to correctly compile:
 - [iOS-Charts Tutorial: Highlight Selected Value With a Custom Marker (Penny Huang)](https://medium.com/@penny-huang/swift-ios-charts-tutorial-highlight-selected-value-with-a-custom-marker-30ccbf92aa1b)
 - [Drawing Charts in iOS Before SwiftUI (Gennady Stepanov)](https://medium.com/better-programming/drawing-charts-in-ios-before-swiftui-9f95b8612607)
 
+#### Charts Used Projects (Examples)
+* [Pie Chart implementation in a SwiftUI App (Expenso-iOS)](https://github.com/sameersyd/Expenso-iOS)
+
 Want your tutorial to show here? Create a PR!
 
 ## Troubleshooting
