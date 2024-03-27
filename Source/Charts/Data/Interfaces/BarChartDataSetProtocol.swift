@@ -49,4 +49,7 @@ public protocol BarChartDataSetProtocol: BarLineScatterCandleBubbleChartDataSetP
     
     /// array of corners to be rounded
     var roundedCorners: UIRectCorner { get set }
+    
+    /// array of corners to be rounded
+    var roundedCornersInverted: UIRectCorner { get }
 }
