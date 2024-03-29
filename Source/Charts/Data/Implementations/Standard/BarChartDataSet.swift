@@ -77,7 +77,7 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, BarChartData
         }
     }
     
-    open var roundedCornersInverted: UIRectCorner = []
+    open private(set) var roundedCornersInverted: UIRectCorner = []
     
     /// Calculates the total number of entries this DataSet represents, including
     /// stacks. All values belonging to a stack are calculated separately.
