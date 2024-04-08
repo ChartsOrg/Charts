@@ -23,14 +23,30 @@ public protocol LineScatterCandleRadarChartDataSetProtocol: BarLineScatterCandle
     
     /// Enables / disables the vertical highlight-indicator. If disabled, the indicator is not drawn.
     var drawVerticalHighlightIndicatorEnabled: Bool { get set }
+
+    /// Enables / disables the horizontal radar highlight-indicator. If disabled, the indicator is not drawn.
+    var drawHorizontalHighlightRadarIndicatorEnabled: Bool { get set }
+
+    /// Enables / disables the vertical radar highlight-indicator. If disabled, the indicator is not drawn.
+    var drawVerticalHighlightRadarIndicatorEnabled: Bool { get set }
     
     /// `true` if horizontal highlight indicator lines are enabled (drawn)
     var isHorizontalHighlightIndicatorEnabled: Bool { get }
     
     /// `true` if vertical highlight indicator lines are enabled (drawn)
     var isVerticalHighlightIndicatorEnabled: Bool { get }
+
+    /// `true` if horizontal highlight radar indicator lines are enabled (drawn)
+    var isHorizontalHighlightRadarIndicatorEnabled: Bool { get }
+
+    /// `true` if vertical highlight radar indicator lines are enabled (drawn)
+    var isVerticalHighlightRadarIndicatorEnabled: Bool { get }
     
     /// Enables / disables both vertical and horizontal highlight-indicators.
     /// :param: enabled
     func setDrawHighlightIndicators(_ enabled: Bool)
+
+    /// Enables / disables both vertical and horizontal radar highlight-indicators.
+    /// :param: enabled
+    func setDrawHighlightRadarIndicators(_ enabled: Bool)
 }

@@ -26,3 +26,12 @@ open class LineChartView: BarLineChartViewBase, LineChartDataProvider
     
     open var lineData: LineChartData? { return data as? LineChartData }
 }
+
+extension LineChartView {
+
+    public final func setChartMinMaxYValues(chartYMin: Double, chartYMax: Double) {
+        let leftAxis = self.leftAxis
+        leftAxis.axisMaximum = chartYMax
+        leftAxis.axisMinimum = chartYMin
+    }
+}
