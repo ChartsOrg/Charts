@@ -449,40 +449,45 @@ open class XAxisRenderer: NSObject, AxisRenderer
         // if drawing the limit-value label is enabled
         guard limitLine.drawLabelEnabled, !label.isEmpty else { return }
 
-        let labelLineHeight = limitLine.valueFont.lineHeight
+        let labelLineSize = label.size(withAttributes: [.font: limitLine.valueFont])
+        let labelLineRotatedSize = labelLineSize.rotatedBy(degrees: limitLine.labelRotationAngle)
+        let labelLineRotatedWidth = labelLineRotatedSize.width
+        let labelLineRotatedHeight = labelLineRotatedSize.height
 
         let xOffset: CGFloat = limitLine.lineWidth + limitLine.xOffset
+        let labelRotationAngleRadians = limitLine.labelRotationAngle.DEG2RAD
 
-        let align: TextAlignment
         let point: CGPoint
+        let anchor = CGPoint(x: 0.0, y: 0.0)
 
-        switch limitLine.labelPosition
-        {
+        switch limitLine.labelPosition {
         case .rightTop:
-            align = .left
-            point = CGPoint(x: position.x + xOffset,
-                            y: viewPortHandler.contentTop + yOffset)
+            point = CGPoint(
+                x: position.x + xOffset,
+                y: viewPortHandler.contentTop + yOffset)
 
         case .rightBottom:
-            align = .left
             point = CGPoint(x: position.x + xOffset,
-                            y: viewPortHandler.contentBottom - labelLineHeight - yOffset)
+                            y: viewPortHandler.contentBottom - labelLineRotatedHeight - yOffset)
 
         case .leftTop:
-            align = .right
-            point = CGPoint(x: position.x - xOffset,
+            point = CGPoint(x: position.x - labelLineRotatedWidth - xOffset,
                             y: viewPortHandler.contentTop + yOffset)
 
         case .leftBottom:
-            align = .right
-            point = CGPoint(x: position.x - xOffset,
-                            y: viewPortHandler.contentBottom - labelLineHeight - yOffset)
+            point = CGPoint(x: position.x - labelLineRotatedWidth - xOffset,
+                            y: viewPortHandler.contentBottom - labelLineRotatedHeight - yOffset)
         }
+
+        let attributes: [NSAttributedString.Key : Any] = [
+            .font: limitLine.valueFont,
+            .foregroundColor: limitLine.valueTextColor
+        ]
 
         context.drawText(label,
                          at: point,
-                         align: align,
-                         attributes: [.font: limitLine.valueFont,
-                                      .foregroundColor: limitLine.valueTextColor])
+                         anchor: anchor,
+                         angleRadians: labelRotationAngleRadians,
+                         attributes: attributes)
     }
 }
