@@ -10,7 +10,7 @@
 
 import Foundation
 import Cocoa
-import Charts
+import DGCharts
 
 open class BarDemoViewController: NSViewController
 {
@@ -59,7 +59,7 @@ open class BarDemoViewController: NSViewController
         let panel = NSSavePanel()
         panel.allowedFileTypes = ["png"]
         panel.beginSheetModal(for: self.view.window!) { (result) -> Void in
-            if result.rawValue == NSFileHandlingPanelOKButton
+            if result == NSApplication.ModalResponse.OK
             {
                 if let path = panel.url?.path
                 {
