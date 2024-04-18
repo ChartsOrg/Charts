@@ -1,4 +1,4 @@
-import Charts
+import DGCharts
 import SnapshotTesting
 import UIKit
 import XCTest
@@ -44,7 +44,7 @@ func assertChartSnapshot<Value: ChartViewBase>(
 
     let failure = verifySnapshot(
         matching: try value(),
-        as: .image,
+        as: .image(traits: .init(userInterfaceStyle: .light)),
         record: recording,
         snapshotDirectory: snapshotDirectory,
         timeout: timeout,

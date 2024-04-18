@@ -1,4 +1,4 @@
-@testable import Charts
+@testable import DGCharts
 import SnapshotTesting
 import XCTest
 

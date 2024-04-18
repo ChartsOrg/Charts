@@ -9,16 +9,13 @@
 #if canImport(UIKit)
     import UIKit
 #endif
-import Charts
+import DGCharts
 
 class RadarChartViewController: DemoBaseViewController {
 
     @IBOutlet var chartView: RadarChartView!
     
     let activities = ["Burger", "Steak", "Salad", "Pasta", "Pizza"]
-    var originalBarBgColor: UIColor!
-    var originalBarTintColor: UIColor!
-    var originalBarStyle: UIBarStyle!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -82,32 +79,6 @@ class RadarChartViewController: DemoBaseViewController {
         chartView.animate(xAxisDuration: 1.4, yAxisDuration: 1.4, easingOption: .easeOutBack)
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        UIView.animate(withDuration: 0.15) {
-            let navBar = self.navigationController!.navigationBar
-            self.originalBarBgColor = navBar.barTintColor
-            self.originalBarTintColor = navBar.tintColor
-            self.originalBarStyle = navBar.barStyle
-
-            navBar.barTintColor = self.view.backgroundColor
-            navBar.tintColor = .white
-            navBar.barStyle = .black
-        }
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        UIView.animate(withDuration: 0.15) {
-            let navBar = self.navigationController!.navigationBar
-            navBar.barTintColor = self.originalBarBgColor
-            navBar.tintColor = self.originalBarTintColor
-            navBar.barStyle = self.originalBarStyle
-        }
-    }
-    
     override func updateChartData() {
         if self.shouldHideData {
             chartView.data = nil
