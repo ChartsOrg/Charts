@@ -22,7 +22,7 @@ import AppKit
 #endif
 
 @objc
-public protocol ChartViewDelegate
+@MainActor public protocol ChartViewDelegate
 {
     /// Called when a value has been selected inside the chart.
     ///
