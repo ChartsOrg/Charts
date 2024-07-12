@@ -20,12 +20,15 @@ open class BarChartView: BarLineChartViewBase, BarChartDataProvider
 
     /// if set to true, a grey area is drawn behind each bar that indicates the maximum value
     private var _drawBarShadowEnabled = false
+    public var barChartCornerRedius : Int = 0
     
     internal override func initialize()
     {
         super.initialize()
-        
-        renderer = BarChartRenderer(dataProvider: self, animator: chartAnimator, viewPortHandler: viewPortHandler)
+    }
+    
+    public func initializeChart() {
+        renderer = BarChartRenderer(dataProvider: self, animator: chartAnimator, viewPortHandler: viewPortHandler,barChartCornerRedius: self.barChartCornerRedius)
         
         self.highlighter = BarHighlighter(chart: self)
         

@@ -42,13 +42,16 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
 
     private typealias Buffer = [CGRect]
     
+    public var barChartCornerRedius : Int = 0
+    
     @objc open weak var dataProvider: BarChartDataProvider?
     
-    @objc public init(dataProvider: BarChartDataProvider, animator: Animator, viewPortHandler: ViewPortHandler)
+    @objc public init(dataProvider: BarChartDataProvider, animator: Animator, viewPortHandler: ViewPortHandler, barChartCornerRedius : Int = 0)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         
         self.dataProvider = dataProvider
+        self.barChartCornerRedius = barChartCornerRedius
     }
     
     // [CGRect] per dataset
@@ -379,7 +382,10 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 context.setFillColor(dataSet.color(atIndex: j).cgColor)
             }
             
-            context.fill(barRect)
+            let rectCorners: UIRectCorner = [.topLeft, .topRight]
+            let bezierPath = UIBezierPath(roundedRect: barRect, byRoundingCorners: rectCorners, cornerRadii: CGSize(width: self.barChartCornerRedius, height: self.barChartCornerRedius)) //(roundedRect: barRect, byRoundingCorners: rectCorners, cornerRadi: 5)
+            context.addPath(bezierPath.cgPath)
+            context.drawPath(using: .fill)
             
             if drawBorder
             {

@@ -24,7 +24,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
         var rects = [CGRect]()
     }
     
-    public override init(dataProvider: BarChartDataProvider, animator: Animator, viewPortHandler: ViewPortHandler)
+    public override init(dataProvider: BarChartDataProvider, animator: Animator, viewPortHandler: ViewPortHandler, barChartCornerRedius : Int = 0)
     {
         super.init(dataProvider: dataProvider, animator: animator, viewPortHandler: viewPortHandler)
     }
