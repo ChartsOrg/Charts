@@ -7,6 +7,9 @@ class BarChartTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
+		
+		// Set to `true` to re-capture all snapshots
+		isRecording = false
     }
 
     override func tearDown() {
