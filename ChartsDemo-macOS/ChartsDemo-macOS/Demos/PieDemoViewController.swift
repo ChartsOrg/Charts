@@ -10,7 +10,7 @@
 
 import Foundation
 import Cocoa
-import Charts
+import DGCharts
 
 open class PieDemoViewController: NSViewController
 {
@@ -30,7 +30,7 @@ open class PieDemoViewController: NSViewController
         
         ds1.colors = ChartColorTemplates.vordiplom()
         
-        data.addDataSet(ds1)
+        data.append(ds1)
         
         let paragraphStyle: NSMutableParagraphStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
         paragraphStyle.lineBreakMode = .byTruncatingTail
@@ -44,7 +44,7 @@ open class PieDemoViewController: NSViewController
         
         self.pieChartView.data = data
         
-        self.pieChartView.chartDescription?.text = "Piechart Demo"
+        self.pieChartView.chartDescription.text = "Piechart Demo"
     }
     
     override open func viewWillAppear()

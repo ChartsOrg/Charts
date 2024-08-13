@@ -9,7 +9,7 @@
 #if canImport(UIKit)
     import UIKit
 #endif
-import Charts
+import DGCharts
 
 class BubbleChartViewController: DemoBaseViewController {
     
@@ -37,7 +37,7 @@ class BubbleChartViewController: DemoBaseViewController {
         
         chartView.delegate = self
         
-        chartView.chartDescription?.enabled = false
+        chartView.chartDescription.enabled = false
         
         chartView.dragEnabled = false
         chartView.setScaleEnabled(true)
@@ -106,7 +106,7 @@ class BubbleChartViewController: DemoBaseViewController {
         set3.setColor(ChartColorTemplates.colorful()[2], alpha: 0.5)
         set3.drawValuesEnabled = true
         
-        let data = BubbleChartData(dataSets: [set1, set2, set3])
+        let data = [set1, set2, set3] as BubbleChartData
         data.setDrawValues(false)
         data.setValueFont(UIFont(name: "HelveticaNeue-Light", size: 7)!)
         data.setHighlightCircleWidth(1.5)

@@ -9,10 +9,10 @@
 #if canImport(UIKit)
     import UIKit
 #endif
-import Charts
+import DGCharts
 
-private class CubicLineSampleFillFormatter: IFillFormatter {
-    func getFillLinePosition(dataSet: ILineChartDataSet, dataProvider: LineChartDataProvider) -> CGFloat {
+private class CubicLineSampleFillFormatter: FillFormatter {
+    func getFillLinePosition(dataSet: LineChartDataSetProtocol, dataProvider: LineChartDataProvider) -> CGFloat {
         return -10
     }
 }
@@ -111,33 +111,35 @@ class CubicLineChartViewController: DemoBaseViewController {
     }
     
     override func optionTapped(_ option: Option) {
+        guard let data = chartView.data else { return }
+
         switch option {
         case .toggleFilled:
-            for set in chartView.data!.dataSets as! [LineChartDataSet] {
+            for case let set as LineChartDataSet in data {
                 set.drawFilledEnabled = !set.drawFilledEnabled
             }
             chartView.setNeedsDisplay()
             
         case .toggleCircles:
-            for set in chartView.data!.dataSets as! [LineChartDataSet] {
+            for case let set as LineChartDataSet in data {
                 set.drawCirclesEnabled = !set.drawCirclesEnabled
             }
             chartView.setNeedsDisplay()
 
         case .toggleCubic:
-            for set in chartView.data!.dataSets as! [LineChartDataSet] {
+            for case let set as LineChartDataSet in data {
                 set.mode = (set.mode == .cubicBezier) ? .linear : .cubicBezier
             }
             chartView.setNeedsDisplay()
             
         case .toggleStepped:
-            for set in chartView.data!.dataSets as! [LineChartDataSet] {
+            for case let set as LineChartDataSet in data {
                 set.mode = (set.mode == .stepped) ? .linear : .stepped
             }
             chartView.setNeedsDisplay()
 
         case .toggleHorizontalCubic:
-            for set in chartView.data!.dataSets as! [LineChartDataSet] {
+            for case let set as LineChartDataSet in data {
                 set.mode = (set.mode == .cubicBezier) ? .horizontalBezier : .cubicBezier
             }
             chartView.setNeedsDisplay()

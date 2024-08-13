@@ -9,7 +9,7 @@
 #if canImport(UIKit)
     import UIKit
 #endif
-import Charts
+import DGCharts
 
 class MultipleBarChartViewController: DemoBaseViewController {
 
@@ -38,7 +38,7 @@ class MultipleBarChartViewController: DemoBaseViewController {
         
         chartView.delegate = self
         
-        chartView.chartDescription?.enabled =  false
+        chartView.chartDescription.enabled =  false
         
         chartView.pinchZoomEnabled = false
         chartView.drawBarShadowEnabled = false
@@ -121,7 +121,7 @@ class MultipleBarChartViewController: DemoBaseViewController {
         let set4 = BarChartDataSet(entries: yVals4, label: "Company D")
         set4.setColor(UIColor(red: 255/255, green: 102/255, blue: 0/255, alpha: 1))
         
-        let data = BarChartData(dataSets: [set1, set2, set3, set4])
+        let data: BarChartData = [set1, set2, set3, set4]
         data.setValueFont(.systemFont(ofSize: 10, weight: .light))
         data.setValueFormatter(LargeValueFormatter())
         

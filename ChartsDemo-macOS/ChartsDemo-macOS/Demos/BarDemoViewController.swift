@@ -10,7 +10,7 @@
 
 import Foundation
 import Cocoa
-import Charts
+import DGCharts
 
 open class BarDemoViewController: NSViewController
 {
@@ -31,11 +31,11 @@ open class BarDemoViewController: NSViewController
         let data = BarChartData()
         let ds1 = BarChartDataSet(entries: yse1, label: "Hello")
         ds1.colors = [NSUIColor.red]
-        data.addDataSet(ds1)
+        data.append(ds1)
 
         let ds2 = BarChartDataSet(entries: yse2, label: "World")
         ds2.colors = [NSUIColor.blue]
-        data.addDataSet(ds2)
+        data.append(ds2)
 
         let barWidth = 0.4
         let barSpace = 0.05
@@ -51,7 +51,7 @@ open class BarDemoViewController: NSViewController
         
         self.barChartView.gridBackgroundColor = NSUIColor.white
         
-        self.barChartView.chartDescription?.text = "Barchart Demo"
+        self.barChartView.chartDescription.text = "Barchart Demo"
     }
     
     @IBAction func save(_ sender: Any)
@@ -59,7 +59,7 @@ open class BarDemoViewController: NSViewController
         let panel = NSSavePanel()
         panel.allowedFileTypes = ["png"]
         panel.beginSheetModal(for: self.view.window!) { (result) -> Void in
-            if result.rawValue == NSFileHandlingPanelOKButton
+            if result == NSApplication.ModalResponse.OK
             {
                 if let path = panel.url?.path
                 {

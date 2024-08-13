@@ -9,7 +9,7 @@
 #if canImport(UIKit)
     import UIKit
 #endif
-import Charts
+import DGCharts
 
 class StackedBarChartViewController: DemoBaseViewController {
 
@@ -48,7 +48,7 @@ class StackedBarChartViewController: DemoBaseViewController {
         
         chartView.delegate = self
         
-        chartView.chartDescription?.enabled = false
+        chartView.chartDescription.enabled = false
         
         chartView.maxVisibleCount = 40
         chartView.drawBarShadowEnabled = false

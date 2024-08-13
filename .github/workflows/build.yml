@@ -1,0 +1,81 @@
+name: Build
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "*"
+  pull_request:
+    branches:
+      - "*"
+
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  buildFramework:
+    name: Build framework
+    runs-on: macos-12
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_14.2.app/Contents/Developer
+    strategy:
+      matrix:
+        target:
+          - destination: "OS=16.2,name=iPhone 14 Pro"
+            actions: "build test"
+          - destination: "OS=16.1,name=Apple TV 4K (3rd generation)"
+            actions: "build test"
+          - destination: "platform=macOS"
+            actions: "build"
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build framework - ${{ matrix.target.destination }}
+        run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace "Charts.xcworkspace" -scheme "DGCharts" -destination "${{ matrix.target.destination }}" clean ${{ matrix.target.actions }} | xcpretty
+
+  buildDemo:
+    name: Build demo
+    runs-on: macos-12
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_14.2.app/Contents/Developer
+    strategy:
+      matrix:
+        target:
+          - scheme: "ChartsDemo-iOS"
+            destination: "OS=16.2,name=iPhone 14 Pro"
+          - scheme: "ChartsDemo-macOS"
+            destination: "platform=macOS"
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build demo - ${{ matrix.target.destination }}
+        run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace "Charts.xcworkspace" -scheme "${{ matrix.target.scheme }}" -destination "${{ matrix.target.destination }}" clean build | xcpretty
+
+  spm:
+    name: Test with SPM
+    runs-on: macos-12
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_14.2.app/Contents/Developer
+    steps:
+      - uses: actions/checkout@v3
+      - name: SPM Test
+        run: swift build
+
+  carthage:
+    name: Test with carthage
+    runs-on: macos-12
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_14.2.app/Contents/Developer
+    steps:
+      - uses: actions/checkout@v3
+      - name: Carthage Test
+        run: carthage build --use-xcframeworks --no-skip-current
+
+  cocoapods:
+    name: Test with cocoapods
+    runs-on: macos-12
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_14.2.app/Contents/Developer
+    steps:
+      - uses: actions/checkout@v3
+      - name: Cocoapdos Test
+        run: pod lib lint

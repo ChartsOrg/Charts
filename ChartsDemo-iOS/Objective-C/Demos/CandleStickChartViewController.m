@@ -128,7 +128,7 @@
 {
     if ([key isEqualToString:@"toggleShadowColorSameAsCandle"])
     {
-        for (id<ICandleChartDataSet> set in _chartView.data.dataSets)
+        for (id<CandleChartDataSetProtocol> set in _chartView.data.dataSets)
         {
             set.shadowColorSameAsCandle = !set.shadowColorSameAsCandle;
         }
@@ -137,7 +137,7 @@
         return;
     } else if ([key isEqualToString:@"toggleShowCandleBar"])
     {
-        for (id<ICandleChartDataSet> set in _chartView.data.dataSets)
+        for (id<CandleChartDataSetProtocol> set in _chartView.data.dataSets)
         {
             set.showCandleBar = !set.showCandleBar;
         }

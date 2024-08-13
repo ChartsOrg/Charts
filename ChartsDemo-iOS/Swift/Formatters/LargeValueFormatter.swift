@@ -5,13 +5,13 @@
 //
 
 import Foundation
-import Charts
+import DGCharts
 
 private let MAX_LENGTH = 5
 
 @objc protocol Testing123 { }
 
-public class LargeValueFormatter: NSObject, IValueFormatter, IAxisValueFormatter {
+public class LargeValueFormatter: NSObject, ValueFormatter, AxisValueFormatter {
     
     /// Suffix to be appended after the values.
     ///

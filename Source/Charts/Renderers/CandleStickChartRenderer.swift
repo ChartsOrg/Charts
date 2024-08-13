@@ -38,7 +38,7 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
             accessibleChartElements.append(element)
         }
 
-        for set in candleData.dataSets as! [ICandleChartDataSet] where set.isVisible
+        for case let set as CandleChartDataSetProtocol in (candleData as ChartData) where set.isVisible
         {
             drawDataSet(context: context, dataSet: set)
         }
@@ -51,7 +51,7 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
     private var _bodyRect = CGRect()
     private var _lineSegments = [CGPoint](repeating: CGPoint(), count: 2)
     
-    @objc open func drawDataSet(context: CGContext, dataSet: ICandleChartDataSet)
+    @objc open func drawDataSet(context: CGContext, dataSet: CandleChartDataSetProtocol)
     {
         guard
             let dataProvider = dataProvider
@@ -81,7 +81,7 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
             let high = e.high
             let low = e.low
             
-            let doesContainMultipleDataSets = (dataProvider.candleData?.dataSets.count ?? 1) > 1
+            let doesContainMultipleDataSets = (dataProvider.candleData?.count ?? 1) > 1
             var accessibilityMovementDescription = "neutral"
             var accessibilityRect = CGRect(x: CGFloat(xPos) + 0.5 - barSpace,
                                            y: CGFloat(low * phaseY),
@@ -275,27 +275,27 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
         // if values are drawn
         if isDrawingValuesAllowed(dataProvider: dataProvider)
         {
-            let dataSets = candleData.dataSets
-            
             let phaseY = animator.phaseY
             
             var pt = CGPoint()
             
-            for i in 0 ..< dataSets.count
+            for i in candleData.indices
             {
                 guard let
-                    dataSet = dataSets[i] as? IBarLineScatterCandleBubbleChartDataSet,
+                    dataSet = candleData[i] as? BarLineScatterCandleBubbleChartDataSetProtocol,
                     shouldDrawValues(forDataSet: dataSet)
                     else { continue }
                 
                 let valueFont = dataSet.valueFont
                 
-                guard let formatter = dataSet.valueFormatter else { continue }
+                let formatter = dataSet.valueFormatter
                 
                 let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
                 let valueToPixelMatrix = trans.valueToPixelMatrix
                 
                 let iconsOffset = dataSet.iconsOffset
+                
+                let angleRadians = dataSet.valueLabelAngle.DEG2RAD
                 
                 _xBounds.set(chart: dataProvider, dataSet: dataSet, animator: animator)
                 
@@ -322,27 +322,24 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
                     
                     if dataSet.isDrawValuesEnabled
                     {
-                        ChartUtils.drawText(
-                            context: context,
-                            text: formatter.stringForValue(
-                                e.high,
-                                entry: e,
-                                dataSetIndex: i,
-                                viewPortHandler: viewPortHandler),
-                            point: CGPoint(
-                                x: pt.x,
-                                y: pt.y - yOffset),
-                            align: .center,
-                            attributes: [NSAttributedString.Key.font: valueFont, NSAttributedString.Key.foregroundColor: dataSet.valueTextColorAt(j)])
+                        context.drawText(formatter.stringForValue(e.high,
+                                                                  entry: e,
+                                                                  dataSetIndex: i,
+                                                                  viewPortHandler: viewPortHandler),
+                                         at: CGPoint(x: pt.x,
+                                                     y: pt.y - yOffset),
+                                         align: .center,
+                                         angleRadians: angleRadians,
+                                         attributes: [.font: valueFont,
+                                                      .foregroundColor: dataSet.valueTextColorAt(j)])
                     }
                     
                     if let icon = e.icon, dataSet.isDrawIconsEnabled
                     {
-                        ChartUtils.drawImage(context: context,
-                                             image: icon,
-                                             x: pt.x + iconsOffset.x,
-                                             y: pt.y + iconsOffset.y,
-                                             size: icon.size)
+                        context.drawImage(icon,
+                                          atCenter: CGPoint(x: pt.x + iconsOffset.x,
+                                                          y: pt.y + iconsOffset.y),
+                                          size: icon.size)
                     }
                 }
             }
@@ -365,7 +362,7 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
         for high in indices
         {
             guard
-                let set = candleData.getDataSetByIndex(high.dataSetIndex) as? ICandleChartDataSet,
+                let set = candleData[high.dataSetIndex] as? CandleChartDataSetProtocol,
                 set.isHighlightEnabled
                 else { continue }
             
@@ -407,7 +404,7 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
 
     private func createAccessibleElement(withIndex idx: Int,
                                          container: CandleChartDataProvider,
-                                         dataSet: ICandleChartDataSet,
+                                         dataSet: CandleChartDataSetProtocol,
                                          modifier: (NSUIAccessibilityElement) -> ()) -> NSUIAccessibilityElement {
 
         let element = NSUIAccessibilityElement(accessibilityContainer: container)
