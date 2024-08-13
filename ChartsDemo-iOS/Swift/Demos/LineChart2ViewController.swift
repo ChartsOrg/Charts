@@ -9,7 +9,7 @@
 #if canImport(UIKit)
     import UIKit
 #endif
-import Charts
+import DGCharts
 
 class LineChart2ViewController: DemoBaseViewController {
 
@@ -41,7 +41,7 @@ class LineChart2ViewController: DemoBaseViewController {
         
         chartView.delegate = self
         
-        chartView.chartDescription?.enabled = false
+        chartView.chartDescription.enabled = false
         chartView.dragEnabled = true
         chartView.setScaleEnabled(true)
         chartView.pinchZoomEnabled = true
@@ -137,7 +137,7 @@ class LineChart2ViewController: DemoBaseViewController {
         set3.highlightColor = UIColor(red: 244/255, green: 117/255, blue: 117/255, alpha: 1)
         set3.drawCircleHoleEnabled = false
         
-        let data = LineChartData(dataSets: [set1, set2, set3])
+        let data: LineChartData = [set1, set2, set3]
         data.setValueTextColor(.white)
         data.setValueFont(.systemFont(ofSize: 9))
         
@@ -145,33 +145,35 @@ class LineChart2ViewController: DemoBaseViewController {
     }
     
     override func optionTapped(_ option: Option) {
+        guard let data = chartView.data else { return }
+
         switch option {
         case .toggleFilled:
-            for set in chartView.data!.dataSets as! [LineChartDataSet] {
+            for case let set as LineChartDataSet in data {
                 set.drawFilledEnabled = !set.drawFilledEnabled
             }
             chartView.setNeedsDisplay()
             
         case .toggleCircles:
-            for set in chartView.data!.dataSets as! [LineChartDataSet] {
+            for case let set as LineChartDataSet in data {
                 set.drawCirclesEnabled = !set.drawCirclesEnabled
             }
             chartView.setNeedsDisplay()
             
         case .toggleCubic:
-            for set in chartView.data!.dataSets as! [LineChartDataSet] {
+            for case let set as LineChartDataSet in data {
                 set.mode = (set.mode == .cubicBezier) ? .linear : .cubicBezier
             }
             chartView.setNeedsDisplay()
             
         case .toggleStepped:
-            for set in chartView.data!.dataSets as! [LineChartDataSet] {
+            for case let set as LineChartDataSet in data {
                 set.mode = (set.mode == .stepped) ? .linear : .stepped
             }
             chartView.setNeedsDisplay()
             
         case .toggleHorizontalCubic:
-            for set in chartView.data!.dataSets as! [LineChartDataSet] {
+            for case let set as LineChartDataSet in data {
                 set.mode = (set.mode == .cubicBezier) ? .horizontalBezier : .cubicBezier
             }
             chartView.setNeedsDisplay()
@@ -194,7 +196,7 @@ class LineChart2ViewController: DemoBaseViewController {
         super.chartValueSelected(chartView, entry: entry, highlight: highlight)
         
         self.chartView.centerViewToAnimated(xValue: entry.x, yValue: entry.y,
-                                            axis: self.chartView.data!.getDataSetByIndex(highlight.dataSetIndex).axisDependency,
+                                            axis: self.chartView.data![highlight.dataSetIndex].axisDependency,
                                             duration: 1)
         //[_chartView moveViewToAnimatedWithXValue:entry.x yValue:entry.y axis:[_chartView.data getDataSetByIndex:dataSetIndex].axisDependency duration:1.0];
         //[_chartView zoomAndCenterViewAnimatedWithScaleX:1.8 scaleY:1.8 xValue:entry.x yValue:entry.y axis:[_chartView.data getDataSetByIndex:dataSetIndex].axisDependency duration:1.0];

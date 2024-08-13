@@ -12,13 +12,10 @@
 #import "RadarChartViewController.h"
 #import "ChartsDemo_iOS-Swift.h"
 
-@interface RadarChartViewController () <ChartViewDelegate, IChartAxisValueFormatter>
+@interface RadarChartViewController () <ChartViewDelegate, ChartAxisValueFormatter>
 
 @property (nonatomic, strong) IBOutlet RadarChartView *chartView;
 @property (nonatomic, strong) NSArray<NSString *> *activities;
-@property (nonatomic, strong) UIColor *originalBarBgColor;
-@property (nonatomic, strong) UIColor *originalBarTintColor;
-@property (nonatomic) UIBarStyle originalBarStyle;
 
 @end
 
@@ -88,34 +85,6 @@
     [self updateChartData];
     
     [_chartView animateWithXAxisDuration:1.4 yAxisDuration:1.4 easingOption:ChartEasingOptionEaseOutBack];
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-    [UIView animateWithDuration:0.15 animations:^{
-        UINavigationBar *navigationBar = self.navigationController.navigationBar;
-        self.originalBarBgColor = navigationBar.barTintColor;
-        self.originalBarTintColor = navigationBar.tintColor;
-        self.originalBarStyle = navigationBar.barStyle;
-        
-        navigationBar.barTintColor = self.view.backgroundColor;
-        navigationBar.tintColor = UIColor.whiteColor;
-        navigationBar.barStyle = UIBarStyleBlack;
-    }];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    
-    [UIView animateWithDuration:0.15 animations:^{
-        UINavigationBar *navigationBar = self.navigationController.navigationBar;
-        navigationBar.barTintColor = self.originalBarBgColor;
-        navigationBar.tintColor = self.originalBarTintColor;
-        navigationBar.barStyle = self.originalBarStyle;
-    }];
 }
 
 - (void)didReceiveMemoryWarning

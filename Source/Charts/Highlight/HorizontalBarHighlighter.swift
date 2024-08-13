@@ -22,7 +22,7 @@ open class HorizontalBarHighlighter: BarHighlighter
         let pos = getValsForTouch(x: y, y: x)
         guard let high = getHighlight(xValue: Double(pos.y), x: y, y: x) else { return nil }
 
-        if let set = barData.getDataSetByIndex(high.dataSetIndex) as? IBarChartDataSet,
+        if let set = barData[high.dataSetIndex] as? BarChartDataSetProtocol,
             set.isStacked
         {
             return getStackedHighlight(high: high,
@@ -35,7 +35,7 @@ open class HorizontalBarHighlighter: BarHighlighter
     }
     
     internal override func buildHighlights(
-        dataSet set: IChartDataSet,
+        dataSet set: ChartDataSetProtocol,
         dataSetIndex: Int,
         xValue: Double,
         rounding: ChartDataSetRounding) -> [Highlight]
@@ -43,7 +43,7 @@ open class HorizontalBarHighlighter: BarHighlighter
         guard let chart = self.chart as? BarLineScatterCandleBubbleChartDataProvider else { return [] }
         
         var entries = set.entriesForXValue(xValue)
-        if entries.count == 0, let closest = set.entryForXValue(xValue, closestToY: .nan, rounding: rounding)
+        if entries.isEmpty, let closest = set.entryForXValue(xValue, closestToY: .nan, rounding: rounding)
         {
             // Try to find closest x-value and take all entries for that x-value
             entries = set.entriesForXValue(closest.x)

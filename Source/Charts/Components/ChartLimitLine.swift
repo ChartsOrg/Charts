@@ -12,6 +12,13 @@
 import Foundation
 import CoreGraphics
 
+#if canImport(UIKit)
+import UIKit
+#endif
+
+#if canImport(AppKit)
+import AppKit
+#endif
 
 /// The limit line is an additional feature for all Line, Bar and ScatterCharts.
 /// It allows the displaying of an additional line in the chart that marks a certain maximum / limit on the specified axis (x- or y-axis).
@@ -20,10 +27,10 @@ open class ChartLimitLine: ComponentBase
     @objc(ChartLimitLabelPosition)
     public enum LabelPosition: Int
     {
-        case topLeft
-        case topRight
-        case bottomLeft
-        case bottomRight
+        case leftTop
+        case leftBottom
+        case rightTop
+        case rightBottom
     }
     
     /// limit / maximum (the y-value or xIndex)
@@ -39,7 +46,8 @@ open class ChartLimitLine: ComponentBase
     
     @objc open var drawLabelEnabled = true
     @objc open var label = ""
-    @objc open var labelPosition = LabelPosition.topRight
+    @objc open var labelPosition = LabelPosition.rightTop
+    @objc open var labelRotationAngle = CGFloat(0.0)
     
     public override init()
     {

@@ -9,7 +9,7 @@
 #if canImport(UIKit)
     import UIKit
 #endif
-import Charts
+import DGCharts
 
 class PositiveNegativeBarChartViewController: DemoBaseViewController {
 
@@ -46,7 +46,7 @@ class PositiveNegativeBarChartViewController: DemoBaseViewController {
         chartView.drawBarShadowEnabled = false
         chartView.drawValueAboveBarEnabled = true
         
-        chartView.chartDescription?.enabled = false
+        chartView.chartDescription.enabled = false
         
         chartView.rightAxis.enabled = false
 
@@ -115,7 +115,7 @@ class PositiveNegativeBarChartViewController: DemoBaseViewController {
     }
 }
 
-extension PositiveNegativeBarChartViewController: IAxisValueFormatter {
+extension PositiveNegativeBarChartViewController: AxisValueFormatter {
     func stringForValue(_ value: Double, axis: AxisBase?) -> String {
         return dataLabels[min(max(Int(value), 0), dataLabels.count - 1)]
     }

@@ -1,20 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <array key="HelveticaNeueLights.ttc">
-            <string>HelveticaNeue-Light</string>
-        </array>
-    </customFonts>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AnotherBarChartViewController" customModule="ChartsDemo" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AnotherBarChartViewController" customModule="ChartsDemo_iOS" customModuleProvider="target">
             <connections>
                 <outlet property="chartView" destination="Oqd-Ej-1xl" id="tSA-aU-J9W"/>
                 <outlet property="sliderTextX" destination="It4-Tc-0qK" id="esc-84-jQT"/>
@@ -40,7 +34,7 @@
                         <action selector="optionsButtonTapped:" destination="-1" eventType="touchUpInside" id="ig5-8o-JhO"/>
                     </connections>
                 </button>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Oqd-Ej-1xl" customClass="BarChartView" customModule="Charts">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Oqd-Ej-1xl" customClass="BarChartView" customModule="DGCharts">
                     <rect key="frame" x="0.0" y="47" width="375" height="501"/>
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                 </view>
@@ -57,7 +51,7 @@
                     </connections>
                 </slider>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="500" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vDG-Fm-61Z">
-                    <rect key="frame" x="297" y="611.5" width="70" height="30"/>
+                    <rect key="frame" x="297" y="611" width="70" height="30"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="70" id="EAG-hU-sTu"/>
                         <constraint firstAttribute="height" constant="30" id="GB4-g0-PGO"/>
@@ -66,7 +60,7 @@
                     <textInputTraits key="textInputTraits"/>
                 </textField>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="500" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="It4-Tc-0qK">
-                    <rect key="frame" x="297" y="573.5" width="70" height="30"/>
+                    <rect key="frame" x="297" y="573" width="70" height="30"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="70" id="SsZ-2p-GDE"/>
                         <constraint firstAttribute="height" constant="30" id="Yzk-h7-HPb"/>
@@ -75,6 +69,7 @@
                     <textInputTraits key="textInputTraits"/>
                 </textField>
             </subviews>
+            <viewLayoutGuide key="safeArea" id="vfX-GJ-eSe"/>
             <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="Oqd-Ej-1xl" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="47" id="3NA-if-rAO"/>
@@ -94,7 +89,6 @@
                 <constraint firstItem="Xhn-cI-Tqm" firstAttribute="top" secondItem="Oqd-Ej-1xl" secondAttribute="bottom" constant="25" id="r0S-JG-wnp"/>
                 <constraint firstItem="vDG-Fm-61Z" firstAttribute="leading" secondItem="IuK-nU-ZPT" secondAttribute="trailing" constant="8" id="zz3-mA-tmf"/>
             </constraints>
-            <viewLayoutGuide key="safeArea" id="vfX-GJ-eSe"/>
             <point key="canvasLocation" x="157.5" y="222.5"/>
         </view>
     </objects>

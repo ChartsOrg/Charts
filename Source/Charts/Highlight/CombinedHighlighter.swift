@@ -35,10 +35,8 @@ open class CombinedHighlighter: ChartHighlighter
             let dataObjects = chart.combinedData?.allData
             else { return vals }
         
-        for i in 0..<dataObjects.count
+        for (i, dataObject) in dataObjects.indexed()
         {
-            let dataObject = dataObjects[i]
-
             // in case of BarData, let the BarHighlighter take over
             if barHighlighter != nil && dataObject is BarChartData,
                 let high = barHighlighter?.getHighlight(x: x, y: y)
@@ -48,13 +46,9 @@ open class CombinedHighlighter: ChartHighlighter
             }
             else
             {
-                for j in 0..<dataObject.dataSetCount
+                for (j, set) in dataObject.indexed() where set.isHighlightEnabled
                 {
-                    guard let dataSet = dataObject.getDataSetByIndex(j),
-                        dataSet.isHighlightEnabled      // don't include datasets that cannot be highlighted
-                        else { continue }
-
-                    let highs = buildHighlights(dataSet: dataSet, dataSetIndex: j, xValue: xValue, rounding: .closest)
+                    let highs = buildHighlights(dataSet: set, dataSetIndex: j, xValue: xValue, rounding: .closest)
 
                     for high in highs
                     {

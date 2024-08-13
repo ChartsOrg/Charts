@@ -12,8 +12,15 @@
 import Foundation
 import CoreGraphics
 
+#if canImport(UIKit)
+import UIKit
+#endif
 
-open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartDataSet
+#if canImport(AppKit)
+import AppKit
+#endif
+
+open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, BarChartDataSetProtocol
 {
     private func initialize()
     {
@@ -29,7 +36,7 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartDat
         initialize()
     }
     
-    public override init(entries: [ChartDataEntry]?, label: String?)
+    public override init(entries: [ChartDataEntry], label: String)
     {
         super.init(entries: entries, label: label)
         initialize()
@@ -48,70 +55,37 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartDat
     /// stacks. All values belonging to a stack are calculated separately.
     private func calcEntryCountIncludingStacks(entries: [BarChartDataEntry])
     {
-        _entryCountStacks = 0
-        
-        for i in 0 ..< entries.count
-        {
-            if let vals = entries[i].yValues
-            {
-                _entryCountStacks += vals.count
-            }
-            else
-            {
-                _entryCountStacks += 1
-            }
-        }
+        _entryCountStacks = entries.lazy
+            .map(\.stackSize)
+            .reduce(into: 0, +=)
     }
     
     /// calculates the maximum stacksize that occurs in the Entries array of this DataSet
     private func calcStackSize(entries: [BarChartDataEntry])
     {
-        for i in 0 ..< entries.count
-        {
-            if let vals = entries[i].yValues
-            {
-                if vals.count > _stackSize
-                {
-                    _stackSize = vals.count
-                }
-            }
-        }
+        _stackSize = entries.lazy
+            .map(\.stackSize)
+            .max() ?? 1
     }
     
     open override func calcMinMax(entry e: ChartDataEntry)
     {
-        guard let e = e as? BarChartDataEntry
+        guard let e = e as? BarChartDataEntry,
+            !e.y.isNaN
             else { return }
         
-        if !e.y.isNaN
+        if e.yValues == nil
         {
-            if e.yValues == nil
-            {
-                if e.y < _yMin
-                {
-                    _yMin = e.y
-                }
-                
-                if e.y > _yMax
-                {
-                    _yMax = e.y
-                }
-            }
-            else
-            {
-                if -e.negativeSum < _yMin
-                {
-                    _yMin = -e.negativeSum
-                }
-                
-                if e.positiveSum > _yMax
-                {
-                    _yMax = e.positiveSum
-                }
-            }
-            
-            calcMinMaxX(entry: e)
+            _yMin = Swift.min(e.y, _yMin)
+            _yMax = Swift.max(e.y, _yMax)
         }
+        else
+        {
+            _yMin = Swift.min(-e.negativeSum, _yMin)
+            _yMax = Swift.max(e.positiveSum, _yMax)
+        }
+
+        calcMinMaxX(entry: e)
     }
     
     /// The maximum number of bars that can be stacked upon another in this DataSet.
@@ -123,7 +97,7 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartDat
     /// `true` if this DataSet is stacked (stacksize > 1) or not.
     open var isStacked: Bool
     {
-        return _stackSize > 1 ? true : false
+        return _stackSize > 1
     }
     
     /// The overall entry count, including counting each stack-value individually
