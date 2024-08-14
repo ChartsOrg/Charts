@@ -356,7 +356,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         }
         
         let isSingleColor = dataSet.colors.count == 1
-		var barFillColor: UIColor
+		var barFillColor: NSUIColor
         
         if isSingleColor
         {
@@ -366,8 +366,8 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
 		{
 			barFillColor = .black
 		}
-        
-		// In case the chart is stacked, we need to accomodate individual bars within accessibilityOrdereredElements
+
+        // In case the chart is stacked, we need to accomodate individual bars within accessibilityOrdereredElements
         let isStacked = dataSet.isStacked
         let stackSize = isStacked ? dataSet.stackSize : 1
 
@@ -386,33 +386,34 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
 
 			context.saveGState()
 
-            var maxEdgeInset: UIEdgeInsets = .zero
+            var maxEdgeInset: NSUIEdgeInsets = .zero
 
             for outline in dataSet.barValueOutlines
             {
+                let newMaxEdgeInset = maxEdgeInset + outline.insets
+                let nextRectSize = barRect.inset(by: newMaxEdgeInset).size  //if access width/height of the rect - always positive values
+                if nextRectSize.width < 1 || nextRectSize.height < 1
+                {
+                    break
+                }
                 let outlineRect = barRect.inset(by: maxEdgeInset)
-
                 context.setFillColor(outline.color.cgColor)
-
                 context.fill(outlineRect)
 
-                let shadowInset = outline.insets
-                maxEdgeInset = UIEdgeInsets(top: maxEdgeInset.top + shadowInset.top,
-                                            left: maxEdgeInset.left + shadowInset.left,
-                                            bottom: maxEdgeInset.bottom + shadowInset.bottom,
-                                            right: maxEdgeInset.right + shadowInset.right)
+                maxEdgeInset = newMaxEdgeInset
             }
 
             let barRectInsideOutline = barRect.inset(by: maxEdgeInset)
+
+            context.setFillColor(barFillColor.cgColor)
+            context.fill(barRectInsideOutline)
+
             if drawBorder
             {
                 context.setStrokeColor(borderColor.cgColor)
                 context.setLineWidth(borderWidth)
                 context.stroke(barRectInsideOutline)
             }
-
-            context.setFillColor(barFillColor.cgColor)
-            context.fill(barRectInsideOutline)
 
 			context.restoreGState()
 
@@ -511,16 +512,22 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                     {
                         guard let e = dataSet.entryForIndex(j) as? BarChartDataEntry else { continue }
                         
-                        var maxEdgeInset: UIEdgeInsets = .zero
-                        maxEdgeInset = dataSet.barValueOutlines.reduce(UIEdgeInsets.zero, {
-                            UIEdgeInsets(top: $0.top + $1.insets.top,
-                                         left: $0.left + $1.insets.left,
-                                         bottom: $0.bottom + $1.insets.bottom,
-                                         right: $0.right + $1.insets.right)
-                        })
-                        
-                        let rect = buffer[j].inset(by:maxEdgeInset) //apply insets so the text is centered in the bar
+                        var maxEdgeInset: NSUIEdgeInsets = .zero
+                        let barRect = buffer[j]
+                        for outline in dataSet.barValueOutlines
+                        {
+                            let newMaxEdgeInset = maxEdgeInset + outline.insets
+                            let nextRectSize = barRect.inset(by: newMaxEdgeInset).size  //if access width/height of the rect - always positive values
+                            if nextRectSize.width < 1 || nextRectSize.height < 1
+                            {
+                                break
+                            }
 
+                            maxEdgeInset = newMaxEdgeInset
+                        }
+
+                        let rect = barRect.inset(by:maxEdgeInset) //apply insets so the text is centered in the bar
+                        
                         let x = rect.origin.x + rect.size.width / 2.0
                         
                         guard viewPortHandler.isInBoundsRight(x) else { break }
