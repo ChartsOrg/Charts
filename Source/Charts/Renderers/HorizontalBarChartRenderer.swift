@@ -614,9 +614,10 @@ open class HorizontalBarChartRenderer: BarChartRenderer
     
     open override func isDrawingValuesAllowed(dataProvider: ChartDataProvider?) -> Bool
     {
-        guard let data = dataProvider?.data
-            else { return false }
-        return data.entryCount < Int(CGFloat(dataProvider?.maxVisibleCount ?? 0) * self.viewPortHandler.scaleY)
+        guard let data = dataProvider?.data else { return false }
+        let count = CGFloat(dataProvider?.maxVisibleCount ?? 0) * viewPortHandler.scaleX
+        guard count < CGFloat.infinity else { return false }
+        return data.entryCount < Int(count)
     }
     
     /// Sets the drawing position of the highlight object based on the riven bar-rect.

@@ -589,7 +589,9 @@ open class PieChartRenderer: NSObject, DataRenderer
     open func isDrawingValuesAllowed(dataProvider: ChartDataProvider?) -> Bool
     {
         guard let data = dataProvider?.data else { return false }
-        return data.entryCount < Int(CGFloat(dataProvider?.maxVisibleCount ?? 0) * viewPortHandler.scaleX)
+        let count = CGFloat(dataProvider?.maxVisibleCount ?? 0) * viewPortHandler.scaleX
+        guard count < CGFloat.infinity else { return false }
+        return data.entryCount < Int(count)
     }
 
     /// draws the hole in the center of the chart and the transparent circle / hole
