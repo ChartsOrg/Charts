@@ -66,7 +66,9 @@ open class BarLineScatterCandleBubbleRenderer: NSObject, DataRenderer
     open func isDrawingValuesAllowed(dataProvider: ChartDataProvider?) -> Bool
     {
         guard let data = dataProvider?.data else { return false }
-        return data.entryCount < Int(CGFloat(dataProvider?.maxVisibleCount ?? 0) * viewPortHandler.scaleX)
+        let count = CGFloat(dataProvider?.maxVisibleCount ?? 0) * viewPortHandler.scaleX
+        guard count < CGFloat.infinity, !count.isNaN else { return false }
+        return data.entryCount < Int(count)
     }
 
     /// Class representing the bounds of the current viewport in terms of indices in the values array of a DataSet.
