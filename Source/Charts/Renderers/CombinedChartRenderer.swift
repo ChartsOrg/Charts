@@ -163,7 +163,7 @@ open class CombinedChartRenderer: NSObject, DataRenderer
     {
         guard let data = dataProvider?.data else { return false }
         let count = CGFloat(dataProvider?.maxVisibleCount ?? 0) * viewPortHandler.scaleX
-        guard count < CGFloat.infinity else { return false }
+        guard count < CGFloat.infinity, !count.isNaN else { return false }
         return data.entryCount < Int(count)
     }
 
