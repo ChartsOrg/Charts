@@ -452,6 +452,10 @@ extension ChartData: MutableCollection
         get { return dataSets[position] }
         set { self._dataSets[position] = newValue }
     }
+    
+    public subscript(safe index: Index) -> Element? {
+        return indices.contains(index) ? self[index] : nil
+    }
 }
 
 // MARK: RandomAccessCollection

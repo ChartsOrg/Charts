@@ -701,7 +701,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         for high in indices
         {
             guard
-                let set = barData[high.dataSetIndex] as? BarChartDataSetProtocol,
+                let set = barData[safe: high.dataSetIndex] as? BarChartDataSetProtocol,
                 set.isHighlightEnabled
                 else { continue }
             

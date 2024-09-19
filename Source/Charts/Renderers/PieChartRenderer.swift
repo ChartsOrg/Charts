@@ -727,7 +727,7 @@ open class PieChartRenderer: NSObject, DataRenderer
             // get the index to highlight
             let index = Int(hightlight.x)
             guard index < drawAngles.count,
-                  let set = data[hightlight.dataSetIndex] as? PieChartDataSetProtocol,
+                  let set = data[safe: hightlight.dataSetIndex] as? PieChartDataSetProtocol,
                   set.isHighlightEnabled
             else
             {

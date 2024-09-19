@@ -46,6 +46,6 @@ open class RadarChartData: ChartData
 
     @objc open override func entry(for highlight: Highlight) -> ChartDataEntry?
     {
-        return self[highlight.dataSetIndex].entryForIndex(Int(highlight.x))
+        return self[safe: highlight.dataSetIndex]?.entryForIndex(Int(highlight.x))
     }
 }
