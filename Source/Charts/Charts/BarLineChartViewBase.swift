@@ -299,7 +299,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     private var _autoScaleLastHighestVisibleX: Double?
     
     /// Performs auto scaling of the axis by recalculating the minimum and maximum y-values based on the entries currently in view.
-    internal func autoScale()
+    open func autoScale()
     {
         guard let data = data
             else { return }
