@@ -63,10 +63,17 @@ open class BarLineScatterCandleBubbleRenderer: NSObject, DataRenderer
 
     open func initBuffers() { }
 
-    open func isDrawingValuesAllowed(dataProvider: ChartDataProvider?) -> Bool
-    {
+    open func isDrawingValuesAllowed(dataProvider: ChartDataProvider?) -> Bool {
         guard let data = dataProvider?.data else { return false }
-        return data.entryCount < Int(CGFloat(dataProvider?.maxVisibleCount ?? 0) * viewPortHandler.scaleX)
+        let maxVisible = CGFloat(dataProvider?.maxVisibleCount ?? 0)
+        let scaleX = viewPortHandler.scaleX
+
+        let threshold = maxVisible * scaleX
+
+        // Controlla se threshold è un numero valido e finito
+        guard threshold.isFinite else { return false }
+
+        return data.entryCount < Int(threshold)
     }
 
     /// Class representing the bounds of the current viewport in terms of indices in the values array of a DataSet.
