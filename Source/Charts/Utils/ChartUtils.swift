@@ -12,56 +12,40 @@
 import Foundation
 import CoreGraphics
 
-extension Comparable
-{
-    func clamped(to range: ClosedRange<Self>) -> Self
-    {
-        if self > range.upperBound
-        {
+extension Comparable {
+    func clamped(to range: ClosedRange<Self>) -> Self {
+        if self > range.upperBound {
             return range.upperBound
-        }
-        else if self < range.lowerBound
-        {
+        } else if self < range.lowerBound {
             return range.lowerBound
-        }
-        else
-        {
+        } else {
             return self
         }
     }
 }
 
-extension FloatingPoint
-{
-    var DEG2RAD: Self
-    {
+extension FloatingPoint {
+    var DEG2RAD: Self {
         return self * .pi / 180
     }
 
-    var RAD2DEG: Self
-    {
+    var RAD2DEG: Self {
         return self * 180 / .pi
     }
 
-    /// - Note: Value must be in degrees
-    /// - Returns: An angle between 0.0 < 360.0 (not less than zero, less than 360)
-    var normalizedAngle: Self
-    {
+    var normalizedAngle: Self {
         let angle = truncatingRemainder(dividingBy: 360)
         return (sign == .minus) ? angle + 360 : angle
     }
 }
 
-extension CGSize
-{
-    func rotatedBy(degrees: CGFloat) -> CGSize
-    {
+extension CGSize {
+    func rotatedBy(degrees: CGFloat) -> CGSize {
         let radians = degrees.DEG2RAD
         return rotatedBy(radians: radians)
     }
 
-    func rotatedBy(radians: CGFloat) -> CGSize
-    {
+    func rotatedBy(radians: CGFloat) -> CGSize {
         return CGSize(
             width: abs(width * cos(radians)) + abs(height * sin(radians)),
             height: abs(width * sin(radians)) + abs(height * cos(radians))
@@ -69,48 +53,34 @@ extension CGSize
     }
 }
 
-extension Double
-{
-    /// Rounds the number to the nearest multiple of it's order of magnitude, rounding away from zero if halfway.
-    func roundedToNextSignificant() -> Double
-    {
-        guard
-            !isInfinite,
-            !isNaN,
-            self != 0
-            else { return self }
+extension Double {
+    func roundedToNextSignificant() -> Double {
+        guard !isInfinite, !isNaN, self != 0 else { return self }
 
-        let d = ceil(log10(self < 0 ? -self : self))
+        // Use Foundation.log10
+        let d = ceil(Foundation.log10(self < 0 ? -self : self))
         let pw = 1 - Int(d)
-        let magnitude = pow(10.0, Double(pw))
+        
+        // Use Foundation.pow
+        let magnitude = Foundation.pow(10.0, Double(pw))
         let shifted = (self * magnitude).rounded()
         return shifted / magnitude
     }
 
-    var decimalPlaces: Int
-    {
-        guard
-            !isNaN,
-            !isInfinite,
-            self != 0.0
-            else { return 0 }
+    var decimalPlaces: Int {
+        guard !isNaN, !isInfinite, self != 0.0 else { return 0 }
 
         let i = roundedToNextSignificant()
 
-        guard
-            !i.isInfinite,
-            !i.isNaN
-            else { return 0 }
+        guard !i.isInfinite, !i.isNaN else { return 0 }
 
-        return Int(ceil(-log10(i))) + 2
+        // Use Foundation.log10
+        return Int(ceil(-Foundation.log10(i))) + 2
     }
 }
 
-extension CGPoint
-{
-    /// Calculates the position around a center point, depending on the distance from the center, and the angle of the position around the center.
-    func moving(distance: CGFloat, atAngle angle: CGFloat) -> CGPoint
-    {
+extension CGPoint {
+    func moving(distance: CGFloat, atAngle angle: CGFloat) -> CGPoint {
         return CGPoint(x: x + distance * cos(angle.DEG2RAD),
                        y: y + distance * sin(angle.DEG2RAD))
     }
