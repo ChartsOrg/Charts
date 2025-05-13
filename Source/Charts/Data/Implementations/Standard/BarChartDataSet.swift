@@ -51,6 +51,34 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, BarChartData
     /// the overall entry count, including counting each stack-value individually
     private var _entryCountStacks = 0
     
+    /// the corner radius applied to each data set
+    public var cornerRadius: CGFloat = 0.0
+    
+    /// array of corners to be rounded
+    open var roundedCorners: UIRectCorner = [] {
+        didSet {
+            var invertedCorners: UIRectCorner = []
+            if roundedCorners.contains(.topLeft) {
+                invertedCorners.insert(.bottomLeft)
+            }
+            if roundedCorners.contains(.topRight) {
+                invertedCorners.insert(.bottomRight)
+            }
+            if roundedCorners.contains(.bottomLeft) {
+                invertedCorners.insert(.topLeft)
+            }
+            if roundedCorners.contains(.bottomRight) {
+                invertedCorners.insert(.topRight)
+            }
+            if roundedCorners.contains(.allCorners) {
+                invertedCorners.insert(.allCorners)
+            }
+            roundedCornersInverted = invertedCorners
+        }
+    }
+    
+    open private(set) var roundedCornersInverted: UIRectCorner = []
+    
     /// Calculates the total number of entries this DataSet represents, including
     /// stacks. All values belonging to a stack are calculated separately.
     private func calcEntryCountIncludingStacks(entries: [BarChartDataEntry])
