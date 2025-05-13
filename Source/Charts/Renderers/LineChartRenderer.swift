@@ -760,13 +760,7 @@ open class LineChartRenderer: LineRadarRenderer
         
         for high in indices
         {
-            // When updating the data set for the chart and then animating it, sometimes highlights are generated for the
-            // removed sets. This guard prevents OOB in the case where the new set has less data than the old set
-            if high.dataSetIndex >= lineData._dataSets.count - 1 {
-                continue
-            }
-            
-            guard let set = lineData[high.dataSetIndex] as? LineChartDataSetProtocol,
+            guard let set = lineData[safe: high.dataSetIndex] as? LineChartDataSetProtocol,
                   set.isHighlightEnabled
             else { continue }
             
