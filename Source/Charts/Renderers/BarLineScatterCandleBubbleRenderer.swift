@@ -140,6 +140,11 @@ extension BarLineScatterCandleBubbleRenderer.XBounds: Sequence {
         }
         
         public mutating func next() -> Int? {
+            var min = min
+            var max = max
+            if max < min {
+                swap(&min, &max)
+            }
             return self.iterator.next()
         }
     }
