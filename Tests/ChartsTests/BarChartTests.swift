@@ -367,4 +367,36 @@ class BarChartTests: XCTestCase {
         chart.notifyDataSetChanged()
         assertChartSnapshot(matching: chart)
     }
+    
+    func testBarShadow() {
+        let dataEntries = setupDefaultValuesDataEntries()
+        let dataSet = setupDefaultDataSet(chartDataEntries: dataEntries)
+        let chart = setupDefaultChart(dataSets: [dataSet])
+        dataSet.barShadowColor = NSUIColor(red: 255.0/255.0, green: 187.0/255.0, blue: 115.0/255.0, alpha: 1.0)
+        chart.drawBarShadowEnabled = true
+        chart.notifyDataSetChanged()
+        assertChartSnapshot(matching: chart)
+    }
+    
+    func testHighlightSingleValue() {
+        let dataEntries = setupDefaultValuesDataEntries()
+        let dataSet = setupDefaultDataSet(chartDataEntries: dataEntries)
+        let chart = setupDefaultChart(dataSets: [dataSet])
+        chart.notifyDataSetChanged()
+        chart.highlightValue(x: dataEntries[0].x, dataSetIndex: 0, callDelegate: false)
+        assertChartSnapshot(matching: chart)
+    }
+    
+    func testHighlightMultipleValue() {
+        let dataEntries = setupDefaultValuesDataEntries()
+        let dataSet = setupDefaultDataSet(chartDataEntries: dataEntries)
+        let chart = setupDefaultChart(dataSets: [dataSet])
+        chart.notifyDataSetChanged()
+        chart.highlightValues(
+            [.init(x: dataEntries[0].x, y: dataEntries[0].y, dataSetIndex: 0),
+             .init(x: dataEntries[4].x, y: dataEntries[4].y, dataSetIndex: 0),
+             .init(x: dataEntries[5].x, y: dataEntries[5].y, dataSetIndex: 0)]
+        )
+        assertChartSnapshot(matching: chart)
+    }
 }
