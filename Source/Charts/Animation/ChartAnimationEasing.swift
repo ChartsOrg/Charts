@@ -249,7 +249,12 @@ internal struct EasingFunctions
         }
         
         position = position - 1.0
-        return Double( 0.5 * (-pow(2.0, -10.0 * position) + 2.0) )
+
+        // compute partial result so Xcode's type-checker doesn't take too long
+        let partialResult: Double = -pow(2.0, -10.0 * position) + 2.0
+
+        // took 120ms to type check before breaking out partial result, above
+        return Double( 0.5 * partialResult )
     }
     
     internal static let EaseInCirc = { (elapsed: TimeInterval, duration: TimeInterval) -> Double in
@@ -265,12 +270,17 @@ internal struct EasingFunctions
     
     internal static let EaseInOutCirc = { (elapsed: TimeInterval, duration: TimeInterval) -> Double in
         var position: TimeInterval = elapsed / (duration / 2.0)
+
+        // calculate partial result so Swift compiler doesn't lose its mind
+        let sqrtPartialResult: Double = sqrt(1.0 - position * position)
         if position < 1.0
         {
-            return Double( -0.5 * (sqrt(1.0 - position * position) - 1.0) )
+            // was 800ms to type check with inlined sqrt calculation, from above
+            return Double( -0.5 * (sqrtPartialResult - 1.0) )
         }
         position -= 2.0
-        return Double( 0.5 * (sqrt(1.0 - position * position) + 1.0) )
+        // was 1500ms to type check with inlined sqrt calculation, from above
+        return Double( 0.5 * (sqrtPartialResult + 1.0) )
     }
     
     internal static let EaseInElastic = { (elapsed: TimeInterval, duration: TimeInterval) -> Double in
@@ -328,13 +338,23 @@ internal struct EasingFunctions
             return Double( -0.5 * (pow(2.0, 10.0 * position) * sin((position * duration - s) * (2.0 * Double.pi) / p)) )
         }
         position -= 1.0
-        return Double( pow(2.0, -10.0 * position) * sin((position * duration - s) * (2.0 * Double.pi) / p) * 0.5 + 1.0 )
+
+        // Break out partial result so the Swift compiler doesn't lose its mind
+        let sinPartialResult: Double = sin((position * duration - s) * (2.0 * Double.pi) / p)
+
+        // Original expression here, with the expression above inlined, took 600ms to type check
+        return Double( pow(2.0, -10.0 * position) * sinPartialResult * 0.5 + 1.0 )
     }
     
     internal static let EaseInBack = { (elapsed: TimeInterval, duration: TimeInterval) -> Double in
         let s: TimeInterval = 1.70158
         var position: TimeInterval = elapsed / duration
-        return Double( position * position * ((s + 1.0) * position - s) )
+
+        // Break out partial result so the Swift compiler doesn't lose its mind
+        let partialResult: Double = ((s + 1.0) * position - s)
+
+        // Original expression here, with partialResult inlined, took 260ms to type check
+        return Double( position * position * partialResult )
     }
     
     internal static let EaseOutBack = { (elapsed: TimeInterval, duration: TimeInterval) -> Double in
