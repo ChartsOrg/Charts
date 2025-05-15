@@ -60,5 +60,17 @@ public protocol PieChartDataSetProtocol: ChartDataSetProtocol
 
     /// get/sets the color for the highlighted sector
     var highlightColor: NSUIColor? { get set }
+    
+    /// the width for slice stroke
+    var sliceStrokeWidth: CGFloat { get set }
+    
+    /// the color for the slice stroke pattern
+    var sliceLineDashPattern: [NSNumber] { get set }
+    
+    /// the color to fill slice
+    var sliceFillColor: CGColor { get set }
+    
+    /// the line join style for the slice
+    var sliceStrokeLineJoinStyle: CAShapeLayerLineJoin { get set }
 
 }
