@@ -126,7 +126,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     private var offsetsCalculated = false
 
     /// The array of currently highlighted values. This might an empty if nothing is highlighted.
-    @objc open internal(set) var highlighted = [Highlight]()
+    @objc open var highlighted = [Highlight]()
     
     /// `true` if drawing the marker is enabled when tapping on values
     /// (use the `marker` property to specify a marker)
