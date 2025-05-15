@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner"/>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="c22-O7-iKe" customClass="RadarMarkerViewMac" customModule="ChartsDemo_macOS" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="66" height="50"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qno-uW-aGa">
+                    <rect key="frame" x="0.0" y="0.0" width="66" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="5xS-KG-ver"/>
+                        <constraint firstAttribute="width" constant="66" id="eUf-yN-9Lu"/>
+                    </constraints>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="radar_marker" id="xEh-v8-ETH"/>
+                </imageView>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="UtZ-Pb-cdS">
+                    <rect key="frame" x="14" y="30" width="39" height="15"/>
+                    <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Label" id="VlJ-pa-R8z">
+                        <font key="font" textStyle="callout" name=".SFNS-Regular"/>
+                        <color key="textColor" name="selectedMenuItemTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+            </subviews>
+            <constraints>
+                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="UtZ-Pb-cdS" secondAttribute="trailing" constant="5" id="8kA-mr-vr7"/>
+                <constraint firstAttribute="trailing" secondItem="qno-uW-aGa" secondAttribute="trailing" id="Cv6-ko-UlE"/>
+                <constraint firstItem="UtZ-Pb-cdS" firstAttribute="centerY" secondItem="c22-O7-iKe" secondAttribute="centerY" constant="-12" id="K05-rt-EcT"/>
+                <constraint firstItem="UtZ-Pb-cdS" firstAttribute="centerX" secondItem="c22-O7-iKe" secondAttribute="centerX" id="LzM-gV-oOy"/>
+                <constraint firstAttribute="bottom" secondItem="qno-uW-aGa" secondAttribute="bottom" id="Thg-yL-erI"/>
+                <constraint firstItem="qno-uW-aGa" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" id="rzT-HX-Nl3"/>
+                <constraint firstItem="UtZ-Pb-cdS" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="c22-O7-iKe" secondAttribute="leading" constant="5" id="uyW-0c-JHA"/>
+                <constraint firstItem="qno-uW-aGa" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" id="zZG-0K-tr4"/>
+            </constraints>
+            <connections>
+                <outlet property="label" destination="UtZ-Pb-cdS" id="XNw-5o-L9d"/>
+            </connections>
+            <point key="canvasLocation" x="-281" y="29"/>
+        </customView>
+    </objects>
+    <resources>
+        <image name="radar_marker" width="133.33332824707031" height="100"/>
+    </resources>
+</document>
