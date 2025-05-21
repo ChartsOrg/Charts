@@ -399,6 +399,15 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             context.addPath(bezierPath.cgPath)
             context.drawPath(using: .fill)
             
+            if let borderDashLengths = dataSet.barBorderDashLengths
+            {
+                context.setLineDash(phase: dataSet.barBorderDashPhase, lengths: borderDashLengths)
+            }
+            else
+            {
+                context.setLineDash(phase: 0.0, lengths: [])
+            }
+            
             if drawBorder
             {
                 context.setStrokeColor(borderColor.cgColor)
