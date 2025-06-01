@@ -28,7 +28,7 @@ open class CombinedChartRenderer: NSObject, DataRenderer
     /// if set to true, a grey area is drawn behind each bar that indicates the maximum value
     @objc open var drawBarShadowEnabled = false
     
-    internal var _renderers = [DataRenderer]()
+    public var _renderers = [DataRenderer]()
     
     internal var _drawOrder: [CombinedChartView.DrawOrder] = [.bar, .bubble, .line, .candle, .scatter]
     
@@ -44,7 +44,7 @@ open class CombinedChartRenderer: NSObject, DataRenderer
     }
     
     /// Creates the renderers needed for this combined-renderer in the required order. Also takes the DrawOrder into consideration.
-    internal func createRenderers()
+    open func createRenderers()
     {
         _renderers = [DataRenderer]()
         
