@@ -1,8 +1,9 @@
 **Version 4.0.0**, synced to [MPAndroidChart #f6a398b](https://github.com/PhilJay/MPAndroidChart/commit/f6a398b)
 
 ![alt tag](https://raw.github.com/ChartsOrg/Charts/master/Assets/feature_graphic.png)
-![Supported Platforms](https://img.shields.io/cocoapods/p/Charts.svg) [![Releases](https://img.shields.io/github/release/ChartsOrg/Charts.svg)](https://github.com/ChartsOrg/Charts/releases) [![Latest pod release](https://img.shields.io/cocoapods/v/Charts.svg)](http://cocoapods.org/pods/charts) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)[![Build Status](https://travis-ci.org/ChartsOrg/Charts.svg?branch=master)](https://travis-ci.org/ChartsOrg/Charts) [![codecov](https://codecov.io/gh/ChartsOrg/Charts/branch/master/graph/badge.svg)](https://codecov.io/gh/ChartsOrg/Charts)
-[![Join the chat at https://gitter.im/ChartsOrg/Charts](https://badges.gitter.im/ChartsOrg/Charts.svg)](https://gitter.im/ChartsOrg/Charts?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
+[![Build](https://github.com/ChartsOrg/Charts/actions/workflows/build.yml/badge.svg)](https://github.com/ChartsOrg/Charts/actions/workflows/build.yml)
+![Supported Platforms](https://img.shields.io/cocoapods/p/Charts.svg) [![Releases](https://img.shields.io/github/release/ChartsOrg/Charts.svg)](https://github.com/ChartsOrg/Charts/releases) [![Latest pod release](https://img.shields.io/cocoapods/v/Charts.svg)](http://cocoapods.org/pods/charts) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
 ### Just a heads up: Charts 5.0 has some breaking changes. Charts has now been renamed DGCharts to prevent conflicts with Apple's new Swift Charts. Please read [the release/migration notes](https://github.com/ChartsOrg/Charts/releases/tag/5.0.0).
 
@@ -131,7 +132,7 @@ If you are having questions or problems, you should:
 - Study the Android version's [**Documentation-Wiki**](https://github.com/PhilJay/MPAndroidChart/wiki)
 - Search or open questions on [**stackoverflow**](http://stackoverflow.com/questions/tagged/ios-charts) with the `ios-charts` tag
 - Search [**known issues**](https://github.com/ChartsOrg/Charts/issues) for your problem (open and closed)
-- Create new issues (please :fire: **search known issues before** :fire:, do not create duplicate issues)
+- Create new issues (please :fire: **search known issues before** :fire:, do not create duplicate issues)∏
 
 # Features
 
