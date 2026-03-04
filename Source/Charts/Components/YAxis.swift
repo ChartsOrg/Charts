@@ -6,7 +6,7 @@
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
 //
-//  https://github.com/danielgindi/Charts
+//  https://github.com/ChartsOrg/Charts
 //
 
 import Foundation
@@ -155,7 +155,7 @@ open class YAxis: AxisBase
         var max = _customAxisMax ? _axisMaximum : dataMax
         
         // Make sure max is greater than min
-        // Discussion: https://github.com/danielgindi/Charts/pull/3650#discussion_r221409991
+        // Discussion: https://github.com/ChartsOrg/Charts/pull/3650#discussion_r221409991
         if min > max
         {
             switch(_customAxisMax, _customAxisMin)
