@@ -1,10 +1,10 @@
 **Version 4.0.0**, synced to [MPAndroidChart #f6a398b](https://github.com/PhilJay/MPAndroidChart/commit/f6a398b)
 
-![alt tag](https://raw.github.com/danielgindi/Charts/master/Assets/feature_graphic.png)
-![Supported Platforms](https://img.shields.io/cocoapods/p/Charts.svg) [![Releases](https://img.shields.io/github/release/danielgindi/Charts.svg)](https://github.com/danielgindi/Charts/releases) [![Latest pod release](https://img.shields.io/cocoapods/v/Charts.svg)](http://cocoapods.org/pods/charts) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) [![Build Status](https://travis-ci.org/danielgindi/Charts.svg?branch=master)](https://travis-ci.org/danielgindi/Charts) [![codecov](https://codecov.io/gh/danielgindi/Charts/branch/master/graph/badge.svg)](https://codecov.io/gh/danielgindi/Charts)
-[![Join the chat at https://gitter.im/danielgindi/Charts](https://badges.gitter.im/danielgindi/Charts.svg)](https://gitter.im/danielgindi/Charts?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+![alt tag](https://raw.github.com/ChartsOrg/Charts/master/Assets/feature_graphic.png)
 
-### Just a heads up: Charts 5.0 has some breaking changes. Charts has now been renamed DGCharts to prevent conflicts with Apple's new Swift Charts. Please read [the release/migration notes](https://github.com/danielgindi/Charts/releases/tag/5.0.0).
+[![Build](https://github.com/ChartsOrg/Charts/actions/workflows/build.yml/badge.svg)](https://github.com/ChartsOrg/Charts/actions/workflows/build.yml) ![Supported Platforms](https://img.shields.io/cocoapods/p/Charts.svg) [![Releases](https://img.shields.io/github/release/ChartsOrg/Charts.svg)](https://github.com/ChartsOrg/Charts/releases) [![Latest pod release](https://img.shields.io/cocoapods/v/Charts.svg)](http://cocoapods.org/pods/charts) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+
+### Just a heads up: Charts 5.0 has some breaking changes. Charts has now been renamed DGCharts to prevent conflicts with Apple's new Swift Charts. Please read [the release/migration notes](https://github.com/ChartsOrg/Charts/releases/tag/5.0.0).
 
 ### One more heads up: As Swift evolves, if you are not using the latest Swift compiler, you shouldn't check out the master branch. Instead, you should go to the release page and pick up whatever suits you.
 
@@ -93,8 +93,8 @@ For [Realm](https://realm.io/) support, please add `pod 'ChartsRealm'` too.
 DGCharts now include Carthage prebuilt binaries.
 
 ```carthage
-github "danielgindi/Charts" == 5.1.0
-github "danielgindi/Charts" ~> 5.1.0
+github "ChartsOrg/Charts" == 5.1.0
+github "ChartsOrg/Charts" ~> 5.1.0
 ```
 
 In order to build the binaries for a new release, use `carthage build --no-skip-current && carthage archive Charts`.
@@ -105,7 +105,7 @@ Swift Package Manager
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/danielgindi/Charts.git", .upToNextMajor(from: "5.1.0"))
+    .package(url: "https://github.com/ChartsOrg/Charts.git", .upToNextMajor(from: "5.1.0"))
 ]
 ```
 
@@ -127,11 +127,11 @@ If you like what you see here, and want to support the work being done in this r
 
 If you are having questions or problems, you should:
 
-- Make sure you are using the latest version of the library. Check the [**release-section**](https://github.com/danielgindi/Charts/releases).
+- Make sure you are using the latest version of the library. Check the [**release-section**](https://github.com/ChartsOrg/Charts/releases).
 - Study the Android version's [**Documentation-Wiki**](https://github.com/PhilJay/MPAndroidChart/wiki)
 - Search or open questions on [**stackoverflow**](http://stackoverflow.com/questions/tagged/ios-charts) with the `ios-charts` tag
-- Search [**known issues**](https://github.com/danielgindi/Charts/issues) for your problem (open and closed)
-- Create new issues (please :fire: **search known issues before** :fire:, do not create duplicate issues)
+- Search [**known issues**](https://github.com/ChartsOrg/Charts/issues) for your problem (open and closed)
+- Create new issues (please :fire: **search known issues before** :fire:, do not create duplicate issues)∏
 
 # Features
 
@@ -150,7 +150,7 @@ If you are having questions or problems, you should:
 - Animations (build up animations, on both x- and y-axis)
 - Limit lines (providing additional information, maximums, ...)
 - Fully customizable (paints, typefaces, legends, colors, background, gestures, dashed lines, ...)
-- Plotting data directly from [**Realm.io**](https://realm.io) mobile database ([here](https://github.com/danielgindi/ChartsRealm))
+- Plotting data directly from [**Realm.io**](https://realm.io) mobile database ([here](https://github.com/ChartsOrg/ChartsRealm))
 
 **Chart types:**
 
@@ -207,11 +207,11 @@ _Screenshots are currently taken from the original repository, as they render ex
 Currently there's no need for documentation for the iOS/tvOS/macOS version, as the API is **95% the same** as on Android.  
 You can read the official [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart) documentation here: [**Wiki**](https://github.com/PhilJay/MPAndroidChart/wiki)
 
-Or you can see the Charts Demo project in both Objective-C and Swift ([**ChartsDemo-iOS**](https://github.com/danielgindi/Charts/tree/master/ChartsDemo-iOS), as well as macOS [**ChartsDemo-macOS**](https://github.com/danielgindi/Charts/tree/master/ChartsDemo-macOS)) and learn the how-tos from it.
+Or you can see the Charts Demo project in both Objective-C and Swift ([**ChartsDemo-iOS**](https://github.com/ChartsOrg/Charts/tree/master/ChartsDemo-iOS), as well as macOS [**ChartsDemo-macOS**](https://github.com/ChartsOrg/Charts/tree/master/ChartsDemo-macOS)) and learn the how-tos from it.
 
 # Special Thanks
 
-Goes to [@liuxuan30](https://github.com/liuxuan30), [@petester42](https://github.com/petester42) and [@AlBirdie](https://github.com/AlBirdie) for new features, bugfixes, and lots and lots of involvement in our open-sourced community! You guys are a huge help to all of those coming here with questions and issues, and I couldn't respond to all of those without you.
+Goes to [@liuxuan30](https://github.com/liuxuan30), [@pmairoldi](https://github.com/pmairoldi), [@jjatie](https://github.com/jjatie) and [@AlBirdie](https://github.com/AlBirdie) for new features, bugfixes, and lots and lots of involvement in our open-sourced community! You guys are a huge help to all of those coming here with questions and issues, and I couldn't respond to all of those without you.
 
 ### Our amazing sponsors
 

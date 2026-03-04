@@ -5,7 +5,7 @@
 //  Created by M Ivaniushchenko on 9/6/17.
 //  Licensed under Apache License 2.0
 //
-//  https://github.com/danielgindi/Charts
+//  https://github.com/ChartsOrg/Charts
 //
 
 import Foundation

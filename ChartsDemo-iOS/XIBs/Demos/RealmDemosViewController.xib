@@ -29,7 +29,7 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <string key="text">Realm demos are now part of the separate ChartsRealm repo.
 
-Please go to https://github.com/danielgindi/ChartsRealm and follow the instructions there.</string>
+Please go to https://github.com/ChartsOrg/ChartsRealm and follow the instructions there.</string>
                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                     <dataDetectorType key="dataDetectorTypes" link="YES"/>
