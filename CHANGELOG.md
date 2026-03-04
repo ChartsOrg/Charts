@@ -1,5 +1,281 @@
 # Changelog
 
+## [5.1.0](https://github.com/ChartsOrg/Charts/tree/5.1.0) (2024-02-16)
+
+[Full Changelog](https://github.com/ChartsOrg/Charts/compare/5.0.0...5.1.0)
+
+**Closed issues:**
+
+- DGCharts.framework/Headers/DGCharts-Swift.h:4769:2: Unsupported Swift architecture [\#5148](https://github.com/ChartsOrg/Charts/issues/5148)
+- facing problem with PieChart.noDataText is not display [\#5145](https://github.com/ChartsOrg/Charts/issues/5145)
+- line break [\#5140](https://github.com/ChartsOrg/Charts/issues/5140)
+- Crash when running on 10.13 [\#5138](https://github.com/ChartsOrg/Charts/issues/5138)
+- Privacy Manfiest [\#5131](https://github.com/ChartsOrg/Charts/issues/5131)
+- View in center of Pie Chart [\#5118](https://github.com/ChartsOrg/Charts/issues/5118)
+- how to fix Value of type 'XAxis' has no member 'nameAxis' [\#5108](https://github.com/ChartsOrg/Charts/issues/5108)
+- After upgrade to 5.0 all charts crash on \<Chart\>.delegate = self in ViewDidLoad\(\) [\#5104](https://github.com/ChartsOrg/Charts/issues/5104)
+- Apple silicon Macs support issue [\#5102](https://github.com/ChartsOrg/Charts/issues/5102)
+- I am not able to make corner radius of each bar. [\#5096](https://github.com/ChartsOrg/Charts/issues/5096)
+- Hello everyone! How to achieve discontinuous drawing? [\#5080](https://github.com/ChartsOrg/Charts/issues/5080)
+- Percentage symbol [\#5073](https://github.com/ChartsOrg/Charts/issues/5073)
+- Package name collision with Apple Charts  [\#5054](https://github.com/ChartsOrg/Charts/issues/5054)
+- How to add a yAxis unit on the top position [\#5048](https://github.com/ChartsOrg/Charts/issues/5048)
+- The line chart is broking down in UIScrollView with accessibility. [\#4672](https://github.com/ChartsOrg/Charts/issues/4672)
+
+**Merged pull requests:**
+
+- Create 5.1.0 Release [\#5149](https://github.com/ChartsOrg/Charts/pull/5149) ([pmairoldi](https://github.com/pmairoldi))
+- Add Privacy Manifest [\#5141](https://github.com/ChartsOrg/Charts/pull/5141) ([wlxo0401](https://github.com/wlxo0401))
+- \[Feature\] added ability to rotate ChartLimitLine label [\#5085](https://github.com/ChartsOrg/Charts/pull/5085) ([berbaspin](https://github.com/berbaspin))
+
+## [5.0.0](https://github.com/ChartsOrg/Charts/tree/5.0.0) (2023-06-08)
+
+[Full Changelog](https://github.com/ChartsOrg/Charts/compare/v4.1.0...5.0.0)
+
+**Fixed bugs:**
+
+- HorizontalBarChartView labels for rightAxis are clipped [\#3133](https://github.com/ChartsOrg/Charts/issues/3133)
+- setVisibleXRange doesn't work [\#2460](https://github.com/ChartsOrg/Charts/issues/2460)
+
+**Closed issues:**
+
+- After customizing the y-axis, the graph does not match the y-axis [\#5053](https://github.com/ChartsOrg/Charts/issues/5053)
+- Can't fully customize the x-axis [\#5052](https://github.com/ChartsOrg/Charts/issues/5052)
+- 404 [\#5047](https://github.com/ChartsOrg/Charts/issues/5047)
+- Error compiling with swift compiler 5.7.2 [\#5046](https://github.com/ChartsOrg/Charts/issues/5046)
+- 柱状图 圆角渐变色  [\#5037](https://github.com/ChartsOrg/Charts/issues/5037)
+- 柱状图 圆角渐变色  [\#5036](https://github.com/ChartsOrg/Charts/issues/5036)
+- Consider renaming library \(e.g. DGCharts\) [\#5015](https://github.com/ChartsOrg/Charts/issues/5015)
+- How to set current visible area in viewport using range of values [\#5013](https://github.com/ChartsOrg/Charts/issues/5013)
+- Ballon Maker Not Showing [\#5011](https://github.com/ChartsOrg/Charts/issues/5011)
+- Prevent auto scroll to the end on addEntry to the CandleStickChartView [\#5010](https://github.com/ChartsOrg/Charts/issues/5010)
+- Value of type 'ChartData' has no member 'getDataSetByIndex' [\#5003](https://github.com/ChartsOrg/Charts/issues/5003)
+- \[Feature request\] Release 3.6.1 version supporting Swift 5.7 \(Xcode 14\) [\#5001](https://github.com/ChartsOrg/Charts/issues/5001)
+- LineChartDataSet. Bezier Multicolor [\#4983](https://github.com/ChartsOrg/Charts/issues/4983)
+- ChartDataSet giving an error in Xcode 14.1 [\#4980](https://github.com/ChartsOrg/Charts/issues/4980)
+- dyld: Library not loaded: /usr/lib/swift/libswiftCoreGraphics.dylib      Reason: image not found [\#4973](https://github.com/ChartsOrg/Charts/issues/4973)
+- how to add image in ChartLimitLine? [\#4963](https://github.com/ChartsOrg/Charts/issues/4963)
+- What if I want minimum support for ios 11？ [\#4962](https://github.com/ChartsOrg/Charts/issues/4962)
+- iAxisValueFormat issue when Building the app [\#4954](https://github.com/ChartsOrg/Charts/issues/4954)
+- Need to achieve connector lines and center component... is it possible in any way ? [\#4939](https://github.com/ChartsOrg/Charts/issues/4939)
+- Cannot install package v4.1.0 using SPM  [\#4937](https://github.com/ChartsOrg/Charts/issues/4937)
+- RadarChartDataSet  左下角图例无法隐藏 [\#4935](https://github.com/ChartsOrg/Charts/issues/4935)
+- Cannot find type 'ChartDataSetRounding' in scope [\#4930](https://github.com/ChartsOrg/Charts/issues/4930)
+- Bitcode not enabled error when archiving project \(Xcode 14\) [\#4924](https://github.com/ChartsOrg/Charts/issues/4924)
+- After updating the app in Appstore in iOS 9.3.5, it appears that the app restarts and then disappears. There is a problem showing charts. How to solve the problem? [\#4923](https://github.com/ChartsOrg/Charts/issues/4923)
+- Cannot find type 'IAxisValueFormatter' in scope [\#4921](https://github.com/ChartsOrg/Charts/issues/4921)
+- When i scroll x direction on line chart, tableview to scrolls same time to up or down [\#4920](https://github.com/ChartsOrg/Charts/issues/4920)
+- Type 'any Fill' has no member 'fillWithRadialGradient' [\#4916](https://github.com/ChartsOrg/Charts/issues/4916)
+- ChartViewDelegate & IChartValueFormatter [\#4911](https://github.com/ChartsOrg/Charts/issues/4911)
+- Core chart issue [\#4910](https://github.com/ChartsOrg/Charts/issues/4910)
+- Trying to compile via SPM  on ios 16 beta swift 5.7 xCode 14 beta 5- fails [\#4895](https://github.com/ChartsOrg/Charts/issues/4895)
+- Not able to compile Xcode 14 beta 6 [\#4892](https://github.com/ChartsOrg/Charts/issues/4892)
+- Not able to install Chart in Xcode 14 beta 4 [\#4887](https://github.com/ChartsOrg/Charts/issues/4887)
+-    Charts \(4.0.3\) which has a minimum requirement of iOS 12.0 - tvOS 12.0 - macOS 10.12 [\#4877](https://github.com/ChartsOrg/Charts/issues/4877)
+- Not able to compile code on Xcode 14 Beta 3 [\#4873](https://github.com/ChartsOrg/Charts/issues/4873)
+- Not works on Xcode 14 [\#4872](https://github.com/ChartsOrg/Charts/issues/4872)
+- Not able to compile on iOS 16 [\#4870](https://github.com/ChartsOrg/Charts/issues/4870)
+- Xcode 14 compile error [\#4867](https://github.com/ChartsOrg/Charts/issues/4867)
+- Minimum version while targeting iOS 10 and Cocoapods install [\#4865](https://github.com/ChartsOrg/Charts/issues/4865)
+- iOS 16 and xcode 14 support [\#4863](https://github.com/ChartsOrg/Charts/issues/4863)
+- Support for Xcode 14 [\#4860](https://github.com/ChartsOrg/Charts/issues/4860)
+- Xcode 14 Beta 1: the compiler is unable to type-check this expression in reasonable time; try breaking up the expression into distinct sub-expressions [\#4838](https://github.com/ChartsOrg/Charts/issues/4838)
+- ChartAnimationEasing.swift file getting compiler error error on Xcode14-beta [\#4835](https://github.com/ChartsOrg/Charts/issues/4835)
+- Is there support swift 5.0 plan? [\#4813](https://github.com/ChartsOrg/Charts/issues/4813)
+- chartValueSelected not calling for all clicking on hole in graph in v.4.0.2 \(v3.6.0 works perfectly\) [\#4804](https://github.com/ChartsOrg/Charts/issues/4804)
+- Crash building iterator. Range requires lowerBound \<= upperBound [\#4798](https://github.com/ChartsOrg/Charts/issues/4798)
+- Compiling for iOS 10.0, but module 'Charts' has a minimum deployment target of iOS 12.0 [\#4796](https://github.com/ChartsOrg/Charts/issues/4796)
+- Swift Compiler Warning  [\#4788](https://github.com/ChartsOrg/Charts/issues/4788)
+- Missing package product 'Algorithms' [\#4769](https://github.com/ChartsOrg/Charts/issues/4769)
+- Fatal access conflict detected [\#4756](https://github.com/ChartsOrg/Charts/issues/4756)
+- ScatterChart crash in demo [\#4754](https://github.com/ChartsOrg/Charts/issues/4754)
+- How can I override BarLineChartViewBase? [\#4749](https://github.com/ChartsOrg/Charts/issues/4749)
+- The use of special character in folder name don't allow unzip correctly [\#4660](https://github.com/ChartsOrg/Charts/issues/4660)
+- Pie chart gradient colors for the slices [\#4616](https://github.com/ChartsOrg/Charts/issues/4616)
+- How to create "timeline" chart? [\#4546](https://github.com/ChartsOrg/Charts/issues/4546)
+- Fill Color in linear chart different color for above and below values [\#4535](https://github.com/ChartsOrg/Charts/issues/4535)
+- MacOS: scrollbars [\#4426](https://github.com/ChartsOrg/Charts/issues/4426)
+- BarChartDataSet stackLabels missing for single entry [\#4419](https://github.com/ChartsOrg/Charts/issues/4419)
+- PieChartRenderer - Fatal Crash iOS 13 / Xcode 11 [\#4160](https://github.com/ChartsOrg/Charts/issues/4160)
+- Rerun Image tests and make sure it pass [\#5033](https://github.com/ChartsOrg/Charts/issues/5033)
+- Include swift-numerics and swift-algorithms [\#5024](https://github.com/ChartsOrg/Charts/issues/5024)
+- Swift Charts module with valueFormatter iOS16 [\#4986](https://github.com/ChartsOrg/Charts/issues/4986)
+- Cannot find type 'BarChartView' in scope xcode 14.0.1 [\#4985](https://github.com/ChartsOrg/Charts/issues/4985)
+- Facing crash in charts latest version [\#4982](https://github.com/ChartsOrg/Charts/issues/4982)
+- XcodeGen SPM - No such module Charts [\#4967](https://github.com/ChartsOrg/Charts/issues/4967)
+- missing Charts/Charts-Swift.h [\#4964](https://github.com/ChartsOrg/Charts/issues/4964)
+- No Such Module Algorithms [\#4959](https://github.com/ChartsOrg/Charts/issues/4959)
+- Error in Github Actions - CompileSwift normal arm64 \(in target 'Charts' from project 'Charts'\) [\#4953](https://github.com/ChartsOrg/Charts/issues/4953)
+- Missing required module 'Algorithms' [\#4951](https://github.com/ChartsOrg/Charts/issues/4951)
+- Building via Carthage with BUILD\_LIBRARY\_FOR\_DISTRIBUTION = YES fails [\#4938](https://github.com/ChartsOrg/Charts/issues/4938)
+- SwiftAlgorithms Bitcode\_disabled [\#4919](https://github.com/ChartsOrg/Charts/issues/4919)
+- No such module 'Algorithms' when installed with Swift Package Manager [\#4918](https://github.com/ChartsOrg/Charts/issues/4918)
+- Will Charts be compatible with iOS 16? [\#4917](https://github.com/ChartsOrg/Charts/issues/4917)
+- Xcode 14 Issues [\#4906](https://github.com/ChartsOrg/Charts/issues/4906)
+- Xcode 14 Issues \(ASAP fix needed\) [\#4903](https://github.com/ChartsOrg/Charts/issues/4903)
+- Conflict with Apple's Swift Charts [\#4897](https://github.com/ChartsOrg/Charts/issues/4897)
+- Library evolution support on cocoapods [\#4871](https://github.com/ChartsOrg/Charts/issues/4871)
+- Library name conflict with Apple Charts [\#4845](https://github.com/ChartsOrg/Charts/issues/4845)
+- Tag naming convention incompatible with SPM [\#4786](https://github.com/ChartsOrg/Charts/issues/4786)
+- Charts.framework [\#4765](https://github.com/ChartsOrg/Charts/issues/4765)
+
+**Merged pull requests:**
+
+- remove swift-algorithms package in favor of manully importing needed … [\#5069](https://github.com/ChartsOrg/Charts/pull/5069) ([pmairoldi](https://github.com/pmairoldi))
+- Merge from master [\#5067](https://github.com/ChartsOrg/Charts/pull/5067) ([pmairoldi](https://github.com/pmairoldi))
+- bump min version to 13 for ios project [\#5062](https://github.com/ChartsOrg/Charts/pull/5062) ([waterskier2007](https://github.com/waterskier2007))
+- Change library name from Charts to DGCharts [\#5027](https://github.com/ChartsOrg/Charts/pull/5027) ([pmairoldi](https://github.com/pmairoldi))
+- Unnecessary space Removal and Semicolons are removed [\#5016](https://github.com/ChartsOrg/Charts/pull/5016) ([guptamohit1907](https://github.com/guptamohit1907))
+- Fix yOffset documentation typo [\#4898](https://github.com/ChartsOrg/Charts/pull/4898) ([erkanyildiz](https://github.com/erkanyildiz))
+- The use of special character in folder name don't allow unzip correct… [\#4661](https://github.com/ChartsOrg/Charts/pull/4661) ([rquesada](https://github.com/rquesada))
+- update ci [\#5070](https://github.com/ChartsOrg/Charts/pull/5070) ([pmairoldi](https://github.com/pmairoldi))
+- Fix Node 12 deprecation warning [\#5043](https://github.com/ChartsOrg/Charts/pull/5043) ([FelixHerrmann](https://github.com/FelixHerrmann))
+- Fix Xcode 14.3 import warnings [\#5041](https://github.com/ChartsOrg/Charts/pull/5041) ([FelixHerrmann](https://github.com/FelixHerrmann))
+- \[WIP\] Release/5.0.0 [\#5028](https://github.com/ChartsOrg/Charts/pull/5028) ([pmairoldi](https://github.com/pmairoldi))
+- Adding a tutorial link to README.md [\#4971](https://github.com/ChartsOrg/Charts/pull/4971) ([stepanovgena](https://github.com/stepanovgena))
+- Turn on the BUILD\_LIBRARY\_FOR\_DISTRIBUTION flag [\#4912](https://github.com/ChartsOrg/Charts/pull/4912) ([matopeto](https://github.com/matopeto))
+- fixed no used warning [\#4841](https://github.com/ChartsOrg/Charts/pull/4841) ([eren-celik](https://github.com/eren-celik))
+
+## [v4.1.0](https://github.com/ChartsOrg/Charts/tree/v4.1.0) (2022-09-13)
+
+[Full Changelog](https://github.com/ChartsOrg/Charts/compare/v4.0.3...v4.1.0)
+
+**Implemented enhancements:**
+
+- Fixes for Swift 5.7 compiler [\#4823](https://github.com/ChartsOrg/Charts/pull/4823) ([lukeredpath](https://github.com/lukeredpath))
+
+**Closed issues:**
+
+- Markers for PieChart [\#4894](https://github.com/ChartsOrg/Charts/issues/4894)
+- Bottom labels are breaking and showing text by half when set to VisibleXRange [\#4880](https://github.com/ChartsOrg/Charts/issues/4880)
+- Gradient only the line\(gradientPositions\) [\#4879](https://github.com/ChartsOrg/Charts/issues/4879)
+- I find it strange that about 9 months after Swift-Algorithms was added into this project, Apple debuts 'Swift Charts' - coincidence?  Maybe. Maybe should look into it. [\#4866](https://github.com/ChartsOrg/Charts/issues/4866)
+- YAxis bars shift up on some charts [\#4864](https://github.com/ChartsOrg/Charts/issues/4864)
+- Library name conflicts with Apple SwiftUI Charts library [\#4857](https://github.com/ChartsOrg/Charts/issues/4857)
+- Could not cast value of type 'Charts.PieChartData' \(0x1060a5b30\) to 'Charts.PieChartData' \(0x10f990690\). [\#4840](https://github.com/ChartsOrg/Charts/issues/4840)
+- CombinedChartView don't show line chart [\#4837](https://github.com/ChartsOrg/Charts/issues/4837)
+- Value of optional type '\[ChartDataEntry\]?' must be unwrapped to a value of type '\[ChartDataEntry\]' [\#4834](https://github.com/ChartsOrg/Charts/issues/4834)
+- Hello, can you consider supporting flutter? [\#4833](https://github.com/ChartsOrg/Charts/issues/4833)
+- pod install on terminal fails on mac [\#4820](https://github.com/ChartsOrg/Charts/issues/4820)
+- Invisible Line Chart When xAxis.axisMaximum \> Data Maximum, Only on 4.x [\#4819](https://github.com/ChartsOrg/Charts/issues/4819)
+- Candlestick Chart Issue with Version 4.0.2 \(Pod was updated from 3.6.0\) [\#4792](https://github.com/ChartsOrg/Charts/issues/4792)
+- spaceMin and spaceMax \(xAxis\) not working when setting new data  [\#4753](https://github.com/ChartsOrg/Charts/issues/4753)
+- Using 'class' keyword to define a class-constrained protocol is deprecated - Xcode 13.1 [\#4745](https://github.com/ChartsOrg/Charts/issues/4745)
+- Is it possible move 2 charts scroll at the same time? [\#4744](https://github.com/ChartsOrg/Charts/issues/4744)
+- Scatter chart:  Only the first point is showing a value, none of the other ones are [\#4739](https://github.com/ChartsOrg/Charts/issues/4739)
+- Candle chart does not correctly showing [\#4722](https://github.com/ChartsOrg/Charts/issues/4722)
+- Xcode 13 RC - Module compiled with Swift 5.4.2 cannot be imported by the Swift 5.5 compiler [\#4718](https://github.com/ChartsOrg/Charts/issues/4718)
+- pod install on terminal fails on mac [\#4701](https://github.com/ChartsOrg/Charts/issues/4701)
+- CandleSticks demo only shows one item. [\#4699](https://github.com/ChartsOrg/Charts/issues/4699)
+- scanString\(\_:into:\)' was deprecated in iOS 13.0 [\#4487](https://github.com/ChartsOrg/Charts/issues/4487)
+- Distribute Charts as XCFramework [\#4323](https://github.com/ChartsOrg/Charts/issues/4323)
+- Error when running on a phone [\#4304](https://github.com/ChartsOrg/Charts/issues/4304)
+- Issue creating IPA archive with Xcode 11.1 \(Swift 5.1\) [\#4204](https://github.com/ChartsOrg/Charts/issues/4204)
+- 4.0.0 [\#3134](https://github.com/ChartsOrg/Charts/issues/3134)
+
+**Merged pull requests:**
+
+- Update README.md [\#4886](https://github.com/ChartsOrg/Charts/pull/4886) ([jeremyteh](https://github.com/jeremyteh))
+- Fix navigation bar transparent issue [\#4875](https://github.com/ChartsOrg/Charts/pull/4875) ([wlixcc](https://github.com/wlixcc))
+- Update ChartDataSet.swift [\#4861](https://github.com/ChartsOrg/Charts/pull/4861) ([batikansosun](https://github.com/batikansosun))
+- Add double mark for compiler check related with issue \#4835 [\#4836](https://github.com/ChartsOrg/Charts/pull/4836) ([eliakorkmaz](https://github.com/eliakorkmaz))
+- Fix chart only drawing first entry [\#4829](https://github.com/ChartsOrg/Charts/pull/4829) ([FelixHerrmann](https://github.com/FelixHerrmann))
+
+## [v4.0.3](https://github.com/ChartsOrg/Charts/tree/v4.0.3) (2022-05-25)
+
+[Full Changelog](https://github.com/ChartsOrg/Charts/compare/v4.0.2...v4.0.3)
+
+**Implemented enhancements:**
+
+- Properties on axis renderers to Objc \(Fixes \#4800\) [\#4801](https://github.com/ChartsOrg/Charts/pull/4801) ([SLambrakis](https://github.com/SLambrakis))
+
+**Fixed bugs:**
+
+- \(v3.0 + Swift3.0\)ChartView highlightValueWithX not working [\#1495](https://github.com/ChartsOrg/Charts/issues/1495)
+- Update ChartData.swift [\#4822](https://github.com/ChartsOrg/Charts/pull/4822) ([truongtho1603](https://github.com/truongtho1603))
+
+**Closed issues:**
+
+- How to hide a marker [\#4824](https://github.com/ChartsOrg/Charts/issues/4824)
+- How to make a gradient that will react to changing the color scheme? [\#4818](https://github.com/ChartsOrg/Charts/issues/4818)
+- How to highlight a whole stacked bar with 3 different colors? [\#4816](https://github.com/ChartsOrg/Charts/issues/4816)
+- Highlighting no longer works [\#4814](https://github.com/ChartsOrg/Charts/issues/4814)
+- Fill.fillWithLinearGradient disappear [\#4809](https://github.com/ChartsOrg/Charts/issues/4809)
+- Upgrading from 3.5.0 to 4.0.2 breaks highlighting [\#4805](https://github.com/ChartsOrg/Charts/issues/4805)
+- Properties on XAxisRenderer and YAxisRenderer are not marked Objc [\#4800](https://github.com/ChartsOrg/Charts/issues/4800)
+- Semi-donut chart settings question [\#4793](https://github.com/ChartsOrg/Charts/issues/4793)
+- How to setup charts and data to be able to be ready by voice over? [\#4790](https://github.com/ChartsOrg/Charts/issues/4790)
+- Release 4.0 availability through CocoaPods [\#4776](https://github.com/ChartsOrg/Charts/issues/4776)
+- Higlighted color not showing on tap on bar [\#4757](https://github.com/ChartsOrg/Charts/issues/4757)
+- cocopods 3.6.0  but master 4.0.0 [\#4740](https://github.com/ChartsOrg/Charts/issues/4740)
+- ChartViewDelegate Function func chartValueSelected\(\_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight\) is not being called for every tap/touch inside the ChartView [\#4719](https://github.com/ChartsOrg/Charts/issues/4719)
+- How to get chartValue using mouse hover instead of mouse click in MacOS [\#4715](https://github.com/ChartsOrg/Charts/issues/4715)
+- Displaying the axis values above the highlighted line. [\#4680](https://github.com/ChartsOrg/Charts/issues/4680)
+- entriesForXValue\(\) not finding point with matching xValue when it should [\#4668](https://github.com/ChartsOrg/Charts/issues/4668)
+- Markers not appearing as expected [\#4645](https://github.com/ChartsOrg/Charts/issues/4645)
+- Bug: BarChartView Highlight Can Select Some Bar On Chart [\#4641](https://github.com/ChartsOrg/Charts/issues/4641)
+- piechartview.highlightValue at index 0 is not working [\#4627](https://github.com/ChartsOrg/Charts/issues/4627)
+- No such module 'Algorithms' [\#4611](https://github.com/ChartsOrg/Charts/issues/4611)
+- Highlighting buggy / not working consistently [\#4609](https://github.com/ChartsOrg/Charts/issues/4609)
+- Support Swift Package Manager binary distribution [\#4582](https://github.com/ChartsOrg/Charts/issues/4582)
+- Value highlighting bug [\#4579](https://github.com/ChartsOrg/Charts/issues/4579)
+- CocoaPods not longer working \(Master / v4.0.0\) [\#4572](https://github.com/ChartsOrg/Charts/issues/4572)
+- pod Charts，项目里的键盘不能正常使用了 [\#4541](https://github.com/ChartsOrg/Charts/issues/4541)
+- How To Add Lines Between Values? [\#4524](https://github.com/ChartsOrg/Charts/issues/4524)
+- How to draw only top line in bar chart? [\#4522](https://github.com/ChartsOrg/Charts/issues/4522)
+- Xcode 12 beta Gives Deployment Target Warning [\#4448](https://github.com/ChartsOrg/Charts/issues/4448)
+- Highlight any entry [\#4333](https://github.com/ChartsOrg/Charts/issues/4333)
+- Scatter Charts touch point resolution algorithm is broken \(fix included\) [\#3875](https://github.com/ChartsOrg/Charts/issues/3875)
+
+**Merged pull requests:**
+
+- Remove Cocoadocs reference from README [\#4812](https://github.com/ChartsOrg/Charts/pull/4812) ([rph8](https://github.com/rph8))
+- Highlighter fix [\#4721](https://github.com/ChartsOrg/Charts/pull/4721) ([kcome](https://github.com/kcome))
+- Added tutorial links [\#4669](https://github.com/ChartsOrg/Charts/pull/4669) ([phuanggh](https://github.com/phuanggh))
+
+## [v4.0.2](https://github.com/ChartsOrg/Charts/tree/v4.0.2) (2022-03-12)
+
+[Full Changelog](https://github.com/ChartsOrg/Charts/compare/v4.0.1...v4.0.2)
+
+**Closed issues:**
+
+- How can I run Charts demo,  error with "Cartfile.resolved " couldn’t be found, when perform carthage checkout [\#4783](https://github.com/ChartsOrg/Charts/issues/4783)
+- Cannot find type 'IAxisValueFormatter' in scope [\#4775](https://github.com/ChartsOrg/Charts/issues/4775)
+- How do I get the starting x and the ending x of the X-axis [\#4764](https://github.com/ChartsOrg/Charts/issues/4764)
+- Thread 1: Fatal error: Range requires lowerBound \<= upperBound [\#4761](https://github.com/ChartsOrg/Charts/issues/4761)
+- Trying to replace the dataset but both are being shown. [\#4759](https://github.com/ChartsOrg/Charts/issues/4759)
+- 数据格式化 [\#4741](https://github.com/ChartsOrg/Charts/issues/4741)
+- \[Hot help\] Xaxis Show wrong [\#4734](https://github.com/ChartsOrg/Charts/issues/4734)
+- Axis Label is not hold status when scroll [\#4727](https://github.com/ChartsOrg/Charts/issues/4727)
+- How to use getPosition to get the last data entry position? [\#4720](https://github.com/ChartsOrg/Charts/issues/4720)
+- chartValueSelected not being called \(Highlighting issue\) [\#4696](https://github.com/ChartsOrg/Charts/issues/4696)
+- how do i ignore weekend space from linechart  [\#4686](https://github.com/ChartsOrg/Charts/issues/4686)
+- highlightValue not working in chart with CombinedChartView :: Display marker programmatically is not working. [\#4678](https://github.com/ChartsOrg/Charts/issues/4678)
+- Label value rounding behaviour when bar chart datasets with single data points have the same y value [\#4677](https://github.com/ChartsOrg/Charts/issues/4677)
+- Drawing large amounts of data is slow [\#4663](https://github.com/ChartsOrg/Charts/issues/4663)
+- 如何初始化自动设置一个高亮的点? [\#4657](https://github.com/ChartsOrg/Charts/issues/4657)
+- No such module 'Algorithms' with SPM [\#4646](https://github.com/ChartsOrg/Charts/issues/4646)
+- No line drawn in LineChart when highest DataEntry.x is smaller than xAxis.axisMaximum [\#4643](https://github.com/ChartsOrg/Charts/issues/4643)
+- Set a Constant Y Value Highlight [\#4638](https://github.com/ChartsOrg/Charts/issues/4638)
+- Swift linking error with XCode 12.5 when used with a react native wrapper [\#4636](https://github.com/ChartsOrg/Charts/issues/4636)
+- Archive swift-algorithms error [\#4626](https://github.com/ChartsOrg/Charts/issues/4626)
+- Swift demos are out-of-date? [\#4623](https://github.com/ChartsOrg/Charts/issues/4623)
+- Why can't I show the value of the selected bar on the BarChart \(grouped DataSets\)? [\#4621](https://github.com/ChartsOrg/Charts/issues/4621)
+- Error EXC\_BAD\_ACCESS [\#4607](https://github.com/ChartsOrg/Charts/issues/4607)
+- I want to draw lines of different lengths，but it doesn't work [\#4590](https://github.com/ChartsOrg/Charts/issues/4590)
+- which property can display current dataset value? [\#4586](https://github.com/ChartsOrg/Charts/issues/4586)
+- Master branch doesn't compile [\#4521](https://github.com/ChartsOrg/Charts/issues/4521)
+- \[4.0\] Does not build for macOS [\#4507](https://github.com/ChartsOrg/Charts/issues/4507)
+- 3.5.0 from 3.4.0 introduced a regression in pan handling [\#4442](https://github.com/ChartsOrg/Charts/issues/4442)
+- Repeating labels on X axis [\#4034](https://github.com/ChartsOrg/Charts/issues/4034)
+- Programatic Markers/highlights not displayed anymore after first manual selection [\#3538](https://github.com/ChartsOrg/Charts/issues/3538)
+- Components folder in the demo is not included in pod? [\#2418](https://github.com/ChartsOrg/Charts/issues/2418)
+
+**Merged pull requests:**
+
+- Update project settings to support publishing pod [\#4791](https://github.com/ChartsOrg/Charts/pull/4791) ([pmairoldi](https://github.com/pmairoldi))
+- Revert https://github.com/danielgindi/Charts/pull/4271 and disable parent scroll view on dragging [\#4700](https://github.com/ChartsOrg/Charts/pull/4700) ([remlostime](https://github.com/remlostime))
+
 ## [v4.0.1](https://github.com/ChartsOrg/Charts/tree/v4.0.1) (2021-02-18)
 
 [Full Changelog](https://github.com/ChartsOrg/Charts/compare/v4.0.0...v4.0.1)
