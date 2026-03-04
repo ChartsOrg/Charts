@@ -3101,7 +3101,7 @@
 - Changing width of the bar in bar chart [\#820](https://github.com/danielgindi/Charts/issues/820)
 - The return value is a problem with the calculateMinimumRadiusForSpacedSlice method [\#819](https://github.com/danielgindi/Charts/issues/819)
 - import Charts: Error No Such Module Charts? [\#818](https://github.com/danielgindi/Charts/issues/818)
-- Can we define minor and major grid lines  with specification like \(line color, line thickness, on/off \)? [\#817](https://github.com/danielgindi/Charts/issues/817)
+- Can we define minor and major grid lines with specification like \(line color, line thickness, on/off \)? [\#817](https://github.com/danielgindi/Charts/issues/817)
 - LineChart Delegate for line values [\#816](https://github.com/danielgindi/Charts/issues/816)
 - Linechart X Labels overlap feature [\#813](https://github.com/danielgindi/Charts/issues/813)
 - Can we support 2 more than y scales/ multiple Y axis ? [\#812](https://github.com/danielgindi/Charts/issues/812)
