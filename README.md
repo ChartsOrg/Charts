@@ -2,8 +2,7 @@
 
 ![alt tag](https://raw.github.com/ChartsOrg/Charts/master/Assets/feature_graphic.png)
 
-[![Build](https://github.com/ChartsOrg/Charts/actions/workflows/build.yml/badge.svg)](https://github.com/ChartsOrg/Charts/actions/workflows/build.yml)
-![Supported Platforms](https://img.shields.io/cocoapods/p/Charts.svg) [![Releases](https://img.shields.io/github/release/ChartsOrg/Charts.svg)](https://github.com/ChartsOrg/Charts/releases) [![Latest pod release](https://img.shields.io/cocoapods/v/Charts.svg)](http://cocoapods.org/pods/charts) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+[![Build](https://github.com/ChartsOrg/Charts/actions/workflows/build.yml/badge.svg)](https://github.com/ChartsOrg/Charts/actions/workflows/build.yml) ![Supported Platforms](https://img.shields.io/cocoapods/p/Charts.svg) [![Releases](https://img.shields.io/github/release/ChartsOrg/Charts.svg)](https://github.com/ChartsOrg/Charts/releases) [![Latest pod release](https://img.shields.io/cocoapods/v/Charts.svg)](http://cocoapods.org/pods/charts) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
 ### Just a heads up: Charts 5.0 has some breaking changes. Charts has now been renamed DGCharts to prevent conflicts with Apple's new Swift Charts. Please read [the release/migration notes](https://github.com/ChartsOrg/Charts/releases/tag/5.0.0).
 
