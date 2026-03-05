@@ -22,7 +22,7 @@ jobs:
       - name: Generate changelog
         uses: janheinrichmerker/action-github-changelog-generator@v2.4
         with:
-          token: ${{ secrets.CHANGELOG_GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Commit and push changelog
         env:
