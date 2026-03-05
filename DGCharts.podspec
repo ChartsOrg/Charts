@@ -7,7 +7,7 @@ Pod::Spec.new do |s|
   s.authors = "Daniel Cohen Gindi", "Philipp Jahoda"
   s.ios.deployment_target = "12.0"
   s.tvos.deployment_target = "12.0"
-  s.osx.deployment_target = "10.13"
+  s.osx.deployment_target = "14.0"
   s.source = { :git => "https://github.com/ChartsOrg/Charts.git", :tag => "#{s.version}" }
   s.default_subspec = "Core"
   s.swift_version = '5.7'
