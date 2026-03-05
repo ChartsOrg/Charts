@@ -24,10 +24,10 @@ jobs:
     strategy:
       matrix:
         target:
-          - destination: "OS=26.2,name=iPhone 17 Pro"
+          - destination: "arch:arm64,OS=26.2,name=iPhone 17 Pro"
             actions: "build test"
 
-          - destination: "OS=26.2,name=Apple TV 4K (3rd generation)"
+          - destination: "arch:arm64,OS=26.2,name=Apple TV 4K (3rd generation)"
             actions: "build test"
 
           - destination: "platform=macOS"
@@ -47,7 +47,7 @@ jobs:
       matrix:
         target:
           - scheme: "ChartsDemo-iOS"
-            destination: "OS=26.2,name=iPhone 17 Pro"
+            destination: "arch:arm64,OS=26.2,name=iPhone 17 Pro"
 
           - scheme: "ChartsDemo-macOS"
             destination: "platform=macOS"
