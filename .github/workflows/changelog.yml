@@ -1,6 +1,7 @@
 name: Changelog
 
 on:
+  workflow_dispatch:
   release:
     types:
       - published
