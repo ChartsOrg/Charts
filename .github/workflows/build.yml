@@ -60,7 +60,7 @@ jobs:
 
   spm:
     name: Test with SPM
-    runs-on: macos-12
+    runs-on: macos-latest
 
     steps:
       - uses: actions/checkout@v6
