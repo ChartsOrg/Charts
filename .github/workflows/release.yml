@@ -8,10 +8,10 @@ on:
 
 jobs:
   build:
-    runs-on: macos-12
+    runs-on: macos-latest
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v6
 
       - name: Install Cocoapods
         run: gem install cocoapods
