@@ -358,7 +358,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                    entry.y < 0 {
                     roundedCorners = dataSet.roundedCornersInverted
                 }
-                let bezierPath = UIBezierPath(roundedRect: barRect, byRoundingCorners: roundedCorners,
+                let bezierPath = NSUIBezierPath(roundedRect: barRect, byRoundingCorners: roundedCorners,
                                               cornerRadii: .init(width: dataSet.cornerRadius, height: dataSet.cornerRadius))
                 context.addPath(bezierPath.cgPath)
                 context.drawPath(using: .fill)
@@ -394,7 +394,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                entry.y < 0 {
                 roundedCorners = dataSet.roundedCornersInverted
             }
-            let bezierPath = UIBezierPath(roundedRect: barRect, byRoundingCorners: roundedCorners,
+            let bezierPath = NSUIBezierPath(roundedRect: barRect, byRoundingCorners: roundedCorners,
                                           cornerRadii: .init(width: dataSet.cornerRadius, height: dataSet.cornerRadius))
             context.addPath(bezierPath.cgPath)
             context.drawPath(using: .fill)
@@ -766,7 +766,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 if e.y < 0 {
                     roundedCorners = set.roundedCornersInverted
                 }
-                let bezierPath = UIBezierPath(roundedRect: barRect, byRoundingCorners: roundedCorners,
+                let bezierPath = NSUIBezierPath(roundedRect: barRect, byRoundingCorners: roundedCorners,
                                               cornerRadii: .init(width: set.cornerRadius, height: set.cornerRadius))
                 context.addPath(bezierPath.cgPath)
                 context.drawPath(using: .fill)

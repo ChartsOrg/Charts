@@ -15,6 +15,8 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 	public typealias NSUIScrollView = UIScrollView
     public typealias NSUIScreen = UIScreen
 	public typealias NSUIDisplayLink = CADisplayLink
+    public typealias NSUIRectCorner = UIRectCorner
+    public typealias NSUIBezierPath = UIBezierPath;
 
     extension NSUIColor
     {
@@ -75,6 +77,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
     public typealias NSUIImage = NSImage
     public typealias NSUIScrollView = NSScrollView
     public typealias NSUIScreen = NSScreen
+    public typealias NSUIBezierPath = NSBezierPath;
 
 	/** On OS X there is no CADisplayLink. Use a 60 fps timer to render the animations. */
 	public class NSUIDisplayLink
@@ -149,6 +152,29 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
             }
         }
 	}
+
+    /** On OS X there is no UIRectCorner */
+    public final class NSRectCorner: NSObject, OptionSet {
+        public typealias RawValue = Int
+        public let rawValue: Int
+        
+        public init(rawValue: Int) {
+            self.rawValue = rawValue
+        }
+        
+        public init(_ rawValue: Int) {
+            self.rawValue = rawValue
+        }
+        
+        public static let topLeft = NSRectCorner(1 << 0)
+        public static let topRight = NSRectCorner(1 << 1)
+        public static let bottomLeft = NSRectCorner(1 << 2)
+        public static let bottomRight = NSRectCorner(1 << 3)
+        
+        public static let allCorners: NSRectCorner = [.topLeft, .topLeft, .bottomLeft, .bottomRight]
+    }
+    
+    public typealias NSUIRectCorner = NSRectCorner
 
     extension NSUIColor
     {
