@@ -16,6 +16,6 @@ Pod::Spec.new do |s|
   s.resource_bundles = {"DGCharts" => ["Source/Charts/PrivacyInfo.xcprivacy"]}
   
   s.subspec "Core" do |ss|
-    ss.source_files  = "Source/Charts/**/*.swift"
+    ss.source_files  = "Source/Charts/**/*.{swift,h}"
   end
 end
