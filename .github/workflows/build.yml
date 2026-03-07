@@ -85,5 +85,5 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - name: Cocoapdos Test
+      - name: Cocoapods Test
         run: pod lib lint
