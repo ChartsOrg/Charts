@@ -21,7 +21,11 @@ open class MarkerView: NSUIView, Marker
 {
     open var offset: CGPoint = CGPoint()
     
-    @objc open weak var chartView: ChartViewBase?
+    @objc open weak var chartView: ChartViewBase? {
+        didSet {
+            didAddToChart(chartView)
+        }
+    }
     
     open func offsetForDrawing(atPoint point: CGPoint) -> CGPoint
     {
@@ -72,14 +76,16 @@ open class MarkerView: NSUIView, Marker
     }
     
     @objc
-    open class func viewFromXib(in bundle: Bundle = .main) -> MarkerView?
+    open class func viewFromXib(in bundle: Bundle = .main) -> Self?
     {
         #if !os(OSX)
         
         return bundle.loadNibNamed(
             String(describing: self),
             owner: nil,
-            options: nil)?[0] as? MarkerView
+            options: nil)?
+            .compactMap { $0 as? Self }
+            .first
         #else
         
         var loadedObjects: NSArray? = NSArray()
@@ -87,13 +93,39 @@ open class MarkerView: NSUIView, Marker
         if bundle.loadNibNamed(
             NSNib.Name(String(describing: self)),
             owner: nil,
-            topLevelObjects: &loadedObjects)
+            topLevelObjects: &loadedObjects),
+           let view = loadedObjects?.compactMap({ $0 as? Self }).first
         {
-            return loadedObjects?[0] as? MarkerView
+            view.wantsLayer = true
+            return view
         }
         
         return nil
         #endif
     }
     
+    @objc
+    open func didAddToChart(_ chartView: ChartViewBase?) {
+        #if os(OSX)
+        removeFromSuperview()
+        
+        // Need to add MarkerView to a view in order to allow it to render out of visible area
+        guard let chartView else { return }
+
+        var parentView: NSView = chartView
+        while let grandparentView = parentView.superview {
+            parentView = grandparentView
+        }
+        parentView.addSubview(self)
+        
+        // Constrain MarkerView to off-screen, since it's only being used to render in `draw()` function
+        // and not to display directly as NSView
+        translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            leadingAnchor.constraint(equalTo: parentView.trailingAnchor, constant: 100.0),
+            topAnchor.constraint(equalTo: parentView.bottomAnchor, constant: 100.0)
+        ])
+
+        #endif
+    }
 }
