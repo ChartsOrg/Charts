@@ -276,6 +276,12 @@ open class XAxisRenderer: NSObject, AxisRenderer
             position = CGPoint(x: px, y: 0)
                 .applying(valueToPixelMatrix)
 
+            if i == 0 {
+                position.x += axis.xOffset
+            } else if i == (entries.count - 1) {
+                position.x -= axis.xOffset
+            }
+            
             guard viewPortHandler.isInBoundsX(position.x) else { continue }
             
             let label = axis.valueFormatter?.stringForValue(axis.entries[i], axis: axis) ?? ""
