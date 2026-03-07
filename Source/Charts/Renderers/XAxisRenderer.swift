@@ -268,11 +268,11 @@ open class XAxisRenderer: NSObject, AxisRenderer
             labelMaxSize.width = axis.wordWrapWidthPercent * valueToPixelMatrix.a
         }
         
-        let entries = axis.entries
+        let entries = isCenteringEnabled ? axis.centeredEntries : axis.entries
         
         for i in entries.indices
         {
-            let px = isCenteringEnabled ? CGFloat(axis.centeredEntries[i]) : CGFloat(entries[i])
+            let px = CGFloat(entries[i])
             position = CGPoint(x: px, y: 0)
                 .applying(valueToPixelMatrix)
 
