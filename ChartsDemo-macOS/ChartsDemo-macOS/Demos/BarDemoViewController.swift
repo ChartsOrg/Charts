@@ -11,6 +11,7 @@
 import Foundation
 import Cocoa
 import DGCharts
+import UniformTypeIdentifiers
 
 open class BarDemoViewController: NSViewController
 {
@@ -31,10 +32,14 @@ open class BarDemoViewController: NSViewController
         let data = BarChartData()
         let ds1 = BarChartDataSet(entries: yse1, label: "Hello")
         ds1.colors = [NSUIColor.red]
+        ds1.roundedCorners = [.allCorners]
+        ds1.cornerRadius = 10.0
         data.append(ds1)
 
         let ds2 = BarChartDataSet(entries: yse2, label: "World")
         ds2.colors = [NSUIColor.blue]
+        ds2.roundedCorners = [.allCorners]
+        ds2.cornerRadius = 10.0
         data.append(ds2)
 
         let barWidth = 0.4
@@ -57,7 +62,7 @@ open class BarDemoViewController: NSViewController
     @IBAction func save(_ sender: Any)
     {
         let panel = NSSavePanel()
-        panel.allowedFileTypes = ["png"]
+        panel.allowedContentTypes = [UTType.png]
         panel.beginSheetModal(for: self.view.window!) { (result) -> Void in
             if result == NSApplication.ModalResponse.OK
             {

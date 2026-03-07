@@ -152,29 +152,45 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
             }
         }
 	}
-
-    /** On OS X there is no UIRectCorner */
-    public final class NSRectCorner: NSObject, OptionSet {
-        public typealias RawValue = Int
-        public let rawValue: Int
-        
-        public init(rawValue: Int) {
-            self.rawValue = rawValue
-        }
-        
-        public init(_ rawValue: Int) {
-            self.rawValue = rawValue
-        }
-        
-        public static let topLeft = NSRectCorner(1 << 0)
-        public static let topRight = NSRectCorner(1 << 1)
-        public static let bottomLeft = NSRectCorner(1 << 2)
-        public static let bottomRight = NSRectCorner(1 << 3)
-        
-        public static let allCorners: NSRectCorner = [.topLeft, .topLeft, .bottomLeft, .bottomRight]
-    }
     
     public typealias NSUIRectCorner = NSRectCorner
+
+    extension NSBezierPath {
+        convenience init(roundedRect rect: CGRect, byRoundingCorners corners: NSRectCorner, cornerRadii: CGSize) {
+            let path = CGMutablePath()
+            let topLeft = corners.contains(.topLeft) ? cornerRadii : .zero
+            let topRight = corners.contains(.topRight) ? cornerRadii : .zero
+            let bottomLeft = corners.contains(.bottomLeft) ? cornerRadii : .zero
+            let bottomRight = corners.contains(.bottomRight) ? cornerRadii : .zero
+
+            // Start at top-left, after the corner
+            path.move(to: CGPoint(x: rect.minX + topLeft.width, y: rect.minY))
+
+            // Top edge and top-right corner
+            path.addLine(to: CGPoint(x: rect.maxX - topRight.width, y: rect.minY))
+            path.addQuadCurve(to: CGPoint(x: rect.maxX, y: rect.minY + topRight.height),
+                              control: CGPoint(x: rect.maxX, y: rect.minY))
+
+            // Right edge and bottom-right corner
+            path.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY - bottomRight.height))
+            path.addQuadCurve(to: CGPoint(x: rect.maxX - bottomRight.width, y: rect.maxY),
+                              control: CGPoint(x: rect.maxX, y: rect.maxY))
+
+            // Bottom edge and bottom-left corner
+            path.addLine(to: CGPoint(x: rect.minX + bottomLeft.width, y: rect.maxY))
+            path.addQuadCurve(to: CGPoint(x: rect.minX, y: rect.maxY - bottomLeft.height),
+                              control: CGPoint(x: rect.minX, y: rect.maxY))
+
+            // Left edge and top-left corner
+            path.addLine(to: CGPoint(x: rect.minX, y: rect.minY + topLeft.height))
+            path.addQuadCurve(to: CGPoint(x: rect.minX + topLeft.width, y: rect.minY),
+                              control: CGPoint(x: rect.minX, y: rect.minY))
+
+            path.closeSubpath()
+
+            self.init(cgPath: path)
+        }
+    }
 
     extension NSUIColor
     {

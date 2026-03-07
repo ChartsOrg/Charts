@@ -15,6 +15,7 @@
 	#import <UIKit/UIKit.h>
 #else
     #import <Cocoa/Cocoa.h>
+    #import <DGCharts/NSRectCorner.h>
 #endif
 
 //! Project version number for Charts.
