@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 55;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -66,7 +66,7 @@
 		50476F8E6662CAFC1EFE0723 /* ScatterChartDataSetProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219BC9CEA037F897E92E45D1 /* ScatterChartDataSetProtocol.swift */; };
 		515E286E6C47594D3FFA3DD1 /* ViewPortHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72EAEBB7CF73E33565FC2896 /* ViewPortHandler.swift */; };
 		53A91F6F86740E26FE733639 /* BarLineScatterCandleBubbleChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D717F0808DE7EC8A4AE9C2A /* BarLineScatterCandleBubbleChartDataSet.swift */; };
-		55485BCD2F5BDDC600634105 /* NSRectCorner.h in Headers */ = {isa = PBXBuildFile; fileRef = 55485BC32F594DD500634105 /* NSRectCorner.h */; platformFilters = (macos, ); settings = {ATTRIBUTES = (Private, ); }; };
+		55485BCD2F5BDDC600634105 /* NSRectCorner.h in Headers */ = {isa = PBXBuildFile; fileRef = 55485BC32F594DD500634105 /* NSRectCorner.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		56E0F5EA9255B9B92876E040 /* BubbleChartRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2194AA554712E6BA2677F114 /* BubbleChartRenderer.swift */; };
 		5C457D9A50DA20869AD1739D /* ScatterChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18462BFDD9DEE76D51D40503 /* ScatterChartView.swift */; };
 		5DC9BC1B6C128B2C9995AB84 /* ScatterChartRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D5B764EC0AE1E17E55DC67 /* ScatterChartRenderer.swift */; };
@@ -799,7 +799,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 0830;
-				LastUpgradeCheck = 1430;
+				LastUpgradeCheck = 2620;
 				TargetAttributes = {
 					A58A4ED274A941CA248EA921 = {
 						LastSwiftMigration = 1150;
@@ -1043,7 +1043,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				EAGER_LINKING = YES;
-				ENABLE_MODULE_VERIFIER = NO;
+				ENABLE_MODULE_VERIFIER = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				FRAMEWORK_VERSION = A;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1146,6 +1146,7 @@
 				DEAD_CODE_STRIPPING = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -1155,6 +1156,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
@@ -1201,6 +1203,7 @@
 				DEAD_CODE_STRIPPING = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1218,6 +1221,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
