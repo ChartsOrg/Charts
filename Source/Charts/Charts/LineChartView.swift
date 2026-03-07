@@ -18,6 +18,7 @@ open class LineChartView: BarLineChartViewBase, LineChartDataProvider
     internal override func initialize()
     {
         super.initialize()
+        self.isAudioGraphContinuous = true
         
         renderer = LineChartRenderer(dataProvider: self, animator: chartAnimator, viewPortHandler: viewPortHandler)
     }
