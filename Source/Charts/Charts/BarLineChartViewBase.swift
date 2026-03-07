@@ -87,6 +87,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// **default**: An instance of XAxisRenderer
     @objc open lazy var xAxisRenderer = XAxisRenderer(viewPortHandler: viewPortHandler, axis: xAxis, transformer: _leftAxisTransformer)
 
+    internal var _longTapGestureRecognizer: NSUILongGestureRecognizer!
     internal var _tapGestureRecognizer: NSUITapGestureRecognizer!
     internal var _doubleTapGestureRecognizer: NSUITapGestureRecognizer!
     #if !os(tvOS)
@@ -121,6 +122,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
 
         self.highlighter = ChartHighlighter(chart: self)
         
+        _longTapGestureRecognizer = NSUILongGestureRecognizer(target: self, action: #selector(longTapGestureRecognized(_:)))
         _tapGestureRecognizer = NSUITapGestureRecognizer(target: self, action: #selector(tapGestureRecognized(_:)))
         _doubleTapGestureRecognizer = NSUITapGestureRecognizer(target: self, action: #selector(doubleTapGestureRecognized(_:)))
         _doubleTapGestureRecognizer.nsuiNumberOfTapsRequired = 2
@@ -128,6 +130,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         
         _panGestureRecognizer.delegate = self
         
+        self.addGestureRecognizer(_longTapGestureRecognizer)
         self.addGestureRecognizer(_tapGestureRecognizer)
         self.addGestureRecognizer(_doubleTapGestureRecognizer)
         self.addGestureRecognizer(_panGestureRecognizer)
@@ -528,6 +531,45 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     private var _decelerationLastTime: TimeInterval = 0.0
     private var _decelerationDisplayLink: NSUIDisplayLink!
     private var _decelerationVelocity = CGPoint()
+    
+    @objc private func longTapGestureRecognized(_ recognizer: NSUILongGestureRecognizer)
+    {
+        if data === nil
+        {
+            return
+        }
+        
+        if isHighlightPerDragEnabled
+       {
+           let h = getHighlightByTouchPoint(recognizer.location(in: self))
+
+           let lastHighlighted = self.lastHighlighted
+           
+           if h != lastHighlighted
+           {
+               self.lastHighlighted = h
+               self.highlightValue(h, callDelegate: true)
+           }
+       }
+
+        if recognizer.state == NSUIGestureRecognizerState.began
+        {
+            if !isHighLightPerTapEnabled { return }
+
+            let h = getHighlightByTouchPoint(recognizer.location(in: self))
+
+            if h === nil || h == self.lastHighlighted
+            {
+                lastHighlighted = nil
+                highlightValue(nil, callDelegate: true)
+            }
+            else
+            {
+                lastHighlighted = h
+                highlightValue(h, callDelegate: true)
+            }
+        }
+    }
     
     @objc private func tapGestureRecognized(_ recognizer: NSUITapGestureRecognizer)
     {

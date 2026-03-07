@@ -18,6 +18,7 @@ public typealias NSUIGestureRecognizerState = UIGestureRecognizer.State
 public typealias NSUIGestureRecognizerDelegate = UIGestureRecognizerDelegate
 public typealias NSUITapGestureRecognizer = UITapGestureRecognizer
 public typealias NSUIPanGestureRecognizer = UIPanGestureRecognizer
+public typealias NSUILongGestureRecognizer = UILongPressGestureRecognizer
 
 extension NSUITapGestureRecognizer
 {
