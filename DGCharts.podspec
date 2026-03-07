@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.name = "DGCharts"
   s.version = "5.1.0"
-  s.summary = "DGCharts is a powerful & easy to use chart library for iOS, tvOS and OSX (and Android)"
+  s.summary = "DGCharts is a powerful & easy to use chart library for iOS, tvOS and macOS (and Android)"
   s.homepage = "https://github.com/ChartsOrg/Charts"
   s.license = { :type => "Apache License, Version 2.0", :file => "LICENSE" }
   s.authors = "Daniel Cohen Gindi", "Philipp Jahoda"
@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
   s.osx.deployment_target = "14.0"
   s.source = { :git => "https://github.com/ChartsOrg/Charts.git", :tag => "#{s.version}" }
   s.default_subspec = "Core"
-  s.swift_version = '5.7'
+  s.swift_version = '5.9'
   s.cocoapods_version = '>= 1.5.0'
   
   s.resource_bundles = {"DGCharts" => ["Source/Charts/PrivacyInfo.xcprivacy"]}
