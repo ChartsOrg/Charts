@@ -675,6 +675,104 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     }
     #endif
     
+    #if os(macOS)
+    open override func scrollWheel(with event: NSEvent) {
+        let wheelTranslation = CGPoint(x: event.scrollingDeltaX, y: event.scrollingDeltaY)
+        
+        let movementPhase: NSEvent.Phase
+        if event.phase != [] {
+            movementPhase = event.phase
+        } else if isDragDecelerationEnabled {
+            movementPhase = event.momentumPhase
+        } else {
+            movementPhase = []
+        }
+        
+        if movementPhase == .began
+        {
+            stopDeceleration()
+
+            if data === nil || !self.isDragEnabled
+            { // If we have no data, we have nothing to pan and no data to highlight
+                return
+            }
+            
+            // If drag is enabled and we are in a position where there's something to drag:
+            //  * If we're zoomed in, then obviously we have something to drag.
+            //  * If we have a drag offset - we always have something to drag
+            if !self.hasNoDragOffset || !self.isFullyZoomedOut
+            {
+                
+                var translation = wheelTranslation
+                if !self.dragXEnabled
+                {
+                    translation.x = 0.0
+                }
+                else if !self.dragYEnabled
+                {
+                    translation.y = 0.0
+                }
+                
+                let didUserDrag = translation.x != 0.0 || translation.y != 0.0
+                
+                // Check to see if user dragged at all and if so, can the chart be dragged by the given amount
+                if didUserDrag && !performPanChange(translation: translation)
+                {
+                    if _outerScrollView !== nil
+                    {
+                        // We can stop dragging right now, and let the scroll view take control
+                        _outerScrollView = nil
+                    }
+                }
+                else
+                {
+                    if _outerScrollView !== nil
+                    {
+                        // Prevent the parent scroll view from scrolling
+                        _outerScrollView?.nsuiIsScrollEnabled = false
+                    }
+                }
+            }
+        }
+        else if movementPhase == .changed
+        {
+            var translation = wheelTranslation
+            
+            if !self.dragXEnabled
+            {
+                translation.x = 0.0
+            }
+            else if !self.dragYEnabled
+            {
+                translation.y = 0.0
+            }
+            
+            let _ = performPanChange(translation: translation)
+        }
+        else if movementPhase == .ended || movementPhase == .cancelled
+        {
+            if isDragDecelerationEnabled
+            {
+                stopDeceleration()
+                
+                _decelerationLastTime = CACurrentMediaTime()
+                _decelerationVelocity = .zero
+                
+                _decelerationDisplayLink = NSUIDisplayLink(target: self, selector: #selector(BarLineChartViewBase.decelerationLoop))
+                _decelerationDisplayLink.add(to: RunLoop.main, forMode: RunLoop.Mode.common)
+            }
+                        
+            if _outerScrollView !== nil
+            {
+                _outerScrollView?.nsuiIsScrollEnabled = true
+                _outerScrollView = nil
+            }
+            
+            delegate?.chartViewDidEndPanning?(self)
+        }
+    }
+    #endif
+    
     @objc private func panGestureRecognized(_ recognizer: NSUIPanGestureRecognizer)
     {
         if recognizer.state == NSUIGestureRecognizerState.began && recognizer.nsuiNumberOfTouches() > 0
