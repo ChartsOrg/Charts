@@ -1,0 +1,35 @@
+name: Changelog
+
+on:
+  workflow_dispatch:
+  release:
+    types:
+      - published
+
+permissions:
+  contents: write
+
+jobs:
+  changelog:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: master
+          fetch-depth: 0
+
+      - name: Generate changelog
+        uses: janheinrichmerker/action-github-changelog-generator@v2.4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Commit and push changelog
+        env:
+          TAG_NAME: ${{ github.event.release.tag_name }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add CHANGELOG.md
+          git diff --cached --quiet || git commit -m "Update CHANGELOG.md for ${TAG_NAME}"
+          git push

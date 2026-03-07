@@ -17,6 +17,8 @@
     #import <Cocoa/Cocoa.h>
 #endif
 
+#import <DGCharts/NSRectCorner.h>
+
 //! Project version number for Charts.
 FOUNDATION_EXPORT double ChartsVersionNumber;
 

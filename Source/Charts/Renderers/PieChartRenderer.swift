@@ -207,7 +207,7 @@ open class PieChartRenderer: NSObject, DataRenderer
             if drawInnerArc &&
                 (innerRadius > 0.0 || accountForSliceSpacing)
             {
-                var hasZeroInnerRadius = innerRadius == 0.0
+                let hasZeroInnerRadius = innerRadius == 0.0
 
                 if accountForSliceSpacing
                 {
@@ -803,7 +803,7 @@ open class PieChartRenderer: NSObject, DataRenderer
             if drawInnerArc &&
                 (innerRadius > 0.0 || accountForSliceSpacing)
             {
-                var hasZeroInnerRadius = innerRadius == 0.0
+                let hasZeroInnerRadius = innerRadius == 0.0
 
                 if accountForSliceSpacing
                 {

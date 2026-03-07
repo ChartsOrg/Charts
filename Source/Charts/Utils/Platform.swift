@@ -15,6 +15,8 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 	public typealias NSUIScrollView = UIScrollView
     public typealias NSUIScreen = UIScreen
 	public typealias NSUIDisplayLink = CADisplayLink
+    public typealias NSUIRectCorner = UIRectCorner
+    public typealias NSUIBezierPath = UIBezierPath;
 
     extension NSUIColor
     {
@@ -75,6 +77,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
     public typealias NSUIImage = NSImage
     public typealias NSUIScrollView = NSScrollView
     public typealias NSUIScreen = NSScreen
+    public typealias NSUIBezierPath = NSBezierPath;
 
 	/** On OS X there is no CADisplayLink. Use a 60 fps timer to render the animations. */
 	public class NSUIDisplayLink
@@ -149,6 +152,45 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
             }
         }
 	}
+    
+    public typealias NSUIRectCorner = NSRectCorner
+
+    extension NSBezierPath {
+        convenience init(roundedRect rect: CGRect, byRoundingCorners corners: NSRectCorner, cornerRadii: CGSize) {
+            let path = CGMutablePath()
+            let topLeft = corners.contains(.topLeft) ? cornerRadii : .zero
+            let topRight = corners.contains(.topRight) ? cornerRadii : .zero
+            let bottomLeft = corners.contains(.bottomLeft) ? cornerRadii : .zero
+            let bottomRight = corners.contains(.bottomRight) ? cornerRadii : .zero
+
+            // Start at top-left, after the corner
+            path.move(to: CGPoint(x: rect.minX + topLeft.width, y: rect.minY))
+
+            // Top edge and top-right corner
+            path.addLine(to: CGPoint(x: rect.maxX - topRight.width, y: rect.minY))
+            path.addQuadCurve(to: CGPoint(x: rect.maxX, y: rect.minY + topRight.height),
+                              control: CGPoint(x: rect.maxX, y: rect.minY))
+
+            // Right edge and bottom-right corner
+            path.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY - bottomRight.height))
+            path.addQuadCurve(to: CGPoint(x: rect.maxX - bottomRight.width, y: rect.maxY),
+                              control: CGPoint(x: rect.maxX, y: rect.maxY))
+
+            // Bottom edge and bottom-left corner
+            path.addLine(to: CGPoint(x: rect.minX + bottomLeft.width, y: rect.maxY))
+            path.addQuadCurve(to: CGPoint(x: rect.minX, y: rect.maxY - bottomLeft.height),
+                              control: CGPoint(x: rect.minX, y: rect.maxY))
+
+            // Left edge and top-left corner
+            path.addLine(to: CGPoint(x: rect.minX, y: rect.minY + topLeft.height))
+            path.addQuadCurve(to: CGPoint(x: rect.minX + topLeft.width, y: rect.minY),
+                              control: CGPoint(x: rect.minX, y: rect.minY))
+
+            path.closeSubpath()
+
+            self.init(cgPath: path)
+        }
+    }
 
     extension NSUIColor
     {

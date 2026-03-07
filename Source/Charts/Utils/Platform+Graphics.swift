@@ -92,18 +92,16 @@ func NSUIGraphicsPopContext()
 
 func NSUIImagePNGRepresentation(_ image: NSUIImage) -> Data?
 {
-    image.lockFocus()
-    let rep = NSBitmapImageRep(focusedViewRect: NSMakeRect(0, 0, image.size.width, image.size.height))
-    image.unlockFocus()
-    return rep?.representation(using: .png, properties: [:])
+    guard let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: nil) else { return nil }
+    let rep = NSBitmapImageRep(cgImage: cgImage)
+    return rep.representation(using: .png, properties: [:])
 }
 
 func NSUIImageJPEGRepresentation(_ image: NSUIImage, _ quality: CGFloat = 0.9) -> Data?
 {
-    image.lockFocus()
-    let rep = NSBitmapImageRep(focusedViewRect: NSMakeRect(0, 0, image.size.width, image.size.height))
-    image.unlockFocus()
-    return rep?.representation(using: .jpeg, properties: [NSBitmapImageRep.PropertyKey.compressionFactor: quality])
+    guard let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: nil) else { return nil }
+    let rep = NSBitmapImageRep(cgImage: cgImage)
+    return rep.representation(using: .jpeg, properties: [NSBitmapImageRep.PropertyKey.compressionFactor: quality])
 }
 
 private var imageContextStack: [CGFloat] = []
