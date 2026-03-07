@@ -90,20 +90,31 @@ func NSUIGraphicsPopContext()
     NSGraphicsContext.restoreGraphicsState()
 }
 
-func NSUIImagePNGRepresentation(_ image: NSUIImage) -> Data?
+func NSUIImagePNGRepresentation(_ image: NSUIImage, inView view: NSUIView) -> Data?
 {
     image.lockFocus()
-    let rep = NSBitmapImageRep(focusedViewRect: NSMakeRect(0, 0, image.size.width, image.size.height))
+    
+    let tRep = view.bitmapImageRepForCachingDisplay(in: NSRect(x: 0, y: 0, width: image.size.width, height: image.size.height))
+    if let rep = tRep {
+        view.cacheDisplay(in: NSRect(x: 0, y: 0, width: image.size.width, height: image.size.height), to: rep)
+        return rep.representation(using: .png, properties: [:])
+    }
     image.unlockFocus()
-    return rep?.representation(using: .png, properties: [:])
+    return tRep?.representation(using: .png, properties: [:])
 }
 
-func NSUIImageJPEGRepresentation(_ image: NSUIImage, _ quality: CGFloat = 0.9) -> Data?
+func NSUIImageJPEGRepresentation(_ image: NSUIImage, _ quality: CGFloat = 0.9, inView view: NSUIView) -> Data?
 {
     image.lockFocus()
-    let rep = NSBitmapImageRep(focusedViewRect: NSMakeRect(0, 0, image.size.width, image.size.height))
+    
+    let tRep = view.bitmapImageRepForCachingDisplay(in: NSRect(x: 0, y: 0, width: image.size.width, height: image.size.height))
+    if let rep = tRep {
+        view.cacheDisplay(in: NSRect(x: 0, y: 0, width: image.size.width, height: image.size.height), to: rep)
+        return rep.representation(using: .jpeg, properties: [NSBitmapImageRep.PropertyKey.compressionFactor: quality])
+    }
+
     image.unlockFocus()
-    return rep?.representation(using: .jpeg, properties: [NSBitmapImageRep.PropertyKey.compressionFactor: quality])
+    return tRep?.representation(using: .jpeg, properties: [NSBitmapImageRep.PropertyKey.compressionFactor: quality])
 }
 
 private var imageContextStack: [CGFloat] = []
