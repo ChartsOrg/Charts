@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 55;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -12,7 +12,7 @@
 		068A9B191FBBF351003CF1AD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B8EAF2F1AB32E15009697AA /* Images.xcassets */; };
 		068A9B1A1FBBF355003CF1AD /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B64D06EA1FB199130067418D /* Launch Screen.storyboard */; };
 		068A9B1B1FBBF366003CF1AD /* radar_marker@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B613DA31D526AD5000F1E98 /* radar_marker@3x.png */; };
-		06FF5D7529BD10650002256E /* DGCharts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 06FF5D7229BD10650002256E /* DGCharts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		06FF5D7529BD10650002256E /* DGCharts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 06FF5D7229BD10650002256E /* DGCharts.framework */; platformFilters = (ios, tvos, ); settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		225B36201F6EB9A50005B3D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225B361F1F6EB9A50005B3D5 /* AppDelegate.swift */; };
 		225B36311F6EB9EE0005B3D5 /* DemoBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225B362F1F6EB9EE0005B3D5 /* DemoBaseViewController.swift */; };
 		225B36321F6EB9EE0005B3D5 /* DemoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225B36301F6EB9EE0005B3D5 /* DemoListViewController.swift */; };
@@ -864,11 +864,16 @@
 		0630AE541D81271B008859B0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = Charts;
+			platformFilters = (
+				ios,
+				tvos,
+			);
 			targetProxy = 0630AE531D81271B008859B0 /* PBXContainerItemProxy */;
 		};
 		225B368F1F6EBBB00005B3D5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = Charts;
+			platformFilter = ios;
 			targetProxy = 225B368E1F6EBBB00005B3D5 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -895,13 +900,18 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.dcg.ChartsDemo-Swift";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,7";
 			};
 			name = Debug;
 		};
@@ -927,11 +937,16 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.dcg.ChartsDemo-Swift";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,7";
 			};
 			name = Release;
 		};
@@ -1033,7 +1048,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1050,15 +1066,20 @@
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.dcg.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "ChartsDemo-iOS";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos appletvsimulator appletvos";
+				SUPPORTED_PLATFORMS = "appletvos appletvsimulator iphoneos iphonesimulator xros xrsimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "Supporting Files/ChartsDemo-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(SWIFT_MODULE_NAME)-Swift.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,7";
 			};
 			name = Debug;
 		};
@@ -1073,14 +1094,19 @@
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.dcg.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "ChartsDemo-iOS";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos appletvsimulator appletvos";
+				SUPPORTED_PLATFORMS = "appletvos appletvsimulator iphoneos iphonesimulator xros xrsimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "Supporting Files/ChartsDemo-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(SWIFT_MODULE_NAME)-Swift.h";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,7";
 			};
 			name = Release;
 		};
