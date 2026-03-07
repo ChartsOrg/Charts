@@ -536,7 +536,7 @@ open class LineChartRenderer: LineRadarRenderer
                 
                 let valueFont = dataSet.valueFont
                 
-                let formatter = dataSet.valueFormatter
+                let formatter = dataSet.valueFormatter!
                 
                 let angleRadians = dataSet.valueLabelAngle.DEG2RAD
                 
@@ -892,7 +892,7 @@ open class LineChartRenderer: LineRadarRenderer
         // there is the possibility of some labels being rounded up. A floor() might fix this, but seems to be a brute force solution.
         let label = xAxis.valueFormatter?.stringForValue(e.x, axis: xAxis) ?? "\(e.x)"
 
-        let elementValueText = dataSet.valueFormatter.stringForValue(e.y,
+        let elementValueText = dataSet.valueFormatter!.stringForValue(e.y,
                                                                      entry: e,
                                                                      dataSetIndex: dataSetIndex,
                                                                      viewPortHandler: viewPortHandler)

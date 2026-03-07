@@ -273,7 +273,7 @@ open class ChartBaseDataSet: NSObject, ChartDataSetProtocol, NSCopying
     open var isHighlightEnabled: Bool { return highlightEnabled }
         
     /// Custom formatter that is used instead of the auto-formatter if set
-    open lazy var valueFormatter: ValueFormatter = DefaultValueFormatter()
+    open lazy var valueFormatter: ValueFormatter? = nil
 
     /// Sets/get a single color for value text.
     /// Setting the color clears the colors array and adds a single color.

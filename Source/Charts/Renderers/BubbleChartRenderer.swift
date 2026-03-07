@@ -171,7 +171,7 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
                 continue
             }
 
-            let formatter = dataSet.valueFormatter
+            let formatter = dataSet.valueFormatter!
             let alpha = phaseX == 1 ? phaseY : phaseX
 
             _xBounds.set(chart: dataProvider, dataSet: dataSet, animator: animator)
@@ -343,7 +343,7 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
         // there is the possibility of some labels being rounded up. A floor() might fix this, but seems to be a brute force solution.
         let label = xAxis.valueFormatter?.stringForValue(e.x, axis: xAxis) ?? "\(e.x)"
 
-        let elementValueText = dataSet.valueFormatter.stringForValue(e.y,
+        let elementValueText = dataSet.valueFormatter!.stringForValue(e.y,
                                                                       entry: e,
                                                                       dataSetIndex: dataSetIndex,
                                                                       viewPortHandler: viewPortHandler)
