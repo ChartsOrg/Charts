@@ -133,7 +133,7 @@ open class YAxisRenderer: NSObject, AxisRenderer
         
         let xOffset = axis.labelXOffset
         
-        for i in from..<to
+        for i in stride(from: from, to: to, by: 1)
         {
             let text = axis.getFormattedLabel(i)
             context.drawText(text,
