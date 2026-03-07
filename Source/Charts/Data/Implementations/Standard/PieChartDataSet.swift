@@ -106,6 +106,18 @@ open class PieChartDataSet: ChartDataSet, PieChartDataSetProtocol
     /// the color for the highlighted sector
     open var highlightColor: NSUIColor? = nil
 
+    /// the width for slice stroke
+    open var sliceStrokeWidth: CGFloat = 0.0
+    
+    /// the color for the slice stroke pattern
+    open var sliceLineDashPattern: [NSNumber] = [0, 0]
+    
+    /// the color to fill slice
+    open var sliceFillColor: CGColor = UIColor.clear.cgColor
+    
+    /// the line join style for the slice
+    open var sliceStrokeLineJoinStyle: CAShapeLayerLineJoin = .miter
+    
     // MARK: - NSCopying
 
     open override func copy(with zone: NSZone? = nil) -> Any

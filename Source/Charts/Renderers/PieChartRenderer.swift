@@ -267,6 +267,16 @@ open class PieChartRenderer: NSObject, DataRenderer
             context.addPath(path)
             context.fillPath(using: .evenOdd)
 
+            // to customize stroke edges for the slices
+            let layer = CAShapeLayer()
+            layer.lineWidth = dataSet.sliceStrokeWidth
+            layer.lineJoin = dataSet.sliceStrokeLineJoinStyle
+            layer.lineDashPattern = dataSet.sliceLineDashPattern
+            layer.fillColor = dataSet.sliceFillColor
+            layer.strokeColor = dataSet.color(atIndex: j).cgColor
+            layer.path = path
+            layer.render(in: context)
+            
             let axElement = createAccessibleElement(withIndex: j,
                                                     container: chart,
                                                     dataSet: dataSet)
