@@ -118,17 +118,18 @@
     dataSet.colors = colors;
     
     PieChartData *data = [[PieChartData alloc] initWithDataSet:dataSet];
+
+    [data setValueFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:11.f]];
+    [data setValueTextColor:UIColor.blackColor];
     
+    _chartView.data = data;
+
     NSNumberFormatter *pFormatter = [[NSNumberFormatter alloc] init];
     pFormatter.numberStyle = NSNumberFormatterPercentStyle;
     pFormatter.maximumFractionDigits = 1;
     pFormatter.multiplier = @1.f;
     pFormatter.percentSymbol = @" %";
     [data setValueFormatter:[[ChartDefaultValueFormatter alloc] initWithFormatter:pFormatter]];
-    [data setValueFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:11.f]];
-    [data setValueTextColor:UIColor.blackColor];
-    
-    _chartView.data = data;
     [_chartView highlightValues:nil];
 }
 

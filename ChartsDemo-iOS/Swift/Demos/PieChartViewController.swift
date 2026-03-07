@@ -94,17 +94,17 @@ class PieChartViewController: DemoBaseViewController {
         
         let data = PieChartData(dataSet: set)
         
+        data.setValueFont(.systemFont(ofSize: 11, weight: .light))
+        data.setValueTextColor(.black)
+
+        chartView.data = data
+
         let pFormatter = NumberFormatter()
         pFormatter.numberStyle = .percent
         pFormatter.maximumFractionDigits = 1
         pFormatter.multiplier = 1
         pFormatter.percentSymbol = " %"
         data.setValueFormatter(DefaultValueFormatter(formatter: pFormatter))
-        
-        data.setValueFont(.systemFont(ofSize: 11, weight: .light))
-        data.setValueTextColor(.black)
-        
-        chartView.data = data
         chartView.highlightValues(nil)
     }
     
