@@ -1726,7 +1726,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             return nil
         }
 
-        return data?[h.dataSetIndex] as? BarLineScatterCandleBubbleChartDataSetProtocol
+        return data?[safe: h.dataSetIndex] as? BarLineScatterCandleBubbleChartDataSetProtocol
     }
 
     /// The current x-scale factor
