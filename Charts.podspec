@@ -1,5 +1,6 @@
 Pod::Spec.new do |s|
   s.name = "Charts"
+  s.module_name = "DGCharts"
   s.version = "4.0.4.3"
   s.summary = "Fork of Charts by Daniel Cohen Gindi"
   s.homepage = "https://github.com/danielgindi/Charts"

@@ -1,11 +1,11 @@
-// swift-tools-version:5.1
+// swift-tools-version:6.0
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 import PackageDescription
 
 let package = Package(
     name: "DGCharts",
     platforms: [
-          .iOS(.v12),
+          .iOS(.v18),
           .tvOS(.v12),
           .macOS(.v10_12),
     ],
@@ -24,5 +24,5 @@ let package = Package(
             path: "Source/Charts"
         )
     ],
-    swiftLanguageVersions: [.v5]
+    swiftLanguageModes: [.v5]
 )
